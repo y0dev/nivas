@@ -1,14 +1,13 @@
 import { bind } from 'decko';
-import { EntityManager } from 'typeorm';
+import UserSchema from "./user.schema";
 
 import { AbsRepository } from '../helper';
+import { UserModel } from './user.model';
 
-import { User } from './model';
-
-export class UserRepository extends AbsRepository<User> {
-	// constructor() {
-	// 	super('user', new EntityManager().getRepository(User), ['userRole']);
-	// }
+export class UserRepository extends AbsRepository<UserModel> {
+	constructor() {
+		super('user', UserSchema);
+	 }
 
 	/**
 	 * Read user by email from db
@@ -17,12 +16,10 @@ export class UserRepository extends AbsRepository<User> {
 	 * @returns User
 	 */
 	@bind
-	readByEmail(email: string): Promise<User> {
+	readByEmail(email: string): Promise<UserModel> {
 		try {
-			return this.read({
-				where: {
-					email
-				}
+			return this.find({
+				email: email
 			});
 		} catch (err) {
 			throw new Error(err);

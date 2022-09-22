@@ -1,10 +1,8 @@
 import { bind } from 'decko';
 import { Router } from 'express';
-import { Repository, FindManyOptions, FindOneOptions } from 'typeorm';
+import { Document, Model, Query, Types } from 'mongoose';
 
 // import { AuthService } from '../../services/auth';
-// import { RedisService } from '../../services/redis';
-
 export interface IComponentRoutes<T> {
 	readonly name: string;
 	readonly controller: T;
@@ -15,105 +13,132 @@ export interface IComponentRoutes<T> {
 	initChildRoutes?(): void;
 }
 
-export abstract class AbsRepository<T> {
-	protected readonly name: string;
-	protected readonly repo: Repository<T>;
-	protected readonly defaultRelations: string[];
+export interface IRead<T> {
+   retrieve: (callback: (error: any, result: any) => void) => void;
+   findById: (id: string, callback: (error: any, result: T) => void) => void;
+   findOne(cond?: Object, callback?: (err: any, res: T) => void): Query<T>;
+   find(cond: Object, fields: Object, options: Object, callback?: (err: any, res: T[]) => void): Query<T[]>;
+ }
+ 
+ export interface IWrite<T> {
+   create: (item: T, callback: (error: any, result: any) => void) => void;
+   update: (_id: Types.ObjectId, item: T, callback: (error: any, result: any) => void) => void;
+   delete: (_id: string, callback: (error: any, result: any) => void) => void;
+ }
 
-	constructor(name: string, repo: Repository<T>, defaultRelations: string[] = []) {
-		this.name = name;
-		this.repo = repo;
-		this.defaultRelations = defaultRelations;
+export abstract class AbsRepository<T extends Document> implements IRead<T>, IWrite<T> {
+	protected readonly _name: string;
+	protected readonly _model: Model<Document>;
+
+	constructor(name: string, schemaModel: Model<Document>) {
+		this._name = name;
+		this._model = schemaModel;
 	}
-
-	/**
-	 * Delete cache entries
-	 */
-	// @bind
-	// deleteFromCache() {
-	// 	RedisService.deleteByKey(this.name);
-	// }
 
 	/**
 	 * Read all entities from db
 	 *
-	 * @param options Find options
-	 * @param cached Use cache
+    * @param callback function calldown
 	 * @returns Entity array
 	 */
-	// @bind
-	// readAll(options: FindManyOptions<T> = {}, cached?: boolean): Promise<T[]> {
-	// 	try {
-	// 		if (Object.keys(options).length) {
-	// 			return this.repo.find({
-	// 				relations: this.defaultRelations,
-	// 				...options
-	// 			});
-	// 		}
+	@bind
+   retrieve(callback: (error: any, result: T) => void) {
+      try {
+         this._model.find({}, callback);
+		} catch (err) {
+			throw new Error(err);
+		}
+   }
 
-	// 		if (cached) {
-	// 			return RedisService.getAndSetObject<T[]>(this.name, () => this.readAll({}, false));
-	// 		}
-
-	// 		return this.repo.find({
-	// 			relations: this.defaultRelations
-	// 		});
-	// 	} catch (err) {
-	// 		throw new Error(err);
-	// 	}
-	// }
+   /**
+	 * Read a certain entity from db
+	 *
+	 * @param _id Find options
+    * @param callback function calldown
+	 * @returns Entity
+	 */
+   @bind
+   findById(_id: string, callback: (error: any, result: T) => void) {
+      try {
+			this._model.findById(_id, callback);
+		} catch (err) {
+			throw new Error(err);
+		}
+   }
 
 	/**
 	 * Read a certain entity from db
 	 *
 	 * @param options Find options
+    * @param callback function calldown
 	 * @returns Entity
 	 */
-	// @bind
-	// read(options: FindOneOptions<T>): Promise<T | undefined> {
-	// 	try {
-	// 		return this.repo.findOne({
-	// 			relations: this.defaultRelations,
-	// 			...options
-	// 		});
-	// 	} catch (err) {
-	// 		throw new Error(err);
-	// 	}
-	// }
+	@bind
+   findOne(options?: Object, callback?: (err: any, res: T) => void): Query<T> {
+      try {
+			return this._model.findOne(options, callback);
+		} catch (err) {
+			throw new Error(err);
+		}
+   }
+
+   /**
+	 * Read a certain entity from db
+	 *
+	 * @param options Find options
+    * @param callback function calldown
+	 * @returns Entity
+	 */
+   @bind
+   find(cond?: Object, fields?: Object, options?: Object, callback?: (err: any, res: T[]) => void): Query<T[]> {
+      try {
+			return this._model.find(cond, options, callback);
+		} catch (err) {
+			throw new Error(err);
+		}
+    }
 
 	/**
 	 * Save new or updated entity to db
 	 *
 	 * @param entity Entity to save
+    * @param callback function calldown
 	 * @returns Saved entity
 	 */
-	// @bind
-	// async save(entity: T): Promise<T> {
-	// 	try {
-	// 		const saved: T = await this.repo.save(entity);
-	// 		this.deleteFromCache();
+	@bind
+   create(entity: T, callback: (error: any, result: T) => void) {
+      try {
+			this._model.create(entity, callback);
+		} catch (err) {
+			throw new Error(err);
+		}
+   }
 
-	// 		return saved;
-	// 	} catch (err) {
-	// 		throw new Error(err);
-	// 	}
-	// }
+   update(_id: Types.ObjectId, item: T, callback: (error: any, result: any) => void) {
+      try {
+         this._model.update({ _id: _id }, item, callback);
+		} catch (err) {
+			throw new Error(err);
+		}
+    }
 
 	/**
 	 * Delete entity from db
 	 *
-	 * @param entity Entity to delete
+	 * @param _id Find options
+    * @param callback function calldown
 	 * @returns Deleted entity
 	 */
-	// @bind
-	// async delete(entity: T): Promise<T> {
-	// 	try {
-	// 		const deleted = await this.repo.remove(entity);
-	// 		this.deleteFromCache();
+	@bind
+   delete(_id: string, callback: (error: any, result: any) => void) {
+      try {
+			this._model.remove({ _id: this.toObjectId(_id) }, (err) => callback(err, null));
+		} catch (err) {
+			throw new Error(err);
+		}
+   }
 
-	// 		return deleted;
-	// 	} catch (err) {
-	// 		throw new Error(err);
-	// 	}
-	// }
+   private toObjectId(_id: string): Types.ObjectId {
+      return Types.ObjectId.createFromHexString(_id);
+   }
 }
