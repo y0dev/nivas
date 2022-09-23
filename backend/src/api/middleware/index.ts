@@ -7,7 +7,6 @@ import { json, NextFunction, Request, Response, Router } from 'express';
 // import { AuthService } from '../../services/auth';
 import { UtilityService } from '../../services/utility';
 
-import  NODE_ENV from '../../config/globals';
 
 /**
  * Init Express middleware
@@ -18,7 +17,7 @@ import  NODE_ENV from '../../config/globals';
 export function registerMiddleware(router: Router): void {
 	router.use(helmet());
 
-	if ( NODE_ENV === 'development') {
+	if (process.env.NODE_ENV === 'development') {
 		router.use(cors({ origin: '*' }));
 	} else {
 		router.use(cors({ origin: ['http://localhost:4200'] }));

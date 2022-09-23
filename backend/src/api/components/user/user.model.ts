@@ -1,14 +1,19 @@
 import * as Mongoose from "mongoose";
+import { logger } from "../../../config/logger";
 import { UtilityService } from "../../../services/utility";
 import { UserRepository } from "./repository";
-import { IUserModel } from "./user.types";
+import { IUserDocument } from "./user.types";
 
 export class UserModel {
 
-   private _userModel: IUserModel;
+   private _userModel: IUserDocument;
 
-   constructor(userModel: IUserModel) {
+   constructor(userModel: IUserDocument) {
       this._userModel = userModel;
+   }
+
+   get username(): string {
+      return this._userModel.userName;
    }
 
    get firstName(): string {
@@ -19,50 +24,59 @@ export class UserModel {
       return this._userModel.lastName;
    }
 
+   get fullName(): string {
+      return this._userModel.fullName;
+   }
+
    get email(): string {
       return this._userModel.email;
    }
 
-   get password(): string {
-      return this._userModel.password;
-   }
+   // get password(): string {
+   //    return this._userModel.password;
+   // }
 
-   get dateCreated(): Date {
-      return this._userModel.dateCreated;
-   }
+   // get dateCreated(): Date {
+   //    return this._userModel.dateCreated;
+   // }
 
-   get modifiedOn(): Date {
-      return this._userModel.modifiedOn;
-   }
+   // get modifiedOn(): Date {
+   //    return this._userModel.modifiedOn;
+   // }
 
-   static createUser( firstName: string, lastName: string, email: string, password: string ) : Promise<T> {
-      const promise = new Promise(async (resolve, reject) => {
+   static createUser({ userName, firstName, lastName, email, password }) : Promise<IUserDocument> {
+      const promise = new Promise<IUserDocument>(async (resolve, reject) => {
       
          const repo = new UserRepository();
    
-         const user = <IUserModel> {
+         const user = <IUserDocument> {
+            userName: userName,
             firstName: firstName,
             lastName: lastName,
             email: email,
-            password: await UtilityService.hashPassword(password),
-            dateCreated: new Date()
+            password: await UtilityService.hashPassword(password)
          };
-         
-         repo.create( user, (err, res) => {
-           if (err) {
-               reject(err);
-           } else  {
-               resolve(res);
-           }
-         });    
+         const record = await repo.findOne({ email });
+         if (!record) {
+            repo.create( user, (err, res) => {
+               if (err) {
+                   reject(err);
+               } else  {
+                   logger.info('Created a new user');
+                   resolve(res);
+               }
+            }); 
+         } else {
+            logger.info(`Email: ${email} exists already`);
+         }
          
        });
        
        return promise;
    }
 
-   static findUser(email: string) : Promise<T> {
-      let promise = new Promise((resolve, reject) => {
+   static findUser(email: string) : Promise<IUserDocument> {
+      let promise = new Promise<IUserDocument>((resolve, reject) => {
         let repo = new UserRepository();
   
         repo.find({ email : email }).sort({ createdAt: -1 }).limit(1).exec((err, res) => {

@@ -1,7 +1,9 @@
 import { bind } from 'decko';
 import { NextFunction, Request, Response } from 'express';
 
-import { UtilityService } from '../../../services/utility';
+// import { UtilityService } from '../../../services/utility';
+import { UserRepository } from './repository';
+import { IUserDocument } from './user.types';
 
 export class UserController {
    private readonly repo: UserRepository = new UserRepository();
@@ -17,7 +19,7 @@ export class UserController {
 	@bind
 	async readUsers(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		try {
-			const users: User[] = await this.repo.readAll({}, true);
+			const users: IUserDocument = await this.repo.find({});
 
 			return res.json(users);
 		} catch (err) {
@@ -36,13 +38,11 @@ export class UserController {
 	@bind
    async readUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		try {
-			const { userID } = req.params;
+			const { emailID } = req.params;
 
-			const user: User | undefined = await this.repo.read({
-				where: {
-					id: +userID
-				}
-			});
+			const user: IUserDocument | undefined = await this.repo.findOne({
+            email: emailID
+         });
 
 			return res.json(user);
 		} catch (err) {

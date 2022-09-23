@@ -1,5 +1,5 @@
 import * as Mongoose from "mongoose";
-import { IUserModel } from "./user.types";
+import { IUserDocument } from "./user.types";
 
 
 let schema = new Mongoose.Schema({
@@ -35,23 +35,30 @@ let schema = new Mongoose.Schema({
    },
    dateCreated: {
       type: Date,
-      required: true
+      required: false
    },
    modifiedOn: {
       type: Date,
       required: false
    }
- }).pre('save', function(next) {
-   if (this._doc) {
-     let doc = <IUserModel>this._doc;
-     let now = new Date();
-     if (!doc.dateCreated) {
-       doc.dateCreated = now;
-     }
-     doc.modifiedOn = now;
-   }
-   next();
-   return this;
  });
 
-export const UserSchema = Mongoose.model<IUserModel>('user', schema );
+schema.pre('save', function(next) {
+   if (this._doc) {
+      let doc = <IUserDocument>this._doc;
+      let now = new Date();
+      if (!doc.dateCreated) {
+        doc.dateCreated = now;
+      }
+      doc.modifiedOn = now;
+      doc.fullName = `${doc.firstName} ${doc.lastName}`;
+
+    }
+    next();
+    return this;
+});
+
+// schema.methods.comparePassword = async function(candidatePassword:string):Promise<Boolean> {
+   
+// }
+export const UserSchema = Mongoose.model<IUserDocument>('user', schema );

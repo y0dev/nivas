@@ -5,7 +5,7 @@ import { Router } from 'express';
 // import { UserInvitationRoutes } from './user-invitation/routes';
 // import { UserRoleRoutes } from './user-role/routes';
 
-import { MLSRoutes } from './mls/routes';
+// import { MLSRoutes } from './mls/routes';
 
 /**
  * Init component routes
@@ -19,5 +19,5 @@ export function registerApiRoutes(router: Router, prefix: string = ''): void {
 	// router.use(`${prefix}/users`, new UserRoutes().router);
 	// router.use(`${prefix}/user-invitations`, new UserInvitationRoutes().router);
 	// router.use(`${prefix}/user-roles`, new UserRoleRoutes().router);
-	router.use(`${prefix}/mls`, new MLSRoutes().router);
+	// router.use(`${prefix}/mls`, new MLSRoutes().router);
 }
