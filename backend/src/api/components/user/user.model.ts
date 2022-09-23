@@ -1,12 +1,13 @@
 import * as Mongoose from "mongoose";
 import { logger } from "../../../config/logger";
 import { UtilityService } from "../../../services/utility";
-import { UserRepository } from "./repository";
+import { UserRepository } from "./user.repository";
 import { IUserDocument } from "./user.types";
 
 export class UserModel {
 
    private _userModel: IUserDocument;
+   public u_id: number;
 
    constructor(userModel: IUserDocument) {
       this._userModel = userModel;
@@ -95,5 +96,16 @@ export class UserModel {
       
       return promise;    
     }
+
+    public static mockTestUser(): UserModel {
+      let userDoc:IUserDocument;
+      userDoc.firstName = 'Mike';
+      userDoc.lastName = 'Smith';
+      userDoc.email = 'mike_smith@mail.com'
+      userDoc.password = 'password'
+      userDoc.userName = 'mike_s';
+		const user = new UserModel(userDoc);
+		return user;
+	}
 
 }

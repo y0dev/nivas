@@ -6,8 +6,8 @@ let database: mongoose.Connection;
 
 export const connect = () => {
   // add your own uri below
-  const uri = process.env.NODE_ENV === 'development' ? 'mongodb://localhost:27017/nivas' : 
-    "mongodb+srv://<username>:<password>@cluster0-v6q0g.mongodb.net/test?retryWrites=true&w=majority";
+  const uri = process.env.NODE_ENV === 'developent' ? 'mongodb://localhost:27017/nivas' : 
+    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}.p6dhqa8.mongodb.net/?retryWrites=true&w=majority`;
 
   logger.info('Checking if connected to database');
   if (database) {
