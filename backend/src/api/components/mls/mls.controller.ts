@@ -1,16 +1,30 @@
 import axios from 'axios';
 import { bind } from 'decko';
 import { NextFunction, Request, Response } from 'express';
+import { UtilityService } from '../../../services/utility';
+import { MLSModel } from './mls.model';
 
 import { MLSRepository } from './mls.repository';
 import { IMLSDocument } from './mls.types';
 
 
+let url_headers = {
+   'accept': '*/*',
+   'accept-language': 'en-US,en;q=0.9',
+   'sec-fetch-dest': 'empty',
+   'sec-fetch-mode': 'cors',
+   'sec-fetch-site': 'same-origin',
+   // 'sec-ch-ua': '\"Chromium\";v=\"94\", \"Google Chrome\";v=\"94\", \";Not A Brand\";v=\"99\"',
+   'sec-ch-ua-mobile': '?0',
+   // 'sec-ch-ua-platform': '\"macOS\"',
+   'user-agent': ''
+}
+
 
 export class MLSController {
 
-	private readonly mlsRepo: MLSRepository = new MLSRepository();
-
+	private readonly repo: MLSRepository = new MLSRepository();
+   
 	/**
 	 * @param req Express request
 	 * @param res Express response
@@ -20,38 +34,102 @@ export class MLSController {
 	@bind
 	async getZillow(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		try {
-			const { city, state, zip_code } = req.body;
-         const url = (city !== undefined && state !== undefined) ? `https://www.zillow.com/homes/${city},-${state}_rb/` :
-         ``;
-         const {} = await axios.get(
+         // const { user_agent } = req.header;
+         console.log(req.header);
+         
+			const { city, state, zip_code, user_id } = req.body;
+         // let url: string;
+         // const url = (city !== undefined && state !== undefined) ? `https://www.zillow.com/homes/${city},-${state}_rb/` :
+         // ``;
+         if( city !== undefined && state !== undefined )
+         {
+            
+            //`https://www.zillow.com/homes/${city},-${state}_rb/`;
+         }
+         else if( zip_code !== undefined )
+         {
+            
+         }
+         // url_headers['user-agent'] = user_agent;
+         const [google_city, google_state] = ['McKinney','TX'];
+         const [north,south,east,west] = UtilityService.getBoundingBox([33.197960,-96.615021],1);
+         const url =  `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState={"pagination":{},"usersSearchTerm":"${google_city}, ${google_state}","mapBounds":{"north":${north},"south":${south},"east":${east},"west":${west}},"regionSelection":[{"regionId":12292,"regionType":6}],"isMapVisible":true,"filterState":{"price":{"min":100000},"monthlyPayment":{"min":495},"sortSelection":{"value":"days"},"isAllHomes":{"value":true}},"isListVisible":true,"mapZoom":12}&wants={"cat1":["listResults","mapResults"],"cat2":["total"]}&requestId=6`
+         let numOfPages: number;
+
+         await axios.get(
             url,
             {
-              headers: {
-               'user-agent':'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'
-              },
+               headers: url_headers,
             },
-          );
-         // homes/zip_code_rb/
-         // homes/city,-state_rb/
-			// const user: User | undefined = await this.userRepo.read({
-			// 	select: ['id', 'email', 'firstname', 'lastname', 'password', 'active'],
-			// 	where: {
-			// 		email,
-			// 		active: true
-			// 	}
-			// });
+         ).then( (res) => {
+            const cat1 = res.data.cat1;
+            if (cat1)
+            {
+               numOfPages = cat1.searchList.totalPages;
+            }
+            else 
+            {
+               UtilityService.handleError('cat1 does not exist!')
+            }
+         });
 
-			// if (!user || !(await UtilityService.verifyPassword(password, user.password))) {
-			// 	return res.status(401).json({ status: 401, error: 'Wrong email or password' });
-			// }
+         let results = [];
+         for (let idx = 1; idx <= numOfPages; idx++) {
+            const url =  `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState={"pagination":{"currentPage":${idx}},"usersSearchTerm":"${google_city}, ${google_state}","mapBounds":{"north":${north},"south":${south},"east":${east},"west":${west}},"regionSelection":[{"regionId":12292,"regionType":6}],"isMapVisible":true,"filterState":{"sortSelection":{"value":"days"},"isAllHomes":{"value":true}},"isListVisible":true,"mapZoom":12}&wants={"cat1":["listResults","mapResults"],"cat2":["total"]}&requestId=6`
+            await axios.get(
+               url,
+               {
+                  headers: url_headers,
+               },
+            ).then( (res) => {
+               const cat1 = res.data.cat1;
+               if (cat1)
+               {
+                  cat1.listResults.forEach(element => {
+                     results.push({
+                        price: element.price,
+                        address: element.address,
+                        street: element.addressStreet,
+                        city: element.addressCity,
+                        state: element.addressState,
+                        zipCode: element.addressZipcode,
+                        beds: element.beds,
+                        baths: element.baths,
+                        area: element.area,
+                        url: element.detailUrl
+                     })
+                  });
+               }
+               else 
+               {
+                  UtilityService.handleError('cat1 does not exist!')
+               }
+            });       
+         }
 
-			// Create jwt -> required for further requests
-			// const token: string = this.authService.createToken(user.id);
+         let docs: IMLSDocument[] = [];
 
-			// // Don't send user password in response
-			// delete user.password;
+         results.forEach(async (result) => {
+            const existingMLS: MLSModel | undefined = await this.repo.find({
+               address: result.address,
+               city: result.city,
+               state: result.state,
+               zipCode: result.zipCode
+            });
+            if (!existingMLS) {
+               const mls: IMLSDocument = await MLSModel.createMLS({
+                  price: result.price,
+                  address: result.address,
+                  city: result.city,
+                  state: result.state,
+                  zipCode: result.zipCode,
+                  user_id: user_id
+               });
+               docs.push(mls);
+            }
+         });
 
-			return res.json({ token, user });
+         return res.json(docs);
 		} catch (err) {
 			return next(err);
 		}
@@ -68,10 +146,10 @@ export class MLSController {
 	@bind
 	async retrieveSearches(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		try {
-			const { u_id } = req.params;
+			const { user_id } = req.params;
 			const { email } = req.body;
 
-			const mlsDoc: IMLSDocument | undefined = await this.getUserSearches(u_id, email);
+			const mlsDoc: IMLSDocument | undefined = await this.getUserSearches(user_id, email);
 
 			if (!mlsDoc) {
 				return res.status(403).json({ error: 'Invalid U_ID' });
@@ -84,84 +162,6 @@ export class MLSController {
 	}
 
 	/**
-	 * Create user invitation that is required for registration
-	 *
-	 * @param req Express request
-	 * @param res Express response
-	 * @param next Express next
-	 * @returns HTTP response
-	 */
-	// @bind
-	// async createUserInvitation(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-	// 	try {
-	// 		const { email } = req.body;
-
-	// 		const existingUser: User | undefined = await this.userRepo.read({
-	// 			where: {
-	// 				email
-	// 			}
-	// 		});
-
-	// 		if (existingUser) {
-	// 			return res.status(400).json({ error: 'Email is already taken' });
-	// 		}
-
-	// 		const existingInvitation: UserInvitation | undefined = await this.userInvRepo.read({
-	// 			where: {
-	// 				email
-	// 			}
-	// 		});
-
-	// 		if (existingInvitation) {
-	// 			return res.status(400).json({ error: 'User is already invited' });
-	// 		}
-
-	// 		// UUID for registration link
-	// 		const uuid = UtilityService.generateUuid();
-
-	// 		const invitation: UserInvitation = new UserInvitation(undefined, email, uuid, true);
-
-	// 		await this.userInvRepo.save(invitation);
-	// 		await this.userInvMailService.sendUserInvitation(email, uuid);
-
-	// 		return res.status(200).json(uuid);
-	// 	} catch (err) {
-	// 		return next(err);
-	// 	}
-	// }
-
-	/**
-	 * Unregister user
-	 *
-	 * @param req Express request
-	 * @param res Express response
-	 * @param next Express next
-	 * @returns HTTP response
-	 */
-	// @bind
-	// async unregisterUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-	// 	try {
-	// 		const { email } = req.user as User;
-
-	// 		const user: User | undefined = await this.userRepo.read({
-	// 			where: {
-	// 				email
-	// 			}
-	// 		});
-
-	// 		if (!user) {
-	// 			return res.status(404).json({ error: 'User not found' });
-	// 		}
-
-	// 		await this.userRepo.delete(user);
-
-	// 		return res.status(204).send();
-	// 	} catch (err) {
-	// 		return next(err);
-	// 	}
-	// }
-
-	/**
 	 * Get user invitation
 	 *
 	 * @param u_id
@@ -171,7 +171,7 @@ export class MLSController {
 	@bind
 	private async getUserSearches(u_id: string, email: string): Promise<IMLSDocument | undefined> {
 		try {
-			return this.mlsRepo.find({ u_id: u_id, email: email });
+			return this.repo.find({ u_id: u_id, email: email });
 		} catch (err) {
 			throw err;
 		}

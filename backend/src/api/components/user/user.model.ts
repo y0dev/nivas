@@ -1,4 +1,3 @@
-import * as Mongoose from "mongoose";
 import { logger } from "../../../config/logger";
 import { UtilityService } from "../../../services/utility";
 import { UserRepository } from "./user.repository";
@@ -8,9 +7,11 @@ export class UserModel {
 
    private _userModel: IUserDocument;
    public u_id: number;
+   public password: string;
 
    constructor(userModel: IUserDocument) {
       this._userModel = userModel;
+      this.password = this._userModel.password;
    }
 
    get username(): string {
@@ -33,9 +34,7 @@ export class UserModel {
       return this._userModel.email;
    }
 
-   // get password(): string {
-   //    return this._userModel.password;
-   // }
+   
 
    // get dateCreated(): Date {
    //    return this._userModel.dateCreated;

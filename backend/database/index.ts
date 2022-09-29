@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
-import { UserModel } from "../api/components/user/user.model";
-import { logger } from "../config/logger";
+
+import { UserModel } from "../src/api/components/user/user.model";
+import { MLSModel } from "../src/api/components/mls/mls.model";
+
+import { logger } from "../src/config/logger";
 
 let database: mongoose.Connection;
 
@@ -35,6 +38,7 @@ export const connect = () => {
 
   return {
     UserModel,
+    MLSModel
   };
 };
 

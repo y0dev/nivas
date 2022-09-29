@@ -58,7 +58,4 @@ schema.pre('save', function(next) {
     return this;
 });
 
-// schema.methods.comparePassword = async function(candidatePassword:string):Promise<Boolean> {
-   
-// }
 export const UserSchema = Mongoose.model<IUserDocument>('user', schema );

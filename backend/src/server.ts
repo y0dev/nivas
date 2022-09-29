@@ -1,16 +1,20 @@
 import express from "express";
-import { connect } from "./database";
-import { logger } from "./config/logger";
-import { config } from 'dotenv';
-config();
 
-const app = express();
-const port = process.env.NODE_PORT;
+import { initRestRoutes } from './api/routes';
 
-logger.info('Starting up the server');
-connect();
+export class Server {
+	private readonly _app: express.Application = express();
 
-app.listen(port, () => {
-	// Connect db
-	logger.info(`Server started on http://localhost:${port}`);
-});
+	public constructor() {
+		initRestRoutes(this._app);
+	}
+
+	/**
+	 * Get Express app
+	 *
+	 * @returns {express.Application} Returns Express app
+	 */
+	public get app(): express.Application {
+		return this._app;
+	}
+}

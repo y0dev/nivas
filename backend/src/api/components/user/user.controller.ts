@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from 'express';
 import { UtilityService } from '../../../services/utility';
 import { UserModel } from './user.model';
 
-// import { UtilityService } from '../../../services/utility';
 import { UserRepository } from './user.repository';
 import { IUserDocument } from './user.types';
 
@@ -63,26 +62,26 @@ export class UserController {
 	 @bind
 	 async createUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 		 try {
-			 const { email, userName, firstName, lastName, password, active } = req.body;
+			const { email, userName, firstName, lastName, password, active } = req.body;
  
-			 const existingUser: UserModel | undefined = await this.repo.find({
-				 email: email
-			 });
+			const existingUser: UserModel | undefined = await this.repo.find({
+				email: email
+			});
  
-			 if (existingUser) {
-				 return res.status(400).json({ error: 'Email is already taken' });
-			 }
+			if (existingUser) {
+				return res.status(400).json({ error: 'Email is already taken' });
+			}
  
-			 const user: IUserDocument = await UserModel.createUser({
+			const user: IUserDocument = await UserModel.createUser({
 				userName: userName,
 				firstName: firstName,
 				lastName: lastName,
 				email: email,
 				password: password,
-			 });
+			});
 
  
-			 return res.json(user);
+			return res.json(user);
 		 } catch (err) {
 			 return next(err);
 		 }

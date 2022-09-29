@@ -10,7 +10,7 @@ export interface IUserModel {
 
 export interface IUserDocument extends IUserModel, Document  {
    fullName: string;
-   dateCreated?: Date;
+   dateCreated: Date;
    modifiedOn?: Date;
    // comparePassword(candidatePassword: string): Promise<Boolean>;
 }

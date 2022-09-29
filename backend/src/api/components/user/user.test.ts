@@ -1,4 +1,4 @@
-import { connect, disconnect } from "../../../database";
+import { connect, disconnect } from "../../../../database";
 import { logger } from "../../../config/logger";
 
 (async () => {
