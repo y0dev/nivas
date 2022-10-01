@@ -2,7 +2,7 @@ import { privateDecrypt } from "crypto";
 import { logger } from "../../../config/logger";
 import { UtilityService } from "../../../services/utility";
 import { MLSRepository } from "./mls.repository";
-import { IMLSDocument } from "./mls.types";
+import { IMLSModel, IMLSDocument } from "./mls.types";
 
 export class MLSModel {
 
@@ -35,8 +35,28 @@ export class MLSModel {
    }
 
    
-
-   static createMLS({ price, address, city, state, zipCode, user_id }) : Promise<IMLSDocument> {
+   static createMLS({ price, priceStr, address, street, city, state, zipCode, beds, baths, area, url, status }): IMLSModel {
+      // const element = JSON.parse(element1);
+      // console.log(element);
+      
+      let mlsModel: IMLSModel;
+      mlsModel.price = price;
+      mlsModel.priceStr = priceStr,
+      mlsModel.address = address;
+      mlsModel.street = street;
+      mlsModel.city = city;
+      mlsModel.state = state;
+      mlsModel.zipCode = zipCode;
+      mlsModel.beds = beds;
+      mlsModel.baths = baths;
+      mlsModel.area = area;
+      mlsModel.url = url;
+      mlsModel.status = status;
+      console.log(mlsModel.address);
+      
+      return mlsModel;
+   }
+   static createMLSDoc({ price, address, city, state, zipCode, user_id }) : Promise<IMLSDocument> {
       const promise = new Promise<IMLSDocument>(async (resolve, reject) => {
       
          const repo = new MLSRepository();

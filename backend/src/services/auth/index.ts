@@ -5,7 +5,7 @@ import { use } from 'passport';
 import { ExtractJwt, StrategyOptions } from 'passport-jwt';
 import { validationResult } from 'express-validator';
 
-import { policy } from '../../config/policy';
+// import { policy } from '../../config/policy';
 
 import { JwtStrategy } from './strategies/jwt';
 import { UserModel } from '../../api/components/user/user.model';
@@ -71,13 +71,13 @@ export class AuthService {
 		return async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
 			try {
 				const { u_id } = req.user as UserModel;
-				const access: boolean = await policy.isAllowed(u_id, resource, action);
+				// const access: boolean = await policy.isAllowed(u_id, resource, action);
 
-				if (!access) {
-					return res.status(403).json({
-						error: 'Missing user rights!'
-					});
-				}
+				// if (!access) {
+				// 	return res.status(403).json({
+				// 		error: 'Missing user rights!'
+				// 	});
+				// }
 
 				return next();
 			} catch (err) {
@@ -114,7 +114,7 @@ export class AuthService {
 				// Mock user
 				const testUser: UserModel = UserModel.mockTestUser();
 				req.user = testUser;
-				policy.addUserRoles(testUser.u_id, 'TBD');
+				// policy.addUserRoles(testUser.u_id, 'TBD');
 
 				return next();
 			} catch (err) {
@@ -145,7 +145,7 @@ export class AuthService {
 	 */
 	@bind
 	private doAuthentication(
-		req: Request,
+		req: IGetUserAuthInfoRequest,
 		res: Response,
 		next: NextFunction,
 		strategy: PassportStrategy

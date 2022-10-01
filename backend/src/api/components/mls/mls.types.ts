@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 
 export interface IMLSModel {
    price: number;
+   priceStr?: string;
    address: string;
    street: string;
    city: string;
@@ -9,8 +10,9 @@ export interface IMLSModel {
    zipCode: number;
    beds: number;
    baths: number;
-   area: string;
+   area: number;
    url: string;
+   status: string;
 }
 
 export interface IMLSDocument extends IMLSModel, Document  {

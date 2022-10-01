@@ -24,19 +24,19 @@ export class MLSRoutes implements IComponentRoutes<MLSController> {
          header('user-agent').isString(),
 			body('city').isString(),
 			body('state').isString(),
-			body('zip_code').isString(),
 			body('user_id').isString(),
 			this.authService.validateRequest,
-			this.controller.getZillow
+			this.controller.getZillowByCity
 		);
 
 
 		this.router.get(
 			'/search/:zipcode',
          header('user-agent').isString(),
+			body('user_id').isString(),
 			param('zipcode').isString(),
 			this.authService.validateRequest,
-			this.controller.getZillow
+			this.controller.getZillowByZipCode
 		);
 
 		this.router.get(
@@ -45,13 +45,6 @@ export class MLSRoutes implements IComponentRoutes<MLSController> {
 			this.authService.validateRequest,
 			this.controller.retrieveSearches
 		);
-
-		// this.router.post(
-		// 	'/invite',
-		// 	body('email').isEmail(),
-		// 	this.authService.validateRequest,
-		// 	this.controller.createUserInvitation
-		// );
 
 	}
 }

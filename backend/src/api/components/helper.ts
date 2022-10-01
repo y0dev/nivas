@@ -90,7 +90,7 @@ export abstract class AbsRepository<T extends Document> implements IRead<T>, IWr
 	 * @returns Entity
 	 */
    @bind
-   find(cond?: Object, fields?: Object, options?: Object, callback?: (err: any, res: T[]) => void): Query<T[]> {
+   find(cond?: Object, fields?: Object, options?: Object, callback?: (err: any, res: T[]) => void): Query<T[] | undefined> {
       try {
 			return this._model.find(cond, options, callback);
 		} catch (err) {

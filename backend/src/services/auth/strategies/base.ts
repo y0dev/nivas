@@ -3,7 +3,7 @@ import { Strategy as Strategy_Jwt } from 'passport-jwt';
 import { UserModel } from '../../../api/components/user/user.model';
 import { UserRepository } from '../../../api/components/user/user.repository';
 
-import { policy } from '../../../config/policy';
+// import { policy } from '../../../config/policy';
 
 // import { User } from '../../../api/components/user/model';
 
@@ -33,6 +33,6 @@ export abstract class BaseStrategy {
 	 */
 	protected async setPermissions(user: UserModel): Promise<void> {
 		// add role from db
-		await policy.addUserRoles(user.u_id, 'TBD');
+		// await policy.addUserRoles(user.u_id, 'TBD');
 	}
 }

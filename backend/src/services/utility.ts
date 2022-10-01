@@ -91,6 +91,11 @@ export class UtilityService {
 		return (180 * number) / Math.PI;
 	}
 
+	public static async sleep(seconds: number)
+	{
+		await new Promise(r => setTimeout(r,seconds * 1000));
+	}
+
 	/**
 	 * @param {number} distance - distance (km) from the point represented by centerPoint
 	 * @param {array[2]} centerPoint - two-dimensional array containing center coords [latitude, longitude]
@@ -103,8 +108,8 @@ export class UtilityService {
 	*/
 	public static getBoundingBox(centerPoint: number[], distance: number): number[] {
 
-		if (distance !== 2) {
-			this.handleError('Illegal arguments');
+		if (centerPoint.length !== 2) {
+			this.handleError('Illegal arguments centerPoint');
 		  return [null];
 		}
 
@@ -162,4 +167,8 @@ export class UtilityService {
 		  this.radToDeg(maxLat)
 		];
 	 };
+}
+
+function delay(arg0: number) {
+	throw new Error('Function not implemented.');
 }

@@ -28,7 +28,7 @@ logger.info('Starting');
       
 
       server.on('listening', () => {
-         logger.info(`node server is listening on port ${process.env.NODE_PORT} in ${process.env.NODE_ENV} mode`);
+         logger.info(`node server is listening on port http://localhost:${process.env.NODE_PORT} in ${process.env.NODE_ENV} mode`);
       });
 
       server.on('close', () => {
