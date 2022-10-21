@@ -166,9 +166,72 @@ export class UtilityService {
 		  this.radToDeg(maxLon),
 		  this.radToDeg(maxLat)
 		];
-	 };
+	};
+
+	/**
+	 * @param {string} currency - currency needed to be converted into a number
+	 * @description
+	 *   Transforms a string currency into a number
+	 * @author Devontae Reid
+	*/
+	public static currencyConverter(currency: string): number {
+		return Number(currency.replace(/[^0-9.-]+/g,""));
+	}
+
+	/**
+	 * @param {number} num1 - numerator
+	 * @param {number} num2 - denominator
+	 * @description
+	 *   Calculates the percentage of two given numbers
+	 * @author Devontae Reid
+	*/
+	public static percentage(num1: number, num2: number): number {
+		return Number( ( ( num1 / num2 ) * 100 ).toFixed(2)); 
+	}
+
+	/**
+	 * @param {number[]} number - list of numbers
+	 * @description
+	 *   Calculates the percentiles for a given array of numbers
+	 * @author Devontae Reid
+	*/
+	public static calcPercentiles(numbers: number[]): {'25th_Percentile': number, '50th_Percentile': number, '75th_Percentile': number} {
+		
+		// sort array ascending
+		const asc = arr => arr.sort((a, b) => a - b);
+
+		const sum = arr => arr.reduce((a, b) => a + b, 0);
+
+		const mean = arr => sum(arr) / arr.length;
+
+		// sample standard deviation
+		const std = (arr) => {
+			const mu = mean(arr);
+			const diffArr = arr.map(a => (a - mu) ** 2);
+			return Math.sqrt(sum(diffArr) / (arr.length - 1));
+		};
+
+		const quantile = (arr, q) => {
+			const sorted = asc(arr);
+			const pos = (sorted.length - 1) * q;
+			const base = Math.floor(pos);
+			const rest = pos - base;
+			if (sorted[base + 1] !== undefined) {
+				return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+			} else {
+				return sorted[base];
+			}
+		};
+
+		const q25 = arr => quantile(arr, .25);
+
+		const q50 = arr => quantile(arr, .50);
+
+		const q75 = arr => quantile(arr, .75);
+
+		const median = arr => q50(arr);
+
+		return {'25th_Percentile': q25(numbers), '50th_Percentile': median(numbers), '75th_Percentile': q75(numbers) }
+	}
 }
 
-function delay(arg0: number) {
-	throw new Error('Function not implemented.');
-}

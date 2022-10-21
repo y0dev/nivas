@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { load } from 'cheerio';
+import { map } from 'cheerio/lib/api/traversing';
 import { bind } from 'decko';
 import { NextFunction, Request, Response } from 'express';
 import { logger } from '../../../config/logger';
@@ -6,7 +8,7 @@ import { UtilityService } from '../../../services/utility';
 import { MLSModel } from './mls.model';
 
 import { MLSRepository } from './mls.repository';
-import { IMLSModel, IMLSDocument } from './mls.types';
+import { IMLSModel, IMLSDocument, PropertyModel, Comparables, ComparableModel } from './mls.types';
 
 
 let url_headers = {
@@ -21,7 +23,7 @@ let url_headers = {
    'user-agent': ''
 }
 
-const time = 1;
+const time = 0.5;
 
 export class MLSController {
 
@@ -137,9 +139,34 @@ export class MLSController {
          const numOfPages: number = await this.retrieveNumberOfPages(searchTerm,map_bounds);
 
          logger.info('Grabbing data from zillow');
-         let results = await this.retrieveResults(searchTerm,numOfPages,map_bounds);
+         const results = await this.retrieveResults(searchTerm,numOfPages,map_bounds);
 
+         logger.info('Grabbing comparable data from zillow');
+         const homeStr = 'homedetails/';
+         const regex = /\/[0-9]+_zpid/;
+         const two_bed = results.find( (element) => element.beds === 2 );
+         const three_bed = results.find( (element) => element.beds === 3 );
+         const s_idx0 = two_bed.url.indexOf(homeStr);
+         const s_idx1 = three_bed.url.indexOf(homeStr);
+         const e_idx0 = two_bed.url.search(regex);
+         const e_idx1 = two_bed.url.search(regex);
+         const two_bed_url = two_bed.url.substring( s_idx0 + homeStr.length, e_idx0 );
+         const three_bed_url = three_bed.url.substring( s_idx1 + homeStr.length, e_idx1 );
 
+         const two_bed_comp   = await this.getComparableHomes(two_bed_url);
+         const three_bed_comp = await this.getComparableHomes(three_bed_url);
+         
+         results.forEach(element => {
+            if (element.beds === 2) {
+               element.percentile25th = UtilityService.percentage(two_bed_comp.percentile25th,element.price) || 0;
+               element.percentile50th = UtilityService.percentage(two_bed_comp.percentile50th,element.price);
+               element.percentile75th = UtilityService.percentage(two_bed_comp.percentile75th,element.price);
+            } else if (element.beds === 3) {
+               element.percentile25th = UtilityService.percentage(three_bed_comp.percentile25th,element.price) || 0;
+               element.percentile50th = UtilityService.percentage(three_bed_comp.percentile50th,element.price);
+               element.percentile75th = UtilityService.percentage(three_bed_comp.percentile75th,element.price);
+            }
+         });
          let docs: IMLSModel[] = [];
 
          logger.info('Saving data to database');
@@ -173,8 +200,10 @@ export class MLSController {
          //       docs.push(mls);
          //    }
          // });
-         
-         return res.json({'results':results})
+         const now = new Date();
+         const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric'};
+         const date = `${now.toLocaleDateString('en-US', options)} ${now.toLocaleTimeString('en-US',{timeStyle: 'full'})}`
+         return res.json({ 'date': date, 'results':results, 'two_bed': two_bed_comp, 'three_bed': three_bed_comp })
       }
       catch (err) {
          return next(err);
@@ -282,9 +311,9 @@ export class MLSController {
 	 * @param bounds
 	 * @returns Number of Pages
 	 */
-   private async retrieveResults(searchTerm:string, numOfPages: number,bounds: string): Promise<object[] | undefined> {
+   private async retrieveResults(searchTerm:string, numOfPages: number,bounds: string): Promise<IMLSModel[] | undefined> {
       try {
-         let results = []
+         let results: IMLSModel[] = [];
          for (let idx = 1; idx <= numOfPages; idx++) {
             const reqId = Math.floor((Math.random() + 1 ) * 5);
             const url =  `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState={"pagination":{"currentPage":${idx}},"usersSearchTerm":${searchTerm},${bounds},"isMapVisible":true,"filterState":{"price":{"min":100000},"monthlyPayment":{"min":495},"sortSelection":{"value":"days"},"isAllHomes":{"value":true}},"isListVisible":true,"mapZoom":12}&wants={"cat1":["listResults","mapResults"],"cat2":["total"]}&requestId=${reqId}`
@@ -300,19 +329,25 @@ export class MLSController {
                   // console.log(url);
                   
                   cat1.searchResults.listResults.map(element => {
+                     // console.log(element);
+                     
                      results.push({
+                        price: element.unformattedPrice,
                         priceStr: element.price,
-                        priceNum: element.unformattedPrice,
                         address: element.address,
-                        street: element.addressStreet,
                         city: element.addressCity,
                         state: element.addressState,
-                        zipCode: element.addressZipcode,
-                        beds: element.beds,
-                        baths: element.baths,
-                        area: element.area,
+                        zipCode: parseInt(element.addressZipcode),
+                        beds: parseInt(element.beds),
+                        baths: parseInt(element.baths),
+                        street: element.addressStreet,
+                        area: parseInt(element.area),
                         url: element.detailUrl,
                         status: element.statusType,
+                        zpid: parseInt(element.zpid),
+                        percentile25th: 0,
+                        percentile50th: 0,
+                        percentile75th: 0
                      })
                   });
                }
@@ -346,4 +381,152 @@ export class MLSController {
 			throw err;
 		}
 	}
+
+
+   /**
+	 * Get user invitation
+	 *
+	 * @param u_id
+	 * @param email
+	 * @returns User invitation
+	 */
+	@bind
+	private async getComparableHomes(address: string): Promise<Comparables | undefined> {
+		try {
+         let prices: number[] = [];
+         let comparables: Comparables = {
+            minPrice: 0,
+            maxPrice: 0,
+            averagePrice: 0,
+            properties: [],
+            percentile25th: 0,
+            percentile50th: 0,
+            percentile75th: 0
+         }
+
+         console.log(address);
+         
+         // const url = 'https://www.zillow.com/rental-manager/price-my-rental/results/6235-beachcomber-dr-long-beach-ca-90803/';
+         const url = `https://www.zillow.com/rental-manager/price-my-rental/results/${address}`;
+         await axios.get(url,
+            {
+               headers: url_headers,
+               // params: url_params
+            })
+            .then((response) => {
+               const $ = load(response.data);
+               const script = $('script[type*=text/javascript]');
+               const text = script.text();
+               const list = ['"comparables":','"filter":']
+               const begin = text.indexOf(list[0]);
+               const end = text.indexOf(list[1]);
+               const newStr = text.substring(begin+list[0].length,end-1).replace('undefined','""').trim();
+               const json = JSON.parse(newStr); // '(Undisclosed address)'
+
+               // console.log(json['items'][2]);
+               // console.log(json['min']);
+               // console.log(json['max']);
+               json['items'].map((element) => {
+                  
+                  if(element.street !== '(Undisclosed address)' &&
+                     element.monthlyRent)
+                  {
+                     prices.push(UtilityService.currencyConverter(element.monthlyRent));
+                     comparables.properties.push({
+                        zpid: element.zpid,
+                        monthlyRent: element.monthlyRent,
+                        bubblePrice: element.bubblePrice,
+                        sqft: element.sqft,
+                        pricePerSqft: element.pricePerSqft,
+                        street: element.street || '',
+                        city: element.city || '',
+                        state: element.state || '',
+                        zipCode: parseInt(element.zip) || 0,
+                        beds: parseInt(element.beds) || 0,
+                        baths: parseInt(element.baths) || 0,
+                        position: {
+                           latitude: parseFloat(element.lat) || 0,
+                           longitude: parseFloat(element.lon) || 0,
+                        }
+                     })
+                  }
+               });
+               comparables.minPrice = parseInt(json['min']) || 0;
+               comparables.maxPrice = parseInt(json['max']) || 0;
+               comparables.averagePrice = ( comparables.minPrice + comparables.maxPrice ) / 2;
+               const percentiles = UtilityService.calcPercentiles(prices);
+
+               comparables.percentile25th = percentiles['25th_Percentile'];
+               comparables.percentile50th = percentiles['50th_Percentile'];
+               comparables.percentile75th = percentiles['75th_Percentile'];
+               
+               
+            });
+         // console.log(comparables);
+         
+			return comparables;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+   // /**
+	//  * Get user invitation
+	//  *
+	//  * @param u_id
+	//  * @param email
+	//  * @returns User invitation
+	//  */
+	// @bind
+   // private async name(zip_code:string): Promise<PropertyModel[] | undefined> {
+   //    try {
+   //       let results = []
+   //       const url = 'https://www.padmapper.com/apartments/lakewood-ca/';
+   //       axios.get(url,
+   //       {
+   //          headers: url_headers
+   //       })
+   //       .then((response) => {
+   //          const $ = cheerio.load(response.data);
+   //          const listScroll = $('div[class*=list_listScroll]');
+   //          const listContainer = listScroll.find('div[class*=list_listItemContainer]');
+   //          const div = listContainer.children().first();
+         
+   //          div.children().each((idx, ele) => {
+               
+   //             const price = $(ele).find('div[class*=ListItemFull_price]').text()
+   //             const infoBox = $(ele).find('div[class*=ListItemFull_infoBox]').text();
+   //             const address = $(ele).find('meta[itemprop*=streetAddress]').attr('content');
+   //             const city = $(ele).find('meta[itemprop*=addressLocality]').attr('content');
+   //             const state = $(ele).find('meta[itemprop*=addressRegion]').attr('content');
+   //             const zipCode = $(ele).find('meta[itemprop*=postalCode]').attr('content');
+   //             const latitude = $(ele).find('meta[itemprop*=latitude]').attr('content');
+   //             const longitude = $(ele).find('meta[itemprop*=longitude]').attr('content');
+               
+   //             const bedIndex = infoBox.search(/[0-9] Bed|[0-9] bed/);
+   //             const bathIndex = infoBox.search(/[0-9] Bath|[0-9] bath/);
+   //             const beds = infoBox.substring(bedIndex, bedIndex + 5);
+   //             const baths = infoBox.substring(bathIndex,bathIndex + 6);
+   //             const info = {
+   //                   price: UtilityService.currencyConverter(price),
+   //                   priceStr: price,
+   //                   address,
+   //                   beds: parseInt(beds),
+   //                   baths: parseInt(baths),
+   //                   city,
+   //                   state,
+   //                   zipCode: parseInt(zipCode),
+   //                   position: {
+   //                      latitude: parseInt(latitude),
+   //                      longitude: parseInt(longitude)
+   //                   }
+   //             };
+   //             results.push(info);
+   //          });
+   //          return results;
+   //       }
+   //    } catch (err) {
+   //       throw err;
+   //    }
+   // }
 }
