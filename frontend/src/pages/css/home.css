@@ -1,0 +1,8 @@
+#about-me-container p:last-of-type {
+    margin-bottom: 0;
+}
+
+#about-me-container ul {
+    list-style-type: none;
+    padding: 0;
+}

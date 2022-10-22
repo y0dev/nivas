@@ -1,0 +1,24 @@
+.filter_tag {
+   display: flex;
+}
+
+.type-meta {
+   cursor: pointer;
+   margin-right: 2em;
+   border-radius: 30px;
+   background-color: #ffffff;
+   padding: 0.5em 1.5em;
+   color: #1c1c1c;
+   transition: all 0.2s ease-in;
+ }
+ .type-meta:hover {
+   background-color: #59caff;
+ }
+ .type-meta-active {
+   cursor: pointer;
+   margin-right: 2em;
+   border-radius: 30px;
+   background-color: #59caff;
+   padding: 0.5em 1.5em;
+   color: #1c1c1c;
+ }

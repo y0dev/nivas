@@ -1,0 +1,120 @@
+
+.main-menu {
+   width: 100%;
+   max-width: 950px;
+   margin: 0 auto;
+   padding: 20px;
+   display: flex;
+   align-items: center;
+   transition-property: height, padding;
+   transition-duration: 400ms;
+}
+
+.main-menu .logo a {
+   text-decoration: none;
+}
+
+.main-menu .menu-list {
+   display: flex;
+   list-style: none;
+   justify-content: space-between;
+   align-items: center;
+   margin-left: auto;
+}
+
+.main-menu .menu-list li a {
+   padding: 0 20px;
+   color: var(--color-heading);
+   text-transform: uppercase;
+}
+
+
+.menu-branding {
+   display: flex;
+   align-items: center;
+   margin-left: 50px;
+}
+
+.menu-branding img {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   background-color: black;
+}
+
+.menu-branding h3 {
+   text-transform: uppercase;
+   font-weight: 700;
+   padding-left: 20px;
+   color: var(--color-heading);
+}
+
+.display-switch {
+   display: inline-block;    
+   color: var(--color-body);
+   background-color: transparent;
+   border: none;
+   cursor: pointer;
+   margin-left: 40px;
+   width: 24px;
+   font-size: 24px;
+}
+
+.header-container--mini {
+   box-shadow: 2px 2px 8px var(--color-header-shadow);
+   background-color: var(--color-background);
+}
+
+.header-content--mini {
+   height: 75px;
+}
+
+/* MEDIA */
+
+@media (max-width: 768px) {
+   .main-menu .menu-list li {
+      padding: 0;
+      margin-left: 0;
+   }
+}
+
+@media (max-width: 460px) {
+   .navbar {
+      height: 72px;
+   }
+   
+   .main-menu {
+      height: auto;
+      /* padding: 20px; */
+   }
+   .menu-branding h3 {
+      display: none;
+   }
+
+   .main-menu .menu-list {
+      flex: 1 1 100%;
+      display: flex;
+      justify-content: space-between;
+   }
+
+  .main-menu .menu-list li {
+      font-size: 16px;
+   }
+
+   .main-menu .menu-list li a {
+      padding: 0;
+      font-size: 14px;
+  }
+
+  .main-menu .menu-list li .display-switch {
+      display: inline-block;
+      margin-left: 0;
+      width: 24px;
+      font-size: 20px;
+   }
+   .menu-branding {
+      margin-left: 0;
+      margin-right: 20px;
+   }
+}
+
