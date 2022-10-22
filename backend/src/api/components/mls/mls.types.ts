@@ -43,7 +43,7 @@ export interface Comparables {
 
 export interface IMLSModel extends PropertyModel {
    street: string;
-   area: number;
+   sqft: number;
    url: string;
    status: string;
    zpid: number;

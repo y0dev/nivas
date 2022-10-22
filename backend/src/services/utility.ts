@@ -4,6 +4,7 @@ import { v1 as uuidv1 } from 'uuid';
 import * as crypto from 'crypto';
 
 import { logger } from '../config/logger';
+import { IMLSModel } from '../api/components/mls/mls.types';
 
 /**
  * UtilityService
@@ -81,6 +82,15 @@ export class UtilityService {
 	public static generateUuid(): string {
 		return uuidv1();
 	}
+
+	/**
+	 * Generate UUID
+	 *
+	 * @returns UUID
+	 */
+	//  public static checkProperty(property: IMLSModel, beds: number): boolean {
+	// 	return property.beds ;
+	// }
 
 	// helper functions (degrees<–>radians)
 	private static degToRad(number: number): number {

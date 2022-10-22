@@ -49,7 +49,7 @@ export class MLSModel {
       mlsModel.zipCode = zipCode;
       mlsModel.beds = beds;
       mlsModel.baths = baths;
-      mlsModel.area = area;
+      mlsModel.sqft = area;
       mlsModel.url = url;
       mlsModel.status = status;
       console.log(mlsModel.address);

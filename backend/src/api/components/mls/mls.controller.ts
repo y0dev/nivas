@@ -144,27 +144,68 @@ export class MLSController {
          logger.info('Grabbing comparable data from zillow');
          const homeStr = 'homedetails/';
          const regex = /\/[0-9]+_zpid/;
-         const two_bed = results.find( (element) => element.beds === 2 );
-         const three_bed = results.find( (element) => element.beds === 3 );
+         let two_bed = results.find( (element) => element.beds <= 2 && !element.address.includes('#') );
+         let three_bed = results.find( (element) => element.beds >= 3 && !element.address.includes('#') );
          const s_idx0 = two_bed.url.indexOf(homeStr);
          const s_idx1 = three_bed.url.indexOf(homeStr);
          const e_idx0 = two_bed.url.search(regex);
-         const e_idx1 = two_bed.url.search(regex);
+         const e_idx1 = three_bed.url.search(regex);
          const two_bed_url = two_bed.url.substring( s_idx0 + homeStr.length, e_idx0 );
          const three_bed_url = three_bed.url.substring( s_idx1 + homeStr.length, e_idx1 );
 
-         const two_bed_comp   = await this.getComparableHomes(two_bed_url);
-         const three_bed_comp = await this.getComparableHomes(three_bed_url);
+         let two_bed_comp   = await this.getComparableHomes(two_bed_url);
+         let three_bed_comp = await this.getComparableHomes(three_bed_url);
+         let prev_two_beds_searched = [two_bed.address]
+         let prev_three_beds_searched = [three_bed.address]
+         let retries = 0;
+
+         while(two_bed_comp.properties.length === 0 && retries <= 5) 
+         {
+            two_bed = results.find( (element) => {
+               return !prev_two_beds_searched.includes(element.address) && element.beds >= 3 && !element.address.includes('#')
+            });
+            console.log(two_bed_comp.properties.length === 0);
+            
+            const s_idx = two_bed.url.indexOf(homeStr);
+            const e_idx = two_bed.url.search(regex);
+            const two_bed_url = two_bed.url.substring( s_idx + homeStr.length, e_idx );
+            two_bed_comp = await this.getComparableHomes(two_bed_url);
+            prev_two_beds_searched.push(two_bed.address);
+            if (two_bed_comp.properties.length !== 0) 
+               retries = 5;
+            else
+               retries++;
+         }
+
+         retries = 0;
+
+         while(three_bed_comp.properties.length === 0 && retries <= 5) 
+         {
+            three_bed = results.find( (element) => {
+               return !prev_three_beds_searched.includes(element.address) && element.beds >= 3 && !element.address.includes('#')
+            });
+            console.log(three_bed_comp.properties.length === 0);
+            
+            const s_idx = three_bed.url.indexOf(homeStr);
+            const e_idx = three_bed.url.search(regex);
+            const three_bed_url = three_bed.url.substring( s_idx + homeStr.length, e_idx );
+            three_bed_comp = await this.getComparableHomes(three_bed_url);
+            prev_three_beds_searched.push(three_bed.address);
+            if (three_bed_comp.properties.length !== 0) 
+               retries = 5;
+            else
+               retries++;
+         }
          
          results.forEach(element => {
-            if (element.beds === 2) {
+            if (element.beds <= 2) {
                element.percentile25th = UtilityService.percentage(two_bed_comp.percentile25th,element.price) || 0;
-               element.percentile50th = UtilityService.percentage(two_bed_comp.percentile50th,element.price);
-               element.percentile75th = UtilityService.percentage(two_bed_comp.percentile75th,element.price);
-            } else if (element.beds === 3) {
+               element.percentile50th = UtilityService.percentage(two_bed_comp.percentile50th,element.price) || 0;
+               element.percentile75th = UtilityService.percentage(two_bed_comp.percentile75th,element.price) || 0;
+            } else if (element.beds >= 3) {
                element.percentile25th = UtilityService.percentage(three_bed_comp.percentile25th,element.price) || 0;
-               element.percentile50th = UtilityService.percentage(three_bed_comp.percentile50th,element.price);
-               element.percentile75th = UtilityService.percentage(three_bed_comp.percentile75th,element.price);
+               element.percentile50th = UtilityService.percentage(three_bed_comp.percentile50th,element.price) || 0;
+               element.percentile75th = UtilityService.percentage(three_bed_comp.percentile75th,element.price) || 0;
             }
          });
          let docs: IMLSModel[] = [];
@@ -326,29 +367,30 @@ export class MLSController {
                const cat1 = res.data.cat1;
                if (cat1)
                {
-                  // console.log(url);
                   
                   cat1.searchResults.listResults.map(element => {
-                     // console.log(element);
-                     
-                     results.push({
-                        price: element.unformattedPrice,
-                        priceStr: element.price,
-                        address: element.address,
-                        city: element.addressCity,
-                        state: element.addressState,
-                        zipCode: parseInt(element.addressZipcode),
-                        beds: parseInt(element.beds),
-                        baths: parseInt(element.baths),
-                        street: element.addressStreet,
-                        area: parseInt(element.area),
-                        url: element.detailUrl,
-                        status: element.statusType,
-                        zpid: parseInt(element.zpid),
-                        percentile25th: 0,
-                        percentile50th: 0,
-                        percentile75th: 0
-                     })
+                     if ( element.beds && element.baths && 
+                        element.area && element.statusType === 'FOR_SALE' ) 
+                     {  
+                        results.push({
+                           price: element.unformattedPrice,
+                           priceStr: element.price,
+                           address: element.address,
+                           city: element.addressCity,
+                           state: element.addressState,
+                           zipCode: parseInt(element.addressZipcode),
+                           beds: parseInt(element.beds),
+                           baths: parseInt(element.baths),
+                           street: element.addressStreet,
+                           sqft: parseInt(element.area),
+                           url: element.detailUrl,
+                           status: element.statusType,
+                           zpid: parseInt(element.zpid),
+                           percentile25th: 0,
+                           percentile50th: 0,
+                           percentile75th: 0
+                        })
+                     }
                   });
                }
                else 
@@ -469,64 +511,4 @@ export class MLSController {
 			throw err;
 		}
 	}
-
-   // /**
-	//  * Get user invitation
-	//  *
-	//  * @param u_id
-	//  * @param email
-	//  * @returns User invitation
-	//  */
-	// @bind
-   // private async name(zip_code:string): Promise<PropertyModel[] | undefined> {
-   //    try {
-   //       let results = []
-   //       const url = 'https://www.padmapper.com/apartments/lakewood-ca/';
-   //       axios.get(url,
-   //       {
-   //          headers: url_headers
-   //       })
-   //       .then((response) => {
-   //          const $ = cheerio.load(response.data);
-   //          const listScroll = $('div[class*=list_listScroll]');
-   //          const listContainer = listScroll.find('div[class*=list_listItemContainer]');
-   //          const div = listContainer.children().first();
-         
-   //          div.children().each((idx, ele) => {
-               
-   //             const price = $(ele).find('div[class*=ListItemFull_price]').text()
-   //             const infoBox = $(ele).find('div[class*=ListItemFull_infoBox]').text();
-   //             const address = $(ele).find('meta[itemprop*=streetAddress]').attr('content');
-   //             const city = $(ele).find('meta[itemprop*=addressLocality]').attr('content');
-   //             const state = $(ele).find('meta[itemprop*=addressRegion]').attr('content');
-   //             const zipCode = $(ele).find('meta[itemprop*=postalCode]').attr('content');
-   //             const latitude = $(ele).find('meta[itemprop*=latitude]').attr('content');
-   //             const longitude = $(ele).find('meta[itemprop*=longitude]').attr('content');
-               
-   //             const bedIndex = infoBox.search(/[0-9] Bed|[0-9] bed/);
-   //             const bathIndex = infoBox.search(/[0-9] Bath|[0-9] bath/);
-   //             const beds = infoBox.substring(bedIndex, bedIndex + 5);
-   //             const baths = infoBox.substring(bathIndex,bathIndex + 6);
-   //             const info = {
-   //                   price: UtilityService.currencyConverter(price),
-   //                   priceStr: price,
-   //                   address,
-   //                   beds: parseInt(beds),
-   //                   baths: parseInt(baths),
-   //                   city,
-   //                   state,
-   //                   zipCode: parseInt(zipCode),
-   //                   position: {
-   //                      latitude: parseInt(latitude),
-   //                      longitude: parseInt(longitude)
-   //                   }
-   //             };
-   //             results.push(info);
-   //          });
-   //          return results;
-   //       }
-   //    } catch (err) {
-   //       throw err;
-   //    }
-   // }
 }
