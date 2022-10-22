@@ -10,25 +10,23 @@ A shortened list of the Node modules used in this app:
 
 - [acl](https://www.npmjs.com/package/acl)
 - [express](https://www.npmjs.com/package/express)
-- [mysql2](https://www.npmjs.com/package/mysql2)
+- [mongodb](https://www.npmjs.com/package/mongodb)
+- [mongoose](https://www.npmjs.com/package/mongoose)
 - [nodemailer](https://www.npmjs.com/package/nodemailer)
 - [passport](https://www.npmjs.com/package/passport)
-- [redis](https://www.npmjs.com/package/redis)
-- [typeorm](https://www.npmjs.com/package/typeorm)
+- [stripe](https://www.npmjs.com/package/stripe)
 
-## :crystal_ball: Features
+## :gift: Features
 
 - ACL (access control list)
 - Component-based architecture
-- Caching (Redis)
-- DB seeding
 - Mailing
-- MySQL
+- Stripe
 - Testing
 
 ## :open_file_folder: Folder structure
 
-<!-- Read more [here](https://larswaechter.dev/blog/nodejs-rest-api-structure/). -->
+Idea behind this structure can be found [here](https://larswaechter.dev/blog/nodejs-rest-api-structure/).
 
 - `src/api` everything needed for the REST API
   - `src/api/components` component routers, controllers, models, tests and more
@@ -45,7 +43,6 @@ Requirements:
 
 - [MongoDB](https://www.mongodb.com/)
 - [Node.js](https://nodejs.org/en/)
-- [Redis](https://redis.io/)
 
 Installation:
 
@@ -79,14 +76,6 @@ During the build process the following tasks are executed:
 - Merging component `policy.json` files into a single one in `dist/output/policies.combined.json`
 
 The last two tasks are executed using Gulp as you can see in `gulpfile.js`.
-
-### Database seeding
-
-In `db/seed.sql` you'll find a SQL script that can be used for seeding the database with dummy data. Make sure that the database and its tables were created before executing the script. The tables are created on application start.
-
-You can load the script via a npm command: `npm run seed`. If you want to seed the database from a Docker container you must connect to it before: `docker exec -it expressjs-api bash`.
-
-Read more about database seeding on my [blog](https://larswaechter.dev/blog/nodejs-database-seeding/).
 
 ## :hammer: Tools
 

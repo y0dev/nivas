@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_API_KEY, {
  });
 
 export class PaymentController {
-   private readonly AMOUNT = 50;
+   private readonly AMOUNT = Number(process.env.STRIPE_PURCHASE_PRICE);
 
   /*
    * Create user for payment
