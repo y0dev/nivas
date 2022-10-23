@@ -126,9 +126,9 @@ class NavBar extends Component {
                      <h3>Nivas</h3>
                   </a>
                   <ul className='menu-list'>
-                     {/* <li><a href="/about-me">About Me</a></li>
-                     <li><a href="/projects">Projects</a></li>
-                     <li><a href="/articles">Articles</a></li> */}
+                     <li><a href="#about">About</a></li>
+                     <li><a href="/properties">Examples</a></li>
+                     <li><a href="/contact">Contact</a></li>
                      {/* <li><button className='display-switch' onClick={this.changeDisplay}>☀️</button></li> */}
                      {/* <li><a href="https://devssite.net/">Blog</a></li> */}
                   </ul>

@@ -1,12 +1,22 @@
 import React from 'react';
+import Carousel from '../components/carousel';
 
 class HomePage extends React.Component {
     render() {
-        console.log('open');
         return (
-            <div className='app-body' id='home'>
-                <h1>Home</h1>
-            </div>
+            <main>
+                <header className='header' id='home'>
+                    <div className='overlay'></div>
+
+                    <Carousel />
+                </header>
+
+                <section className='section' id='about'>
+                    
+
+                </section>
+
+            </main>
         )
     }
 }
