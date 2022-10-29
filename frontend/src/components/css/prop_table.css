@@ -26,16 +26,3 @@
    background-color: #efefef;
 } */
 
-#property:hover {
-   filter: brightness(120%) saturate(120%);
-}
-
-#property #status {
-   min-width: 80px;
-}
-
-#beds, #baths {
-   min-width: 50px;
-   text-align: center;
-   padding: 0;
-}

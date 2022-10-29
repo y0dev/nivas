@@ -1,5 +1,17 @@
 /* https://codepen.io/alico/pen/bpLgOL */
 
+.middle-text {
+    margin: 0;
+}
+ 
+.small-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 300;
+    line-height: 1;
+    font-size: 12px;
+}
+
 #properties-header {
     display: flex;
     justify-content: space-between;
@@ -61,6 +73,24 @@ table * {
     background: #FFED86;
     font-size: 16px;
 }
+
+#property:hover {
+    filter: brightness(120%) saturate(120%);
+}
+
+#property #address .street-address {
+    color: #191999;
+}
+ 
+#property #status {
+    min-width: 80px;
+}
+ 
+#beds, #baths {
+    min-width: 50px;
+    text-align: center;
+    padding: 0;
+ }
 
 table td, table th {
     /* text-align: left; */

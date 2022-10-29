@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --inspect=5858 -r ts-node/register ./index.ts",
-    "dev": "nodemon",
+    "dev": "nodemon --inspect=5858 -r ts-node/register ./index.ts",
     "build": "tsc",
     "script": "cd src/scripts && ts-node",
     "test": "cd src/scripts && ts-node"

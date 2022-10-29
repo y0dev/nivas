@@ -53,7 +53,29 @@ class Properties extends Component {
         this.state.three_bed_or_more.percentile75th = parseFloat(_sample.three_bed.percentile75th).toFixed(2);
         this.state.three_bed_or_more.properties = _sample.three_bed.properties;
 
-        this.state.properties = _sample.results.filter( property => /[0-9]+/.test(property.street) );
+        // this.state.properties = _sample.results.filter( property => /[0-9]+/.test(property.street) );
+
+
+        this.state.properties = _sample.results.filter( property => /[0-9]+/.test(property.street) )
+        .map( ( property, idx ) => {
+            return <tr className='property' id='property' key={idx}>
+                        <td id='address'>
+                            <p className='street-address middle-text'>
+                            {property.street}
+                            </p>
+                            <p className='url-link small-text'>
+                            <a href={property.url}>{property.url}</a>
+                            </p>
+                        </td>
+                        <td id='status'>{property.status}</td>
+                        <td id='beds'>{property.beds}</td>
+                        <td id='baths'>{property.baths}</td>
+                        <td id='square-footage'>{`${property.sqft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} sqft`}</td>
+                        <td id='price'>{property.priceStr}</td>
+                        <td id='ratio' className='ratio'>{`${property.percentile50th}%`}</td>
+                    </tr>
+        });
+
         this.state.numOfProperties = this.state.properties.length;
 
         // Pagnation for page
@@ -61,7 +83,6 @@ class Properties extends Component {
         let indexOfFirstProperty = indexOfLastProperty - this.state.postsPerPage;
         this.state.currentProperties = this.state.properties.slice(indexOfFirstProperty, indexOfLastProperty);
         console.log(indexOfFirstProperty,indexOfLastProperty,this.state.properties.length);
-
 
     }
 
@@ -86,12 +107,13 @@ class Properties extends Component {
             {
                 element.classList.add('above-75');
             }
-  
             // Clean up status
             const status = element.querySelector('#status');
             status.textContent = status.textContent !== '' ? 'For Sale': ''
            
         }
+
+        // console.log(properties);
     }
 
     numberWithCommas(num) {
@@ -183,8 +205,33 @@ class Properties extends Component {
                         
                     </div>
                 </div>
-                <PropTable 
-                    properties={this.state.currentProperties}/>
+                <table id='property-list'>
+                    <thead id='property-list-header'>
+                        <tr>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>Beds</th>
+                            <th>Baths</th>
+                            <th>Square Footage</th>
+                            <th>Price</th>
+                            <th className='tooltip'>
+                                Rent to Price Ratio
+                                <div className="bottom">
+                                    {/* <h3>Ratio</h3> */}
+                                    <p>Ratio is initial set to 50th percentile. Can be set to 25th or 75th</p>
+                                    {/* <ul>
+                                        <li>Aliquam ac odio ut est</li>
+                                        <li>Cras porttitor orci</li>
+                                    </ul> */}
+                                    <i></i>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.currentProperties}
+                    </tbody>
+                </table>
 
                 <div id='article-paginate'>
                     <Pagination 
