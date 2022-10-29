@@ -32,7 +32,7 @@
     right: 0;
 } */
 
-#properties-header .comp .percentile .percentile-text {
+#properties-header .comp .percentile-text {
     position: absolute;
     right: 0;
 }
@@ -72,17 +72,22 @@ table td a {
     text-decoration: solid;
 }
 
+table tbody {
+    background-color: #8f8f8f8f;
+}
+
+
 table tbody .property {
     height: 48px;
     border-bottom: 1px solid #E3F1D5;
 }
 
 table tbody .property.above-50 {
-    background-color: #f6d10025;
+    background-color: #f6d1003e;
 }
 
 table tbody .property.above-75 {
-    background-color: #00f63525;
+    background-color: #00f63549;
 }
 
 .tooltip {

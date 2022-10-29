@@ -1,8 +1,58 @@
-#about-me-container p:last-of-type {
-    margin-bottom: 0;
+.section {
+    min-height: 50vh;
 }
 
-#about-me-container ul {
-    list-style-type: none;
-    padding: 0;
+#heading{
+    margin-top: 70px;
+}
+
+.section .container {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+}
+
+#heading .container #info {
+    /* margin: 0 20px; */
+}
+
+#heading .container #info .title {
+    font-size: 60px;
+}
+
+#heading .container #info .large-text {
+    font-size: 58px;
+    font-weight: 400;
+    margin: 10px 0;
+    line-height: 1;
+}
+
+/* Computer Screen */
+@media (max-width: 1199px) {
+
+    .section .container #image {
+        background-color: antiquewhite;
+        height: 543px;
+        width: 442px;
+    }
+
+    #heading .container #info {
+        width: 400px;
+        margin: auto;
+    }
+
+    #heading .container #image {
+        background-color: antiquewhite;
+        min-width: 604px;
+        min-height: 653px;
+    } 
+
+    #heading .container #info {
+        width: 400px;
+        margin: auto;
+    }
+
+    #about .container .row {
+        display: flex;
+    }
 }

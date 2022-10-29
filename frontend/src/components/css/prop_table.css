@@ -1,0 +1,41 @@
+#property #address {
+
+}
+.middle-text {
+   margin: 0;
+}
+
+.small-text {
+   text-overflow: ellipsis;
+   overflow: hidden;
+   font-weight: 300;
+   line-height: 1;
+   font-size: 12px;
+}
+
+#prop-table thead tr, #prop-table thead th {
+   border-top: none;
+   border-bottom: none !important;
+}
+
+#property-list-header th {
+   text-align: left;
+}
+
+/* #property {
+   background-color: #efefef;
+} */
+
+#property:hover {
+   filter: brightness(120%) saturate(120%);
+}
+
+#property #status {
+   min-width: 80px;
+}
+
+#beds, #baths {
+   min-width: 50px;
+   text-align: center;
+   padding: 0;
+}
