@@ -2,8 +2,10 @@
 
 ## :open_file_folder: Folder structure
 
-- `backend` backend api using expressjs
-- `frontend` frontend running using reactjs and webpack
+- `components` every component involved with the backend
+- `middleware` all of the middleware components that are used in the project
+- `public` frontend src code
+- `views` pug files for the frontend website
 
 ## :octocat: Community
 
