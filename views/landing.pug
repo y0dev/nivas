@@ -1,0 +1,128 @@
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="shortcut icon", href="/img/favicon.png", type="image/x-icon")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:300,300i,700,900")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;900&family=Tilt+Warp&display=swap" rel="stylesheet")
+        //- link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet")
+        link(href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet")
+        link(rel="stylesheet", href="/css/style.css")
+        title GospelTech
+
+    body
+        main
+            .main-wrapper.light
+                header 
+                    .container 
+                        .brand-logo
+                            img(src="", alt="brand-logo")
+                            h3 GospelTech
+
+                        .links
+                            ul 
+                                li
+                                    a(href="#") Features
+                                li 
+                                    a(href="#") Pricing 
+                                li
+                                    a(href="#") Testimonials 
+                                li
+                                    a.btn(href="#contact-us") Contact
+                        .overlay 
+                        
+                        .hamburger-menu 
+                            .bar
+                
+                .showcase-area
+                    .container
+                        .left
+                            .big-title 
+                                h1 Empowering your vision through custom development
+                            
+                            .text 
+                                p Our customizable API help to save time and resources, allowing developers to build powerful applications quickly and efficiently.
+                            
+                            .cta
+                                a.btn(href="#") Get Started 
+
+                        .right
+                            img.person(src="/img/person-image.jpg", alt="Image of Person") 
+
+                .bottom-area 
+                    .container
+                        button.toggle-btn
+                            i.bx.bx-moon
+                            i.bx.bx-sun.hidden
+
+                section#about-us
+                    .container 
+                        .upper-section
+                            .info 
+                                h3 What we do 
+                                p Discover how we can help your business
+
+                        .lower-section
+                            .brand-info 
+                                .item.item1 
+                                    i.bx.bx-heart 
+                                    h4 Awareness
+                                    p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                                .item.item2 
+                                    i.bx.bx-desktop 
+                                    h4 Awareness
+                                    p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                                .item.item3 
+                                    i.bx.bx-cog 
+                                    h4 Awareness
+                                    p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                
+                section#contact-us
+                    .container
+                        .col-md-6.responsive-margins-images.contact-forms
+                            .section-title
+                                h2 Contact Us
+                            form.form--contact
+                                .form__group
+                                    label.form__label(for='name') Full Name
+                                    input#name.form__input(type='text', placeholder='Full Name', required)
+                                .form__group
+                                    label.form__label(for='email') Email address
+                                    input#email.form__input(type='email', placeholder='you@example.com', required)
+                                .form__group
+                                    label.form__label(for='phone') Phone Number
+                                    input#phone.form__input(type='phone', placeholder='555-555-5555' required)
+                                .form__group
+                                    label.form__label(for='message') Subject
+                                    textarea#message.form__input(placeholder='Message') 
+                                .form__group
+                                    button.btn.btn--green Send Message
+                        
+                        .col-md-6.responsive-bottom-margins.map-container
+                            .map
+                                iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d74962.69416406046!2d-118.02011061897146!3d33.866098504001144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1678709821580!5m2!1sen!2sus", frameborder="0", allowfullscreen="", aria-hidden="false", tabindex="0") 
+
+                footer.footer 
+                    .footer__logo 
+                    ul.footer__nav 
+                        li
+                            a(href='#') About
+                        li
+                            a(href='#')  Download app 
+                        li
+                            a(href='#')  Careers
+                        li
+                            a(href='#contact-us')  Contact 
+                    p.footer__copyright &copy; by Good Digital
+
+
+
+
+
+
+        script(src='/js/bundle.js')
+
+
