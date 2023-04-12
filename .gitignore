@@ -4,3 +4,4 @@ dist
 .cache
 .example
 deploy
+logs

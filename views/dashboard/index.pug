@@ -2,3 +2,10 @@ extends ../base
 
 block content
     h1 Dashboard
+        .container
+            .col-md-6.responsive-margins-images.mls-form
+                form.form--mls
+                    .form__group
+                        input#mls-input.form__input(type='text', placeholder='Zip Code or City, State', required)
+                    .form__group
+                        button.btn.btn--green Search

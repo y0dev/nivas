@@ -3,7 +3,7 @@ const { searchByZipCode, searchByCityState } = require("./mls.controller");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/searchZip", searchByZipCode);
-router.get("/searchCS", searchByCityState);
+router.post("/searchZip", searchByZipCode);
+router.post("/searchCS", searchByCityState);
 
 module.exports = router;

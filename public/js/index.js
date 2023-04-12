@@ -1,8 +1,18 @@
 /* eslint-disable */
 import { contactUs } from "./create.email";
+import { searchForMLS } from "./create.mls";
 
 const contactForm = document.querySelector(".form--contact");
+const mlsForm = document.querySelector(".form--mls");
 let mainWrapper = document.querySelector(".main-wrapper");
+
+if (mlsForm) {
+  mlsForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const mls_input = document.getElementById("mls-input").value;
+    searchForMLS(mls_input);
+  });
+}
 
 if (contactForm) {
   contactForm.addEventListener("submit", (e) => {

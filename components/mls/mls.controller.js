@@ -1,4 +1,5 @@
 const axios = require("axios");
+const logger = require("../../utils/logger");
 
 let url_headers = {
   accept: "*/*",
@@ -28,8 +29,16 @@ exports.searchByZipCode = async (req, res, next) => {
     const numOfPages = await retrieveNumberOfPages(searchTerm, map_bounds);
 
     const results = await retrieveResults(searchTerm, numOfPages, map_bounds);
-    res.json(results);
+
+    if (results.length !== 0) {
+      // logger.info("Gather the results");
+      res.json({ results, status: "success" });
+    } else {
+      res.json({ results: [], status: "unsuccess" });
+    }
   } catch (err) {
+    console.error(err);
+    // logger.error("Err");
     next(err);
   }
   next();
@@ -40,7 +49,7 @@ exports.searchByCityState = async (req, res, next) => {
   try {
     url_headers["user-agent"] = req.get("user-agent");
     const { city, state, user_id } = req.body;
-
+    console.log(city, state);
     const map_bounds = await retrieveCityStateSearchParameters(city, state);
 
     const searchTerm = `"${city}, ${state}"`.toLowerCase();
@@ -48,7 +57,12 @@ exports.searchByCityState = async (req, res, next) => {
 
     const results = await retrieveResults(searchTerm, numOfPages, map_bounds);
 
-    res.json(results);
+    if (results.length !== 0) {
+      // logger.info("Gather the results");
+      res.json({ results, status: "success" });
+    } else {
+      res.json({ results: [], status: "unsuccess" });
+    }
   } catch (err) {
     next(err);
   }

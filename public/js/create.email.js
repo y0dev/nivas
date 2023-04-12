@@ -2,6 +2,8 @@ import "@babel/polyfill";
 import axios from "axios";
 import { showAlert } from "./alert";
 
+const port = process.env.PORT || 3000;
+
 export const contactUs = async (name, email, phone, message) => {
   try {
     const res = await axios({

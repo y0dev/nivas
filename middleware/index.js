@@ -6,6 +6,9 @@ const bodyParser = require("body-parser");
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
+exports.SECOND = SECOND;
+exports.MINUTE = MINUTE;
+
 exports.registerMiddleware = (app) => {
   app.use(helmet());
   app.use(cors());
