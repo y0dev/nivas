@@ -1,0 +1,26 @@
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="shortcut icon", href="/img/favicon.png", type="image/x-icon")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:300,300i,700,900")
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;900&family=Tilt+Warp&display=swap" rel="stylesheet")
+        link(href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet")
+        link(rel="stylesheet", href="/css/style.css")
+        title Niva | #{title}
+
+    body 
+        // HEADER
+        include _header
+
+        // CONTENT
+        block content 
+            h1 This is a placeholder heading
+
+        // FOOTER
+        include _footer
+
+        script(src='/js/bundle.js')
