@@ -6,17 +6,17 @@ const bodyParser = require("body-parser");
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
-exports.registerMiddleware = (router) => {
-  router.use(helmet());
-  router.use(cors());
+exports.registerMiddleware = (app) => {
+  app.use(helmet());
+  app.use(cors());
 
   // parse application/x-www-form-urlencoded
-  router.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   // parse application/json
-  router.use(bodyParser.json());
+  app.use(bodyParser.json());
 
-  router.use(
+  app.use(
     rateLimit({
       windowMs: 15 * MINUTE, // 15 minutes
       max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -26,4 +26,4 @@ exports.registerMiddleware = (router) => {
   );
 };
 
-exports.registerErrorHandler = (router) => {};
+exports.registerErrorHandler = (app) => {};
