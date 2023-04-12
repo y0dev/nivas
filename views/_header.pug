@@ -1,20 +1,22 @@
 header.header
-    .main-wrapper.light
-        header 
-            .container 
-                .brand-logo
-                    img(src="", alt="brand-logo")
-                    h3 Nivas
+    .container 
+        .brand-logo
+            img(src="", alt="brand-logo")
+            h3 Nivas
 
-                .links
-                    ul 
-                        li 
-                            a(href="#") Login 
-                        li
-                            a(href="#") Sign Up 
-                        li
-                            a.btn(href="#contact-us") Contact
-                .overlay 
-                
-                .hamburger-menu 
-                    .bar
+        .links
+            ul 
+                li 
+                    a(href="#") Login 
+                li
+                    a(href="#") Sign Up 
+                li
+                    button.toggle-btn
+                        i.bx.bx-moon
+                        i.bx.bx-sun.hidden
+                li
+                    a.btn.contact-us-btn(href="#contact-us") Contact
+        .overlay 
+        
+        .hamburger-menu 
+            .bar

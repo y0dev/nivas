@@ -265,14 +265,10 @@ header .container {
 }
 
 .person {
-    width: 123%;
     transform: translate(15%, 25px);
 }
 
 .toggle-btn {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
     display: inline-block;
     border: none;
     background: var(--color-toggle-btn-bg);
@@ -283,7 +279,7 @@ header .container {
     border-radius: 50%;
     font-size: 1.1rem;
     transition: 0.3s;
-    margin-bottom: 30px;
+    margin-left: 4.5rem
 }
 
 .toggle-btn:hover {

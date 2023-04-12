@@ -4,6 +4,7 @@ import { searchForMLS } from "./create.mls";
 
 const contactForm = document.querySelector(".form--contact");
 const mlsForm = document.querySelector(".form--mls");
+const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
 
 if (mlsForm) {
@@ -88,4 +89,9 @@ if (mainWrapper) {
   events();
 
   let dark = false;
+}
+
+if (!showcaseArea) {
+  const contactUsBttn = document.querySelector(".contact-us-btn");
+  contactUsBttn.remove();
 }
