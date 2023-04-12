@@ -8,6 +8,6 @@ exports.getLandingPage = catchAsync(async (req, res, next) => {
 
 exports.getDashboardPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/index", {
-    title: "Nivas",
+    title: "Nivas Dashboard",
   });
 });

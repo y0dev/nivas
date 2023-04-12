@@ -1,6 +1,5 @@
 ## :open_file_folder: Files
 
-- `helper.ts`
 - `index.js` handles for all the routes
 
 ## :open_file_folder: Folder structure
@@ -9,6 +8,7 @@
 - `mls` Component that handles Multiple Listing Service (Zillow)
 - `payment` Component that handles Payment Service (Stripe)
 - `user` Component that handles user controller, schema, and repository
+- `view` Component that handles view routes and controller
 
 ## :art: Component Design
 

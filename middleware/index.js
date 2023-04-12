@@ -11,10 +11,15 @@ exports.registerMiddleware = (app) => {
   app.use(cors());
 
   // parse application/x-www-form-urlencoded
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(
+    bodyParser.urlencoded({
+      extended: true,
+      limit: "10kb",
+    })
+  );
 
   // parse application/json
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ limit: "10kb" }));
 
   app.use(
     rateLimit({
