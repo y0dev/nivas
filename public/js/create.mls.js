@@ -69,6 +69,33 @@ export const searchForMLS = async (mls_string) => {
       showAlert("success", "MLS finish successfully");
       const results = res.data.results;
       console.log(results);
+      // Clear table
+      const table = document.getElementById("home-table");
+      const tbody = table.tBodies[0];
+      for (let i = table.rows.length - 1; i > 0; i--) {
+        table.deleteRow(i);
+      }
+
+      // Add Results to table
+      results.forEach((item) => {
+        const row = tbody.insertRow();
+        const zpidCell = row.insertCell();
+        const priceCell = row.insertCell();
+        const percentileCell = row.insertCell();
+        const addressCell = row.insertCell();
+        const availCell = row.insertCell();
+        const bedCell = row.insertCell();
+        const bathCell = row.insertCell();
+
+        zpidCell.textContent = item.zpid;
+        percentileCell.textContent = "25th";
+        addressCell.textContent = item.address;
+        priceCell.textContent = item.priceStr;
+        availCell.textContent = item.status;
+        bedCell.textContent = item.beds;
+        bathCell.textContent = item.baths;
+      });
+
       //   window.setTimeout(() => {
       //     location.assign("/");
       //   }, 1500);

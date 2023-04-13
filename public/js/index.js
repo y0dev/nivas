@@ -1,18 +1,37 @@
 /* eslint-disable */
 import { contactUs } from "./create.email";
 import { searchForMLS } from "./create.mls";
+import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
-const mlsForm = document.querySelector(".form--mls");
 const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
+let dashboard = document.querySelector(".container.dash-container");
 
-if (mlsForm) {
-  mlsForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const mls_input = document.getElementById("mls-input").value;
-    searchForMLS(mls_input);
+if (dashboard) {
+  const mlsForm = document.querySelector(".form--mls");
+  const table = document.getElementById("home-table");
+  const tableHeaders = table.querySelectorAll("th");
+  // Make clickable the table headers
+  tableHeaders.forEach((headerCell) => {
+    headerCell.addEventListener("click", () => {
+      const headerIdx = Array.prototype.indexOf.call(
+        headerCell.parentElement.children,
+        headerCell
+      );
+      const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+      sortTableByColumn(table, headerIdx, !currentIsAscending);
+    });
   });
+
+  if (mlsForm) {
+    mlsForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const mls_input = document.getElementById("mls-input").value;
+      searchForMLS(mls_input);
+    });
+  }
 }
 
 if (contactForm) {

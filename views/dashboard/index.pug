@@ -1,11 +1,32 @@
 extends ../base
 
 block content
-    h1 Dashboard
-        .container
-            .col-md-6.responsive-margins-images.mls-form
-                form.form--mls
-                    .form__group
-                        input#mls-input.form__input(type='text', placeholder='Zip Code or City, State', required)
-                    .form__group
-                        button.btn.btn--green Search
+    .container.dash-container
+        h1 Dashboard
+        .col-md-6.responsive-margins-images.mls-form
+            form.form--mls
+                .form__group
+                    input#mls-input.form__input(type='text', placeholder='Zip Code or City, State', required)
+                .form__group
+                    button.btn.btn--green Search
+            
+        .search-results
+            .title 
+                h2 Search: 
+                    span.term 90712
+            table#home-table 
+                thead 
+                    tr 
+                        th ZPID 
+                        th Price 
+                        th Percentile 
+                        th Address
+                        th Availability
+                        th Beds 
+                        th Baths
+                tbody
+                    tr  
+                        td.price $300,000
+                        td.address 123 First Ave, Los Angeles, CA
+                        td.percentile J 
+                        td.availability For Sale

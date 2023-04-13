@@ -549,6 +549,80 @@ textarea.form__input {
         clip-path: circle(150% at 0 0);
     }
 }
+.dash-container {
+    min-height: 100vh;
+    padding-top: 2.5rem;
+}
+.dash-container h1 {
+    margin-bottom: 1.5rem;
+    color: var(--color-title-text);
+}
+
+.form--mls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.form--mls .form__group {
+    margin: 0 1.5rem;
+    margin-left: 0;
+}
+
+.form--mls .form__input {
+    padding: 0.5rem 1.5rem;
+}
+
+.search-results {
+    margin: 3.5rem 0;
+    display: grid;
+}
+
+.search-results .title {
+    margin-bottom: 1.5rem;
+    color: var(--color-title-text);
+}
+
+.search-results table thead {
+    text-align: left;
+    color: var(--color-secondary-text);
+}
+
+.search-results table thead tr {
+    background: var(--color-secondary-background); 
+}
+
+.search-results table th {
+    cursor: pointer;
+    height: 3rem;
+}
+
+.search-results table .th-sort-asc::after {
+    content: '\25b4';
+}
+
+.search-results table .th-sort-desc::before {
+    content: '\25be';
+}
+
+.search-results table .th-sort-asc::after,
+.search-results table .th-sort-desc::before {
+    margin-left: 1.5rem;
+}
+
+.search-results table .th-sort-asc,
+.search-results table .th-sort-desc {
+    background: rgba(0,0,0,0.1);
+}
+
+.search-results table tbody {
+    color: var(--color-text);
+}
+
+.search-results table tbody tr {
+    height: 3rem;
+    text-align: left;
+}
+
 
 @media screen and (max-width: 870px) {
 
