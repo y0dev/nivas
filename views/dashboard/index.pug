@@ -2,6 +2,8 @@ extends ../base
 
 block content
     .container.dash-container
+        .spinner-overlay
+            .spinner
         h1 Dashboard
         .col-md-6.responsive-margins-images.mls-form
             form.form--mls
@@ -25,8 +27,4 @@ block content
                         th Beds 
                         th Baths
                 tbody
-                    tr  
-                        td.price $300,000
-                        td.address 123 First Ave, Los Angeles, CA
-                        td.percentile J 
-                        td.availability For Sale
+                    // table rows will be updated dynamically
