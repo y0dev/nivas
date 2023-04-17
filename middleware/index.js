@@ -10,7 +10,9 @@ exports.SECOND = SECOND;
 exports.MINUTE = MINUTE;
 
 exports.registerMiddleware = (app) => {
-  app.use(helmet());
+  app.use(
+    helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
+  );
   app.use(cors());
 
   // parse application/x-www-form-urlencoded

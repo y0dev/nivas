@@ -1,68 +1,77 @@
 extends base
 
 block content
-    .showcase-area
-        .container
+    section#hero-section.text-tc-primary.body-font
+        .container.mx-auto.flex.px-5.py-24.flex-col.items-center
             .left
-                .big-title 
-                    h1 Empowering your vision through custom development
+                h1.text-3xl.mb-4.font-medium Empowering your vision through custom development
                 
-                .text 
-                    p Our customizable API help to save time and resources, allowing developers to build powerful applications quickly and efficiently.
+                p.mb-8.leading-relaxed Our customizable API help to save time and resources, allowing developers to build powerful applications quickly and efficiently.
                 
-                .cta
-                    a.btn(href="#") Get Started 
+                .cta.flex.justify-center
+                    button.hero-btn.btn.inline-flex.bg-gray-100.border-0.py-2.px-6.rounded.text-lg Get Started 
 
             .right
-                img.person(src="/img/person-image.jpg", alt="Image of Person") 
-
-    .bottom-area 
-        .container
+                img.person.object-cover.object-center.rounded(src="/img/person-image.jpg", alt="hero") 
             
 
-    section#about-us
-        .container 
+    section#about-us.text-tc-primary.body-font
+        .container.px-5.py-24.mx-auto 
             .upper-section
                 .info 
-                    h3 What we do 
-                    p Discover how we can help your business
+                    h3.text-2xl.font-medium.title-font.text-center.mb-10 What we do 
+                    p.text-lg.text-center.mb-20 Discover how we can help your business
 
-            .lower-section
-                .brand-info 
-                    .item.item1 
+            .lower-section.flex.sm-flex.-mx-4.-mb-10.-mt-4.sm-m-4
+                .brand-info.p-4.flex 
+                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-gray-800.text-main-400.mb-4.flex-shrink-0.text-3xl 
                         i.bx.bx-heart 
-                        h4 Awareness
-                        p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-                    .item.item2 
-                        i.bx.bx-desktop 
-                        h4 Awareness
-                        p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-                    .item.item3 
+                    .title-info.flex-grow.pl-6 
+                        h2.text-lg.title-font.font-medium.mb-2 Awareness
+                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                .brand-info.p-4.flex 
+                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-gray-800.text-main-400.mb-4.flex-shrink-0.text-3xl 
+                        i.bx.bx-desktop
+                    .title-info.flex-grow.pl-6 
+                        h2.text-lg.title-font.font-medium.mb-2 Awareness
+                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                .brand-info.p-4.flex 
+                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-gray-800.text-main-400.mb-4.flex-shrink-0.text-3xl 
                         i.bx.bx-cog 
-                        h4 Awareness
-                        p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-    
-    section#contact-us
-        .container
-            .col-md-6.responsive-margins-images.contact-forms
-                .section-title
-                    h2 Contact Us
+                    .title-info.flex-grow.pl-6 
+                        h2.text-lg.title-font.font-medium.mb-2 Awareness
+                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+
+    section#contact-us.text-tc-primary.body-font.relative
+        .container.px-5.py-24.mx-auto.flex.sm-flex
+            .map-container.lg-w-2-3.md-w-1-2.bg-gray-300.rounded-lg.overflow-hidden.sm-mr-10.p-10.flex.items-end.justify-start.relative
+                iframe.absolute.inset-0(width="100%", height="100%", frameborder="0", title="map", marginheight="0", marginwidth="0", scrolling="no" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d74962.69416406046!2d-118.02011061897146!3d33.866098504001144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1678709821580!5m2!1sen!2sus", style="filter: grayscale(1) contrast(1.2) opacity(0.4);") 
+                .company-info.bg-white.relative.flex.flex-wrap.py-6.rounded.shadow-md
+                    .company-address.lg-w-1-2.px-6 
+                        h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs Address
+                        p.mt-1 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quasi nisi illum voluptate minus?
+                    .company-email-phone.lg-w-1-2.px-6.mt-4.lg-mt-0
+                        h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs Email
+                        a.text-main-900.leading-relaxed(href="#") contact@nivas.com 
+                        h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs.mt-4 Phone
+                        p.leading-relaxed 123-456-7890
+
+            .contact-container.lg-w-1-3.md-w-1-2.bg-white.flex.flex-col.md-ml-auto.md-py-8.mt-8.md-mt-0.pl-20
+                h2.text-lg.mb-1.font-medium.title-font Contact Us
                 form.form--contact
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='name') Full Name
+                        input#name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Full Name', required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='email') Email address
+                        input#email.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='email', placeholder='you@example.com', required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='phone') Phone Number
+                        input#phone.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='phone', placeholder='555-555-5555' required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='message') Subject
+                        textarea#message.form__input.w-full.bg-white.rounded.border.border-gray-300.h-32.text-base.outline-none.text-gray-700.py-1.px-3.resize-none.leading-6.transition-colors.duration-200.ease-in-out(placeholder='Message') 
                     .form__group
-                        label.form__label(for='name') Full Name
-                        input#name.form__input(type='text', placeholder='Full Name', required)
-                    .form__group
-                        label.form__label(for='email') Email address
-                        input#email.form__input(type='email', placeholder='you@example.com', required)
-                    .form__group
-                        label.form__label(for='phone') Phone Number
-                        input#phone.form__input(type='phone', placeholder='555-555-5555' required)
-                    .form__group
-                        label.form__label(for='message') Subject
-                        textarea#message.form__input(placeholder='Message') 
-                    .form__group
-                        button.btn.btn--green Send Message
+                        button.btn.bg-main-900.text-white.border-0.py-2.px-6.rounded.text-lg Send Message
             
-            .col-md-6.responsive-bottom-margins.map-container
-                .map
-                    iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d74962.69416406046!2d-118.02011061897146!3d33.866098504001144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1678709821580!5m2!1sen!2sus", frameborder="0", allowfullscreen="", aria-hidden="false", tabindex="0") 
+                    
