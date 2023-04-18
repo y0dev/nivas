@@ -74,6 +74,15 @@
     --color-toggle-btn-bg: var(--color-yankees-blue);
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* * {
+    @apply bg-primary text-white;
+} */
+
 header nav {
     margin-left: auto;
 }
@@ -137,9 +146,9 @@ header nav li:hover {
     background: #FBD89D;
 }
 
-#about-us .brand-info .image {
+/* #about-us .brand-info .image {
     background: var(--color-shearwater-black);
-}
+} */
 @media only screen and (max-width: 640px) {
     .sm-flex {
         flex-wrap: wrap;
@@ -287,7 +296,3 @@ header nav li:hover {
     justify-self: end;
     color: #999;
   }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-

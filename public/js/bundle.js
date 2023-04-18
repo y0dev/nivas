@@ -12533,6 +12533,9 @@ if (contactForm) {
     var message = document.getElementById("message").value;
     (0, _create.contactUs)(name, email, phone, message);
   });
+} else {
+  var contactUsBtn = document.querySelector(".contact-us-btn");
+  contactUsBtn.remove();
 }
 if (mainWrapper) {
   var hamburgerBtn;
@@ -12590,10 +12593,6 @@ if (mainWrapper) {
   events();
   var dark = false;
 }
-if (!showcaseArea) {
-  var contactUsBttn = document.querySelector(".contact-us-btn");
-  contactUsBttn.remove();
-}
 },{"./create.email":"create.email.js","./create.mls":"create.mls.js","./tablesort":"tablesort.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -12619,7 +12618,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50168" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63998" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

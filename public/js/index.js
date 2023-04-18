@@ -43,6 +43,9 @@ if (contactForm) {
     const message = document.getElementById("message").value;
     contactUs(name, email, phone, message);
   });
+} else {
+  const contactUsBtn = document.querySelector(".contact-us-btn");
+  contactUsBtn.remove();
 }
 
 if (mainWrapper) {
@@ -108,9 +111,4 @@ if (mainWrapper) {
   events();
 
   let dark = false;
-}
-
-if (!showcaseArea) {
-  const contactUsBttn = document.querySelector(".contact-us-btn");
-  contactUsBttn.remove();
 }

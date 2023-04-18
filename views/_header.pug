@@ -1,11 +1,11 @@
 header.bg-main-900.text-tc-primary.body-font
     .container.mx-auto.flex.flex-wrap.p-5.flex-col.items-center
-        .brand-logo.flex.title-font.font-medium.items-center.text-gray-900.mb-4
+        a(href="/").brand-logo.flex.title-font.font-medium.items-center.text-gray-900
             img(src="", alt="brand-logo")
             h3.ml-3.text-xl Nivas
         nav.flex.flex-wrap.items-center.text-base.justify-center
-            a.mr-5(href="#") Login 
-            a.mr-5(href="#") Sign Up 
+            a.mr-5(href="/login") Login 
+            a.mr-5(href="/signup") Sign Up 
             a#contact-us.mr-5.btn.contact-us-btn(href="#contact-us") Contact
         button.toggle-btn.inline-flex.items-center.bg-gray-100.border-0.rounded-full.text-3xl
             i.bx.bx-moon
