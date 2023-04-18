@@ -146,9 +146,6 @@ header nav li:hover {
     background: #FBD89D;
 }
 
-/* #about-us .brand-info .image {
-    background: var(--color-shearwater-black);
-} */
 @media only screen and (max-width: 640px) {
     .sm-flex {
         flex-wrap: wrap;
