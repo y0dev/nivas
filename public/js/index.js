@@ -4,6 +4,8 @@ import { searchForMLS } from "./create.mls";
 import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
+const signupForm = document.querySelector(".form--sign-up");
+const loginForm = document.querySelector(".form--login");
 const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
 let dashboard = document.querySelector(".container.dash-container");
@@ -46,6 +48,18 @@ if (contactForm) {
 } else {
   const contactUsBtn = document.querySelector(".contact-us-btn");
   contactUsBtn.remove();
+}
+
+if (signupForm) {
+  // Remove signup nav link from navbar
+  const signupBtn = document.querySelector("#sign-up-btn");
+  signupBtn.remove();
+}
+
+if (loginForm) {
+  // Remove signup nav link from navbar
+  const loginBtn = document.querySelector("#login-btn");
+  loginBtn.remove();
 }
 
 if (mainWrapper) {

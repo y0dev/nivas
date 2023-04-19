@@ -89,12 +89,12 @@ export const searchForMLS = async (mls_string) => {
       results.forEach((item) => {
         const row = tbody.insertRow();
         const zpidCell = row.insertCell();
-        const priceCell = row.insertCell();
-        const percentileCell = row.insertCell();
         const addressCell = row.insertCell();
-        const availCell = row.insertCell();
         const bedCell = row.insertCell();
         const bathCell = row.insertCell();
+        const priceCell = row.insertCell();
+        const percentileCell = row.insertCell();
+        const availCell = row.insertCell();
 
         zpidCell.textContent = item.zpid;
         percentileCell.textContent = "25th";

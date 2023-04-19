@@ -12398,12 +12398,12 @@ var searchForMLS = /*#__PURE__*/function () {
             results.forEach(function (item) {
               var row = tbody.insertRow();
               var zpidCell = row.insertCell();
-              var priceCell = row.insertCell();
-              var percentileCell = row.insertCell();
               var addressCell = row.insertCell();
-              var availCell = row.insertCell();
               var bedCell = row.insertCell();
               var bathCell = row.insertCell();
+              var priceCell = row.insertCell();
+              var percentileCell = row.insertCell();
+              var availCell = row.insertCell();
               zpidCell.textContent = item.zpid;
               percentileCell.textContent = "25th";
               addressCell.textContent = item.address;
@@ -12501,6 +12501,8 @@ var _tablesort = require("./tablesort");
 /* eslint-disable */
 
 var contactForm = document.querySelector(".form--contact");
+var signupForm = document.querySelector(".form--sign-up");
+var loginForm = document.querySelector(".form--login");
 var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var dashboard = document.querySelector(".container.dash-container");
@@ -12536,6 +12538,16 @@ if (contactForm) {
 } else {
   var contactUsBtn = document.querySelector(".contact-us-btn");
   contactUsBtn.remove();
+}
+if (signupForm) {
+  // Remove signup nav link from navbar
+  var signupBtn = document.querySelector("#sign-up-btn");
+  signupBtn.remove();
+}
+if (loginForm) {
+  // Remove signup nav link from navbar
+  var loginBtn = document.querySelector("#login-btn");
+  loginBtn.remove();
 }
 if (mainWrapper) {
   var hamburgerBtn;
@@ -12618,7 +12630,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63998" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57134" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

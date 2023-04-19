@@ -1,5 +1,30 @@
 extends ../base
 
 block content
-    .container
-        h1 Sign Up
+    section.body-font
+    .container.px-5.py-24.mx-auto.flex.flex-wrap.items-center
+        //- .lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0
+        div
+            h1.title-font.font-medium.text-3xl Sign Up
+            p.leading-relaxed.mt-4 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid natus mollitia nostrum aspernatur. 
+        .bg-gray-100.rounded-lg.p-8.flex.flex-col.md-ml-auto.lg-w-1-2.mt-10.md-mt-0
+            h2.text-lg.font-medium.title-font.mb-5 Sign Up
+            .relative.mb-4
+            form.form--sign-up
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='first-name') First Name
+                    input#first-name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='First Name', required)
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='last-name') Last Name
+                    input#last-name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Last Name', required)
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='email') Email
+                    input#email.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Email', required)
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='password') Password
+                    input#password1.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='password') Password
+                    input#password2.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
+                .form__group.relative.mb-4 
+                    button.btn-solid Create Account
