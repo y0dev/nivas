@@ -2,7 +2,7 @@ extends ../base
 
 block content
     section.body-font
-    .container.px-5.py-24.mx-auto.flex.flex-wrap.items-center
+    .container.px-5.py-24.mx-auto.flex.items-center.min-h-screen
         //- .lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0
         div
             h1.title-font.font-medium.text-3xl Login
@@ -17,5 +17,5 @@ block content
                 .form__group.relative.mb-4
                     label.form__label.leading-7.text-sm(for='password') Password
                     input#password.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
-                .form__group.relative.mb-4 
-                    button.btn-solid Login
+                .form__group.relative.mb-4.w-full 
+                    button.btn-solid.w-full Login

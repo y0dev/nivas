@@ -674,6 +674,9 @@ video {
 .h-32 {
     height: 8rem;
 }
+.min-h-screen {
+    min-height: 100vh;
+}
 .w-12 {
     width: 3rem;
 }
@@ -1009,6 +1012,7 @@ header nav li:hover {
     background: #FBD89D;
 }
 
+
 #home-table thead th {
     cursor: pointer;
 }
@@ -1046,6 +1050,28 @@ header nav li:hover {
 .light .btn:focus {
     border: 1px solid #FBD89D;
     outline: none;
+}
+
+.light .btn-solid {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.625rem;
+    padding-top: 0.625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background: #FBD89D;
+    color: var(--color-white);
+    /* border: 1px solid #FBD89D; */
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    text-transform: none;
+}
+
+.light .btn-solid:hover {
+    color: #FBD89D;
+    background: var(--color-white);
 }
 
 @media only screen and (max-width: 640px) {

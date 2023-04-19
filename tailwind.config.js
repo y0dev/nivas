@@ -5,7 +5,6 @@ module.exports = {
     colors: {
       primary: "var(--color-cultured-gray)",
       secondary: "var(--color-secondary)",
-      mac: "var(--color-mac-and-cheese)",
       "tc-primary": "var(--color-text)",
       main: {
         50: "#FEF5E7",
