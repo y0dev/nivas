@@ -1,30 +1,29 @@
 extends ../base
 
 block content
-    .container.dash-container
+    .container.dash-container.mx-auto.body-font.px-5.py-24
         .spinner-overlay
             .spinner
         h1 Dashboard
         .col-md-6.responsive-margins-images.mls-form
             form.form--mls
-                .form__group
-                    input#mls-input.form__input(type='text', placeholder='Zip Code or City, State', required)
-                .form__group
-                    button.btn.btn--green Search
+                .form__group.relative.my-4.flex
+                    input#mls-input.form__input.w-60.h-10.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Zip Code or City, State', required)
+                    button.btn.btn--green.ml-10 Search
             
         .search-results
-            .title 
+            .title.mb-10.text-lg 
                 h2 Search: 
                     span.term 90712
-            table#home-table 
-                thead 
+            table#home-table.w-full.text-sm.text-left
+                thead.text-md.text-main-700.uppercase.bg-main-50 
                     tr 
-                        th ZPID 
-                        th Price 
-                        th Percentile 
-                        th Address
-                        th Availability
-                        th Beds 
-                        th Baths
+                        th.px-6.py-3 ZPID 
+                        th.px-6.py-3 Address
+                        th.px-6.py-3 Beds 
+                        th.px-6.py-3 Baths
+                        th.px-6.py-3 Price 
+                        th.px-6.py-3 Percentile 
+                        th.px-6.py-3 Availability
                 tbody
                     // table rows will be updated dynamically

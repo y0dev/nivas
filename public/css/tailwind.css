@@ -123,6 +123,23 @@ header nav li:hover {
     background: var(--color-dark-gray)
 }
 
+.copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    animation: appear 1s 1 both;
+}
+
+@keyframes appear {
+    0%{
+        clip-path: circle(30% at -25% -25%);
+    }
+    100% {
+        clip-path: circle(150% at 0 0);
+    }
+}
+
 .stop-scrolling {
     height: 100%;
     overflow: hidden;
@@ -144,6 +161,45 @@ header nav li:hover {
 
 #hero-section .hero-btn:hover {
     background: #FBD89D;
+}
+
+#home-table thead th {
+    cursor: pointer;
+}
+
+#home-table tbody td {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.light .btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.625rem;
+    padding-top: 0.625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    color: #FBD89D;
+    border: 1px solid #FBD89D;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    text-transform: none;
+     /* font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 */
+}
+
+
+.light .btn:hover {
+    background: #FBD89D;
+    color: var(--color-white);
+}
+
+.light .btn:focus {
+    border: 1px solid #FBD89D;
+    outline: none;
 }
 
 @media only screen and (max-width: 640px) {

@@ -598,6 +598,10 @@ video {
     margin-left: auto;
     margin-right: auto;
 }
+.my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
 .-mb-10 {
     margin-bottom: -2.5rem;
 }
@@ -619,8 +623,14 @@ video {
 .mb-4 {
     margin-bottom: 1rem;
 }
+.mb-5 {
+    margin-bottom: 1.25rem;
+}
 .mb-8 {
     margin-bottom: 2rem;
+}
+.ml-10 {
+    margin-left: 2.5rem;
 }
 .ml-3 {
     margin-left: 0.75rem;
@@ -630,6 +640,9 @@ video {
 }
 .mt-1 {
     margin-top: 0.25rem;
+}
+.mt-10 {
+    margin-top: 2.5rem;
 }
 .mt-4 {
     margin-top: 1rem;
@@ -652,6 +665,9 @@ video {
 .hidden {
     display: none;
 }
+.h-10 {
+    height: 2.5rem;
+}
 .h-12 {
     height: 3rem;
 }
@@ -660,6 +676,9 @@ video {
 }
 .w-12 {
     width: 3rem;
+}
+.w-60 {
+    width: 15rem;
 }
 .w-full {
     width: 100%;
@@ -725,6 +744,10 @@ video {
     --tw-bg-opacity: 1;
     background-color: rgb(253 236 206 / var(--tw-bg-opacity));
 }
+.bg-main-50 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(254 245 231 / var(--tw-bg-opacity));
+}
 .bg-main-900 {
     --tw-bg-opacity: 1;
     background-color: rgb(245 158 11 / var(--tw-bg-opacity));
@@ -750,6 +773,9 @@ video {
 .p-5 {
     padding: 1.25rem;
 }
+.p-8 {
+    padding: 2rem;
+}
 .px-3 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -774,6 +800,10 @@ video {
     padding-top: 6rem;
     padding-bottom: 6rem;
 }
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
 .py-6 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -783,6 +813,12 @@ video {
 }
 .pl-6 {
     padding-left: 1.5rem;
+}
+.pr-0 {
+    padding-right: 0px;
+}
+.text-left {
+    text-align: left;
 }
 .text-center {
     text-align: center;
@@ -817,6 +853,9 @@ video {
 .font-semibold {
     font-weight: 600;
 }
+.uppercase {
+    text-transform: uppercase;
+}
 .leading-6 {
     line-height: 1.5rem;
 }
@@ -839,6 +878,10 @@ video {
 .text-main-400 {
     --tw-text-opacity: 1;
     color: rgb(251 191 36 / var(--tw-text-opacity));
+}
+.text-main-700 {
+    --tw-text-opacity: 1;
+    color: rgb(248 187 84 / var(--tw-text-opacity));
 }
 .text-main-900 {
     --tw-text-opacity: 1;
@@ -924,6 +967,25 @@ header nav li:hover {
     background: var(--color-dark-gray)
 }
 
+.copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    animation: appear 1s 1 both;
+}
+
+@keyframes appear {
+    0%{
+        -webkit-clip-path: circle(30% at -25% -25%);
+                clip-path: circle(30% at -25% -25%);
+    }
+    100% {
+        -webkit-clip-path: circle(150% at 0 0);
+                clip-path: circle(150% at 0 0);
+    }
+}
+
 .stop-scrolling {
     height: 100%;
     overflow: hidden;
@@ -947,9 +1009,45 @@ header nav li:hover {
     background: #FBD89D;
 }
 
-/* #about-us .brand-info .image {
-    background: var(--color-shearwater-black);
-} */
+#home-table thead th {
+    cursor: pointer;
+}
+
+#home-table tbody td {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.light .btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.625rem;
+    padding-top: 0.625rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    color: #FBD89D;
+    border: 1px solid #FBD89D;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    text-transform: none;
+     /* font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 */
+}
+
+
+.light .btn:hover {
+    background: #FBD89D;
+    color: var(--color-white);
+}
+
+.light .btn:focus {
+    border: 1px solid #FBD89D;
+    outline: none;
+}
+
 @media only screen and (max-width: 640px) {
     .sm-flex {
         flex-wrap: wrap;
@@ -1091,3 +1189,27 @@ header nav li:hover {
     justify-self: end;
     color: #999;
   }
+  @media (min-width: 768px) {
+
+
+    .md\:w-1\/2 {
+        width: 50%;
+    }
+
+
+    .md\:pr-16 {
+        padding-right: 4rem;
+    }
+}
+  @media (min-width: 976px) {
+
+
+    .lg\:w-3\/5 {
+        width: 60%;
+    }
+
+
+    .lg\:pr-0 {
+        padding-right: 0px;
+    }
+}
