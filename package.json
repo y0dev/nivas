@@ -1,7 +1,7 @@
 {
-  "name": "nivas",
+  "name": "urbaninsight",
   "version": "1.0.0",
-  "description": "nivas",
+  "description": "Urban Insight is an application that allow real estate investors to make the best decision when purchasing properties.",
   "main": "app.js",
   "scripts": {
     "start": "node server.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devguykyle/entity-api.git"
+    "url": "git+https://github.com/y0dev/nivas.git"
   },
   "author": "Good Digital",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/devguykyle/entity-api/issues"
+    "url": "https://github.com/y0dev/nivas/issues"
   },
-  "homepage": "https://github.com/devguykyle/entity-api#readme",
+  "homepage": "https://github.com/y0dev/nivas/#readme",
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "autoprefixer": "^10.4.14",
@@ -32,14 +32,20 @@
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.0",
     "helmet": "^6.0.1",
+    "html-to-text": "^9.0.5",
     "json": "^11.0.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1",
     "parcel-bundler": "^1.12.3",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
     "pug": "^3.0.2",
+    "sharp": "^0.32.0",
     "tailwindcss": "^3.3.1",
     "uuid": "^9.0.0",
+    "validator": "^13.9.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

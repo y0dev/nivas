@@ -5,8 +5,10 @@
 ## :open_file_folder: Folder structure
 
 - `auth` Component that handles authentication
+- `email` Component that handles email
 - `mls` Component that handles Multiple Listing Service (Zillow)
 - `payment` Component that handles Payment Service (Stripe)
+- `repo` Component that handles mongodb wrappers
 - `user` Component that handles user controller, schema, and repository
 - `view` Component that handles view routes and controller
 

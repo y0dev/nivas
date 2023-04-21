@@ -44,7 +44,7 @@ export const searchForMLS = async (mls_string) => {
     const zip_code = getZipCode(mls_string);
     searchTerm.textContent = zip_code;
     // console.log(zip_code);
-    url = `http://localhost:${process.env.PORT}/api/v1/mls/searchZip`;
+    url = `http://localhost:${port}/api/v1/mls/searchZip`;
     data = {
       zip_code,
     };
@@ -52,7 +52,7 @@ export const searchForMLS = async (mls_string) => {
     const { city, state } = getCityAndState(mls_string);
     searchTerm.textContent = `${city}, ${state}`;
     // console.log(city, state);
-    url = `http://localhost:${process.env.PORT}/api/v1/mls/searchCS`;
+    url = `http://localhost:${port}/api/v1/mls/searchCS`;
     data = {
       city,
       state,

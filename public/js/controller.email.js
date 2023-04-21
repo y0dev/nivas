@@ -8,7 +8,7 @@ export const contactUs = async (name, email, phone, message) => {
   try {
     const res = await axios({
       method: "POST",
-      url: `http://localhost:${process.env.PORT}/api/v1/contactUs`,
+      url: `http://localhost:${port}/api/v1/contactUs`,
       data: {
         name,
         email,

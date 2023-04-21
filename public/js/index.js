@@ -1,6 +1,7 @@
 /* eslint-disable */
-import { contactUs } from "./create.email";
-import { searchForMLS } from "./create.mls";
+import { contactUs } from "./controller.email";
+import { searchForMLS } from "./controller.mls";
+import { signup, login, logout } from "./controller.user";
 import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
@@ -54,12 +55,31 @@ if (signupForm) {
   // Remove signup nav link from navbar
   const signupBtn = document.querySelector("#sign-up-btn");
   signupBtn.remove();
+
+  signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const firstName = document.getElementById("first-name").value;
+    const lastName = document.getElementById("last-name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirmed =
+      document.getElementById("passwordConfirmed").value;
+    const name = firstName.concat(" ", lastName);
+    signup(name, email, password, passwordConfirmed);
+  });
 }
 
 if (loginForm) {
   // Remove signup nav link from navbar
   const loginBtn = document.querySelector("#login-btn");
   loginBtn.remove();
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    login(email, password);
+  });
 }
 
 if (mainWrapper) {
