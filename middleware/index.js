@@ -2,6 +2,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const bodyParser = require("body-parser");
+const logger = require("../utils/logger").logger;
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -10,6 +11,7 @@ exports.SECOND = SECOND;
 exports.MINUTE = MINUTE;
 
 exports.registerMiddleware = (app) => {
+  logger.info("Registering middleware");
   app.use(
     helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
   );

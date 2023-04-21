@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
+const logger = require("./utils/logger").logger;
 require("dotenv").config();
 
 process.on("uncaughtException", (err) => {
-  console.warn("UNHANDLED EXCEPTION! Shutting down...");
-  console.error(err);
+  logger.warn("UNHANDLED EXCEPTION! Shutting down...");
+  logger.error(err);
   process.exit(1);
 });
 
 mongoose.connect(process.env.DATABASE_LOCAL).then(() => {
-  console.log("connection successful");
+  logger.info("Database connection successful");
 });
 
 const app = require("./app");
@@ -16,12 +17,12 @@ const app = require("./app");
 const port = process.env.PORT || 3000;
 
 const server = app.listen(port, () => {
-  console.log(`localhost:${port}/`);
+  logger.info(`localhost:${port}/`);
 });
 
 process.on("unhandledRejection", (err) => {
-  console.warn("UNHANDLED REJECTION! Shutting down...");
-  console.error(err);
+  logger.warn("UNHANDLED REJECTION! Shutting down...");
+  logger.error(err);
   server.close(() => {
     process.exit(1);
   });

@@ -3,6 +3,7 @@ const sharp = require("sharp");
 const User = require("./user.schema");
 const AppError = require("../../utils/appError");
 const catchAsync = require("../../utils/catchAsync");
+const logger = require("../../utils/logger").logger;
 const factory = require("../repo/repo.controller");
 
 const multerStorage = multer.memoryStorage();
@@ -11,6 +12,7 @@ const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
+    logger.error("file must be an image");
     cb(new AppError("file must be an image!", 400), false);
   }
 };
@@ -57,6 +59,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.updateUserDetails = catchAsync(async (req, res, next) => {
+  logger.info("Updating user details");
   const filteredBody = filterObj(req.body, "name", "email");
   if (req.file) filteredBody.photo = req.file.filename;
 
@@ -87,6 +90,7 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
+  logger.info("Deleting user");
   await User.findByIdAndUpdate(req.user.id, {
     deleted: true,
     deletedDate: Date.now(),

@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const User = require("../user/user.schema");
 const catchAsync = require("../../utils/catchAsync");
 const AppError = require("../../utils/appError");
+const logger = require("../../utils/logger").logger;
 const Email = require("../email/email.class");
 
 require("dotenv").config();
@@ -15,8 +16,9 @@ const signToken = (id) =>
 
 // Create a JWT to send to the frontend
 const createAndSendToken = (user, statusCode, req, res) => {
+  logger.info("Creating a token");
   const token = signToken(user._id.toString());
-  console.log(token);
+
   res.cookie("jwt", token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -25,7 +27,8 @@ const createAndSendToken = (user, statusCode, req, res) => {
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
-  console.log(token);
+  logger.info("Sending token to user");
+  logger.info(`Token: ${token}`);
   res.status(statusCode).json({
     status: "success",
     token,
@@ -33,6 +36,7 @@ const createAndSendToken = (user, statusCode, req, res) => {
 };
 
 exports.signUp = catchAsync(async (req, res, next) => {
+  logger.info("Signing up a new user");
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -40,6 +44,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     confirmPassword: req.body.passwordConfirmation,
   });
 
+  logger.info("Sending a welcome email to user");
   // const url = `${req.protocol}://${req.get("host")}/me`;
   // await new Email(newUser, url).sendWelcome();
 
@@ -47,14 +52,17 @@ exports.signUp = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
+  logger.info("Logging in user");
   const { email, password } = req.body;
 
   if (!email || !password) {
     return next(new AppError("Please provide email and password", 400));
   }
 
+  logger.info("Searching for user in database");
   const user = await User.findOne({ email }).select("+password");
 
+  logger.info("Validating user credentials");
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
@@ -64,6 +72,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // Ensure that a valid user is logged in
 exports.protect = catchAsync(async (req, res, next) => {
+  logger.info("Ensure that a valid user is logged in");
   let token = null;
 
   if (
@@ -77,8 +86,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(new AppError("You must be logged in"), 401);
   }
 
-  const decoded = await promisify(jwt.verify)(token, process.env.SECRET);
+  logger.info("Decoding JWT");
+  const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY);
 
+  logger.info("Search for user");
   const loggedInUser = await User.findById(decoded.id);
   if (!loggedInUser) {
     return next(new AppError("This user no longer exists.", 401));
@@ -94,6 +105,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
+  logger.info("Logging user out");
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.noe() + 10 * 1000),
     httpOnly: true,
@@ -130,6 +142,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
 // eslint-disable-next-line prettier/prettier
 exports.forgotPassword = async (req, res, next) => {
+  logger.info("Forgot password");
   const user = await User.findOne({ email: req.body.email });
 
   if (!user)
@@ -169,6 +182,7 @@ exports.forgotPassword = async (req, res, next) => {
 };
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
+  logger.info("Reset password");
   const hashedToken = crypto
     .createHash("sha256")
     .update(req.params.token)
@@ -194,6 +208,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  logger.info("Update password");
   const user = await User.findById(req.user.id).select("+password");
 
   if (await user.correctPassword(req.body.passwordCurrent, user.password)) {
