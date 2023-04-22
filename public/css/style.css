@@ -938,6 +938,12 @@ header nav li:hover {
     color: var(--color-metallic-silver);
 }
 
+header nav .user-icon {
+    width: 39px;
+    height: 39px;
+    background: black;
+}
+
 .toggle-btn {
     display: inline-block;
     border: none;

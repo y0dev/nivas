@@ -1,6 +1,11 @@
 /* eslint-disable */
 import { contactUs } from "./controller.email";
 import { searchForMLS } from "./controller.mls";
+import {
+  addUserImage,
+  removeLoginBtn,
+  removeSignupBtn,
+} from "./controller.navbar";
 import { signup, login, logout } from "./controller.user";
 import { sortTableByColumn } from "./tablesort";
 
@@ -12,6 +17,7 @@ let mainWrapper = document.querySelector(".main-wrapper");
 let dashboard = document.querySelector(".container.dash-container");
 
 if (dashboard) {
+  addUserImage();
   const mlsForm = document.querySelector(".form--mls");
   const table = document.getElementById("home-table");
   const tableHeaders = table.querySelectorAll("th");
@@ -52,9 +58,7 @@ if (contactForm) {
 }
 
 if (signupForm) {
-  // Remove signup nav link from navbar
-  const signupBtn = document.querySelector("#sign-up-btn");
-  signupBtn.remove();
+  removeSignupBtn();
 
   signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -70,9 +74,7 @@ if (signupForm) {
 }
 
 if (loginForm) {
-  // Remove signup nav link from navbar
-  const loginBtn = document.querySelector("#login-btn");
-  loginBtn.remove();
+  removeLoginBtn();
 
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
