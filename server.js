@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const logger = require("./utils/logger").logger;
+const UtilityService = require("./utils/utilities");
 require("dotenv").config();
 
 process.on("uncaughtException", (err) => {
   logger.warn("UNHANDLED EXCEPTION! Shutting down...");
-  logger.error(err);
+  UtilityService.handleError(err);
   process.exit(1);
 });
 
@@ -22,7 +23,7 @@ const server = app.listen(port, () => {
 
 process.on("unhandledRejection", (err) => {
   logger.warn("UNHANDLED REJECTION! Shutting down...");
-  logger.error(err);
+  UtilityService.handleError(err);
   server.close(() => {
     process.exit(1);
   });

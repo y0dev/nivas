@@ -35,9 +35,23 @@ function getCityAndState(str) {
   }
 }
 
+function findHighestPercentile(data) {
+  let highestValue = 0;
+  let highestPercentile = "25th";
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (value > highestValue) {
+      highestValue = value;
+      highestPercentile = key;
+    }
+  });
+
+  return highestPercentile;
+}
+
 export const searchForMLS = async (mls_string) => {
   let url, data;
-  console.log(mls_string);
+  // console.log(mls_string);
   const searchTitle = document.querySelector(".search-results .title");
   const searchTerm = searchTitle.querySelector(".term");
   if (containsZipCode(mls_string)) {
@@ -58,8 +72,8 @@ export const searchForMLS = async (mls_string) => {
       state,
     };
   } else {
-    console.log("Failed Parsing");
-    showAlert("fail", "Missing");
+    // console.log("Failed Parsing");
+    // showAlert("fail", "Missing");
     return;
   }
 
@@ -74,9 +88,9 @@ export const searchForMLS = async (mls_string) => {
     });
 
     if (res.data.status === "success") {
-      showAlert("success", "MLS finish successfully");
+      // showAlert("success", "MLS finish successfully");
       const results = res.data.results;
-      console.log(results);
+      // console.log(results);
 
       // Clear table
       const table = document.getElementById("home-table");
@@ -96,9 +110,30 @@ export const searchForMLS = async (mls_string) => {
         const percentileCell = row.insertCell();
         const availCell = row.insertCell();
 
+        // zpidCell.classList.add("dotted-cell");
+        addressCell.classList.add("address");
+
+        const data = {
+          "25th": item.percentile25th,
+          "50th": item.percentile50th,
+          "75th": item.percentile75th,
+        };
+        const highest = findHighestPercentile(data);
+        if (highest === "50th") {
+          zpidCell.classList.add("percentile50th");
+        } else if (highest === "25th") {
+          zpidCell.classList.add("percentile25th");
+        } else {
+          zpidCell.classList.add("percentile75th");
+        }
         zpidCell.textContent = item.zpid;
-        percentileCell.textContent = "25th";
-        addressCell.textContent = item.address;
+        percentileCell.textContent = highest;
+
+        const link = document.createElement("a");
+        link.href = item.url;
+        link.textContent = item.address;
+        addressCell.appendChild(link);
+
         priceCell.textContent = item.priceStr;
         availCell.textContent = item.status;
         bedCell.textContent = item.beds;
@@ -118,6 +153,6 @@ export const searchForMLS = async (mls_string) => {
       //   }, 1500);
     }
   } catch (err) {
-    showAlert("fail", err.response.data);
+    // showAlert("fail", err.response.data);
   }
 };

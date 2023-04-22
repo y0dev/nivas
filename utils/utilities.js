@@ -2,13 +2,13 @@ const { compare, genSalt, hash } = require("bcryptjs");
 const { v1 } = require("uuid");
 const crypto = require("crypto");
 
-const logger = require("./logger");
+const logger = require("./logger").logger;
 
-export class UtilityService {
+class UtilityService {
   /**
    * Error handler
    *
-   * @param err
+   * @param {Error} err
    * @returns
    */
   static handleError(err) {
@@ -182,6 +182,16 @@ export class UtilityService {
   }
 
   /**
+   * @param {string} address
+   * @description
+   *   Replace spaces and commas with hyphens
+   * @author Devontae Reid
+   */
+  static hyphenateAddress(address) {
+    return address.replace(/[\s,]+/g, "-");
+  }
+
+  /**
    * @param {number[]} number - list of numbers
    * @description
    *   Calculates the percentiles for a given array of numbers
@@ -229,3 +239,5 @@ export class UtilityService {
     };
   }
 }
+
+module.exports = UtilityService;

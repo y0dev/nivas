@@ -175,6 +175,36 @@ header nav li:hover {
     padding-top: 1rem;
 }
 
+#home-table tbody .dotted-cell {
+    position: relative;
+    padding-left: 2rem;
+}
+
+#home-table tbody .dotted-cell::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: black;
+}
+
+#home-table tbody .dotted-cell.percentile25th::before,
+#home-table tbody .dotted-cell.percentile75th::before
+{
+    background-color: var(--color-red);
+}
+
+#home-table tbody .dotted-cell.percentile50th::before
+{
+    background-color: var(--color-green);
+}
+
+
 .light .btn {
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;

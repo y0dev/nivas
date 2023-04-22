@@ -1,7 +1,5 @@
 const express = require("express");
 const {
-  getAllUsers,
-  newUser,
   getUser,
   updateUser,
   deleteUser,

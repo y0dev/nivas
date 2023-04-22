@@ -12328,17 +12328,31 @@ function getCityAndState(str) {
     return null;
   }
 }
+function findHighestPercentile(data) {
+  var highestValue = 0;
+  var highestPercentile = "25th";
+  Object.entries(data).forEach(function (_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+      key = _ref2[0],
+      value = _ref2[1];
+    if (value > highestValue) {
+      highestValue = value;
+      highestPercentile = key;
+    }
+  });
+  return highestPercentile;
+}
 var searchForMLS = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
     var url, data, searchTitle, searchTerm, zip_code, _getCityAndState, city, state, overlay, res, results, table, tbody, i, tableDisplay;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          console.log(mls_string);
+          // console.log(mls_string);
           searchTitle = document.querySelector(".search-results .title");
           searchTerm = searchTitle.querySelector(".term");
           if (!containsZipCode(mls_string)) {
-            _context.next = 10;
+            _context.next = 9;
             break;
           }
           zip_code = getZipCode(mls_string);
@@ -12348,11 +12362,11 @@ var searchForMLS = /*#__PURE__*/function () {
           data = {
             zip_code: zip_code
           };
-          _context.next = 20;
+          _context.next = 17;
           break;
-        case 10:
+        case 9:
           if (!containsCityAndState(mls_string)) {
-            _context.next = 17;
+            _context.next = 16;
             break;
           }
           _getCityAndState = getCityAndState(mls_string), city = _getCityAndState.city, state = _getCityAndState.state;
@@ -12363,30 +12377,26 @@ var searchForMLS = /*#__PURE__*/function () {
             city: city,
             state: state
           };
-          _context.next = 20;
+          _context.next = 17;
           break;
-        case 17:
-          console.log("Failed Parsing");
-          (0, _alert.showAlert)("fail", "Missing");
+        case 16:
           return _context.abrupt("return");
-        case 20:
+        case 17:
           overlay = document.querySelector(".spinner-overlay");
-          _context.prev = 21;
+          _context.prev = 18;
           // display loading overlay when making API call
           overlay.style.display = "block";
-          _context.next = 25;
+          _context.next = 22;
           return (0, _axios.default)({
             method: "POST",
             url: url,
             data: data
           });
-        case 25:
+        case 22:
           res = _context.sent;
           if (res.data.status === "success") {
-            (0, _alert.showAlert)("success", "MLS finish successfully");
-            results = res.data.results;
-            console.log(results);
-
+            // showAlert("success", "MLS finish successfully");
+            results = res.data.results; // console.log(results);
             // Clear table
             table = document.getElementById("home-table");
             tbody = table.tBodies[0];
@@ -12404,9 +12414,28 @@ var searchForMLS = /*#__PURE__*/function () {
               var priceCell = row.insertCell();
               var percentileCell = row.insertCell();
               var availCell = row.insertCell();
+
+              // zpidCell.classList.add("dotted-cell");
+              addressCell.classList.add("address");
+              var data = {
+                "25th": item.percentile25th,
+                "50th": item.percentile50th,
+                "75th": item.percentile75th
+              };
+              var highest = findHighestPercentile(data);
+              if (highest === "50th") {
+                zpidCell.classList.add("percentile50th");
+              } else if (highest === "25th") {
+                zpidCell.classList.add("percentile25th");
+              } else {
+                zpidCell.classList.add("percentile75th");
+              }
               zpidCell.textContent = item.zpid;
-              percentileCell.textContent = "25th";
-              addressCell.textContent = item.address;
+              percentileCell.textContent = highest;
+              var link = document.createElement("a");
+              link.href = item.url;
+              link.textContent = item.address;
+              addressCell.appendChild(link);
               priceCell.textContent = item.priceStr;
               availCell.textContent = item.status;
               bedCell.textContent = item.beds;
@@ -12424,20 +12453,19 @@ var searchForMLS = /*#__PURE__*/function () {
             //     location.assign("/");
             //   }, 1500);
           }
-          _context.next = 32;
+          _context.next = 28;
           break;
-        case 29:
-          _context.prev = 29;
-          _context.t0 = _context["catch"](21);
-          (0, _alert.showAlert)("fail", _context.t0.response.data);
-        case 32:
+        case 26:
+          _context.prev = 26;
+          _context.t0 = _context["catch"](18);
+        case 28:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[21, 29]]);
+    }, _callee, null, [[18, 26]]);
   }));
   return function searchForMLS(_x2) {
-    return _ref.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }();
 exports.searchForMLS = searchForMLS;
@@ -12910,7 +12938,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56740" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63412" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
