@@ -930,6 +930,11 @@ video {
     @apply bg-primary text-white;
 } */
 
+.max-w-2-3 {
+    width: 100%;
+    max-width: 66.6666667%;
+}
+
 header nav {
     margin-left: auto;
 }
