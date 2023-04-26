@@ -12,17 +12,16 @@ html
         link(rel="stylesheet", href="/css/style.css")
         title Nivas | #{title}
 
-    body
+    body(class="bg-white dark:bg-gray-900")
         main
-            .main-wrapper.light 
-                // HEADER
-                include _header
+            // HEADER
+            include _header
 
-                // CONTENT
-                block content 
-                    h1 This is a placeholder heading
+            // CONTENT
+            block content 
+                h1 This is a placeholder heading
 
-                // FOOTER
-                include _footer
+            // FOOTER
+            include _footer
 
         script(src='/js/bundle.js')
