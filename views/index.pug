@@ -55,7 +55,7 @@ block content
                         p.mt-1 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quasi nisi illum voluptate minus?
                     .company-email-phone(class="lg:w-1/2 px-6 mt-4 lg:mt-0")
                         h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs Email
-                        a.text-indigo-900.leading-relaxed(href="#") contact@urbaninsightinc.com 
+                        a.text-primary.leading-relaxed(href="#") contact@urbaninsightinc.com 
                         h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs.mt-4 Phone
                         p.leading-relaxed 123-456-7890
 
@@ -64,16 +64,16 @@ block content
                 form.form--contact
                     .form__group.relative.mb-4
                         label.form__label(for='name' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Full Name
-                        input#name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Full Name', required)
+                        input#name.form__input(class="relative bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" type='text', placeholder='Full Name', required)
                     .form__group.relative.mb-4
                         label.form__label(for='email' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Email address
-                        input#email.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='email', placeholder='you@example.com', required)
+                        input#email.form__input(class="relative bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" type='email', placeholder='you@example.com', required)
                     .form__group.relative.mb-4
                         label.form__label(for='phone' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Phone Number
-                        input#phone.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='phone', placeholder='555-555-5555' required)
+                        input#phone.form__input(class="relative bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" type='phone', placeholder='555-555-5555' required)
                     .form__group.relative.mb-4
                         label.form__label(for='message' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Subject
-                        textarea#message.form__input.w-full.bg-white.rounded.border.border-gray-300.h-32.text-base.outline-none.text-gray-700.py-1.px-3.resize-none.leading-6.transition-colors.duration-200.ease-in-out(placeholder='Message') 
+                        textarea#message.form__input(class="relative resize-none bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent h-32 bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" placeholder='Message') 
                     .form__group
                         button(class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95") 
                             span(class="relative text-base font-semibold text-white") Send Message
