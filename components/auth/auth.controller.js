@@ -28,7 +28,7 @@ const createAndSendToken = (user, statusCode, req, res) => {
   });
 
   logger.info("Sending token to user");
-  logger.info(`Token: ${token}`);
+  // logger.info(`Token: ${token}`);
   res.status(statusCode).json({
     status: "success",
     token,
@@ -74,11 +74,12 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
   logger.info("Ensure that a valid user is logged in");
   let token = null;
-
+  // console.log(req.headers);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
+    // Grab the token which is the second element after split
     token = req.headers.authorization.split(" ")[1];
   }
 
@@ -95,6 +96,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(new AppError("This user no longer exists.", 401));
   }
 
+  logger.info("Found user");
   if (loggedInUser.changePasswordAfter(decoded.iat)) {
     return next(new AppError("You must be logged in", 401));
   }
@@ -107,7 +109,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.logout = (req, res) => {
   logger.info("Logging user out");
   res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.noe() + 10 * 1000),
+    expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   });
   res.status(200).json({ status: "success" });

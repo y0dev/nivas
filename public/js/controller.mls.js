@@ -79,10 +79,14 @@ export const searchForMLS = async (mls_string) => {
 
   const overlay = document.querySelector(".spinner-overlay");
   try {
+    const token = localStorage.getItem("token");
     // display loading overlay when making API call
     overlay.style.display = "block";
     const res = await axios({
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       url: url,
       data: data,
     });

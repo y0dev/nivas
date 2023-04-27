@@ -3,6 +3,7 @@ const cheerio = require("cheerio");
 const logger = require("../../utils/logger").logger;
 const { MLS, SearchTerm } = require("./mls.schema");
 const UtilityService = require("../../utils/utilities");
+const AppError = require("../../utils/appError");
 
 const MAX_LENGTH = 10;
 const SLEEP = 2;
@@ -23,15 +24,17 @@ exports.searchByZipCode = async (req, res, next) => {
   // req.params.id = req.user.id;
   try {
     url_headers["user-agent"] = req.get("user-agent");
+    // For Screen size
+    // logger.warn(url_headers["user-agent"]);
 
     logger.info("Searching by zip code");
-
-    const { zip_code, user_id } = req.body;
+    const { zip_code } = req.body;
+    const { id } = req.user;
 
     logger.info(`Zip Code: ${zip_code}`);
     if (zip_code) {
       logger.info(`Saving zip code to db`);
-      addSearchTermToDatabase("0123456789", zip_code);
+      addSearchTermToDatabase(id, zip_code);
     }
 
     logger.info("Cleaning up zip code");
@@ -51,7 +54,7 @@ exports.searchByZipCode = async (req, res, next) => {
     if (results.length !== 0) {
       logger.info("Grabbing comparable data from zillow");
       await assignPercentiles(results);
-      results = truncateResultList(results);
+      results = truncateResultList(id, results);
       logger.info("Successfully gathered results");
       res.json({ results, status: "success" });
     } else {
@@ -70,12 +73,13 @@ exports.searchByCityState = async (req, res, next) => {
   try {
     url_headers["user-agent"] = req.get("user-agent");
     logger.info("Searching by city and state");
-    const { city, state, user_id } = req.body;
+    const { city, state } = req.body;
+    const { id } = req.user;
 
     logger.info(`City:${city}, State: ${state}`);
     if (city && state) {
       logger.info(`Saving zip code to db`);
-      addSearchTermToDatabase("0123456789", `${city}, ${state}`);
+      addSearchTermToDatabase(id, `${city}, ${state}`);
     }
 
     logger.info("Gathering bounds");
@@ -93,7 +97,7 @@ exports.searchByCityState = async (req, res, next) => {
       logger.info("Grabbing comparable data from zillow");
       await assignPercentiles(results);
       // logger.info("Gather the results");
-      results = truncateResultList(results);
+      results = truncateResultList(id, results);
       logger.info("Successfully gathered results");
       res.json({ results, status: "success" });
     } else {
@@ -108,12 +112,13 @@ exports.searchByCityState = async (req, res, next) => {
 };
 
 exports.getSearches = async (req, res, next) => {
-  const mls = await SearchTerm.find({ userId: req.body.id });
-
-  logger.info(mls);
+  const { id } = req.user;
+  const searchTerms = await SearchTerm.find({ userId: id });
+  res.json({ results: searchTerms });
+  next();
 };
 
-function truncateResultList(results) {
+function truncateResultList(user_id, results) {
   logger.info("Truncating Results");
   // Check if the list is longer than the maximum length
   if (results.length > MAX_LENGTH) {
@@ -124,7 +129,7 @@ function truncateResultList(results) {
   for (let i = 0; i < results.length; i++) {
     let obj = results[i];
     // Do something with the object
-    addMLSInfoToDatabase("0123456789", obj);
+    addMLSInfoToDatabase(user_id, obj);
   }
   return results;
 }
@@ -162,6 +167,7 @@ async function retrieveNumberOfPages(searchTerm, bounds) {
       })
       .then((res) => {
         const cat1 = res.data.cat1;
+        if (!cat1) return 0;
         return cat1.searchList.totalPages >= 2 ? 2 : cat1.searchList.totalPages;
       });
   } catch (err) {

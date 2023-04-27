@@ -16,12 +16,16 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === "success") {
+      console.log(res.data);
+      // Store token
+      localStorage.setItem("token", res.data.token);
       showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
-        location.assign("/");
+        location.assign("/dashboard");
       }, 1500);
     }
   } catch (err) {
+    localStorage.removeItem("token");
     showAlert("fail", err.response.data.message);
   }
 };
@@ -32,9 +36,14 @@ export const logout = async () => {
       method: "GET",
       url: `http://localhost:${port}/api/v1/user/logout`,
     });
-    if ((res.data.status = "success")) location.reload(true);
+    if ((res.data.status = "success")) {
+      localStorage.removeItem("token");
+      window.setTimeout(() => {
+        location.assign("/");
+      }, 1000);
+    }
   } catch (err) {
-    showAlert("error", "There was an error loggin you out");
+    showAlert("error", "There was an error logging you out");
   }
 };
 

@@ -23,7 +23,7 @@ const router = express.Router({ mergeParams: true });
 // Routes that anyone can access
 router.post("/signup", signUp);
 router.post("/login", login);
-router.get("logout", logout);
+router.get("/logout", logout);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);
 

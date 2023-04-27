@@ -6,6 +6,8 @@ const {
   getDashboardPage,
 } = require("./view.controller");
 
+const { protect } = require("../auth/auth.controller");
+
 const router = express.Router({ mergeParams: true });
 
 router.get("/", getLandingPage);

@@ -5,10 +5,13 @@ const {
   getSearches,
 } = require("./mls.controller");
 
+const { protect } = require("../auth/auth.controller");
+
 const router = express.Router({ mergeParams: true });
 
-router.post("/history/:token", getSearches);
-router.post("/searchZip", searchByZipCode);
-router.post("/searchCS", searchByCityState);
+router.use(protect).post("/searchZip", searchByZipCode);
+router.use(protect).post("/searchCS", searchByCityState);
+
+router.use(protect).get("/history", getSearches);
 
 module.exports = router;

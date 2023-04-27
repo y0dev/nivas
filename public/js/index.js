@@ -3,8 +3,10 @@ import { contactUs } from "./controller.email";
 import { searchForMLS } from "./controller.mls";
 import {
   addUserImage,
+  addLogoutBtn,
   removeLoginBtn,
   removeSignupBtn,
+  removeLogoutBtn,
 } from "./controller.navbar";
 import { signup, login, logout } from "./controller.user";
 import { sortTableByColumn } from "./tablesort";
@@ -18,6 +20,7 @@ let dashboard = document.querySelector(".container.dash-container");
 
 if (dashboard) {
   addUserImage();
+  addLogoutBtn();
   const mlsForm = document.querySelector(".form--mls");
   const table = document.getElementById("home-table");
   const tableHeaders = table.querySelectorAll("th");
@@ -44,6 +47,7 @@ if (dashboard) {
 }
 
 if (contactForm) {
+  removeLogoutBtn();
   contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("name").value;
@@ -53,13 +57,13 @@ if (contactForm) {
     contactUs(name, email, phone, message);
   });
 } else {
-  const contactUsBtn = document.querySelector(".contact-us-btn");
-  contactUsBtn.remove();
+  // const contactUsBtn = document.querySelector(".contact-us-btn");
+  // contactUsBtn.remove();
 }
 
 if (signupForm) {
   removeSignupBtn();
-
+  removeLogoutBtn();
   signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const firstName = document.getElementById("first-name").value;
@@ -75,6 +79,7 @@ if (signupForm) {
 
 if (loginForm) {
   removeLoginBtn();
+  removeLogoutBtn();
 
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();

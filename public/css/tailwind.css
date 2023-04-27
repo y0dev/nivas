@@ -79,9 +79,23 @@
 @tailwind utilities;
 
 
+#toggle_nav:checked ~ div #hamburger #line
+{
+    @apply rotate-45 translate-y-1.5 
+}
+
+#toggle_nav:checked ~ div #hamburger #line2
+{
+    @apply -rotate-45 -translate-y-1
+}
+
 /* * {
     @apply bg-primary text-white;
 } */
+
+.hide-btn {
+    display: none;
+}
 
 .max-w-2-3 {
     width: 100%;
