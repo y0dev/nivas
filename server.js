@@ -14,6 +14,16 @@ mongoose.connect(process.env.DATABASE_LOCAL).then(() => {
 });
 
 const app = require("./app");
+// const fs = require("fs");
+// const { createTablePdf } = require("./utils/pdf.maker");
+// fs.readFile("./dev_data/home_data.json", "utf8", (err, jsonString) => {
+//   if (err) {
+//     console.log("File read failed:", err);
+//     return;
+//   }
+//   const searchResults = JSON.parse(jsonString);
+//   createTablePdf("sample.pdf", searchResults);
+// });
 
 const port = process.env.PORT || 3000;
 

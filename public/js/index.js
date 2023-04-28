@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { contactUs } from "./controller.email";
-import { searchForMLS } from "./controller.mls";
+import { downloadResults, searchForMLS } from "./controller.mls";
 import {
   addUserImage,
   addLogoutBtn,
@@ -21,6 +21,8 @@ let dashboard = document.querySelector(".container.dash-container");
 if (dashboard) {
   addUserImage();
   addLogoutBtn();
+
+  const downloadBtn = document.getElementById("download-pdf");
   const mlsForm = document.querySelector(".form--mls");
   const table = document.getElementById("home-table");
   const tableHeaders = table.querySelectorAll("th");
@@ -42,6 +44,12 @@ if (dashboard) {
       e.preventDefault();
       const mls_input = document.getElementById("mls-input").value;
       searchForMLS(mls_input);
+    });
+  }
+
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", () => {
+      downloadResults();
     });
   }
 }

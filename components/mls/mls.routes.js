@@ -3,15 +3,20 @@ const {
   searchByZipCode,
   searchByCityState,
   getSearches,
+  downloadPreviousSearch,
 } = require("./mls.controller");
 
 const { protect } = require("../auth/auth.controller");
 
 const router = express.Router({ mergeParams: true });
 
-router.use(protect).post("/searchZip", searchByZipCode);
-router.use(protect).post("/searchCS", searchByCityState);
+// Add an protect middleware to authenticate user
+router.use(protect);
 
-router.use(protect).get("/history", getSearches);
+router.post("/searchZip", searchByZipCode);
+router.post("/searchCS", searchByCityState);
+
+router.get("/download-pdf", downloadPreviousSearch);
+router.get("/history", getSearches);
 
 module.exports = router;
