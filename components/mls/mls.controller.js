@@ -1,12 +1,16 @@
+const fs = require("fs");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const logger = require("../../utils/logger").logger;
 const { MLS, SearchTerm } = require("./mls.schema");
 const UtilityService = require("../../utils/utilities");
 const AppError = require("../../utils/appError");
+const { createTablePdf } = require("../../utils/pdf.maker");
 
 const MAX_LENGTH = 10;
 const SLEEP = 2;
+
+let prevSearchResults = null;
 
 let url_headers = {
   accept: "*/*",
@@ -32,9 +36,8 @@ exports.searchByZipCode = async (req, res, next) => {
     const { id } = req.user;
 
     logger.info(`Zip Code: ${zip_code}`);
-    if (zip_code) {
-      logger.info(`Saving zip code to db`);
-      addSearchTermToDatabase(id, zip_code);
+    if (!zip_code) {
+      return next(new AppError("Not a valid MLS input"), 403);
     }
 
     logger.info("Cleaning up zip code");
@@ -47,15 +50,26 @@ exports.searchByZipCode = async (req, res, next) => {
 
     logger.info("Gathering number of pages to search");
     const numOfPages = await retrieveNumberOfPages(searchTerm, map_bounds);
+    if (numOfPages == 0) {
+      return next(new AppError("Can not retrieve results"), 401);
+    }
 
     logger.info("Gathering results from pages");
     let results = await retrieveResults(searchTerm, numOfPages, map_bounds);
 
     if (results.length !== 0) {
+      logger.info(`Saving zip code to db`);
+      addSearchTermToDatabase(id, zip_code);
+
       logger.info("Grabbing comparable data from zillow");
       await assignPercentiles(results);
       results = truncateResultList(id, results);
       logger.info("Successfully gathered results");
+
+      prevSearchResults = {
+        "search-term": zip_code,
+        results,
+      };
       res.json({ results, status: "success" });
     } else {
       logger.info(`No results at this zip code ${zip_code}`);
@@ -63,7 +77,7 @@ exports.searchByZipCode = async (req, res, next) => {
     }
   } catch (err) {
     logger.error(err);
-    next(err);
+    return next(new AppError("Failed to get results"), 502);
   }
   next();
 };
@@ -77,9 +91,8 @@ exports.searchByCityState = async (req, res, next) => {
     const { id } = req.user;
 
     logger.info(`City:${city}, State: ${state}`);
-    if (city && state) {
-      logger.info(`Saving zip code to db`);
-      addSearchTermToDatabase(id, `${city}, ${state}`);
+    if (!city && !state) {
+      return next(new AppError("Not a valid MLS input"), 403);
     }
 
     logger.info("Gathering bounds");
@@ -89,16 +102,27 @@ exports.searchByCityState = async (req, res, next) => {
 
     logger.info("Gathering number of pages to search");
     const numOfPages = await retrieveNumberOfPages(searchTerm, map_bounds);
+    if (numOfPages == 0) {
+      return next(new AppError("Can not retrieve results"), 401);
+    }
 
     logger.info("Gathering results from pages");
     let results = await retrieveResults(searchTerm, numOfPages, map_bounds);
 
     if (results.length !== 0) {
+      logger.info(`Saving zip code to db`);
+      addSearchTermToDatabase(id, `${city}, ${state}`);
+
       logger.info("Grabbing comparable data from zillow");
       await assignPercentiles(results);
       // logger.info("Gather the results");
       results = truncateResultList(id, results);
       logger.info("Successfully gathered results");
+
+      prevSearchResults = {
+        "search-term": `${city}, ${state}`,
+        results,
+      };
       res.json({ results, status: "success" });
     } else {
       logger.info(`No results at this city, state ${city}, ${state}`);
@@ -106,7 +130,7 @@ exports.searchByCityState = async (req, res, next) => {
     }
   } catch (err) {
     logger.error(err);
-    next(err);
+    return next(new AppError("Failed to get results"), 502);
   }
   next();
 };
@@ -115,6 +139,39 @@ exports.getSearches = async (req, res, next) => {
   const { id } = req.user;
   const searchTerms = await SearchTerm.find({ userId: id });
   res.json({ results: searchTerms });
+  next();
+};
+exports.downloadSample = async (req, res, next) => {
+  // console.log(prevSearchResults);
+  // Set the response headers
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=document.pdf");
+  console.log("here");
+  const pdfFilePath =
+    "/Users/devontaemreid/Documents/Code/GitHub/PersonalApps/nivas/pdf/sample.pdf";
+
+  const readStream = fs.createReadStream(pdfFilePath);
+  readStream.pipe(res);
+  next();
+};
+exports.downloadPreviousSearch = async (req, res, next) => {
+  if (!prevSearchResults) {
+    return next(new AppError("Failed to get results"), 502);
+  }
+
+  // console.log(prevSearchResults);
+  // Set the response headers
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=document.pdf");
+
+  const pdfFilePath = "document.pdf";
+
+  const newFilePath = createTablePdf(pdfFilePath, prevSearchResults);
+  res.contentType("application/pdf");
+  res.send(results);
+  // Create a read stream from the PDF file and pipe it to the response
+  const pdfStream = fs.createReadStream(newFilePath);
+  pdfStream.pipe(res);
   next();
 };
 

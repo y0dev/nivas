@@ -6,3 +6,6 @@ dist
 .example
 deploy
 logs
+
+
+*.pdf

@@ -52,7 +52,7 @@ function findHighestPercentile(data) {
 export const searchForMLS = async (mls_string) => {
   let url, data;
   // console.log(mls_string);
-  const searchTitle = document.querySelector(".search-results .title");
+  const searchTitle = document.querySelector("#search-results .title");
   const searchTerm = searchTitle.querySelector(".term");
   if (containsZipCode(mls_string)) {
     const zip_code = getZipCode(mls_string);
@@ -97,6 +97,7 @@ export const searchForMLS = async (mls_string) => {
       // console.log(results);
 
       // Clear table
+      const searchResultDiv = document.getElementById("search-results");
       const table = document.getElementById("home-table");
       const tbody = table.tBodies[0];
       for (let i = table.rows.length - 1; i > 0; i--) {
@@ -144,10 +145,8 @@ export const searchForMLS = async (mls_string) => {
         bathCell.textContent = item.baths;
       });
 
-      const tableDisplay = table.style.display;
-      if (tableDisplay === "none") {
-        searchTitle.style.display = "block";
-        tableDisplay = "block";
+      if (searchResultDiv.classList.contains("hidden")) {
+        searchResultDiv.classList.remove("hidden");
       }
       // hide loading overlay after updating table
       overlay.style.display = "none";
@@ -158,5 +157,26 @@ export const searchForMLS = async (mls_string) => {
     }
   } catch (err) {
     // showAlert("fail", err.response.data);
+  }
+};
+
+export const downloadResults = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios({
+      method: "GET",
+      url: `http://localhost:${port}/api/v1/mls/sample-pdf`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob",
+    });
+    if (res.status >= 200 && res.status < 300) {
+      const file = new Blob([res.data], { type: "application/pdf" });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    }
+  } catch (err) {
+    showAlert("error", "There was an error logging you out");
   }
 };
