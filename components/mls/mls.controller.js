@@ -141,7 +141,19 @@ exports.getSearches = async (req, res, next) => {
   res.json({ results: searchTerms });
   next();
 };
+exports.downloadSample = async (req, res, next) => {
+  // console.log(prevSearchResults);
+  // Set the response headers
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=document.pdf");
+  console.log("here");
+  const pdfFilePath =
+    "/Users/devontaemreid/Documents/Code/GitHub/PersonalApps/nivas/pdf/sample.pdf";
 
+  const readStream = fs.createReadStream(pdfFilePath);
+  readStream.pipe(res);
+  next();
+};
 exports.downloadPreviousSearch = async (req, res, next) => {
   if (!prevSearchResults) {
     return next(new AppError("Failed to get results"), 502);
@@ -154,12 +166,12 @@ exports.downloadPreviousSearch = async (req, res, next) => {
 
   const pdfFilePath = "document.pdf";
 
-  const results = createTablePdf(pdfFilePath, prevSearchResults);
+  const newFilePath = createTablePdf(pdfFilePath, prevSearchResults);
   res.contentType("application/pdf");
   res.send(results);
   // Create a read stream from the PDF file and pipe it to the response
-  // const pdfStream = fs.createReadStream(pdfFilePath);
-  // pdfStream.pipe(res);
+  const pdfStream = fs.createReadStream(newFilePath);
+  pdfStream.pipe(res);
   next();
 };
 

@@ -165,16 +165,16 @@ export const downloadResults = async () => {
     const token = localStorage.getItem("token");
     const res = await axios({
       method: "GET",
-      url: `http://localhost:${port}/api/v1/mls/download-pdf`,
+      url: `http://localhost:${port}/api/v1/mls/sample-pdf`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
       responseType: "blob",
     });
     if (res.status >= 200 && res.status < 300) {
-      // Create a temporary download link and click it to trigger the download
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      window.open(url, "_blank");
+      const file = new Blob([res.data], { type: "application/pdf" });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
     }
   } catch (err) {
     showAlert("error", "There was an error logging you out");
