@@ -12481,7 +12481,7 @@ var downloadResults = /*#__PURE__*/function () {
           _context2.next = 4;
           return (0, _axios.default)({
             method: "GET",
-            url: "http://localhost:".concat(port, "/api/v1/mls/download-pdf"),
+            url: "http://localhost:".concat(port, "/api/v1/mls/sample-pdf"),
             headers: {
               Authorization: "Bearer ".concat(token)
             },
@@ -12489,26 +12489,24 @@ var downloadResults = /*#__PURE__*/function () {
           });
         case 4:
           res = _context2.sent;
-          console.log(res.status);
           if (res.status >= 200 && res.status < 300) {
             file = new Blob([res.data], {
               type: "application/pdf"
             });
             fileURL = URL.createObjectURL(file);
-            console.log(fileURL);
             window.open(fileURL);
           }
-          _context2.next = 12;
+          _context2.next = 11;
           break;
-        case 9:
-          _context2.prev = 9;
+        case 8:
+          _context2.prev = 8;
           _context2.t0 = _context2["catch"](0);
-          (0, _alert.showAlert)("error", _context2.t0);
-        case 12:
+          (0, _alert.showAlert)("error", "There was an error logging you out");
+        case 11:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 9]]);
+    }, _callee2, null, [[0, 8]]);
   }));
   return function downloadResults() {
     return _ref4.apply(this, arguments);
@@ -12793,8 +12791,8 @@ exports.signup = signup;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addLogoutBtn = addLogoutBtn;
 exports.addUserImage = addUserImage;
+exports.addUserMenuBtn = addUserMenuBtn;
 exports.removeLoginBtn = removeLoginBtn;
 exports.removeLogoutBtn = removeLogoutBtn;
 exports.removeSignupBtn = removeSignupBtn;
@@ -12814,31 +12812,19 @@ function removeLogoutBtn() {
   var logoutBtn = document.querySelector("#logout-btn");
   logoutBtn.classList.add("hide-btn");
 }
-function addLogoutBtn() {
-  // Remove signup nav link from navbar
-  var logoutBtn = document.querySelector("#logout-btn");
-  logoutBtn.classList.remove("hide-btn");
-  logoutBtn.addEventListener("click", function () {
-    (0, _controller.logout)();
+function addUserMenuBtn() {
+  var userDropdownBtn = document.querySelector("#user-menu-button");
+  var userDropdown = document.querySelector("#user-dropdown");
+  userDropdownBtn.classList.remove("hidden");
+  userDropdownBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    console.log("Clicked menu");
+    userDropdown.classList.toggle("hidden");
   });
 }
 function addUserImage() {
   removeLoginBtn();
   removeSignupBtn();
-
-  // Add user image to nav bar
-  var navBar = document.querySelector("header nav");
-
-  // Create a new a element with the link
-  var link = document.createElement("a");
-  link.href = "/profile";
-  link.classList.add("user-icon");
-  link.classList.add("border-0");
-  link.classList.add("rounded-full");
-  var image = document.createElement("img");
-  image.alt = "profile-image";
-  link.appendChild(image);
-  navBar.appendChild(link);
 }
 },{"./controller.user":"controller.user.js"}],"tablesort.js":[function(require,module,exports) {
 "use strict";
@@ -12907,9 +12893,19 @@ var loginForm = document.querySelector(".form--login");
 var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var dashboard = document.querySelector(".container.dash-container");
+
+// const dropDownBtn = document.querySelector("#dropdownMenuButton1");
+// const dropDown = document.querySelector("#dropMenu");
+
+// dropDownBtn.addEventListener("click", (e) => {
+//   e.stopPropagation();
+//   console.log("Clicked menu");
+//   dropDown.classList.toggle("hidden");
+// });
+
 if (dashboard) {
   (0, _controller3.addUserImage)();
-  (0, _controller3.addLogoutBtn)();
+  (0, _controller3.addUserMenuBtn)();
   var downloadBtn = document.getElementById("download-pdf");
   var mlsForm = document.querySelector(".form--mls");
   var table = document.getElementById("home-table");
@@ -13054,7 +13050,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54092" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53630" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

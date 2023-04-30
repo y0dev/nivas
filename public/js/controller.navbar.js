@@ -17,33 +17,20 @@ export function removeLogoutBtn() {
   logoutBtn.classList.add("hide-btn");
 }
 
-export function addLogoutBtn() {
-  // Remove signup nav link from navbar
-  const logoutBtn = document.querySelector("#logout-btn");
-  logoutBtn.classList.remove("hide-btn");
+export function addUserMenuBtn() {
+  const userDropdownBtn = document.querySelector("#user-menu-button");
+  const userDropdown = document.querySelector("#user-dropdown");
 
-  logoutBtn.addEventListener("click", () => {
-    logout();
+  userDropdownBtn.classList.remove("hidden");
+
+  userDropdownBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    console.log("Clicked menu");
+    userDropdown.classList.toggle("hidden");
   });
 }
 
 export function addUserImage() {
   removeLoginBtn();
   removeSignupBtn();
-
-  // Add user image to nav bar
-  const navBar = document.querySelector("header nav");
-
-  // Create a new a element with the link
-  const link = document.createElement("a");
-  link.href = "/profile";
-  link.classList.add("user-icon");
-  link.classList.add("border-0");
-  link.classList.add("rounded-full");
-
-  const image = document.createElement("img");
-  image.alt = "profile-image";
-
-  link.appendChild(image);
-  navBar.appendChild(link);
 }
