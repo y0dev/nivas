@@ -12791,8 +12791,8 @@ exports.signup = signup;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addLogoutBtn = addLogoutBtn;
 exports.addUserImage = addUserImage;
+exports.addUserMenuBtn = addUserMenuBtn;
 exports.removeLoginBtn = removeLoginBtn;
 exports.removeLogoutBtn = removeLogoutBtn;
 exports.removeSignupBtn = removeSignupBtn;
@@ -12812,12 +12812,14 @@ function removeLogoutBtn() {
   var logoutBtn = document.querySelector("#logout-btn");
   logoutBtn.classList.add("hide-btn");
 }
-function addLogoutBtn() {
-  // Remove signup nav link from navbar
-  var logoutBtn = document.querySelector("#logout-btn");
-  logoutBtn.classList.remove("hide-btn");
-  logoutBtn.addEventListener("click", function () {
-    (0, _controller.logout)();
+function addUserMenuBtn() {
+  var userDropdownBtn = document.querySelector("#user-menu-button");
+  var userDropdown = document.querySelector("#user-dropdown");
+  userDropdownBtn.classList.remove("hidden");
+  userDropdownBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    console.log("Clicked menu");
+    userDropdown.classList.toggle("hidden");
   });
 }
 function addUserImage() {
@@ -12891,9 +12893,19 @@ var loginForm = document.querySelector(".form--login");
 var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var dashboard = document.querySelector(".container.dash-container");
+
+// const dropDownBtn = document.querySelector("#dropdownMenuButton1");
+// const dropDown = document.querySelector("#dropMenu");
+
+// dropDownBtn.addEventListener("click", (e) => {
+//   e.stopPropagation();
+//   console.log("Clicked menu");
+//   dropDown.classList.toggle("hidden");
+// });
+
 if (dashboard) {
   (0, _controller3.addUserImage)();
-  (0, _controller3.addLogoutBtn)();
+  (0, _controller3.addUserMenuBtn)();
   var downloadBtn = document.getElementById("download-pdf");
   var mlsForm = document.querySelector(".form--mls");
   var table = document.getElementById("home-table");
@@ -13038,7 +13050,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51882" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53630" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -17,13 +17,16 @@ export function removeLogoutBtn() {
   logoutBtn.classList.add("hide-btn");
 }
 
-export function addLogoutBtn() {
-  // Remove signup nav link from navbar
-  const logoutBtn = document.querySelector("#logout-btn");
-  logoutBtn.classList.remove("hide-btn");
+export function addUserMenuBtn() {
+  const userDropdownBtn = document.querySelector("#user-menu-button");
+  const userDropdown = document.querySelector("#user-dropdown");
 
-  logoutBtn.addEventListener("click", () => {
-    logout();
+  userDropdownBtn.classList.remove("hidden");
+
+  userDropdownBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    console.log("Clicked menu");
+    userDropdown.classList.toggle("hidden");
   });
 }
 
