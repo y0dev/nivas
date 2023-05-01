@@ -21,7 +21,7 @@ export const login = async (email, password) => {
       localStorage.setItem("token", res.data.token);
       showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
-        location.assign("/dashboard");
+        location.assign("/search");
       }, 1500);
     }
   } catch (err) {
@@ -64,7 +64,7 @@ export const signup = async (name, email, password, passwordConfirmation) => {
       console.log(res.data);
       showAlert("success", "signed up successfully");
       window.setTimeout(() => {
-        location.assign("/");
+        location.assign("/search");
       }, 1500);
     }
   } catch (err) {

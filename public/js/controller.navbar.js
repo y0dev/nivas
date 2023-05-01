@@ -18,6 +18,9 @@ export function removeLogoutBtn() {
 }
 
 export function addUserMenuBtn() {
+  removeLoginBtn();
+  removeSignupBtn();
+
   const userDropdownBtn = document.querySelector("#user-menu-button");
   const userDropdown = document.querySelector("#user-dropdown");
 
@@ -25,12 +28,7 @@ export function addUserMenuBtn() {
 
   userDropdownBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    console.log("Clicked menu");
     userDropdown.classList.toggle("hidden");
   });
 }
 
-export function addUserImage() {
-  removeLoginBtn();
-  removeSignupBtn();
-}

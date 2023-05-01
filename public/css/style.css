@@ -683,6 +683,9 @@ video {
 .mb-20 {
     margin-bottom: 5rem;
 }
+.mb-3 {
+    margin-bottom: 0.75rem;
+}
 .mb-4 {
     margin-bottom: 1rem;
 }
@@ -694,6 +697,9 @@ video {
 }
 .ml-auto {
     margin-left: auto;
+}
+.mr-1 {
+    margin-right: 0.25rem;
 }
 .mr-3 {
     margin-right: 0.75rem;
@@ -712,6 +718,9 @@ video {
 }
 .mt-2 {
     margin-top: 0.5rem;
+}
+.mt-3 {
+    margin-top: 0.75rem;
 }
 .mt-4 {
     margin-top: 1rem;
@@ -755,6 +764,9 @@ video {
 .h-12 {
     height: 3rem;
 }
+.h-3 {
+    height: 0.75rem;
+}
 .h-32 {
     height: 8rem;
 }
@@ -775,6 +787,9 @@ video {
 }
 .w-12 {
     width: 3rem;
+}
+.w-3 {
+    width: 0.75rem;
 }
 .w-5 {
     width: 1.25rem;
@@ -948,6 +963,10 @@ video {
     --tw-bg-opacity: 1;
     background-color: rgb(172 174 182 / var(--tw-bg-opacity));
 }
+.bg-gray-50 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(250 250 252 / var(--tw-bg-opacity));
+}
 .bg-gray-800 {
     --tw-bg-opacity: 1;
     background-color: rgb(41 48 65 / var(--tw-bg-opacity));
@@ -1011,8 +1030,14 @@ video {
 .p-10 {
     padding: 2.5rem;
 }
+.p-3 {
+    padding: 0.75rem;
+}
 .p-4 {
     padding: 1rem;
+}
+.p-5 {
+    padding: 1.25rem;
 }
 .p-6 {
     padding: 1.5rem;
@@ -1063,6 +1088,9 @@ video {
 .py-\[0\.25rem\] {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+}
+.pl-10 {
+    padding-left: 2.5rem;
 }
 .pl-6 {
     padding-left: 1.5rem;
@@ -1743,6 +1771,12 @@ header nav .user-icon {
     }
 
 
+    .dark\:divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
+        --tw-divide-opacity: 1;
+        border-color: rgb(67 73 89 / var(--tw-divide-opacity));
+    }
+
+
     .dark\:border-gray-700 {
         --tw-border-opacity: 1;
         border-color: rgb(67 73 89 / var(--tw-border-opacity));
@@ -1891,6 +1925,12 @@ header nav .user-icon {
     }
 
 
+    .dark\:hover\:bg-gray-700:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(67 73 89 / var(--tw-bg-opacity));
+    }
+
+
     .dark\:hover\:text-white:hover {
         --tw-text-opacity: 1;
         color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -1909,6 +1949,11 @@ header nav .user-icon {
     }
 }
   @media (min-width: 640px) {
+
+
+    .sm\:mb-0 {
+        margin-bottom: 0px;
+    }
 
 
     .sm\:mr-10 {

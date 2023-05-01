@@ -6,6 +6,7 @@ const { MLS, SearchTerm } = require("./mls.schema");
 const UtilityService = require("../../utils/utilities");
 const AppError = require("../../utils/appError");
 const { createTablePdf } = require("../../utils/pdf.maker");
+const path = require("path");
 
 const MAX_LENGTH = 10;
 const SLEEP = 2;
@@ -147,8 +148,7 @@ exports.downloadSample = async (req, res, next) => {
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader("Content-Disposition", "attachment; filename=document.pdf");
   console.log("here");
-  const pdfFilePath =
-    "/Users/devontaemreid/Documents/Code/GitHub/PersonalApps/nivas/pdf/sample.pdf";
+  const pdfFilePath = path.join(__dirname, "..", "../pdf/sample.pdf");
 
   const readStream = fs.createReadStream(pdfFilePath);
   readStream.pipe(res);

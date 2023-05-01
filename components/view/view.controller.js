@@ -19,7 +19,13 @@ exports.getSignupPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getDashboardPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("dashboard/index", {
+  res.status(200).render("user/search", {
     title: "Nivas Dashboard",
+  });
+});
+
+exports.getSettingsPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("user/settings", {
+    title: "Nivas User Settings",
   });
 });

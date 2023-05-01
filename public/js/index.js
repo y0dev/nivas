@@ -2,7 +2,6 @@
 import { contactUs } from "./controller.email";
 import { downloadResults, searchForMLS } from "./controller.mls";
 import {
-  addUserImage,
   addUserMenuBtn,
   removeLoginBtn,
   removeSignupBtn,
@@ -16,7 +15,10 @@ const signupForm = document.querySelector(".form--sign-up");
 const loginForm = document.querySelector(".form--login");
 const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
-let dashboard = document.querySelector(".container.dash-container");
+let dashboardContainer = document.querySelector(".container.dash-container");
+const settingsContainer = document.querySelector(
+  ".container.settings-container"
+);
 
 // const dropDownBtn = document.querySelector("#dropdownMenuButton1");
 // const dropDown = document.querySelector("#dropMenu");
@@ -27,10 +29,11 @@ let dashboard = document.querySelector(".container.dash-container");
 //   dropDown.classList.toggle("hidden");
 // });
 
-if (dashboard) {
-  addUserImage();
+if (settingsContainer || dashboardContainer) {
   addUserMenuBtn();
+}
 
+if (dashboardContainer) {
   const downloadBtn = document.getElementById("download-pdf");
   const mlsForm = document.querySelector(".form--mls");
   const table = document.getElementById("home-table");
