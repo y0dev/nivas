@@ -1,74 +1,81 @@
 extends base
 
 block content
-    main
-        .main-wrapper.light
-            .showcase-area
-                .container
-                    .left
-                        .big-title 
-                            h1 Empowering your vision through custom development
-                        
-                        .text 
-                            p Our customizable API help to save time and resources, allowing developers to build powerful applications quickly and efficiently.
-                        
-                        .cta
-                            a.btn(href="#") Get Started 
-
-                    .right
-                        img.person(src="/img/person-image.jpg", alt="Image of Person") 
-
-            .bottom-area 
-                .container
-                    button.toggle-btn
-                        i.bx.bx-moon
-                        i.bx.bx-sun.hidden
-
-            section#about-us
-                .container 
-                    .upper-section
-                        .info 
-                            h3 What we do 
-                            p Discover how we can help your business
-
-                    .lower-section
-                        .brand-info 
-                            .item.item1 
-                                i.bx.bx-heart 
-                                h4 Awareness
-                                p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-                            .item.item2 
-                                i.bx.bx-desktop 
-                                h4 Awareness
-                                p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-                            .item.item3 
-                                i.bx.bx-cog 
-                                h4 Awareness
-                                p Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+    section#hero-section.relative
+        div(class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20")
+            div(class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700")
+            div(class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600")
+        div(class="max-w-7xl mx-auto px-6 md:px-12 xl:px-6")
+            div(class="relative pt-36 ml-auto")
+                div(class="lg:w-2/3 text-center mx-auto")
+                    h1(class="text-gray-900 dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl") Making buying property 
+                        span(class="text-primary dark:text-white") easy! 
+                    p(class="mt-8 text-gray-700 dark:text-gray-300") Our customizable API help to save time and resources, allowing developers to build powerful applications quickly and efficiently.
+                    div(class="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6")
+                        a(href="#" class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max") 
+                            span(class="relative text-base font-semibold text-white") Get Started 
+                        a(href="#" class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max") 
+                            span(class="relative text-base font-semibold text-primary dark:text-white") Learn more
             
-            section#contact-us
-                .container
-                    .col-md-6.responsive-margins-images.contact-forms
-                        .section-title
-                            h2 Contact Us
-                        form.form--contact
-                            .form__group
-                                label.form__label(for='name') Full Name
-                                input#name.form__input(type='text', placeholder='Full Name', required)
-                            .form__group
-                                label.form__label(for='email') Email address
-                                input#email.form__input(type='email', placeholder='you@example.com', required)
-                            .form__group
-                                label.form__label(for='phone') Phone Number
-                                input#phone.form__input(type='phone', placeholder='555-555-5555' required)
-                            .form__group
-                                label.form__label(for='message') Subject
-                                textarea#message.form__input(placeholder='Message') 
-                            .form__group
-                                button.btn.btn--green Send Message
+
+    section#about-us(class="body-font relative text-gray-700 dark:text-white")
+        .container.px-5.py-24.mx-auto 
+            .upper-section
+                .info 
+                    h3.text-3xl.font-medium.title-font.text-center.mb-10 What we do 
+                    p.text-lg.text-center.mb-20 Discover how we can help your business
+
+            .lower-section.flex.sm-flex.-mx-4.-mb-10.-mt-4.sm-m-4
+                .brand-info.p-4.flex 
+                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-main-100.text-main-400.mb-4.flex-shrink-0.text-3xl 
+                        i.bx.bx-heart 
+                    .title-info.flex-grow.pl-6 
+                        h2.text-lg.title-font.font-medium.mb-2 Awareness
+                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                .brand-info.p-4.flex 
+                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-main-100.text-main-400.mb-4.flex-shrink-0.text-3xl 
+                        i.bx.bx-desktop
+                    .title-info.flex-grow.pl-6 
+                        h2.text-lg.title-font.font-medium.mb-2 Awareness
+                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+                .brand-info.p-4.flex 
+                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-main-100.text-main-400.mb-4.flex-shrink-0.text-3xl 
+                        i.bx.bx-cog 
+                    .title-info.flex-grow.pl-6 
+                        h2.text-lg.title-font.font-medium.mb-2 Awareness
+                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+
+    section#contact-us(class="body-font relative text-gray-700 dark:text-white")
+        .container(class="px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap")
+            .map-container(class="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative")
+                iframe.absolute.inset-0(width="100%", height="100%", frameborder="0", title="map", marginheight="0", marginwidth="0", scrolling="no" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d74962.69416406046!2d-118.02011061897146!3d33.866098504001144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1678709821580!5m2!1sen!2sus", style="filter: grayscale(1) contrast(1.2) opacity(0.4);") 
+                .company-info.bg-white.relative.flex.flex-wrap.py-6.rounded.shadow-md(class="dark:bg-gray-400")
+                    .company-address(class="lg:w-1/2 px-6")
+                        h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs Address
+                        p.mt-1 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quasi nisi illum voluptate minus?
+                    .company-email-phone(class="lg:w-1/2 px-6 mt-4 lg:mt-0")
+                        h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs Email
+                        a.text-primary.leading-relaxed(href="#") contact@urbaninsightinc.com 
+                        h2.title-font.font-semibold.text-gray-900.tracking-widest.text-xs.mt-4 Phone
+                        p.leading-relaxed 123-456-7890
+
+            .contact-container(class="group p-6 mt-4 sm:mt-0 sm:p-8 md:w-1/2 w-full rounded-3xl bg-white border border-gray-100 dark:shadow-none dark:border-gray-700 dark:bg-gray-800 bg-opacity-50 shadow-2xl shadow-gray-600/10")
+                h2(class="text-2xl font-semibold text-gray-800 dark:text-white") Contact Us
+                form.form--contact
+                    .form__group.relative.mb-4
+                        label.form__label(for='name' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Full Name
+                        input#name.form__input(class="relative bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" type='text', placeholder='Full Name', required)
+                    .form__group.relative.mb-4
+                        label.form__label(for='email' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Email address
+                        input#email.form__input(class="relative bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" type='email', placeholder='you@example.com', required)
+                    .form__group.relative.mb-4
+                        label.form__label(for='phone' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Phone Number
+                        input#phone.form__input(class="relative bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" type='phone', placeholder='555-555-5555' required)
+                    .form__group.relative.mb-4
+                        label.form__label(for='message' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Subject
+                        textarea#message.form__input(class="relative resize-none bg-white m-0 -mr-0.5 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent h-32 bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-gray-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-gray-200 dark:focus:border-primary" placeholder='Message') 
+                    .form__group
+                        button(class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95") 
+                            span(class="relative text-base font-semibold text-white") Send Message
+            
                     
-                    .col-md-6.responsive-bottom-margins.map-container
-                        .map
-                            iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d74962.69416406046!2d-118.02011061897146!3d33.866098504001144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1678709821580!5m2!1sen!2sus", frameborder="0", allowfullscreen="", aria-hidden="false", tabindex="0") 
-
-

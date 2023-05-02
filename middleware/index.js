@@ -2,19 +2,31 @@ const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const bodyParser = require("body-parser");
+const logger = require("../utils/logger").logger;
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
+exports.SECOND = SECOND;
+exports.MINUTE = MINUTE;
+
 exports.registerMiddleware = (app) => {
-  app.use(helmet());
+  logger.info("Registering middleware");
+  app.use(
+    helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
+  );
   app.use(cors());
 
   // parse application/x-www-form-urlencoded
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(
+    bodyParser.urlencoded({
+      extended: true,
+      limit: "10kb",
+    })
+  );
 
   // parse application/json
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ limit: "10kb" }));
 
   app.use(
     rateLimit({

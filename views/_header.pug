@@ -1,20 +1,40 @@
-header.header
-    .main-wrapper.light
-        header 
-            .container 
-                .brand-logo
-                    img(src="", alt="brand-logo")
-                    h3 Nivas
-
-                .links
-                    ul 
+header.bg-gray-900.text-tc-primary.body-font
+    nav.bg-white.border-gray-200(class="dark:bg-gray-900")
+        .max-w-screen-xl.flex.flex-wrap.relative.items-center.justify-between.mx-auto.p-4
+            a.flex.items-center(href="/")
+                img.h-10.mr-3(src="/img/brand-logo.png", alt="brand-logo")
+                h3(class="text-2xl font-bold text-gray-900 dark:text-white") Urban Insight
+                 
+            input(aria-hidden="true" type="checkbox" name="toggle_nav" id="toggle_nav" class="hidden peer")
+            // Menu
+            .flex.items-center(class="md:order-2")
+                button#user-menu-button.hidden.flex.mr-3.text-sm.bg-gray-800.relative.rounded-full(type="button" class="md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom")
+                    span.sr-only Open user menu
+                    img.w-8.h-8.rounded-full(src="/img/70x70.jpg" alt="user photo")
+                    // User drop down
+                    #user-dropdown.absolute.float-left.z-50.hidden.my-4.text-base.list-none.bg-white.divide-y.divide-gray-100.rounded-lg.shadow.text-left(class="top-5 right-0 dark:bg-gray-700 dark:divide-gray-600")
+                        .px-4.py-3
+                            span#user-name.block.text-sm.text-gray-900(class="dark:text-white") John Doe
+                            span#user-email.block.text-sm.text-gray-500.truncate(class="dark:text-gray-400") name@flowbite.com
+                        ul.py-2(aria-labelledby="user-menu-button")
+                            li
+                                a.block.px-4.py-2.text-sm.text-gray-700(href="/search" class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white") Search Properties
+                            li
+                                a.block.px-4.py-2.text-sm.text-gray-700(href="settings" class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white") Settings
+                            li
+                                a#logout-btn.block.px-4.py-2.text-sm.text-gray-700(href="#" class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white") Sign out
+                // Menu Button
+                div(class="relative flex max-h-10 items-center md:hidden z-20")
+                    label(role="button" for="toggle_nav" id="hamburger" class="relative -mr-6 p-6")
+                        div(id="line" class="m-auto h-0.5 w-5 rounded bg-sky-900 transition duration-300 dark:bg-gray-300")
+                        div(id="line2" class="m-auto mt-2 h-0.5 w-5 rounded bg-sky-900 transition duration-300 dark:bg-gray-300") 
+            div(aria-hidden="true" class="fixed z-10 inset-0 h-screen w-screen bg-white/70 backdrop-blur-2xl origin-bottom scale-y-0 transition duration-500 peer-checked:origin-top peer-checked:scale-y-100 lg:hidden dark:bg-gray-900/70")
+            div(class="flex-col z-20 flex-wrap gap-6 p-8 rounded-3xl border border-gray-100 bg-white shadow-2xl shadow-gray-600/10 justify-end w-full invisible opacity-0 translate-y-1 absolute top-full left-0 transition-all duration-300 scale-95 origin-top lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:gap-0 lg:p-0 lg:bg-transparent lg:w-7/12 lg:visible lg:opacity-100 lg:border-none peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible lg:shadow-none dark:shadow-none dark:bg-gray-800 dark:border-gray-700")
+                div(class="w-full text-gray-600 dark:text-gray-200 lg:w-auto lg:pr-4 lg:pt-0")
+                    ul(class="flex flex-col gap-6 tracking-wide lg:flex-row lg:gap-0 lg:text-sm")
                         li 
-                            a(href="#") Login 
-                        li
-                            a(href="#") Sign Up 
-                        li
-                            a.btn(href="#contact-us") Contact
-                .overlay 
-                
-                .hamburger-menu 
-                    .bar
+                            a#login-btn(href="/login" class="hover:text-primary block transition dark:hover:text-white md:px-4") 
+                                span Login
+                        li 
+                            a#sign-up-btn(href="/signup" class="hover:text-primary block transition dark:hover:text-white md:px-4") 
+                                span Sign up

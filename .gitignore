@@ -1,6 +1,13 @@
+.env
 .DS_Store
 node_modules
 dist
 .cache
 .example
 deploy
+logs
+
+# Jest
+coverage
+
+*.pdf

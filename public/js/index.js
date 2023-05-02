@@ -1,10 +1,73 @@
 /* eslint-disable */
-import { contactUs } from "./create.email";
+import { contactUs } from "./controller.email";
+import { downloadResults, searchForMLS } from "./controller.mls";
+import {
+  addUserMenuBtn,
+  removeLoginBtn,
+  removeSignupBtn,
+  removeLogoutBtn,
+} from "./controller.navbar";
+import { signup, login, logout } from "./controller.user";
+import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
+const signupForm = document.querySelector(".form--sign-up");
+const loginForm = document.querySelector(".form--login");
+const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
+let dashboardContainer = document.querySelector(".container.dash-container");
+const settingsContainer = document.querySelector(
+  ".container.settings-container"
+);
+
+// const dropDownBtn = document.querySelector("#dropdownMenuButton1");
+// const dropDown = document.querySelector("#dropMenu");
+
+// dropDownBtn.addEventListener("click", (e) => {
+//   e.stopPropagation();
+//   console.log("Clicked menu");
+//   dropDown.classList.toggle("hidden");
+// });
+
+if (settingsContainer || dashboardContainer) {
+  addUserMenuBtn();
+}
+
+if (dashboardContainer) {
+  const downloadBtn = document.getElementById("download-pdf");
+  const mlsForm = document.querySelector(".form--mls");
+  const table = document.getElementById("home-table");
+  const tableHeaders = table.querySelectorAll("th");
+  // Make clickable the table headers
+  tableHeaders.forEach((headerCell) => {
+    headerCell.addEventListener("click", () => {
+      const headerIdx = Array.prototype.indexOf.call(
+        headerCell.parentElement.children,
+        headerCell
+      );
+      const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+      sortTableByColumn(table, headerIdx, !currentIsAscending);
+    });
+  });
+
+  if (mlsForm) {
+    mlsForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const mls_input = document.getElementById("mls-input").value;
+      searchForMLS(mls_input);
+    });
+  }
+
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", () => {
+      downloadResults();
+    });
+  }
+}
 
 if (contactForm) {
+  removeLogoutBtn();
   contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("name").value;
@@ -12,6 +75,37 @@ if (contactForm) {
     const phone = document.getElementById("phone").value;
     const message = document.getElementById("message").value;
     contactUs(name, email, phone, message);
+  });
+} else {
+  // const contactUsBtn = document.querySelector(".contact-us-btn");
+  // contactUsBtn.remove();
+}
+
+if (signupForm) {
+  removeSignupBtn();
+  removeLogoutBtn();
+  signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const firstName = document.getElementById("first-name").value;
+    const lastName = document.getElementById("last-name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirmed =
+      document.getElementById("passwordConfirmed").value;
+    const name = firstName.concat(" ", lastName);
+    signup(name, email, password, passwordConfirmed);
+  });
+}
+
+if (loginForm) {
+  removeLoginBtn();
+  removeLogoutBtn();
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    login(email, password);
   });
 }
 

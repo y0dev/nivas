@@ -1,0 +1,21 @@
+extends ../base
+
+block content
+    section.body-font
+    .container.px-5.py-24.mx-auto.flex.items-center.min-h-screen
+        //- .lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0
+        div
+            h1.title-font.font-medium.text-3xl.text-center Great to have you back!
+            p.leading-relaxed.mt-4.w-full.text-center Login and see where you have left off. 
+        .bg-gray-100.rounded-lg.p-8.flex.flex-col.md-ml-auto.lg-w-1-2.mt-10.md-mt-0
+            h2.text-lg.font-medium.title-font.mb-5 Login
+            .relative.mb-4
+            form.form--login
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='email-name') Email
+                    input#email.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Email', required)
+                .form__group.relative.mb-4
+                    label.form__label.leading-7.text-sm(for='password') Password
+                    input#password.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
+                .form__group.relative.mb-4.w-full 
+                    button.btn-solid.w-full Login
