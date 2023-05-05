@@ -19,7 +19,7 @@ module.exports = {
       secondary: "#ff7e33",
       info: "#0C63E7",
       black: colors.black,
-      white: colors.white,
+      white: "#F5F5F5",
       slate: colors.slate,
       gray: {
         50: "#FAFAFC",

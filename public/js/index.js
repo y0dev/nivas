@@ -20,14 +20,6 @@ const settingsContainer = document.querySelector(
   ".container.settings-container"
 );
 
-// const dropDownBtn = document.querySelector("#dropdownMenuButton1");
-// const dropDown = document.querySelector("#dropMenu");
-
-// dropDownBtn.addEventListener("click", (e) => {
-//   e.stopPropagation();
-//   console.log("Clicked menu");
-//   dropDown.classList.toggle("hidden");
-// });
 
 if (settingsContainer || dashboardContainer) {
   addUserMenuBtn();
