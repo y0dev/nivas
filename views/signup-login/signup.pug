@@ -1,30 +1,33 @@
 extends ../base
 
 block content
-    section.body-font
-    .container.px-5.py-24.mx-auto.flex.items-center.min-h-screen
-        //- .lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0
-        div
+    section.body-font.relative
+        div(class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20")
+            div(class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700")
+            div(class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600")
+    .container.px-5.py-24.mx-auto.flex.flex-wrap.items-center.min-h-screen.justify-center
+        div(class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0")
             h1.title-font.font-medium.text-3xl.max-w-2-3.text-center Welcome to Urban Insight
             p.leading-relaxed.mt-4.max-w-2-3.text-center We are here to serve you and help you prioritize properties more effectively. Sign up to learn more!
-        .bg-gray-100.rounded-lg.p-8.flex.flex-col.md-ml-auto.lg-w-1-2.mt-10.md-mt-0
-            h2.text-lg.font-medium.title-font.mb-5 Sign Up
+        div(class="group p-6 mt-4 sm:mt-0 sm:p-8 md:w-1/2 w-full rounded-3xl bg-white border border-gray-100 dark:shadow-none dark:border-gray-700 dark:bg-gray-800 bg-opacity-50 shadow-2xl shadow-gray-600/10")
+            h2(class="text-2xl font-semibold text-gray-800 dark:text-white") Sign Up
             .relative.mb-4
-            form.form--sign-up
-                .form__group.relative.mb-4
-                    label.form__label.leading-7.text-sm(for='first-name') First Name
-                    input#first-name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='First Name', required)
-                .form__group.relative.mb-4
-                    label.form__label.leading-7.text-sm(for='last-name') Last Name
-                    input#last-name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Last Name', required)
-                .form__group.relative.mb-4
-                    label.form__label.leading-7.text-sm(for='email') Email
-                    input#email.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Email', required)
-                .form__group.relative.mb-4
-                    label.form__label.leading-7.text-sm(for='password') Password
-                    input#password.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
-                .form__group.relative.mb-4
-                    label.form__label.leading-7.text-sm(for='password') Password
-                    input#passwordConfirmed.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
-                .form__group.relative.mb-4 
-                    button.btn-solid.w-full Create Account
+                form.form--sign-up
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='first-name' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") First Name
+                        input#first-name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='First Name', required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='last-name' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Last Name
+                        input#last-name.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Last Name', required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='email' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Email
+                        input#email.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='text', placeholder='Email', required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='password' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Password
+                        input#password.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
+                    .form__group.relative.mb-4
+                        label.form__label.leading-7.text-sm(for='password' class="mt-6 mb-8 text-gray-600 dark:text-gray-300") Password
+                        input#passwordConfirmed.form__input.w-full.bg-white.rounded.border.border-gray-300.text-base.outline-none.py-1.px-3.leading-8.transition-colors.duration-200.ease-in-out(type='password', placeholder='Password', required)
+                    .form__group.relative.mb-4 
+                        button(class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95") 
+                                span(class="relative text-base font-semibold text-white") Register
