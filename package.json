@@ -2,7 +2,10 @@
   "name": "urbaninsight",
   "version": "1.0.0",
   "description": "Urban Insight is an application that allow real estate investors to make the best decision when purchasing properties.",
-  "main": "app.js",
+  "main": "server.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon server.js",
