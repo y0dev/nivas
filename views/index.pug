@@ -1,7 +1,7 @@
 extends base
 
 block content
-    section#hero-section.relative
+    section#hero-section(class="relative sm:h-screen h-auto body-font text-gray-700 dark:text-white")
         div(class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20")
             div(class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700")
             div(class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600")
@@ -18,34 +18,99 @@ block content
                             span(class="relative text-base font-semibold text-primary dark:text-white") Learn more
             
 
-    section#about-us(class="body-font relative text-gray-700 dark:text-white")
+    section#about-us(class="relative sm:h-screen h-auto body-font text-gray-700 dark:text-white")
         .container.px-5.py-24.mx-auto 
-            .upper-section
-                .info 
-                    h3.text-3xl.font-medium.title-font.text-center.mb-10 What we do 
-                    p.text-lg.text-center.mb-20 Discover how we can help your business
+            .text-center.mb-20
+                h1.text-2xl.font-medium.text-center.title-font.mb-4(class='sm:text-3xl') Raw Denim Heirloom Man Braid
+                p.text-base.leading-relaxed.mx-auto(class='xl:w-2/4 lg:w-3/4')
+                    | Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug.
+            .flex.flex-wrap.-mx-2(class='lg:w-4/5 sm:mx-auto sm:mb-2')
+                .p-2.w-full(class='sm:w-1/2')
+                    .bg-gray-100.rounded.flex.p-4.h-full.items-center
+                        svg.text-indigo-500.w-6.h-6.flex-shrink-0.mr-4(fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' viewbox='0 0 24 24')
+                            path(d='M22 11.08V12a10 10 0 11-5.93-9.14')
+                            path(d='M22 4L12 14.01l-3-3')
+                        span.title-font.font-medium Authentic Cliche Forage
+                .p-2.w-full(class='sm:w-1/2')
+                    .bg-gray-100.rounded.flex.p-4.h-full.items-center
+                        svg.text-indigo-500.w-6.h-6.flex-shrink-0.mr-4(fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' viewbox='0 0 24 24')
+                            path(d='M22 11.08V12a10 10 0 11-5.93-9.14')
+                            path(d='M22 4L12 14.01l-3-3')
+                        span.title-font.font-medium Kinfolk Chips Snackwave
+                .p-2.w-full(class='sm:w-1/2')
+                    .bg-gray-100.rounded.flex.p-4.h-full.items-center
+                        svg.text-indigo-500.w-6.h-6.flex-shrink-0.mr-4(fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' viewbox='0 0 24 24')
+                            path(d='M22 11.08V12a10 10 0 11-5.93-9.14')
+                            path(d='M22 4L12 14.01l-3-3')
+                        span.title-font.font-medium Coloring Book Ethical
+                .p-2.w-full(class='sm:w-1/2')
+                    .bg-gray-100.rounded.flex.p-4.h-full.items-center
+                        svg.text-indigo-500.w-6.h-6.flex-shrink-0.mr-4(fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' viewbox='0 0 24 24')
+                            path(d='M22 11.08V12a10 10 0 11-5.93-9.14')
+                            path(d='M22 4L12 14.01l-3-3')
+                        span.title-font.font-medium Typewriter Polaroid Cray
+                .p-2.w-full(class='sm:w-1/2')
+                    .bg-gray-100.rounded.flex.p-4.h-full.items-center
+                        svg.text-indigo-500.w-6.h-6.flex-shrink-0.mr-4(fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' viewbox='0 0 24 24')
+                            path(d='M22 11.08V12a10 10 0 11-5.93-9.14')
+                            path(d='M22 4L12 14.01l-3-3')
+                        span.title-font.font-medium Pack Truffaut Blue
+                .p-2.w-full(class='sm:w-1/2')
+                    .bg-gray-100.rounded.flex.p-4.h-full.items-center
+                        svg.text-indigo-500.w-6.h-6.flex-shrink-0.mr-4(fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' viewbox='0 0 24 24')
+                            path(d='M22 11.08V12a10 10 0 11-5.93-9.14')
+                            path(d='M22 4L12 14.01l-3-3')
+                        span.title-font.font-medium The Catcher In The Rye
 
-            .lower-section.flex.sm-flex.-mx-4.-mb-10.-mt-4.sm-m-4
-                .brand-info.p-4.flex 
-                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-main-100.text-main-400.mb-4.flex-shrink-0.text-3xl 
-                        i.bx.bx-heart 
-                    .title-info.flex-grow.pl-6 
-                        h2.text-lg.title-font.font-medium.mb-2 Awareness
-                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-                .brand-info.p-4.flex 
-                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-main-100.text-main-400.mb-4.flex-shrink-0.text-3xl 
-                        i.bx.bx-desktop
-                    .title-info.flex-grow.pl-6 
-                        h2.text-lg.title-font.font-medium.mb-2 Awareness
-                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
-                .brand-info.p-4.flex 
-                    .image.w-12.h-12.inline-flex.items-center.justify-center.rounded-full.bg-main-100.text-main-400.mb-4.flex-shrink-0.text-3xl 
-                        i.bx.bx-cog 
-                    .title-info.flex-grow.pl-6 
-                        h2.text-lg.title-font.font-medium.mb-2 Awareness
-                        p.leading-relaxed.text-base Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore pariatur distinctio soluta inventore
+    section#pricing(class="relative sm:h-screen h-auto body-font text-gray-700 dark:text-white")
+        .container.px-5.py-24.mx-auto
+            .flex.flex-col.text-center.w-full.mb-20
+                h1.text-3xl.font-medium.title-font.mb-2.text-white(class='sm:text-4xl') Pricing
+                p.mx-auto.leading-relaxed.text-base(class='lg:w-2/3')
+                    | Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee
+            .w-full.mx-auto.overflow-auto(class='lg:w-2/3')
+                table.table-auto.w-full.text-left.whitespace-no-wrap
+                    thead
+                        tr
+                            th.px-4.py-3.title-font.tracking-wider.font-medium.text-white.text-sm.bg-gray-800.rounded-tl.rounded-bl Plan
+                            th.px-4.py-3.title-font.tracking-wider.font-medium.text-white.text-sm.bg-gray-800 Speed
+                            th.px-4.py-3.title-font.tracking-wider.font-medium.text-white.text-sm.bg-gray-800 Storage
+                            th.px-4.py-3.title-font.tracking-wider.font-medium.text-white.text-sm.bg-gray-800 Price
+                            th.w-10.title-font.tracking-wider.font-medium.text-white.text-sm.bg-gray-800.rounded-tr.rounded-br
+                    tbody
+                        tr
+                            td.px-4.py-3 Start
+                            td.px-4.py-3 5 Mb/s
+                            td.px-4.py-3 15 GB
+                            td.px-4.py-3.text-lg.text-white Free
+                            td.w-10.text-center
+                                input(name='plan' type='radio')
+                        tr
+                            td.border-t-2.border-gray-800.px-4.py-3 Pro
+                            td.border-t-2.border-gray-800.px-4.py-3 25 Mb/s
+                            td.border-t-2.border-gray-800.px-4.py-3 25 GB
+                            td.border-t-2.border-gray-800.px-4.py-3.text-lg.text-white $24
+                            td.border-t-2.border-gray-800.w-10.text-center
+                                input(name='plan' type='radio')
+                        tr
+                            td.border-t-2.border-gray-800.px-4.py-3 Business
+                            td.border-t-2.border-gray-800.px-4.py-3 36 Mb/s
+                            td.border-t-2.border-gray-800.px-4.py-3 40 GB
+                            td.border-t-2.border-gray-800.px-4.py-3.text-lg.text-white $50
+                            td.border-t-2.border-gray-800.w-10.text-center
+                                input(name='plan' type='radio')
+                        tr
+                            td.border-t-2.border-b-2.border-gray-800.px-4.py-3 Exclusive
+                            td.border-t-2.border-b-2.border-gray-800.px-4.py-3 48 Mb/s
+                            td.border-t-2.border-b-2.border-gray-800.px-4.py-3 120 GB
+                            td.border-t-2.border-b-2.border-gray-800.px-4.py-3.text-lg.text-white $72
+                            td.border-t-2.border-b-2.border-gray-800.w-10.text-center
+                                input(name='plan' type='radio')
+            .flex.pl-4.mt-4.w-full.mx-auto(class='lg:w-2/3')
+                button.flex.ml-auto.text-white.bg-blue-500.border-0.py-2.px-6.rounded(class='focus:outline-none hover:bg-blue-600') Button
 
-    section#contact-us(class="body-font relative text-gray-700 dark:text-white")
+
+    section#contact-us(class="relative sm:h-screen h-auto body-font text-gray-700 dark:text-white")
         .container(class="px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap")
             .map-container(class="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative")
                 iframe.absolute.inset-0(width="100%", height="100%", frameborder="0", title="map", marginheight="0", marginwidth="0", scrolling="no" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d74962.69416406046!2d-118.02011061897146!3d33.866098504001144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1678709821580!5m2!1sen!2sus", style="filter: grayscale(1) contrast(1.2) opacity(0.4);") 
