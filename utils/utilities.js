@@ -13,6 +13,7 @@ class UtilityService {
    */
   static handleError(err) {
     logger.error(err.stack || err);
+    console.log(err.stack || err);
   }
 
   /**
