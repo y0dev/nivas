@@ -12,9 +12,7 @@ exports.MINUTE = MINUTE;
 
 exports.registerMiddleware = (app) => {
   logger.info("Registering middleware");
-  app.use(
-    helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })
-  );
+  app.use(helmet());
   app.use(cors());
 
   // parse application/x-www-form-urlencoded
