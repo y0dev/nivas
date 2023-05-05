@@ -21,7 +21,7 @@ const port = process.env.PORT || 3000;
 
 const server = app.listen(port, () => {
   logger.info(`localhost:${port}/`);
-  console.log("UNHANDLED REJECTION! Shutting down...");
+  console.log(`localhost:${port}/`);
 });
 
 process.on("unhandledRejection", (err) => {
