@@ -7,6 +7,9 @@ dist
 deploy
 logs
 
+# For Heroku
+package-lock.json
+
 # Jest
 coverage
 
