@@ -14,6 +14,10 @@ let searchTermSchema = new Schema({
     required: [true, "please insert search term"],
     min: 2,
   },
+  searchIds: {
+    type: [String],
+    required: [true, "please add return items if there are any"],
+  },
   dateCreated: {
     type: Date,
     required: false,

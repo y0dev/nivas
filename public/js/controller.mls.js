@@ -180,3 +180,88 @@ export const downloadResults = async () => {
     showAlert("error", "There was an error logging you out");
   }
 };
+
+export const getSearchHistory = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios({
+      method: "GET",
+      url: `http://localhost:${port}/api/v1/mls/history`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.data.status === "success") {
+      const results = res.data.results;
+      const svgNS = "http://www.w3.org/2000/svg";
+      const historyContainer = document.getElementById("history-container");
+      let previousDate = results[0]["date"];
+
+      let newItem = document.createElement("div");
+      let dateElement = document.createElement("time");
+      let listElement = document.createElement("ol");
+      historyContainer.appendChild(newItem);
+      newItem.appendChild(dateElement);
+      newItem.appendChild(listElement);
+      dateElement.textContent = previousDate;
+      for (let index = 0; index < results.length; index++) {
+        const element = results[index];
+        if (previousDate != element["date"]) {
+          previousDate = element["date"];
+          newItem = document.createElement("div");
+          dateElement = document.createElement("time");
+          listElement = document.createElement("ol");
+
+          historyContainer.appendChild(newItem);
+          newItem.appendChild(dateElement);
+          newItem.appendChild(listElement);
+          dateElement.textContent = previousDate;
+          console.log(previousDate);
+        }
+
+        // Add new list item
+        const listItem = document.createElement("li");
+        const listInnerDiv = document.createElement("div");
+        const mainText = document.createElement("div");
+        const subText = document.createElement("div");
+        const timeElement = document.createElement("span");
+        const svgElement = document.createElementNS(svgNS, "svg");
+        const pathElement1 = document.createElementNS(svgNS, "path");
+        const pathElement2 = document.createElementNS(svgNS, "path");
+        newItem.className =
+          "p-5 mb-4 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700";
+        dateElement.className =
+          "text-lg font-semibold text-gray-900 dark:text-white";
+        listElement.className =
+          "mt-3 divide-y divider-gray-200 dark:divide-gray-700";
+        listItem.className =
+          "items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700";
+        listInnerDiv.className = "text-gray-600 dark:text-gray-400";
+        mainText.className = "text-base font-normal";
+        subText.className = "text-sm font-normal";
+        timeElement.className =
+          "inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400";
+        svgElement.classList.add("w-3", "h-3", "mr-1");
+
+        // Append children
+        listElement.appendChild(listItem);
+        listItem.appendChild(listInnerDiv);
+        listInnerDiv.appendChild(mainText);
+        listInnerDiv.appendChild(subText);
+        listInnerDiv.appendChild(timeElement);
+
+        timeElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24" width="24px" height="24px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 6 L 11 12.414062 L 15.292969 16.707031 L 16.707031 15.292969 L 13 11.585938 L 13 6 L 11 6 z"/></svg> ${element["time"]}`;
+
+        if (index % 2 === 0) {
+          mainText.textContent = `There are such and such results ${element["numOfResults"]}`;
+        } else {
+          mainText.textContent = `There are such and such results ${element["numOfResults"]}`;
+        }
+        subText.textContent = "Sample";
+        // timeElement.textContent = element["time"];
+      }
+    }
+  } catch (err) {
+    showAlert("error", "There was an error logging you out");
+  }
+};

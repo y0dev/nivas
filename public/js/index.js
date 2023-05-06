@@ -1,6 +1,10 @@
 /* eslint-disable */
 import { contactUs } from "./controller.email";
-import { downloadResults, searchForMLS } from "./controller.mls";
+import {
+  downloadResults,
+  searchForMLS,
+  getSearchHistory,
+} from "./controller.mls";
 import {
   addUserMenuBtn,
   removeLoginBtn,
@@ -20,9 +24,15 @@ const settingsContainer = document.querySelector(
   ".container.settings-container"
 );
 
-
 if (settingsContainer || dashboardContainer) {
   addUserMenuBtn();
+
+  if (settingsContainer) {
+    console.log("Hello");
+    window.addEventListener("load", () => {
+      getSearchHistory();
+    });
+  }
 }
 
 if (dashboardContainer) {
