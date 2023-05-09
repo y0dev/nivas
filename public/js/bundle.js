@@ -12571,7 +12571,7 @@ var getSearchHistory = /*#__PURE__*/function () {
               listElement.className = "mt-3 divide-y divider-gray-200 dark:divide-gray-700";
               listItem.className = "items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700";
               listInnerDiv.className = "text-gray-600 dark:text-gray-400";
-              mainText.className = "text-base font-normal";
+              mainText.className = "text-base font-normal dark:text-white";
               subText.className = "text-sm font-normal";
               timeElement.className = "inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400";
               svgElement.classList.add("w-3", "h-3", "mr-1");
@@ -13140,7 +13140,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57746" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55636" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

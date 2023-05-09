@@ -237,7 +237,7 @@ export const getSearchHistory = async () => {
         listItem.className =
           "items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700";
         listInnerDiv.className = "text-gray-600 dark:text-gray-400";
-        mainText.className = "text-base font-normal";
+        mainText.className = "text-base font-normal dark:text-white";
         subText.className = "text-sm font-normal";
         timeElement.className =
           "inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400";

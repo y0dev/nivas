@@ -239,6 +239,29 @@ class UtilityService {
       "75th_Percentile": q75(numbers),
     };
   }
+
+  /**
+   * Calculates the rent-to-price ratio of a property given its purchase price and monthly rent.
+   * @param {number} purchasePrice - The purchase price of the property.
+   * @param {number} monthlyRent - The monthly rent of the property.
+   * @returns {number} The rent-to-price ratio, expressed as a decimal.
+   */
+  static calcRentToPriceRatio(purchasePrice, monthlyRent) {
+    return (monthlyRent * 12) / purchasePrice;
+  }
+
+  /**
+   * Calculates the rental yield of a property given its purchase price, monthly rent, and additional expenses.
+   * @param {number} purchasePrice - The purchase price of the property.
+   * @param {number} monthlyRent - The monthly rent of the property.
+   * @param {number} additionalExpenses - The additional expenses associated with the property, such as property taxes, insurance, and maintenance costs.
+   * @returns {number} The rental yield, expressed as a decimal.
+   */
+  static calcRentalYield(purchasePrice, monthlyRent, additionalExpenses) {
+    const annualGrossIncome = monthlyRent * 12;
+    const annualNetIncome = annualGrossIncome - additionalExpenses;
+    return annualNetIncome / purchasePrice;
+  }
 }
 
 module.exports = UtilityService;

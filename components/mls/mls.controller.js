@@ -7,6 +7,7 @@ const UtilityService = require("../../utils/utilities");
 const AppError = require("../../utils/appError");
 const { createTablePdf } = require("../../utils/pdf.maker");
 const path = require("path");
+const catchAsync = require("../../utils/catchAsync");
 
 const MAX_LENGTH = 10;
 const SLEEP = 2;
@@ -25,15 +26,16 @@ let url_headers = {
   "user-agent": "",
 };
 
-exports.searchByZipCode = async (req, res, next) => {
-  // req.params.id = req.user.id;
+exports.searchByZipCode = catchAsync(async (req, res, next) => {
   try {
+    // url_headers = req.headers;
     url_headers["user-agent"] = req.get("user-agent");
     // For Screen size
     // logger.warn(url_headers["user-agent"]);
 
     logger.info("Searching by zip code");
     const { zip_code } = req.body;
+    // const id = "jlkdjsaj";
     const { id } = req.user;
 
     logger.info(`Zip Code: ${zip_code}`);
@@ -82,9 +84,9 @@ exports.searchByZipCode = async (req, res, next) => {
     return next(new AppError("Failed to get results"), 502);
   }
   next();
-};
+});
 
-exports.searchByCityState = async (req, res, next) => {
+exports.searchByCityState = catchAsync(async (req, res, next) => {
   // req.params.id = req.user.id;
   try {
     url_headers["user-agent"] = req.get("user-agent");
@@ -135,9 +137,10 @@ exports.searchByCityState = async (req, res, next) => {
     return next(new AppError("Failed to get results"), 502);
   }
   next();
-};
+});
 
-exports.getSearches = async (req, res, next) => {
+exports.getSearches = catchAsync(async (req, res, next) => {
+  // const id = "jlkdjsaj";
   const { id } = req.user;
   const searchTerms = await SearchTerm.find({ userId: id });
   let results = [];
@@ -167,8 +170,9 @@ exports.getSearches = async (req, res, next) => {
   }
 
   next();
-};
-exports.downloadSample = async (req, res, next) => {
+});
+
+exports.downloadSample = catchAsync(async (req, res, next) => {
   // console.log(prevSearchResults);
   // Set the response headers
   res.setHeader("Content-Type", "application/pdf");
@@ -179,8 +183,9 @@ exports.downloadSample = async (req, res, next) => {
   const readStream = fs.createReadStream(pdfFilePath);
   readStream.pipe(res);
   next();
-};
-exports.downloadPreviousSearch = async (req, res, next) => {
+});
+
+exports.downloadPreviousSearch = catchAsync(async (req, res, next) => {
   if (!prevSearchResults) {
     return next(new AppError("Failed to get results"), 502);
   }
@@ -199,7 +204,7 @@ exports.downloadPreviousSearch = async (req, res, next) => {
   const pdfStream = fs.createReadStream(newFilePath);
   pdfStream.pipe(res);
   next();
-};
+});
 
 async function truncateResultList(user_id, results) {
   let ids = [];
@@ -476,10 +481,10 @@ async function getComparableHomes(address) {
           .replace("undefined", '""')
           .trim();
         const json = JSON.parse(newStr); // '(Undisclosed address)'
-
+        // console.log(json);
         // console.log(json['items'][2]);
-        // console.log(json['min']);
-        // console.log(json['max']);
+        // console.log(json["min"]);
+        // console.log(json["max"]);
         json["items"].map((element) => {
           if (
             element.street !== "(Undisclosed address)" &&
@@ -510,7 +515,7 @@ async function getComparableHomes(address) {
         comparable.averagePrice =
           (comparable.minPrice + comparable.maxPrice) / 2;
         const percentiles = UtilityService.calcPercentiles(prices);
-
+        // console.log(prices);
         comparable.percentile25th = percentiles["25th_Percentile"];
         comparable.percentile50th = percentiles["50th_Percentile"];
         comparable.percentile75th = percentiles["75th_Percentile"];
