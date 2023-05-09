@@ -28,7 +28,6 @@ if (settingsContainer || dashboardContainer) {
   addUserMenuBtn();
 
   if (settingsContainer) {
-    console.log("Hello");
     window.addEventListener("load", () => {
       getSearchHistory();
     });

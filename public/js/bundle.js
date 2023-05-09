@@ -12888,12 +12888,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.addUserMenuBtn = addUserMenuBtn;
+exports.removeHamburgerMenu = removeHamburgerMenu;
 exports.removeLoginBtn = removeLoginBtn;
 exports.removeLogoutBtn = removeLogoutBtn;
 exports.removeSignupBtn = removeSignupBtn;
 var _controller = require("./controller.user");
 function removeLoginBtn() {
-  // Remove signup nav link from navbar
+  // Remove login nav link from navbar
   var loginBtn = document.querySelector("#login-btn");
   loginBtn.classList.add("hide-btn");
 }
@@ -12903,13 +12904,19 @@ function removeSignupBtn() {
   signupBtn.classList.add("hide-btn");
 }
 function removeLogoutBtn() {
-  // Remove signup nav link from navbar
+  // Remove logout nav link from navbar
   var logoutBtn = document.querySelector("#logout-btn");
   logoutBtn.classList.add("hide-btn");
+}
+function removeHamburgerMenu() {
+  // Remove hamburger menu link from navbar
+  var hamburgerMenu = document.querySelector("#hamburger");
+  hamburgerMenu.classList.add("hide-btn");
 }
 function addUserMenuBtn() {
   removeLoginBtn();
   removeSignupBtn();
+  removeHamburgerMenu();
   var userDropdownBtn = document.querySelector("#user-menu-button");
   var userDropdown = document.querySelector("#user-dropdown");
   userDropdownBtn.classList.remove("hidden");
@@ -12989,7 +12996,6 @@ var settingsContainer = document.querySelector(".container.settings-container");
 if (settingsContainer || dashboardContainer) {
   (0, _controller3.addUserMenuBtn)();
   if (settingsContainer) {
-    console.log("Hello");
     window.addEventListener("load", function () {
       (0, _controller2.getSearchHistory)();
     });
@@ -13140,7 +13146,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55636" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62535" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
