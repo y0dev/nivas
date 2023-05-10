@@ -106,6 +106,45 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+// Ensure that a valid user is logged in
+exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
+  logger.info("PVR Ensure that a valid user is logged in");
+  let token = null;
+  // console.log(req.headers);
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    // Grab the token which is the second element after split
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    res.redirect("/error");
+    next();
+  }
+
+  logger.info("Decoding JWT");
+  const decoded = await promisify(jwt.verify)(token, process.env.SECRET_KEY);
+
+  logger.info("Search for user");
+  const loggedInUser = await User.findById(decoded.id);
+  if (!loggedInUser) {
+    res.redirect("/error");
+    next();
+  }
+
+  logger.info("Found user");
+  if (loggedInUser.changePasswordAfter(decoded.iat)) {
+    res.redirect("/error");
+    next();
+  }
+
+  req.user = loggedInUser;
+  res.locals.user = loggedInUser;
+  next();
+});
+
 exports.logout = (req, res) => {
   logger.info("Logging user out");
   res.cookie("jwt", "loggedout", {

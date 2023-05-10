@@ -2,30 +2,36 @@ const catchAsync = require("../../utils/catchAsync");
 
 exports.getLandingPage = catchAsync(async (req, res, next) => {
   res.status(200).render("index", {
-    title: "Nivas",
+    title: "Home",
   });
 });
 
 exports.getLoginPage = catchAsync(async (req, res, next) => {
   res.status(200).render("signup-login/login", {
-    title: "Nivas Login",
+    title: "Login",
   });
 });
 
 exports.getSignupPage = catchAsync(async (req, res, next) => {
   res.status(200).render("signup-login/signup", {
-    title: "Nivas Signup",
+    title: "Signup",
   });
 });
 
 exports.getDashboardPage = catchAsync(async (req, res, next) => {
   res.status(200).render("user/search", {
-    title: "Nivas Dashboard",
+    title: "User Dashboard",
   });
 });
 
 exports.getSettingsPage = catchAsync(async (req, res, next) => {
   res.status(200).render("user/settings", {
-    title: "Nivas User Settings",
+    title: "User Settings",
+  });
+});
+
+exports.get404Page = catchAsync(async (req, res, next) => {
+  res.status(200).render("error/404", {
+    title: "Error",
   });
 });

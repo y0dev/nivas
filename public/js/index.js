@@ -23,47 +23,55 @@ let dashboardContainer = document.querySelector(".container.dash-container");
 const settingsContainer = document.querySelector(
   ".container.settings-container"
 );
+const error404Container = document.querySelector(".container.404-container");
 
 if (settingsContainer || dashboardContainer) {
   addUserMenuBtn();
 
   if (settingsContainer) {
+    // Remove temp history
+    const historyContainer = document.getElementById("history-container");
+    while (historyContainer.firstChild) {
+      historyContainer.removeChild(historyContainer.firstChild);
+    }
+
+    // Load users history
     window.addEventListener("load", () => {
       getSearchHistory();
     });
   }
-}
 
-if (dashboardContainer) {
-  const downloadBtn = document.getElementById("download-pdf");
-  const mlsForm = document.querySelector(".form--mls");
-  const table = document.getElementById("home-table");
-  const tableHeaders = table.querySelectorAll("th");
-  // Make clickable the table headers
-  tableHeaders.forEach((headerCell) => {
-    headerCell.addEventListener("click", () => {
-      const headerIdx = Array.prototype.indexOf.call(
-        headerCell.parentElement.children,
-        headerCell
-      );
-      const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+  if (dashboardContainer) {
+    const downloadBtn = document.getElementById("download-pdf");
+    const mlsForm = document.querySelector(".form--mls");
+    const table = document.getElementById("home-table");
+    const tableHeaders = table.querySelectorAll("th");
+    // Make clickable the table headers
+    tableHeaders.forEach((headerCell) => {
+      headerCell.addEventListener("click", () => {
+        const headerIdx = Array.prototype.indexOf.call(
+          headerCell.parentElement.children,
+          headerCell
+        );
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
 
-      sortTableByColumn(table, headerIdx, !currentIsAscending);
+        sortTableByColumn(table, headerIdx, !currentIsAscending);
+      });
     });
-  });
 
-  if (mlsForm) {
-    mlsForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const mls_input = document.getElementById("mls-input").value;
-      searchForMLS(mls_input);
-    });
-  }
+    if (mlsForm) {
+      mlsForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const mls_input = document.getElementById("mls-input").value;
+        searchForMLS(mls_input);
+      });
+    }
 
-  if (downloadBtn) {
-    downloadBtn.addEventListener("click", () => {
-      downloadResults();
-    });
+    if (downloadBtn) {
+      downloadBtn.addEventListener("click", () => {
+        downloadResults();
+      });
+    }
   }
 }
 
