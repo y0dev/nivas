@@ -3,7 +3,8 @@
       "name": "Alice",
       "email": "alice@example.com",
       "password": "mypassword1",
-      "passwordConfirmation": "mypassword1"
+      "passwordConfirmation": "mypassword1",
+      "isAdmin": true
     },
     {
       "name": "Bob",

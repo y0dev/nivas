@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     },
     select: false,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   passwordUpdatedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,

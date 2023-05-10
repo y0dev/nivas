@@ -661,6 +661,10 @@ video {
     margin-left: auto;
     margin-right: auto;
 }
+.my-2 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
 .my-4 {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -911,6 +915,9 @@ video {
 .flex-col {
     flex-direction: column;
 }
+.flex-col-reverse {
+    flex-direction: column-reverse;
+}
 .flex-wrap {
     flex-wrap: wrap;
 }
@@ -931,6 +938,9 @@ video {
 }
 .justify-between {
     justify-content: space-between;
+}
+.gap-16 {
+    gap: 4rem;
 }
 .gap-6 {
     gap: 1.5rem;
@@ -1173,6 +1183,10 @@ video {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
 }
+.py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
 .py-6 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -1184,6 +1198,9 @@ video {
 .py-\[0\.25rem\] {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+}
+.pb-12 {
+    padding-bottom: 3rem;
 }
 .pb-4 {
     padding-bottom: 1rem;
@@ -2314,6 +2331,11 @@ video {
     }
 
 
+    .md\:gap-28 {
+        gap: 7rem;
+    }
+
+
     .md\:border-none {
         border-style: none;
     }
@@ -2338,6 +2360,18 @@ video {
     .md\:px-4 {
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+
+
+    .md\:px-44 {
+        padding-left: 11rem;
+        padding-right: 11rem;
+    }
+
+
+    .md\:py-20 {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
     }
 
 
@@ -2434,6 +2468,11 @@ video {
     }
 
 
+    .lg\:flex-row {
+        flex-direction: row;
+    }
+
+
     .lg\:items-center {
         align-items: center;
     }
@@ -2444,12 +2483,34 @@ video {
     }
 
 
+    .lg\:px-24 {
+        padding-left: 6rem;
+        padding-right: 6rem;
+    }
+
+
+    .lg\:py-24 {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
+
+
+    .lg\:pb-0 {
+        padding-bottom: 0px;
+    }
+
+
     .lg\:pr-0 {
         padding-right: 0px;
     }
 }
 
 @media (min-width: 1280px) {
+
+
+    .xl\:w-1\/2 {
+        width: 50%;
+    }
 
 
     .xl\:w-1\/3 {
@@ -2465,6 +2526,11 @@ video {
     .xl\:px-6 {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+    }
+
+
+    .xl\:pt-24 {
+        padding-top: 6rem;
     }
 
 

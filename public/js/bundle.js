@@ -12993,38 +12993,46 @@ var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var dashboardContainer = document.querySelector(".container.dash-container");
 var settingsContainer = document.querySelector(".container.settings-container");
+var error404Container = document.querySelector(".container.404-container");
 if (settingsContainer || dashboardContainer) {
   (0, _controller3.addUserMenuBtn)();
   if (settingsContainer) {
+    // Remove temp history
+    var historyContainer = document.getElementById("history-container");
+    while (historyContainer.firstChild) {
+      historyContainer.removeChild(historyContainer.firstChild);
+    }
+
+    // Load users history
     window.addEventListener("load", function () {
       (0, _controller2.getSearchHistory)();
     });
   }
-}
-if (dashboardContainer) {
-  var downloadBtn = document.getElementById("download-pdf");
-  var mlsForm = document.querySelector(".form--mls");
-  var table = document.getElementById("home-table");
-  var tableHeaders = table.querySelectorAll("th");
-  // Make clickable the table headers
-  tableHeaders.forEach(function (headerCell) {
-    headerCell.addEventListener("click", function () {
-      var headerIdx = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
-      var currentIsAscending = headerCell.classList.contains("th-sort-asc");
-      (0, _tablesort.sortTableByColumn)(table, headerIdx, !currentIsAscending);
+  if (dashboardContainer) {
+    var downloadBtn = document.getElementById("download-pdf");
+    var mlsForm = document.querySelector(".form--mls");
+    var table = document.getElementById("home-table");
+    var tableHeaders = table.querySelectorAll("th");
+    // Make clickable the table headers
+    tableHeaders.forEach(function (headerCell) {
+      headerCell.addEventListener("click", function () {
+        var headerIdx = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        var currentIsAscending = headerCell.classList.contains("th-sort-asc");
+        (0, _tablesort.sortTableByColumn)(table, headerIdx, !currentIsAscending);
+      });
     });
-  });
-  if (mlsForm) {
-    mlsForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var mls_input = document.getElementById("mls-input").value;
-      (0, _controller2.searchForMLS)(mls_input);
-    });
-  }
-  if (downloadBtn) {
-    downloadBtn.addEventListener("click", function () {
-      (0, _controller2.downloadResults)();
-    });
+    if (mlsForm) {
+      mlsForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var mls_input = document.getElementById("mls-input").value;
+        (0, _controller2.searchForMLS)(mls_input);
+      });
+    }
+    if (downloadBtn) {
+      downloadBtn.addEventListener("click", function () {
+        (0, _controller2.downloadResults)();
+      });
+    }
   }
 }
 if (contactForm) {
@@ -13146,7 +13154,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62535" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55663" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
