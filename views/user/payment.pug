@@ -1,0 +1,82 @@
+extends ../base
+
+block content
+    .container.payment-container.mx-auto.body-font.px-5.py-24.relative.min-h-screen
+        .relative.mx-auto.w-full.bg-white
+            .grid.min-h-screen.grid-cols-10
+                .col-span-full.py-6.px-4(class='sm:py-12 lg:col-span-6 lg:py-24')
+                    .mx-auto.w-full.max-w-lg
+                        h1.relative.text-2xl.font-medium.text-gray-700(class='sm:text-3xl')
+                        | Secure Checkout
+                        span.mt-2.block.h-1.w-10.bg-teal-600(class='sm:w-20')
+                        form.mt-10.flex.flex-col.space-y-4(action='')
+                        div
+                            label.text-xs.font-semibold.text-gray-500(for='email') Email
+                            input#email.mt-1.block.w-full.rounded.border-gray-300.bg-gray-50.py-3.px-4.text-sm.placeholder-gray-300.shadow-sm.outline-none.transition(type='email', name='email', placeholder='john.capler@fang.com', class='focus:ring-2 focus:ring-teal-500')
+                        .relative
+                            label.text-xs.font-semibold.text-gray-500(for='card-number') Card number
+                            input#card-number.block.w-full.rounded.border-gray-300.bg-gray-50.py-3.px-4.pr-10.text-sm.placeholder-gray-300.shadow-sm.outline-none.transition(type='text', name='card-number', placeholder='1234-5678-XXXX-XXXX', class='focus:ring-2 focus:ring-teal-500')
+                            img.absolute.bottom-3.right-3.max-h-4(src='/images/uQUFIfCYVYcLK0qVJF5Yw.png', alt='')
+                        div
+                            p.text-xs.font-semibold.text-gray-500 Expiration date
+                            .mr-6.flex.flex-wrap
+                            .my-1
+                                label.sr-only(for='month') Select expiration month
+                                select#month.cursor-pointer.rounded.border-gray-300.bg-gray-50.py-3.px-2.text-sm.shadow-sm.outline-none.transition(name='month', class='focus:ring-2 focus:ring-teal-500')
+                                option(value='') Month
+                            .my-1.ml-3.mr-6
+                                label.sr-only(for='year') Select expiration year
+                                select#year.cursor-pointer.rounded.border-gray-300.bg-gray-50.py-3.px-2.text-sm.shadow-sm.outline-none.transition(name='year', class='focus:ring-2 focus:ring-teal-500')
+                                option(value='') Year
+                            .relative.my-1
+                                label.sr-only(for='security-code') Security code
+                                input#security-code.block.w-36.rounded.border-gray-300.bg-gray-50.py-3.px-4.text-sm.placeholder-gray-300.shadow-sm.outline-none.transition(type='text', name='security-code', placeholder='Security code', class='focus:ring-2 focus:ring-teal-500')
+                        div
+                            label.sr-only(for='card-name') Card name
+                            input#card-name.mt-1.block.w-full.rounded.border-gray-300.bg-gray-50.py-3.px-4.text-sm.placeholder-gray-300.shadow-sm.outline-none.transition(type='text', name='card-name', placeholder='Name on the card', class='focus:ring-2 focus:ring-teal-500')
+                        p.mt-10.text-center.text-sm.font-semibold.text-gray-500
+                        | By placing this order you agree to the 
+                        a.whitespace-nowrap.text-teal-400.underline(href='#', class='hover:text-teal-600') Terms and Conditions
+                        button.mt-4.inline-flex.w-full.items-center.justify-center.rounded.bg-teal-600.px-4.text-base.font-semibold.tracking-wide.text-white.text-opacity-80.outline-none.ring-offset-2.transition(type='submit', class='py-2.5 hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg') Place Order
+                    .relative.col-span-full.flex.flex-col.py-6.pl-8.pr-4(class='sm:py-12 lg:col-span-4 lg:py-24')
+                    h2.sr-only Order summary
+                    div
+                        img.absolute.inset-0.h-full.w-full.object-cover(src='https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80', alt='')
+                        .absolute.inset-0.h-full.w-full.bg-gradient-to-t.from-teal-800.to-teal-400.opacity-95
+                    .relative
+                        ul.space-y-5
+                        li.flex.justify-between
+                            .inline-flex
+                            img.max-h-16(src='https://images.unsplash.com/photo-1620331311520-246422fd82f9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60', alt='')
+                            .ml-3
+                                p.text-base.font-semibold.text-white Nano Titanium Hair Dryer
+                                p.text-sm.font-medium.text-white.text-opacity-80 Pdf, doc Kindle
+                            p.text-sm.font-semibold.text-white $260.00
+                        li.flex.justify-between
+                            .inline-flex
+                            img.max-h-16(src='https://images.unsplash.com/photo-1621607512214-68297480165e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60', alt='')
+                            .ml-3
+                                p.text-base.font-semibold.text-white Luisia H35
+                                p.text-sm.font-medium.text-white.text-opacity-80 Hair Dryer
+                            p.text-sm.font-semibold.text-white $350.00
+                        .my-5.w-full.bg-white.bg-opacity-30(class='h-0.5')
+                        .space-y-2
+                        p.flex.justify-between.text-lg.font-bold.text-white
+                            span Total price:
+                            span $510.00
+                        p.flex.justify-between.text-sm.font-medium.text-white
+                            span Vat: 10%
+                            span $55.00
+                    .relative.mt-10.text-white
+                        h3.mb-5.text-lg.font-bold Support
+                        p.text-sm.font-semibold
+                        | +01 653 235 211 
+                        span.font-light (International)
+                        p.mt-1.text-sm.font-semibold
+                        | support@nanohair.com 
+                        span.font-light (Email)
+                        p.mt-2.text-xs.font-medium Call us now for payment related issues
+                    .relative.mt-10.flex
+                        p.flex.flex-col
+                        span.text-sm.font-bold.text-white Money Back Guarantee
+                        span.text-xs.font-medium.text-white within 30 days of purchase

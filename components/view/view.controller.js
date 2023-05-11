@@ -30,6 +30,12 @@ exports.getSettingsPage = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getPaymentPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("user/payment", {
+    title: "Payment",
+  });
+});
+
 exports.get404Page = catchAsync(async (req, res, next) => {
   res.status(200).render("error/404", {
     title: "Error",
