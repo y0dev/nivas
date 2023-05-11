@@ -4,6 +4,12 @@ const crypto = require("crypto");
 
 const logger = require("./logger").logger;
 
+/*
+  Youtube Video from Joshua Baldovino
+  on Analyzing Zillow Data Automatically
+  https://www.youtube.com/watch?v=D9jnmz_93XI
+*/
+
 class UtilityService {
   /**
    * Error handler

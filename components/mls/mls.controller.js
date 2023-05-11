@@ -370,9 +370,11 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
 async function assignPercentiles(results) {
   try {
     logger.info("Assigning Percentiles to homes");
-    const two_beds = results.find((element) => element.beds === 2);
-    const three_beds = results.find((element) => element.beds === 3);
-    const four_or_more_beds = results.find((element) => element.beds >= 4);
+    const two_beds = results.find((listing) => listing.beds === 2);
+    const three_beds = results.find(
+      (listing) => listing.beds >= 3 && listing.beds <= 4
+    );
+    // const four_or_more_beds = results.find((element) => element.beds >= 4);
 
     logger.info("Grabbing comparable homes");
     let first_result_address;
@@ -389,29 +391,9 @@ async function assignPercentiles(results) {
       );
       second_result_comp = await getComparableHomes(second_result_address);
     }
-    let third_result_address;
-    let third_result_comp;
-    if (four_or_more_beds) {
-      third_result_address = UtilityService.hyphenateAddress(
-        four_or_more_beds.address
-      );
-      third_result_comp = await getComparableHomes(third_result_address);
-    }
 
     results.forEach((element) => {
-      if (four_or_more_beds && element.beds >= four_or_more_beds.beds) {
-        const result = third_result_comp;
-        element.percentile25th =
-          UtilityService.percentage(result.percentile25th, element.price) || 0;
-        element.percentile50th = UtilityService.percentage(
-          result.percentile50th,
-          element.price
-        );
-        element.percentile75th = UtilityService.percentage(
-          result.percentile75th,
-          element.price
-        );
-      } else if (three_beds && element.beds >= three_beds.beds) {
+      if (three_beds && element.beds >= three_beds.beds) {
         const result = second_result_comp;
         element.percentile25th =
           UtilityService.percentage(result.percentile25th, element.price) || 0;
