@@ -12993,7 +12993,8 @@ var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var dashboardContainer = document.querySelector(".container.dash-container");
 var settingsContainer = document.querySelector(".container.settings-container");
-var error404Container = document.querySelector(".container.404-container");
+// const error404Container = document.querySelector(".container.404-container");
+
 if (settingsContainer || dashboardContainer) {
   (0, _controller3.addUserMenuBtn)();
   if (settingsContainer) {
@@ -13154,7 +13155,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55663" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55688" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

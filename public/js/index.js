@@ -23,7 +23,7 @@ let dashboardContainer = document.querySelector(".container.dash-container");
 const settingsContainer = document.querySelector(
   ".container.settings-container"
 );
-const error404Container = document.querySelector(".container.404-container");
+// const error404Container = document.querySelector(".container.404-container");
 
 if (settingsContainer || dashboardContainer) {
   addUserMenuBtn();
