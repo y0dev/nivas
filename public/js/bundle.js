@@ -12327,23 +12327,18 @@ function getCityAndState(str) {
     return null;
   }
 }
-function findHighestPercentile(data) {
-  var highestValue = 0;
-  var highestPercentile = "25th";
-  Object.entries(data).forEach(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      key = _ref2[0],
-      value = _ref2[1];
-    if (value > highestValue) {
-      highestValue = value;
-      highestPercentile = key;
-    }
+function calcRentToPriceRatio(purchasePrice, monthlyRent) {
+  return monthlyRent / purchasePrice * 100;
+}
+function toUSCurrency(number) {
+  return number.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
   });
-  return highestPercentile;
 }
 var searchForMLS = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
-    var url, data, searchTitle, searchTerm, zip_code, _getCityAndState, city, state, overlay, token, res, results, searchResultDiv, table, tbody, i;
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
+    var url, data, searchTitle, searchTerm, zip_code, _getCityAndState, city, state, overlay, token, res, results, twoBeds, threeBeds, searchResultDiv, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -12398,7 +12393,9 @@ var searchForMLS = /*#__PURE__*/function () {
           res = _context.sent;
           if (res.data.status === "success") {
             // showAlert("success", "MLS finish successfully");
-            results = res.data.results; // console.log(results);
+            results = res.data.results;
+            twoBeds = res.data.twoBedsQuartile;
+            threeBeds = res.data.threeBedsQuartile; // console.log(results);
             // Clear table
             searchResultDiv = document.getElementById("search-results");
             table = document.getElementById("home-table");
@@ -12406,6 +12403,25 @@ var searchForMLS = /*#__PURE__*/function () {
             for (i = table.rows.length - 1; i > 0; i--) {
               table.deleteRow(i);
             }
+
+            // Update quartile tables
+            // Two Bedrooms
+            twoBedTable = document.getElementById("two-bed-table"); // Find the table cell by ID
+            q1TwoCell = twoBedTable.querySelector("#q1-value");
+            q2TwoCell = twoBedTable.querySelector("#q2-value");
+            q3TwoCell = twoBedTable.querySelector("#q3-value");
+            q1TwoCell.textContent = toUSCurrency(twoBeds.percentile25th);
+            q2TwoCell.textContent = toUSCurrency(twoBeds.percentile50th);
+            q3TwoCell.textContent = toUSCurrency(twoBeds.percentile75th);
+
+            // Three Bedrooms
+            threeBedTable = document.getElementById("three-bed-table"); // Find the table cell by ID
+            q1ThreeCell = threeBedTable.querySelector("#q1-value");
+            q2ThreeCell = threeBedTable.querySelector("#q2-value");
+            q3ThreeCell = threeBedTable.querySelector("#q3-value");
+            q1ThreeCell.textContent = toUSCurrency(threeBeds.percentile25th);
+            q2ThreeCell.textContent = toUSCurrency(threeBeds.percentile50th);
+            q3ThreeCell.textContent = toUSCurrency(threeBeds.percentile75th);
 
             // Add Results to table
             results.forEach(function (item) {
@@ -12415,26 +12431,28 @@ var searchForMLS = /*#__PURE__*/function () {
               var bedCell = row.insertCell();
               var bathCell = row.insertCell();
               var priceCell = row.insertCell();
-              var percentileCell = row.insertCell();
+              var rentToPriceCell = row.insertCell();
               var availCell = row.insertCell();
 
+              // row styling
+              row.className = "border-b dark:border-neutral-500";
+              zpidCell.className = "whitespace-nowrap px-6 py-4";
+              addressCell.className = "whitespace-nowrap px-6 py-4";
+              bedCell.className = "whitespace-nowrap px-6 py-4";
+              bathCell.className = "whitespace-nowrap px-6 py-4";
+              priceCell.className = "whitespace-nowrap px-6 py-4";
+              rentToPriceCell.className = "whitespace-nowrap px-6 py-4";
+              availCell.className = "whitespace-nowrap px-6 py-4";
               // zpidCell.classList.add("dotted-cell");
               addressCell.classList.add("address");
-              var data = {
-                "25th": item.percentile25th,
-                "50th": item.percentile50th,
-                "75th": item.percentile75th
-              };
-              var highest = findHighestPercentile(data);
-              if (highest === "50th") {
-                zpidCell.classList.add("percentile50th");
-              } else if (highest === "25th") {
-                zpidCell.classList.add("percentile25th");
-              } else {
-                zpidCell.classList.add("percentile75th");
-              }
               zpidCell.textContent = item.zpid;
-              percentileCell.textContent = highest;
+              if (item.beds === 2) {
+                var rentToPrice = calcRentToPriceRatio(item.price, twoBeds.percentile50th);
+                rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
+              } else {
+                var _rentToPrice = calcRentToPriceRatio(item.price, threeBeds.percentile50th);
+                rentToPriceCell.textContent = _rentToPrice.toFixed(2) + "%";
+              }
               var link = document.createElement("a");
               link.href = item.url;
               link.textContent = item.address;
@@ -12466,12 +12484,12 @@ var searchForMLS = /*#__PURE__*/function () {
     }, _callee, null, [[18, 27]]);
   }));
   return function searchForMLS(_x2) {
-    return _ref3.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 exports.searchForMLS = searchForMLS;
 var downloadResults = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
     var token, res, file, fileURL;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
@@ -12509,12 +12527,12 @@ var downloadResults = /*#__PURE__*/function () {
     }, _callee2, null, [[0, 8]]);
   }));
   return function downloadResults() {
-    return _ref4.apply(this, arguments);
+    return _ref2.apply(this, arguments);
   };
 }();
 exports.downloadResults = downloadResults;
 var getSearchHistory = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
     var token, res, results, svgNS, historyContainer, previousDate, newItem, dateElement, listElement, index, element, listItem, listInnerDiv, mainText, subText, timeElement, svgElement, pathElement1, pathElement2;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
@@ -12605,7 +12623,7 @@ var getSearchHistory = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 8]]);
   }));
   return function getSearchHistory() {
-    return _ref5.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }();
 exports.getSearchHistory = getSearchHistory;
@@ -13155,7 +13173,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55688" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56635" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -35,18 +35,12 @@ function getCityAndState(str) {
   }
 }
 
-function findHighestPercentile(data) {
-  let highestValue = 0;
-  let highestPercentile = "25th";
+function calcRentToPriceRatio(purchasePrice, monthlyRent) {
+  return (monthlyRent / purchasePrice) * 100;
+}
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value > highestValue) {
-      highestValue = value;
-      highestPercentile = key;
-    }
-  });
-
-  return highestPercentile;
+function toUSCurrency(number) {
+  return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
 export const searchForMLS = async (mls_string) => {
@@ -94,6 +88,8 @@ export const searchForMLS = async (mls_string) => {
     if (res.data.status === "success") {
       // showAlert("success", "MLS finish successfully");
       const results = res.data.results;
+      const twoBeds = res.data.twoBedsQuartile;
+      const threeBeds = res.data.threeBedsQuartile;
       // console.log(results);
 
       // Clear table
@@ -104,6 +100,29 @@ export const searchForMLS = async (mls_string) => {
         table.deleteRow(i);
       }
 
+      // Update quartile tables
+      // Two Bedrooms
+      const twoBedTable = document.getElementById("two-bed-table");
+      // Find the table cell by ID
+      const q1TwoCell = twoBedTable.querySelector("#q1-value");
+      const q2TwoCell = twoBedTable.querySelector("#q2-value");
+      const q3TwoCell = twoBedTable.querySelector("#q3-value");
+
+      q1TwoCell.textContent = toUSCurrency(twoBeds.percentile25th);
+      q2TwoCell.textContent = toUSCurrency(twoBeds.percentile50th);
+      q3TwoCell.textContent = toUSCurrency(twoBeds.percentile75th);
+
+      // Three Bedrooms
+      const threeBedTable = document.getElementById("three-bed-table");
+      // Find the table cell by ID
+      const q1ThreeCell = threeBedTable.querySelector("#q1-value");
+      const q2ThreeCell = threeBedTable.querySelector("#q2-value");
+      const q3ThreeCell = threeBedTable.querySelector("#q3-value");
+
+      q1ThreeCell.textContent = toUSCurrency(threeBeds.percentile25th);
+      q2ThreeCell.textContent = toUSCurrency(threeBeds.percentile50th);
+      q3ThreeCell.textContent = toUSCurrency(threeBeds.percentile75th);
+
       // Add Results to table
       results.forEach((item) => {
         const row = tbody.insertRow();
@@ -112,27 +131,35 @@ export const searchForMLS = async (mls_string) => {
         const bedCell = row.insertCell();
         const bathCell = row.insertCell();
         const priceCell = row.insertCell();
-        const percentileCell = row.insertCell();
+        const rentToPriceCell = row.insertCell();
         const availCell = row.insertCell();
 
+        // row styling
+        row.className = "border-b dark:border-neutral-500";
+        zpidCell.className = "whitespace-nowrap px-6 py-4";
+        addressCell.className = "whitespace-nowrap px-6 py-4";
+        bedCell.className = "whitespace-nowrap px-6 py-4";
+        bathCell.className = "whitespace-nowrap px-6 py-4";
+        priceCell.className = "whitespace-nowrap px-6 py-4";
+        rentToPriceCell.className = "whitespace-nowrap px-6 py-4";
+        availCell.className = "whitespace-nowrap px-6 py-4";
         // zpidCell.classList.add("dotted-cell");
         addressCell.classList.add("address");
 
-        const data = {
-          "25th": item.percentile25th,
-          "50th": item.percentile50th,
-          "75th": item.percentile75th,
-        };
-        const highest = findHighestPercentile(data);
-        if (highest === "50th") {
-          zpidCell.classList.add("percentile50th");
-        } else if (highest === "25th") {
-          zpidCell.classList.add("percentile25th");
-        } else {
-          zpidCell.classList.add("percentile75th");
-        }
         zpidCell.textContent = item.zpid;
-        percentileCell.textContent = highest;
+        if (item.beds === 2) {
+          const rentToPrice = calcRentToPriceRatio(
+            item.price,
+            twoBeds.percentile50th
+          );
+          rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
+        } else {
+          const rentToPrice = calcRentToPriceRatio(
+            item.price,
+            threeBeds.percentile50th
+          );
+          rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
+        }
 
         const link = document.createElement("a");
         link.href = item.url;

@@ -18,6 +18,14 @@ let searchTermSchema = new Schema({
     type: [String],
     required: [true, "please add return items if there are any"],
   },
+  twoBeds: {
+    type: Object,
+    required: true,
+  },
+  threeBeds: {
+    type: Object,
+    required: true,
+  },
   dateCreated: {
     type: Date,
     required: false,

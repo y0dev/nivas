@@ -17,12 +17,54 @@ block content
             a#download-pdf(href="#" class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max") 
                 span(class="relative text-base font-semibold text-primary dark:text-white") Download PDF
             
+        
+
         #search-results.results(class="hidden sm:overflow-scroll lg:overflow-hidden mt-6")
-            .title.mb-10.text-lg 
-                h2 Search: 
-                    span.term 90712
-            table#home-table.min-w-full.text-sm.text-left
-                thead.text-md.text-main-700.uppercase.bg-main-50 
+
+            .title.mb-10.flex.justify-between
+                .search-info
+                    h2.text-lg  Search: 
+                        span.term 90712
+            
+                // Table for two-bedroom properties
+                div(class="quartile-container flex")
+                    .table-container
+                        h2(class="text-xl font-bold mb-4") Two Bedroom Quartiles
+                        table#two-bed-table(class="table-auto")
+                            thead(class="border-b font-medium dark:border-neutral-500")
+                                tr
+                                    th(class="px-6 py-4") Quartile
+                                    th(class="px-6 py-4") Value
+                            tbody
+                                tr(class="border-b dark:border-neutral-500")
+                                    td(class="whitespace-nowrap px-6 py-4") Q1
+                                    td#q1-value(class="whitespace-nowrap px-6 py-4") $1,200
+                                tr(class="border-b dark:border-neutral-500")
+                                    td(class="whitespace-nowrap px-6 py-4") Median
+                                    td#q2-value(class="whitespace-nowrap px-6 py-4") $1,500
+                                tr(class="border-b dark:border-neutral-500")
+                                    td(class="whitespace-nowrap px-6 py-4") Q3
+                                    td#q3-value(class="whitespace-nowrap px-6 py-4") $1,800
+                    .table-container(class="ml-8")
+                        h2(class="text-xl font-bold mb-4") Three Bedroom Quartiles
+                        table#three-bed-table(class="table-auto")
+                            thead(class="border-b font-medium dark:border-neutral-500")
+                                tr
+                                    th(class="px-6 py-4") Quartile
+                                    th(class="px-6 py-4") Value
+                            tbody
+                                tr(class="border-b dark:border-neutral-500")
+                                    td(class="whitespace-nowrap px-6 py-4") Q1
+                                    td#q1-value(class="whitespace-nowrap px-6 py-4") $1,500
+                                tr(class="border-b dark:border-neutral-500")
+                                    td(class="whitespace-nowrap px-6 py-4") Median
+                                    td#q2-value(class="whitespace-nowrap px-6 py-4") $1,800
+                                tr(class="border-b dark:border-neutral-500")
+                                    td(class="whitespace-nowrap px-6 py-4") Q3
+                                    td#q3-value(class="whitespace-nowrap px-6 py-4") $2,100
+
+            table#home-table.min-w-full
+                thead.text-md.text-main-700.uppercase.bg-main-50(class="border-b font-medium dark:border-neutral-500")
                     tr 
                         th.px-6.py-3 ZPID 
                         th.px-6.py-3 Address
@@ -31,5 +73,5 @@ block content
                         th.px-6.py-3 Price 
                         th.px-6.py-3 Rent to Price Ratio 
                         th.px-6.py-3 Availability
-                tbody
+                tbody(class="text-center")
                     // table rows will be updated dynamically
