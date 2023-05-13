@@ -12336,51 +12336,49 @@ function toUSCurrency(number) {
     currency: "USD"
   });
 }
+function checkAvailability(availability) {
+  return availability === "FOR_SALE";
+}
 var searchForMLS = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
-    var url, data, searchTitle, searchTerm, zip_code, _getCityAndState, city, state, overlay, token, res, results, twoBeds, threeBeds, searchResultDiv, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
+    var url, data, searchTitle, zip_code, _getCityAndState, city, state, overlay, token, res, _res$data, zipCode, cityState, listings, twoBedsQuartile, threeBedsQuartile, status, zipCodeSpan, cityStateSpan, searchResultDiv, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           // console.log(mls_string);
           searchTitle = document.querySelector("#search-results .title");
-          searchTerm = searchTitle.querySelector(".term");
           if (!containsZipCode(mls_string)) {
-            _context.next = 9;
+            _context.next = 7;
             break;
           }
           zip_code = getZipCode(mls_string);
-          searchTerm.textContent = zip_code;
-          // console.log(zip_code);
           url = "http://localhost:".concat(port, "/api/v1/mls/searchZip");
           data = {
             zip_code: zip_code
           };
-          _context.next = 17;
+          _context.next = 14;
           break;
-        case 9:
+        case 7:
           if (!containsCityAndState(mls_string)) {
-            _context.next = 16;
+            _context.next = 13;
             break;
           }
-          _getCityAndState = getCityAndState(mls_string), city = _getCityAndState.city, state = _getCityAndState.state;
-          searchTerm.textContent = "".concat(city, ", ").concat(state);
-          // console.log(city, state);
+          _getCityAndState = getCityAndState(mls_string), city = _getCityAndState.city, state = _getCityAndState.state; // console.log(city, state);
           url = "http://localhost:".concat(port, "/api/v1/mls/searchCS");
           data = {
             city: city,
             state: state
           };
-          _context.next = 17;
+          _context.next = 14;
           break;
-        case 16:
+        case 13:
           return _context.abrupt("return");
-        case 17:
+        case 14:
           overlay = document.querySelector(".spinner-overlay");
-          _context.prev = 18;
+          _context.prev = 15;
           token = localStorage.getItem("token"); // display loading overlay when making API call
           overlay.style.display = "block";
-          _context.next = 23;
+          _context.next = 20;
           return (0, _axios.default)({
             method: "POST",
             headers: {
@@ -12389,15 +12387,26 @@ var searchForMLS = /*#__PURE__*/function () {
             url: url,
             data: data
           });
-        case 23:
+        case 20:
           res = _context.sent;
-          if (res.data.status === "success") {
+          _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
+          if (status === "success") {
             // showAlert("success", "MLS finish successfully");
-            results = res.data.results;
-            twoBeds = res.data.twoBedsQuartile;
-            threeBeds = res.data.threeBedsQuartile; // console.log(results);
+            // console.log(
+            //   zipCode,
+            //   cityState,
+            //   listings,
+            //   twoBedsQuartile,
+            //   threeBedsQuartile
+            // );
+            zipCodeSpan = searchTitle.querySelector(".search-info #zip-code");
+            cityStateSpan = searchTitle.querySelector(".search-info #city-state");
+            zipCodeSpan.textContent = zipCode;
+            cityStateSpan.textContent = cityState;
+            // console.log(results);
+
             // Clear table
-            searchResultDiv = document.getElementById("search-results");
+            searchResultDiv = document.querySelector("#search-results .listings-container");
             table = document.getElementById("home-table");
             tbody = table.tBodies[0];
             for (i = table.rows.length - 1; i > 0; i--) {
@@ -12410,21 +12419,21 @@ var searchForMLS = /*#__PURE__*/function () {
             q1TwoCell = twoBedTable.querySelector("#q1-value");
             q2TwoCell = twoBedTable.querySelector("#q2-value");
             q3TwoCell = twoBedTable.querySelector("#q3-value");
-            q1TwoCell.textContent = toUSCurrency(twoBeds.percentile25th);
-            q2TwoCell.textContent = toUSCurrency(twoBeds.percentile50th);
-            q3TwoCell.textContent = toUSCurrency(twoBeds.percentile75th);
+            q1TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile25th);
+            q2TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile50th);
+            q3TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile75th);
 
             // Three Bedrooms
             threeBedTable = document.getElementById("three-bed-table"); // Find the table cell by ID
             q1ThreeCell = threeBedTable.querySelector("#q1-value");
             q2ThreeCell = threeBedTable.querySelector("#q2-value");
             q3ThreeCell = threeBedTable.querySelector("#q3-value");
-            q1ThreeCell.textContent = toUSCurrency(threeBeds.percentile25th);
-            q2ThreeCell.textContent = toUSCurrency(threeBeds.percentile50th);
-            q3ThreeCell.textContent = toUSCurrency(threeBeds.percentile75th);
+            q1ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile25th);
+            q2ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile50th);
+            q3ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile75th);
 
             // Add Results to table
-            results.forEach(function (item) {
+            listings.forEach(function (listing) {
               var row = tbody.insertRow();
               var zpidCell = row.insertCell();
               var addressCell = row.insertCell();
@@ -12434,7 +12443,7 @@ var searchForMLS = /*#__PURE__*/function () {
               var rentToPriceCell = row.insertCell();
               var availCell = row.insertCell();
 
-              // row styling
+              // Apply CSS styles to columns
               row.className = "border-b dark:border-neutral-500";
               zpidCell.className = "whitespace-nowrap px-6 py-4";
               addressCell.className = "whitespace-nowrap px-6 py-4";
@@ -12443,24 +12452,48 @@ var searchForMLS = /*#__PURE__*/function () {
               priceCell.className = "whitespace-nowrap px-6 py-4";
               rentToPriceCell.className = "whitespace-nowrap px-6 py-4";
               availCell.className = "whitespace-nowrap px-6 py-4";
-              // zpidCell.classList.add("dotted-cell");
               addressCell.classList.add("address");
-              zpidCell.textContent = item.zpid;
-              if (item.beds === 2) {
-                var rentToPrice = calcRentToPriceRatio(item.price, twoBeds.percentile50th);
+              zpidCell.textContent = listing.zpid;
+              // Calculate the rent to price for listing
+              if (listing.beds === 2) {
+                var rentToPrice = calcRentToPriceRatio(listing.price, twoBedsQuartile.percentile50th);
                 rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
               } else {
-                var _rentToPrice = calcRentToPriceRatio(item.price, threeBeds.percentile50th);
+                var _rentToPrice = calcRentToPriceRatio(listing.price, threeBedsQuartile.percentile50th);
                 rentToPriceCell.textContent = _rentToPrice.toFixed(2) + "%";
               }
+
+              // Add zillow link to address cell
               var link = document.createElement("a");
-              link.href = item.url;
-              link.textContent = item.address;
+              link.href = listing.url;
+              link.textContent = listing.address;
               addressCell.appendChild(link);
-              priceCell.textContent = item.priceStr;
-              availCell.textContent = item.status;
-              bedCell.textContent = item.beds;
-              bathCell.textContent = item.baths;
+              priceCell.textContent = listing.priceStr;
+              // availCell.textContent = listing.status;
+              bedCell.textContent = listing.beds;
+              bathCell.textContent = listing.baths;
+              if (checkAvailability(listing.status)) {
+                // Create an SVG element
+                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("fill", "currentColor");
+                svg.setAttribute("viewBox", "0 0 50 50");
+                svg.setAttribute("enable-background", "new 0 0 50 50");
+                svg.setAttribute("xml:space", "preserve");
+                svg.setAttribute("width", "24");
+                svg.setAttribute("height", "24");
+
+                // Apply CSS styles to center the SVG
+                svg.style.margin = "0 auto";
+
+                // Create an SVG path element
+                var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", "M40.267,14.628L20.974,33.921l-9.293-9.293c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l10,10c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293l20-20c0.391-0.391,0.391-1.023,0-1.414S40.657,14.237,40.267,14.628z");
+                // Append the path to the SVG element
+                svg.appendChild(path);
+
+                // Append the SVG element to the table cell
+                availCell.appendChild(svg);
+              }
             });
             if (searchResultDiv.classList.contains("hidden")) {
               searchResultDiv.classList.remove("hidden");
@@ -12472,16 +12505,16 @@ var searchForMLS = /*#__PURE__*/function () {
             //     location.assign("/");
             //   }, 1500);
           }
-          _context.next = 29;
+          _context.next = 27;
           break;
+        case 25:
+          _context.prev = 25;
+          _context.t0 = _context["catch"](15);
         case 27:
-          _context.prev = 27;
-          _context.t0 = _context["catch"](18);
-        case 29:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[18, 27]]);
+    }, _callee, null, [[15, 25]]);
   }));
   return function searchForMLS(_x2) {
     return _ref.apply(this, arguments);
@@ -13173,7 +13206,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56635" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50958" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

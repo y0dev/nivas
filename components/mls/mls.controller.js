@@ -9,7 +9,7 @@ const { createTablePdf } = require("../../utils/pdf.maker");
 const path = require("path");
 const catchAsync = require("../../utils/catchAsync");
 
-const MAX_LENGTH = 10;
+let MAX_LENGTH = 10;
 const SLEEP = 2;
 
 let prevSearchResults = null;
@@ -35,8 +35,11 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
 
     logger.info("Searching by zip code");
     const { zip_code } = req.body;
-    // const id = "jlkdjsaj";
+
     const { id } = req.user;
+    const userSettings = UtilityService.getUserSubscription("basic");
+    MAX_LENGTH = userSettings.maxAmountResults;
+    // const id = "jlkdjsaj";
 
     logger.info(`Zip Code: ${zip_code}`);
     if (!zip_code) {
@@ -65,19 +68,24 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
 
       logger.info("Grabbing comparable data from zillow");
       const { twoBeds, threeBeds } = await assignPercentiles(results);
-
       const { trucResults, ids } = await truncateResultList(id, results);
       addSearchTermToDatabase(id, zip_code, ids, twoBeds, threeBeds);
       logger.info("Successfully gathered results");
 
+      const { zipCode, city, state } = trucResults[0];
+      const cityState = `${city}, ${state}`;
+
       prevSearchResults = {
         "search-term": zip_code,
-        results: trucResults,
+        listings: trucResults,
         twoBedsQuartile: twoBeds,
         threeBedsQuartile: threeBeds,
       };
+
       res.json({
-        results: trucResults,
+        zipCode: zipCode,
+        cityState: cityState,
+        listings: trucResults,
         twoBedsQuartile: twoBeds,
         threeBedsQuartile: threeBeds,
         status: "success",
@@ -130,14 +138,19 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
       addSearchTermToDatabase(id, `${city}, ${state}`, ids, twoBeds, threeBeds);
       logger.info("Successfully gathered results");
 
+      const { zipCode, city, state } = trucResults[0];
+      const cityState = `${city}, ${state}`;
+
       prevSearchResults = {
         "search-term": `${city}, ${state}`,
-        results: trucResults,
+        listings: trucResults,
         twoBedsQuartile: twoBeds,
         threeBedsQuartile: threeBeds,
       };
       res.json({
-        results: trucResults,
+        zipCode: zipCode,
+        cityState: cityState,
+        listings: trucResults,
         twoBedsQuartile: twoBeds,
         threeBedsQuartile: threeBeds,
         status: "success",
@@ -227,7 +240,10 @@ async function truncateResultList(user_id, results) {
   // Check if the list is longer than the maximum length
   if (results.length > MAX_LENGTH) {
     trucResults = results.slice(0, MAX_LENGTH); // Truncate the list to the maximum length
+  } else {
+    trucResults = results;
   }
+
   logger.info("Storing results to database");
   // Process each object in the list
   for (let i = 0; i < trucResults.length; i++) {

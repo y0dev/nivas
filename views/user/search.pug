@@ -1,77 +1,88 @@
 extends ../base
 
 block content
+
     .container.dash-container.mx-auto.body-font.px-5.py-24.relative.min-h-screen
-        div(class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20")
-            div(class="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700")
-            div(class="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600")
-        .spinner-overlay
-            .spinner
-        h1 Dashboard
-        .mls-form(class="responsive-margins-images md-6 sm:flex lg:items-center justify-between")
-            form.form--mls(class="lg:w-1/2 sm:w-full mr-6")
-                .form__group.relative.my-4.flex
+        h1.mb-8.text-xl Property Analyzer
+        .mls-form(class="responsive-margins-images md-6 flex flex-wrap md:flex-nowrap lg:items-center justify-between")
+            form.form--mls(class="flex lg:w-2/3 sm:w-full mr-6 align-center")
+                //- .form__group.mr-4 
+                //-     label.block.mb-2.text-sm.font-medium.text-gray-900(for='countries', class='dark:text-white') Select an option
+                //-     select#countries.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(class='focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')
+                //-         option(selected='') Choose a country
+                //-         option(value='US') United States
+                //-         option(value='CA') Canada
+                //-         option(value='FR') France
+                //-         option(value='DE') Germany
+                .form__group.relative.flex(class="my-4 md:my-0")
                     input#mls-input(class="relative m-0 -mr-0.5 w-full block rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary" type="text", placeholder="Zip Code or City, State", required)
                     button(class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg") 
                         span(class="relative text-base font-semibold text-white") Search
-            a#download-pdf(href="#" class="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max") 
+            a#download-pdf(href="#" class="relative flex h-11 w-2/3 items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max") 
                 span(class="relative text-base font-semibold text-primary dark:text-white") Download PDF
             
         
-
-        #search-results.results(class="hidden sm:overflow-scroll lg:overflow-hidden mt-6")
-
-            .title.mb-10.flex.justify-between
-                .search-info
-                    h2.text-lg  Search: 
-                        span.term 90712
+        #search-results.mt-6.relative.min-h-screen
             
-                // Table for two-bedroom properties
-                div(class="quartile-container flex")
-                    .table-container
-                        h2(class="text-xl font-bold mb-4") Two Bedroom Quartiles
-                        table#two-bed-table(class="table-auto")
-                            thead(class="border-b font-medium dark:border-neutral-500")
-                                tr
-                                    th(class="px-6 py-4") Quartile
-                                    th(class="px-6 py-4") Value
-                            tbody
-                                tr(class="border-b dark:border-neutral-500")
-                                    td(class="whitespace-nowrap px-6 py-4") Q1
-                                    td#q1-value(class="whitespace-nowrap px-6 py-4") $1,200
-                                tr(class="border-b dark:border-neutral-500")
-                                    td(class="whitespace-nowrap px-6 py-4") Median
-                                    td#q2-value(class="whitespace-nowrap px-6 py-4") $1,500
-                                tr(class="border-b dark:border-neutral-500")
-                                    td(class="whitespace-nowrap px-6 py-4") Q3
-                                    td#q3-value(class="whitespace-nowrap px-6 py-4") $1,800
-                    .table-container(class="ml-8")
-                        h2(class="text-xl font-bold mb-4") Three Bedroom Quartiles
-                        table#three-bed-table(class="table-auto")
-                            thead(class="border-b font-medium dark:border-neutral-500")
-                                tr
-                                    th(class="px-6 py-4") Quartile
-                                    th(class="px-6 py-4") Value
-                            tbody
-                                tr(class="border-b dark:border-neutral-500")
-                                    td(class="whitespace-nowrap px-6 py-4") Q1
-                                    td#q1-value(class="whitespace-nowrap px-6 py-4") $1,500
-                                tr(class="border-b dark:border-neutral-500")
-                                    td(class="whitespace-nowrap px-6 py-4") Median
-                                    td#q2-value(class="whitespace-nowrap px-6 py-4") $1,800
-                                tr(class="border-b dark:border-neutral-500")
-                                    td(class="whitespace-nowrap px-6 py-4") Q3
-                                    td#q3-value(class="whitespace-nowrap px-6 py-4") $2,100
+            .spinner-overlay.absolute.mx-auto.hidden(class="top-1/2 left-1/2")
+                .spinner.flex.justify-center.align-center
+                    .spinner-border.w-16.h-16.border-4.border-solid.border-gray-700.border-t-primary.rounded-full
+                        .spinner-border-inner.w-full.h-full
 
-            table#home-table.min-w-full
-                thead.text-md.text-main-700.uppercase.bg-main-50(class="border-b font-medium dark:border-neutral-500")
-                    tr 
-                        th.px-6.py-3 ZPID 
-                        th.px-6.py-3 Address
-                        th.px-6.py-3 Beds 
-                        th.px-6.py-3 Baths
-                        th.px-6.py-3 Price 
-                        th.px-6.py-3 Rent to Price Ratio 
-                        th.px-6.py-3 Availability
-                tbody(class="text-center")
-                    // table rows will be updated dynamically
+            .listings-container.hidden
+                .title.mb-10.flex.justify-between(class="flex-wrap md:flex-nowrap")
+                    .search-info
+                        p.text-lg.leading-8  Zip Code: 
+                            span#zip-code 90712
+                        p.text-lg.leading-8  City, St: 
+                            span#city-state Lakewood, CA
+                
+                    // Tables for two-bedroom and three-bedroom properties
+                    div(class="quartile-container my-4 md:mt-0 flex flex-wrap md:flex-nowrap")
+                        .table-container
+                            h2(class="text-xl font-bold mb-4") 2 Bedrooms Quartiles
+                            table#two-bed-table(class="table-auto")
+                                thead(class="border-b font-medium dark:border-neutral-500")
+                                    tr
+                                        th(class="px-6 py-4") Quartile
+                                        th(class="px-6 py-4") Value
+                                tbody
+                                    tr(class="border-b dark:border-neutral-500")
+                                        td(class="whitespace-nowrap px-6 py-4") Q1
+                                        td#q1-value(class="whitespace-nowrap px-6 py-4") $1,200
+                                    tr(class="border-b dark:border-neutral-500")
+                                        td(class="whitespace-nowrap px-6 py-4") Median
+                                        td#q2-value(class="whitespace-nowrap px-6 py-4") $1,500
+                                    tr(class="border-b dark:border-neutral-500")
+                                        td(class="whitespace-nowrap px-6 py-4") Q3
+                                        td#q3-value(class="whitespace-nowrap px-6 py-4") $1,800
+                        .table-container(class="mt-8 md:mt-0 md:ml-8")
+                            h2(class="text-xl font-bold mb-4") 3 Bedrooms Quartiles
+                            table#three-bed-table(class="table-auto")
+                                thead(class="border-b font-medium dark:border-neutral-500")
+                                    tr
+                                        th(class="px-6 py-4") Quartile
+                                        th(class="px-6 py-4") Value
+                                tbody
+                                    tr(class="border-b dark:border-neutral-500")
+                                        td(class="whitespace-nowrap px-6 py-4") Q1
+                                        td#q1-value(class="whitespace-nowrap px-6 py-4") $1,500
+                                    tr(class="border-b dark:border-neutral-500")
+                                        td(class="whitespace-nowrap px-6 py-4") Median
+                                        td#q2-value(class="whitespace-nowrap px-6 py-4") $1,800
+                                    tr(class="border-b dark:border-neutral-500")
+                                        td(class="whitespace-nowrap px-6 py-4") Q3
+                                        td#q3-value(class="whitespace-nowrap px-6 py-4") $2,100
+                .results(class="overflow-x-auto")
+                    table#home-table.min-w-full
+                        thead.text-md.text-main-700.uppercase.bg-main-50(class="border-b font-medium dark:border-neutral-500")
+                            tr 
+                                th.px-6.py-3 ZPID 
+                                th.px-6.py-3 Address
+                                th.px-6.py-3 Beds 
+                                th.px-6.py-3 Baths
+                                th.px-6.py-3 Price 
+                                th.px-6.py-3 Rent to Price Ratio 
+                                th.px-6.py-3 Availability
+                        tbody(class="text-center")
+                            // table rows will be updated dynamically

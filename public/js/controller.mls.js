@@ -43,22 +43,22 @@ function toUSCurrency(number) {
   return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
+function checkAvailability(availability) {
+  return availability === "FOR_SALE";
+}
+
 export const searchForMLS = async (mls_string) => {
   let url, data;
   // console.log(mls_string);
   const searchTitle = document.querySelector("#search-results .title");
-  const searchTerm = searchTitle.querySelector(".term");
   if (containsZipCode(mls_string)) {
     const zip_code = getZipCode(mls_string);
-    searchTerm.textContent = zip_code;
-    // console.log(zip_code);
     url = `http://localhost:${port}/api/v1/mls/searchZip`;
     data = {
       zip_code,
     };
   } else if (containsCityAndState(mls_string)) {
     const { city, state } = getCityAndState(mls_string);
-    searchTerm.textContent = `${city}, ${state}`;
     // console.log(city, state);
     url = `http://localhost:${port}/api/v1/mls/searchCS`;
     data = {
@@ -84,16 +84,35 @@ export const searchForMLS = async (mls_string) => {
       url: url,
       data: data,
     });
-
-    if (res.data.status === "success") {
+    const {
+      zipCode,
+      cityState,
+      listings,
+      twoBedsQuartile,
+      threeBedsQuartile,
+      status,
+    } = res.data;
+    if (status === "success") {
       // showAlert("success", "MLS finish successfully");
-      const results = res.data.results;
-      const twoBeds = res.data.twoBedsQuartile;
-      const threeBeds = res.data.threeBedsQuartile;
+      // console.log(
+      //   zipCode,
+      //   cityState,
+      //   listings,
+      //   twoBedsQuartile,
+      //   threeBedsQuartile
+      // );
+      const zipCodeSpan = searchTitle.querySelector(".search-info #zip-code");
+      const cityStateSpan = searchTitle.querySelector(
+        ".search-info #city-state"
+      );
+      zipCodeSpan.textContent = zipCode;
+      cityStateSpan.textContent = cityState;
       // console.log(results);
 
       // Clear table
-      const searchResultDiv = document.getElementById("search-results");
+      const searchResultDiv = document.querySelector(
+        "#search-results .listings-container"
+      );
       const table = document.getElementById("home-table");
       const tbody = table.tBodies[0];
       for (let i = table.rows.length - 1; i > 0; i--) {
@@ -108,9 +127,9 @@ export const searchForMLS = async (mls_string) => {
       const q2TwoCell = twoBedTable.querySelector("#q2-value");
       const q3TwoCell = twoBedTable.querySelector("#q3-value");
 
-      q1TwoCell.textContent = toUSCurrency(twoBeds.percentile25th);
-      q2TwoCell.textContent = toUSCurrency(twoBeds.percentile50th);
-      q3TwoCell.textContent = toUSCurrency(twoBeds.percentile75th);
+      q1TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile25th);
+      q2TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile50th);
+      q3TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile75th);
 
       // Three Bedrooms
       const threeBedTable = document.getElementById("three-bed-table");
@@ -119,12 +138,12 @@ export const searchForMLS = async (mls_string) => {
       const q2ThreeCell = threeBedTable.querySelector("#q2-value");
       const q3ThreeCell = threeBedTable.querySelector("#q3-value");
 
-      q1ThreeCell.textContent = toUSCurrency(threeBeds.percentile25th);
-      q2ThreeCell.textContent = toUSCurrency(threeBeds.percentile50th);
-      q3ThreeCell.textContent = toUSCurrency(threeBeds.percentile75th);
+      q1ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile25th);
+      q2ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile50th);
+      q3ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile75th);
 
       // Add Results to table
-      results.forEach((item) => {
+      listings.forEach((listing) => {
         const row = tbody.insertRow();
         const zpidCell = row.insertCell();
         const addressCell = row.insertCell();
@@ -134,7 +153,7 @@ export const searchForMLS = async (mls_string) => {
         const rentToPriceCell = row.insertCell();
         const availCell = row.insertCell();
 
-        // row styling
+        // Apply CSS styles to columns
         row.className = "border-b dark:border-neutral-500";
         zpidCell.className = "whitespace-nowrap px-6 py-4";
         addressCell.className = "whitespace-nowrap px-6 py-4";
@@ -143,33 +162,66 @@ export const searchForMLS = async (mls_string) => {
         priceCell.className = "whitespace-nowrap px-6 py-4";
         rentToPriceCell.className = "whitespace-nowrap px-6 py-4";
         availCell.className = "whitespace-nowrap px-6 py-4";
-        // zpidCell.classList.add("dotted-cell");
         addressCell.classList.add("address");
 
-        zpidCell.textContent = item.zpid;
-        if (item.beds === 2) {
+        zpidCell.textContent = listing.zpid;
+        // Calculate the rent to price for listing
+        if (listing.beds === 2) {
           const rentToPrice = calcRentToPriceRatio(
-            item.price,
-            twoBeds.percentile50th
+            listing.price,
+            twoBedsQuartile.percentile50th
           );
           rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
         } else {
           const rentToPrice = calcRentToPriceRatio(
-            item.price,
-            threeBeds.percentile50th
+            listing.price,
+            threeBedsQuartile.percentile50th
           );
           rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
         }
 
+        // Add zillow link to address cell
         const link = document.createElement("a");
-        link.href = item.url;
-        link.textContent = item.address;
+        link.href = listing.url;
+        link.textContent = listing.address;
         addressCell.appendChild(link);
 
-        priceCell.textContent = item.priceStr;
-        availCell.textContent = item.status;
-        bedCell.textContent = item.beds;
-        bathCell.textContent = item.baths;
+        priceCell.textContent = listing.priceStr;
+        // availCell.textContent = listing.status;
+        bedCell.textContent = listing.beds;
+        bathCell.textContent = listing.baths;
+
+        if (checkAvailability(listing.status)) {
+          // Create an SVG element
+          const svg = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+          );
+          svg.setAttribute("fill", "currentColor");
+          svg.setAttribute("viewBox", "0 0 50 50");
+          svg.setAttribute("enable-background", "new 0 0 50 50");
+          svg.setAttribute("xml:space", "preserve");
+          svg.setAttribute("width", "24");
+          svg.setAttribute("height", "24");
+
+          // Apply CSS styles to center the SVG
+          svg.style.margin = "0 auto";
+
+          // Create an SVG path element
+          const path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+          );
+          path.setAttribute(
+            "d",
+            "M40.267,14.628L20.974,33.921l-9.293-9.293c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l10,10c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293l20-20c0.391-0.391,0.391-1.023,0-1.414S40.657,14.237,40.267,14.628z"
+          );
+          // Append the path to the SVG element
+          svg.appendChild(path);
+
+          // Append the SVG element to the table cell
+          availCell.appendChild(svg);
+        }
       });
 
       if (searchResultDiv.classList.contains("hidden")) {

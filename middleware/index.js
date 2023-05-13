@@ -17,13 +17,15 @@ exports.registerMiddleware = (app) => {
       crossOriginEmbedderPolicy: true,
       contentSecurityPolicy: {
         directives: {
-          "script-src": [
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "maps.googleapis.com"],
+          imgSrc: [
             "'self'",
-            "'unsafe-inline'",
-            "'unsafe-eval'",
+            "maps.gstatic.com",
             "*.googleapis.com",
+            "*.ggpht.com",
           ],
-          "frame-src": ["'self'", "*.google.com"],
+          frameSrc: ["'self'", "maps.googleapis.com", "*.google.com"],
         },
       },
     })
