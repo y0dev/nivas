@@ -18,7 +18,12 @@ exports.registerMiddleware = (app) => {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", "maps.googleapis.com"],
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "maps.googleapis.com",
+          ],
           imgSrc: [
             "'self'",
             "maps.gstatic.com",
