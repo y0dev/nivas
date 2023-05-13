@@ -44,6 +44,10 @@ exports.registerMiddleware = (app) => {
       limit: "10kb",
     })
   );
+  app.use((req, res, next) => {
+    res.header("Cross-Origin-Embedder-Policy", "cross-origin");
+    next();
+  });
 
   // parse application/json
   app.use(bodyParser.json({ limit: "10kb" }));
