@@ -4,6 +4,12 @@ const crypto = require("crypto");
 
 const logger = require("./logger").logger;
 
+/*
+  Youtube Video from Joshua Baldovino
+  on Analyzing Zillow Data Automatically
+  https://www.youtube.com/watch?v=D9jnmz_93XI
+*/
+
 class UtilityService {
   /**
    * Error handler
@@ -199,6 +205,7 @@ class UtilityService {
    * @author Devontae Reid
    */
   static calcPercentiles(numbers) {
+    const filteredNumbers = numbers.filter((num) => !isNaN(num));
     // sort array ascending
     const asc = (arr) => arr.sort((a, b) => a - b);
 
@@ -234,9 +241,9 @@ class UtilityService {
     const median = (arr) => q50(arr);
 
     return {
-      "25th_Percentile": q25(numbers),
-      "50th_Percentile": median(numbers),
-      "75th_Percentile": q75(numbers),
+      "25th_Percentile": q25(filteredNumbers),
+      "50th_Percentile": median(filteredNumbers),
+      "75th_Percentile": q75(filteredNumbers),
     };
   }
 
@@ -261,6 +268,30 @@ class UtilityService {
     const annualGrossIncome = monthlyRent * 12;
     const annualNetIncome = annualGrossIncome - additionalExpenses;
     return annualNetIncome / purchasePrice;
+  }
+
+  /**
+   * Get the max number of requests a month.
+   * @param {string} subscriptionTier - Tier of user.
+   * @returns {number} The rental yield, expressed as a decimal.
+   */
+  static getUserSubscription(subscriptionTier) {
+    const userSettings = {
+      maxAmountResults: 0,
+      maxAmountSearches: 0,
+    };
+    const tier = subscriptionTier.toLowerCase();
+    if (tier === "free") {
+      userSettings.maxAmountResults = 10;
+      userSettings.maxAmountSearches = 20;
+    } else if (tier === "basic") {
+      userSettings.maxAmountResults = 25;
+      userSettings.maxAmountSearches = 50;
+    } else if (tier === "premium") {
+      userSettings.maxAmountResults = Number.MAX_SAFE_INTEGER;
+      userSettings.maxAmountSearches = 100;
+    }
+    return userSettings;
   }
 }
 

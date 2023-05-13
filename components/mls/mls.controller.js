@@ -9,7 +9,7 @@ const { createTablePdf } = require("../../utils/pdf.maker");
 const path = require("path");
 const catchAsync = require("../../utils/catchAsync");
 
-const MAX_LENGTH = 10;
+let MAX_LENGTH = 10;
 const SLEEP = 2;
 
 let prevSearchResults = null;
@@ -35,8 +35,11 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
 
     logger.info("Searching by zip code");
     const { zip_code } = req.body;
-    // const id = "jlkdjsaj";
+
     const { id } = req.user;
+    const userSettings = UtilityService.getUserSubscription("basic");
+    MAX_LENGTH = userSettings.maxAmountResults;
+    // const id = "jlkdjsaj";
 
     logger.info(`Zip Code: ${zip_code}`);
     if (!zip_code) {
@@ -64,17 +67,29 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
       logger.info(`Saving zip code to db`);
 
       logger.info("Grabbing comparable data from zillow");
-      await assignPercentiles(results);
-
+      const { twoBeds, threeBeds } = await assignPercentiles(results);
       const { trucResults, ids } = await truncateResultList(id, results);
-      addSearchTermToDatabase(id, zip_code, ids);
+      addSearchTermToDatabase(id, zip_code, ids, twoBeds, threeBeds);
       logger.info("Successfully gathered results");
+
+      const { zipCode, city, state } = trucResults[0];
+      const cityState = `${city}, ${state}`;
 
       prevSearchResults = {
         "search-term": zip_code,
-        results: trucResults,
+        listings: trucResults,
+        twoBedsQuartile: twoBeds,
+        threeBedsQuartile: threeBeds,
       };
-      res.json({ results: trucResults, status: "success" });
+
+      res.json({
+        zipCode: zipCode,
+        cityState: cityState,
+        listings: trucResults,
+        twoBedsQuartile: twoBeds,
+        threeBedsQuartile: threeBeds,
+        status: "success",
+      });
     } else {
       logger.info(`No results at this zip code ${zip_code}`);
       res.json({ results: [], status: "unsuccess" });
@@ -115,19 +130,31 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
 
     if (results.length !== 0) {
       logger.info("Grabbing comparable data from zillow");
-      await assignPercentiles(results);
+      const { twoBeds, threeBeds } = await assignPercentiles(results);
       // logger.info("Gather the results");
       const { trucResults, ids } = await truncateResultList(id, results);
 
       logger.info(`Saving zip code to db`);
-      addSearchTermToDatabase(id, `${city}, ${state}`, ids);
+      addSearchTermToDatabase(id, `${city}, ${state}`, ids, twoBeds, threeBeds);
       logger.info("Successfully gathered results");
+
+      const { zipCode, city, state } = trucResults[0];
+      const cityState = `${city}, ${state}`;
 
       prevSearchResults = {
         "search-term": `${city}, ${state}`,
-        results: trucResults,
+        listings: trucResults,
+        twoBedsQuartile: twoBeds,
+        threeBedsQuartile: threeBeds,
       };
-      res.json({ results: trucResults, status: "success" });
+      res.json({
+        zipCode: zipCode,
+        cityState: cityState,
+        listings: trucResults,
+        twoBedsQuartile: twoBeds,
+        threeBedsQuartile: threeBeds,
+        status: "success",
+      });
     } else {
       logger.info(`No results at this city, state ${city}, ${state}`);
       res.json({ results: [], status: "unsuccess" });
@@ -207,13 +234,16 @@ exports.downloadPreviousSearch = catchAsync(async (req, res, next) => {
 });
 
 async function truncateResultList(user_id, results) {
-  let ids = [];
+  const ids = [];
   let trucResults = [];
   logger.info("Truncating Results");
   // Check if the list is longer than the maximum length
   if (results.length > MAX_LENGTH) {
     trucResults = results.slice(0, MAX_LENGTH); // Truncate the list to the maximum length
+  } else {
+    trucResults = results;
   }
+
   logger.info("Storing results to database");
   // Process each object in the list
   for (let i = 0; i < trucResults.length; i++) {
@@ -222,14 +252,22 @@ async function truncateResultList(user_id, results) {
     const id = await addMLSInfoToDatabase(user_id, obj);
     ids.push(id);
   }
-  logger.info(ids);
+  // logger.info(ids);
   return { trucResults, ids };
 }
-async function addSearchTermToDatabase(userId, term, searchIds) {
+async function addSearchTermToDatabase(
+  userId,
+  term,
+  searchIds,
+  twoBeds,
+  threeBeds
+) {
   await SearchTerm.create({
     userId: userId,
     term: term,
     searchIds: searchIds,
+    twoBeds: twoBeds,
+    threeBeds: threeBeds,
   });
 }
 async function addMLSInfoToDatabase(userId, homeInfo) {
@@ -367,76 +405,38 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
   }
 }
 
-async function assignPercentiles(results) {
+async function assignPercentiles(listings) {
   try {
+    // Get Quartile prices for 2 bedrooms and 3+ bedrooms
+    let results = {
+      twoBeds: {},
+      threeBeds: {},
+    };
     logger.info("Assigning Percentiles to homes");
-    const two_beds = results.find((element) => element.beds === 2);
-    const three_beds = results.find((element) => element.beds === 3);
-    const four_or_more_beds = results.find((element) => element.beds >= 4);
+    const two_beds = listings.find(
+      (listing) => listing.beds === 2 && /\d/.test(listing.address)
+    );
+    const three_beds = listings.find(
+      (listing) =>
+        listing.beds >= 3 && listing.beds <= 4 && /\d/.test(listing.address)
+    );
 
     logger.info("Grabbing comparable homes");
-    let first_result_address;
-    let first_result_comp;
     if (two_beds) {
-      first_result_address = UtilityService.hyphenateAddress(two_beds.address);
-      first_result_comp = await getComparableHomes(first_result_address);
-    }
-    let second_result_address;
-    let second_result_comp;
-    if (three_beds) {
-      second_result_address = UtilityService.hyphenateAddress(
-        three_beds.address
+      const first_result_address = UtilityService.hyphenateAddress(
+        two_beds.address
       );
-      second_result_comp = await getComparableHomes(second_result_address);
-    }
-    let third_result_address;
-    let third_result_comp;
-    if (four_or_more_beds) {
-      third_result_address = UtilityService.hyphenateAddress(
-        four_or_more_beds.address
-      );
-      third_result_comp = await getComparableHomes(third_result_address);
+      results.twoBeds = await getComparableHomes(first_result_address);
     }
 
-    results.forEach((element) => {
-      if (four_or_more_beds && element.beds >= four_or_more_beds.beds) {
-        const result = third_result_comp;
-        element.percentile25th =
-          UtilityService.percentage(result.percentile25th, element.price) || 0;
-        element.percentile50th = UtilityService.percentage(
-          result.percentile50th,
-          element.price
-        );
-        element.percentile75th = UtilityService.percentage(
-          result.percentile75th,
-          element.price
-        );
-      } else if (three_beds && element.beds >= three_beds.beds) {
-        const result = second_result_comp;
-        element.percentile25th =
-          UtilityService.percentage(result.percentile25th, element.price) || 0;
-        element.percentile50th = UtilityService.percentage(
-          result.percentile50th,
-          element.price
-        );
-        element.percentile75th = UtilityService.percentage(
-          result.percentile75th,
-          element.price
-        );
-      } else if (two_beds && element.beds >= two_beds.beds) {
-        const result = first_result_comp;
-        element.percentile25th =
-          UtilityService.percentage(result.percentile25th, element.price) || 0;
-        element.percentile50th = UtilityService.percentage(
-          result.percentile50th,
-          element.price
-        );
-        element.percentile75th = UtilityService.percentage(
-          result.percentile75th,
-          element.price
-        );
-      }
-    });
+    if (three_beds) {
+      const second_result_address = UtilityService.hyphenateAddress(
+        three_beds.address
+      );
+      results.threeBeds = await getComparableHomes(second_result_address);
+    }
+
+    return results;
   } catch (err) {
     UtilityService.handleError(err);
   }
@@ -455,7 +455,6 @@ async function getComparableHomes(address) {
       minPrice: 0,
       maxPrice: 0,
       averagePrice: 0,
-      properties: [],
       percentile25th: 0,
       percentile50th: 0,
       percentile75th: 0,
@@ -491,30 +490,14 @@ async function getComparableHomes(address) {
             element.monthlyRent
           ) {
             prices.push(UtilityService.currencyConverter(element.monthlyRent));
-            comparable.properties.push({
-              zpid: element.zpid,
-              monthlyRent: element.monthlyRent,
-              bubblePrice: element.bubblePrice,
-              sqft: element.sqft,
-              pricePerSqft: element.pricePerSqft,
-              street: element.street || "",
-              city: element.city || "",
-              state: element.state || "",
-              zipCode: parseInt(element.zip) || 0,
-              beds: parseInt(element.beds) || 0,
-              baths: parseInt(element.baths) || 0,
-              position: {
-                latitude: parseFloat(element.lat) || 0,
-                longitude: parseFloat(element.lon) || 0,
-              },
-            });
           }
         });
+
+        const percentiles = UtilityService.calcPercentiles(prices);
         comparable.minPrice = parseInt(json["min"]) || 0;
         comparable.maxPrice = parseInt(json["max"]) || 0;
         comparable.averagePrice =
           (comparable.minPrice + comparable.maxPrice) / 2;
-        const percentiles = UtilityService.calcPercentiles(prices);
         // console.log(prices);
         comparable.percentile25th = percentiles["25th_Percentile"];
         comparable.percentile50th = percentiles["50th_Percentile"];

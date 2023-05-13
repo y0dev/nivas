@@ -12,7 +12,29 @@ exports.MINUTE = MINUTE;
 
 exports.registerMiddleware = (app) => {
   logger.info("Registering middleware");
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginEmbedderPolicy: true,
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "maps.googleapis.com",
+          ],
+          imgSrc: [
+            "'self'",
+            "maps.gstatic.com",
+            "*.googleapis.com",
+            "*.ggpht.com",
+          ],
+          frameSrc: ["'self'", "maps.googleapis.com", "*.google.com"],
+        },
+      },
+    })
+  );
   app.use(cors());
 
   // parse application/x-www-form-urlencoded
@@ -22,6 +44,10 @@ exports.registerMiddleware = (app) => {
       limit: "10kb",
     })
   );
+  app.use((req, res, next) => {
+    res.header("Cross-Origin-Embedder-Policy", "cross-origin");
+    next();
+  });
 
   // parse application/json
   app.use(bodyParser.json({ limit: "10kb" }));

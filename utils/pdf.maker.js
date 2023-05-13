@@ -96,7 +96,7 @@ exports.createTablePdf = (documentName, searchResults) => {
       },
     },
   };
-  searchResults["results"].forEach((item) => {
+  searchResults["listings"].forEach((item) => {
     docDefinition.content[tableIdx].table.body.push([
       item.zpid,
       item.address,

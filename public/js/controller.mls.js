@@ -35,36 +35,30 @@ function getCityAndState(str) {
   }
 }
 
-function findHighestPercentile(data) {
-  let highestValue = 0;
-  let highestPercentile = "25th";
+function calcRentToPriceRatio(purchasePrice, monthlyRent) {
+  return (monthlyRent / purchasePrice) * 100;
+}
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (value > highestValue) {
-      highestValue = value;
-      highestPercentile = key;
-    }
-  });
+function toUSCurrency(number) {
+  return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
 
-  return highestPercentile;
+function checkAvailability(availability) {
+  return availability === "FOR_SALE";
 }
 
 export const searchForMLS = async (mls_string) => {
   let url, data;
   // console.log(mls_string);
   const searchTitle = document.querySelector("#search-results .title");
-  const searchTerm = searchTitle.querySelector(".term");
   if (containsZipCode(mls_string)) {
     const zip_code = getZipCode(mls_string);
-    searchTerm.textContent = zip_code;
-    // console.log(zip_code);
     url = `http://localhost:${port}/api/v1/mls/searchZip`;
     data = {
       zip_code,
     };
   } else if (containsCityAndState(mls_string)) {
     const { city, state } = getCityAndState(mls_string);
-    searchTerm.textContent = `${city}, ${state}`;
     // console.log(city, state);
     url = `http://localhost:${port}/api/v1/mls/searchCS`;
     data = {
@@ -90,59 +84,144 @@ export const searchForMLS = async (mls_string) => {
       url: url,
       data: data,
     });
-
-    if (res.data.status === "success") {
+    const {
+      zipCode,
+      cityState,
+      listings,
+      twoBedsQuartile,
+      threeBedsQuartile,
+      status,
+    } = res.data;
+    if (status === "success") {
       // showAlert("success", "MLS finish successfully");
-      const results = res.data.results;
+      // console.log(
+      //   zipCode,
+      //   cityState,
+      //   listings,
+      //   twoBedsQuartile,
+      //   threeBedsQuartile
+      // );
+      const zipCodeSpan = searchTitle.querySelector(".search-info #zip-code");
+      const cityStateSpan = searchTitle.querySelector(
+        ".search-info #city-state"
+      );
+      zipCodeSpan.textContent = zipCode;
+      cityStateSpan.textContent = cityState;
       // console.log(results);
 
       // Clear table
-      const searchResultDiv = document.getElementById("search-results");
+      const searchResultDiv = document.querySelector(
+        "#search-results .listings-container"
+      );
       const table = document.getElementById("home-table");
       const tbody = table.tBodies[0];
       for (let i = table.rows.length - 1; i > 0; i--) {
         table.deleteRow(i);
       }
 
+      // Update quartile tables
+      // Two Bedrooms
+      const twoBedTable = document.getElementById("two-bed-table");
+      // Find the table cell by ID
+      const q1TwoCell = twoBedTable.querySelector("#q1-value");
+      const q2TwoCell = twoBedTable.querySelector("#q2-value");
+      const q3TwoCell = twoBedTable.querySelector("#q3-value");
+
+      q1TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile25th);
+      q2TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile50th);
+      q3TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile75th);
+
+      // Three Bedrooms
+      const threeBedTable = document.getElementById("three-bed-table");
+      // Find the table cell by ID
+      const q1ThreeCell = threeBedTable.querySelector("#q1-value");
+      const q2ThreeCell = threeBedTable.querySelector("#q2-value");
+      const q3ThreeCell = threeBedTable.querySelector("#q3-value");
+
+      q1ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile25th);
+      q2ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile50th);
+      q3ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile75th);
+
       // Add Results to table
-      results.forEach((item) => {
+      listings.forEach((listing) => {
         const row = tbody.insertRow();
         const zpidCell = row.insertCell();
         const addressCell = row.insertCell();
         const bedCell = row.insertCell();
         const bathCell = row.insertCell();
         const priceCell = row.insertCell();
-        const percentileCell = row.insertCell();
+        const rentToPriceCell = row.insertCell();
         const availCell = row.insertCell();
 
-        // zpidCell.classList.add("dotted-cell");
+        // Apply CSS styles to columns
+        row.className = "border-b dark:border-neutral-500";
+        zpidCell.className = "whitespace-nowrap px-6 py-4";
+        addressCell.className = "whitespace-nowrap px-6 py-4";
+        bedCell.className = "whitespace-nowrap px-6 py-4";
+        bathCell.className = "whitespace-nowrap px-6 py-4";
+        priceCell.className = "whitespace-nowrap px-6 py-4";
+        rentToPriceCell.className = "whitespace-nowrap px-6 py-4";
+        availCell.className = "whitespace-nowrap px-6 py-4";
         addressCell.classList.add("address");
 
-        const data = {
-          "25th": item.percentile25th,
-          "50th": item.percentile50th,
-          "75th": item.percentile75th,
-        };
-        const highest = findHighestPercentile(data);
-        if (highest === "50th") {
-          zpidCell.classList.add("percentile50th");
-        } else if (highest === "25th") {
-          zpidCell.classList.add("percentile25th");
+        zpidCell.textContent = listing.zpid;
+        // Calculate the rent to price for listing
+        if (listing.beds === 2) {
+          const rentToPrice = calcRentToPriceRatio(
+            listing.price,
+            twoBedsQuartile.percentile50th
+          );
+          rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
         } else {
-          zpidCell.classList.add("percentile75th");
+          const rentToPrice = calcRentToPriceRatio(
+            listing.price,
+            threeBedsQuartile.percentile50th
+          );
+          rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
         }
-        zpidCell.textContent = item.zpid;
-        percentileCell.textContent = highest;
 
+        // Add zillow link to address cell
         const link = document.createElement("a");
-        link.href = item.url;
-        link.textContent = item.address;
+        link.href = listing.url;
+        link.textContent = listing.address;
         addressCell.appendChild(link);
 
-        priceCell.textContent = item.priceStr;
-        availCell.textContent = item.status;
-        bedCell.textContent = item.beds;
-        bathCell.textContent = item.baths;
+        priceCell.textContent = listing.priceStr;
+        // availCell.textContent = listing.status;
+        bedCell.textContent = listing.beds;
+        bathCell.textContent = listing.baths;
+
+        if (checkAvailability(listing.status)) {
+          // Create an SVG element
+          const svg = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+          );
+          svg.setAttribute("fill", "currentColor");
+          svg.setAttribute("viewBox", "0 0 50 50");
+          svg.setAttribute("enable-background", "new 0 0 50 50");
+          svg.setAttribute("xml:space", "preserve");
+          svg.setAttribute("width", "24");
+          svg.setAttribute("height", "24");
+
+          // Apply CSS styles to center the SVG
+          svg.style.margin = "0 auto";
+
+          // Create an SVG path element
+          const path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+          );
+          path.setAttribute(
+            "d",
+            "M40.267,14.628L20.974,33.921l-9.293-9.293c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l10,10c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293l20-20c0.391-0.391,0.391-1.023,0-1.414S40.657,14.237,40.267,14.628z"
+          );
+          // Append the path to the SVG element
+          svg.appendChild(path);
+
+          // Append the SVG element to the table cell
+          availCell.appendChild(svg);
+        }
       });
 
       if (searchResultDiv.classList.contains("hidden")) {
