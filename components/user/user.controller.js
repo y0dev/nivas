@@ -110,6 +110,25 @@ exports.getUser = (req, res) => {
   res.send("wait");
 };
 
+// Upgrade subscription Tier
+exports.upgradeSubscription = catchAsync(async (req, res, next) => {
+  try {
+    const user = req.user; // Assuming you have user information available in the request object
+    const { subscription } = req.body;
+
+    // Update the user's subscription in the database
+    user.subscriptionTier = subscription;
+    await user.save();
+
+    // Perform any additional actions required for the upgrade
+    // ...
+
+    res.status(200).json({ message: "Upgraded to Premium from Basic" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 //admin
 exports.updateUser = factory.updateOne(User);
 exports.deleteAsAdmin = factory.deleteOne(User);

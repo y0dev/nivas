@@ -7,6 +7,7 @@ const {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
+  upgradeSubscription,
 } = require("./user.controller");
 const {
   signUp,
@@ -31,13 +32,17 @@ router.patch("/resetPassword/:token", resetPassword);
 router.use(protect);
 
 router.get("/me", getMe, getUser);
-router.patch("/updatePassword", updatePassword);
+router.patch("/update/password", updatePassword);
 router.patch(
-  "/updateUserDetails",
+  "/update/details",
   uploadUserPhoto,
   resizeUserPhoto,
   updateUserDetails
 );
+
+// Upgrade user subscription
+router.patch("/upgrade/subscription", upgradeSubscription);
+
 router.delete("/deleteUser", deleteUser);
 
 module.exports = router;
