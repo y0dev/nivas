@@ -84,7 +84,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(new AppError("You must be logged in"), 401);
+    return next(new AppError("You must be logged in", 401));
   }
 
   logger.info("Decoding JWT");
@@ -263,3 +263,15 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createAndSendToken(user, 200, req, res);
 });
+
+// Error handling middleware
+exports.errorHandler = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.statusCode || 500).json({
+    status: "error",
+    error: {
+      statusCode: err.statusCode || 500,
+      message: err.message || "Internal Server Error",
+    },
+  });
+};
