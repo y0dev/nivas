@@ -23,6 +23,7 @@ exports.registerMiddleware = (app) => {
             "'unsafe-inline'",
             "'unsafe-eval'",
             "maps.googleapis.com",
+            "unpkg.com/boxicons@2.1.4",
           ],
           imgSrc: [
             "'self'",
