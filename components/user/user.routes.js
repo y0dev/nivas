@@ -8,6 +8,7 @@ const {
   uploadUserPhoto,
   resizeUserPhoto,
   upgradeSubscription,
+  selectSubscription,
 } = require("./user.controller");
 const {
   signUp,
@@ -20,6 +21,8 @@ const {
 } = require("../auth/auth.controller");
 
 const router = express.Router({ mergeParams: true });
+
+router.post("/subscription", selectSubscription);
 
 // Routes that anyone can access
 router.post("/signup", signUp);

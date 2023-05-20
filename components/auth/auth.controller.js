@@ -37,6 +37,11 @@ const createAndSendToken = (user, statusCode, req, res) => {
 
 exports.signUp = catchAsync(async (req, res, next) => {
   logger.info("Signing up a new user");
+  const { subscription } = req.session;
+  if (subscription) {
+    console.log(subscription);
+  }
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -148,7 +153,7 @@ exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
 exports.logout = (req, res) => {
   logger.info("Logging user out");
   res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 10 * 1000),
+    expires: new Date(Date.now() + 10 * 1000), // 10 Seconds
     httpOnly: true,
   });
   res.status(200).json({ status: "success" });

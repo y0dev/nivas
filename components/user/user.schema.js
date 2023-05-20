@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     enum: ["free", "basic", "premium"],
   },
+  subscriptionDate: {
+    type: Date,
+    default: null,
+  },
   isAdmin: {
     type: Boolean,
     default: false,
@@ -99,24 +103,20 @@ userSchema.pre("save", function (next) {
     const newSubscription = this.subscription;
 
     if (previousSubscription === "free" && newSubscription === "basic") {
-      // Logic for upgrading from free to basic
-      // Perform necessary actions here
       console.log("Free to Basic");
     } else if (
       previousSubscription === "free" &&
       newSubscription === "premium"
     ) {
-      // Logic for upgrading from free to premium
-      // Perform necessary actions here
       console.log("Free to Premium");
     } else if (
       previousSubscription === "basic" &&
       newSubscription === "premium"
     ) {
-      // Logic for upgrading from basic to premium
-      // Perform necessary actions here
       console.log("Basic to Premium");
     }
+
+    this.subscriptionDate = new Date();
     console.log("Subscription upgrade performed");
 
     // Call `next()` to continue with the save operation
