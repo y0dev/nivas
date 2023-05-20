@@ -182,7 +182,7 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 // eslint-disable-next-line prettier/prettier
-exports.forgotPassword = async (req, res, next) => {
+exports.forgotPassword = catchAsync(async (req, res, next) => {
   logger.info("Forgot password");
   const user = await User.findOne({ email: req.body.email });
 
@@ -220,7 +220,7 @@ exports.forgotPassword = async (req, res, next) => {
       new AppError("There was an error with resetting your password", 500)
     );
   }
-};
+});
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   logger.info("Reset password");
