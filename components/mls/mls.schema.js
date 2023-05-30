@@ -1,6 +1,4 @@
 const { Schema, model } = require("mongoose");
-// import * as Mongoose from "mongoose";
-// import { IUserModel } from "./user.types";
 
 let searchTermSchema = new Schema({
   userId: {
