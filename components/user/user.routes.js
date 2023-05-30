@@ -7,6 +7,8 @@ const {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
+  upgradeSubscription,
+  selectSubscription,
 } = require("./user.controller");
 const {
   signUp,
@@ -20,6 +22,8 @@ const {
 
 const router = express.Router({ mergeParams: true });
 
+router.post("/subscription", selectSubscription);
+
 // Routes that anyone can access
 router.post("/signup", signUp);
 router.post("/login", login);
@@ -31,13 +35,17 @@ router.patch("/resetPassword/:token", resetPassword);
 router.use(protect);
 
 router.get("/me", getMe, getUser);
-router.patch("/updatePassword", updatePassword);
+router.patch("/update/password", updatePassword);
 router.patch(
-  "/updateUserDetails",
+  "/update/details",
   uploadUserPhoto,
   resizeUserPhoto,
   updateUserDetails
 );
+
+// Upgrade user subscription
+router.patch("/upgrade/subscription", upgradeSubscription);
+
 router.delete("/deleteUser", deleteUser);
 
 module.exports = router;

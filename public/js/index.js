@@ -11,7 +11,7 @@ import {
   removeSignupBtn,
   removeLogoutBtn,
 } from "./controller.navbar";
-import { signup, login, logout } from "./controller.user";
+import { signup, login, logout, subscribe } from "./controller.user";
 import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
@@ -23,6 +23,7 @@ let dashboardContainer = document.querySelector(".container.dash-container");
 const settingsContainer = document.querySelector(
   ".container.settings-container"
 );
+const pricingSection = document.querySelector("section#pricing");
 // const error404Container = document.querySelector(".container.404-container");
 
 if (settingsContainer || dashboardContainer) {
@@ -72,6 +73,27 @@ if (settingsContainer || dashboardContainer) {
         downloadResults();
       });
     }
+  }
+}
+
+if (pricingSection) {
+  const tier1Btn = document.getElementById("tier-1-btn");
+  const tier2Btn = document.getElementById("tier-2-btn");
+  const tier3Btn = document.getElementById("tier-3-btn");
+
+  // Do something with the element with the ID
+  if (tier1Btn && tier2Btn && tier3Btn) {
+    tier1Btn.addEventListener("click", () => {
+      subscribe("free");
+    });
+
+    tier2Btn.addEventListener("click", () => {
+      subscribe("basic");
+    });
+
+    tier3Btn.addEventListener("click", () => {
+      subscribe("premium");
+    });
   }
 }
 

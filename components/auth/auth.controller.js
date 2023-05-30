@@ -37,6 +37,11 @@ const createAndSendToken = (user, statusCode, req, res) => {
 
 exports.signUp = catchAsync(async (req, res, next) => {
   logger.info("Signing up a new user");
+  const { subscription } = req.session;
+  if (subscription) {
+    console.log(subscription);
+  }
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -84,7 +89,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(new AppError("You must be logged in"), 401);
+    return next(new AppError("You must be logged in", 401));
   }
 
   logger.info("Decoding JWT");
@@ -148,7 +153,7 @@ exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
 exports.logout = (req, res) => {
   logger.info("Logging user out");
   res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 10 * 1000),
+    expires: new Date(Date.now() + 10 * 1000), // 10 Seconds
     httpOnly: true,
   });
   res.status(200).json({ status: "success" });
@@ -182,7 +187,7 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 // eslint-disable-next-line prettier/prettier
-exports.forgotPassword = async (req, res, next) => {
+exports.forgotPassword = catchAsync(async (req, res, next) => {
   logger.info("Forgot password");
   const user = await User.findOne({ email: req.body.email });
 
@@ -220,7 +225,7 @@ exports.forgotPassword = async (req, res, next) => {
       new AppError("There was an error with resetting your password", 500)
     );
   }
-};
+});
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   logger.info("Reset password");
@@ -263,3 +268,15 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createAndSendToken(user, 200, req, res);
 });
+
+// Error handling middleware
+exports.errorHandler = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.statusCode || 500).json({
+    status: "error",
+    error: {
+      statusCode: err.statusCode || 500,
+      message: err.message || "Internal Server Error",
+    },
+  });
+};

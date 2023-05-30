@@ -6,6 +6,7 @@ const {
   getDashboardPage,
   getSettingsPage,
   get404Page,
+  getPaymentPage,
 } = require("./view.controller");
 
 const { protectedViewRoutes } = require("../auth/auth.controller");
@@ -22,5 +23,7 @@ router.get("/error", get404Page);
 router.get("/test-search", getDashboardPage);
 router.get("/search", protectedViewRoutes, getDashboardPage);
 router.get("/settings", protectedViewRoutes, getSettingsPage);
+
+router.get("/payment", getPaymentPage);
 
 module.exports = router;

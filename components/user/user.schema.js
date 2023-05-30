@@ -39,6 +39,16 @@ const userSchema = new mongoose.Schema({
     },
     select: false,
   },
+  subscriptionTier: {
+    type: String, // or any other appropriate data type
+    default: "free",
+    required: true,
+    enum: ["free", "basic", "premium"],
+  },
+  subscriptionDate: {
+    type: Date,
+    default: null,
+  },
   isAdmin: {
     type: Boolean,
     default: false,
@@ -63,8 +73,58 @@ userSchema.pre("save", async function (next) {
   // Hash the password with the salt
   this.password = await bcrypt.hash(this.password, salt);
 
+  // Set password creation date if it's not already set
+  if (!this.passwordCreatedAt) {
+    this.passwordCreatedAt = new Date();
+  }
+
   this.confirmPassword = undefined;
   next();
+});
+
+// Define a pre hook to update the deleted property
+userSchema.pre("findByIdAndUpdate", async function (next) {
+  // Access the document being updated
+  const docToUpdate = await this.model.findById(this.getQuery());
+
+  // Check if the document exists and update the deleted property
+  if (docToUpdate) {
+    docToUpdate.deleted = true;
+    await docToUpdate.save();
+  }
+
+  // Proceed to the next middleware
+  next();
+});
+
+userSchema.pre("save", function (next) {
+  if (this.isModified("subscription")) {
+    const previousSubscription = this.previous("subscription");
+    const newSubscription = this.subscription;
+
+    if (previousSubscription === "free" && newSubscription === "basic") {
+      console.log("Free to Basic");
+    } else if (
+      previousSubscription === "free" &&
+      newSubscription === "premium"
+    ) {
+      console.log("Free to Premium");
+    } else if (
+      previousSubscription === "basic" &&
+      newSubscription === "premium"
+    ) {
+      console.log("Basic to Premium");
+    }
+
+    this.subscriptionDate = new Date();
+    console.log("Subscription upgrade performed");
+
+    // Call `next()` to continue with the save operation
+    next();
+  } else {
+    // Subscription not upgraded, proceed with the save operation
+    next();
+  }
 });
 
 userSchema.methods.verifyPassword = async function (password) {
@@ -75,18 +135,6 @@ userSchema.methods.verifyPassword = async function (password) {
     throw error;
   }
 };
-
-// userSchema.pre('save', function (next) {
-//   if (!this.isModified('password') || this.isNew) return next();
-
-//   // a hacky way of making sure that the password creation date has been set before the toke is created
-//   this.passwordUpdatedAt = Date.now() - 2000;
-//   next();
-// });
-
-// userSchema.pre(/^find/, function (next) {
-//   this.find({ deleted: { $ne: true } });
-// });
 
 userSchema.methods.correctPassword = function (
   candidatePassword,

@@ -71,3 +71,24 @@ export const signup = async (name, email, password, passwordConfirmation) => {
     showAlert("fail", err.response.data.message);
   }
 };
+
+export const subscribe = async (subscription) => {
+  try {
+    console.log(subscription);
+    const res = await axios({
+      method: "POST",
+      url: `http://localhost:${port}/api/v1/user/subscription`,
+      data: {
+        subscription,
+      },
+    });
+    if (res.data.status === "success") {
+      console.log(res.data);
+      window.setTimeout(() => {
+        location.assign("/signup");
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert("fail", err.response.data.message);
+  }
+};

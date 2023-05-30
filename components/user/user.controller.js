@@ -5,6 +5,7 @@ const AppError = require("../../utils/appError");
 const catchAsync = require("../../utils/catchAsync");
 const logger = require("../../utils/logger").logger;
 const factory = require("../repo/repo.controller");
+const UtilityService = require("../../utils/utilities");
 
 const multerStorage = multer.memoryStorage();
 
@@ -109,6 +110,41 @@ exports.newUser = (req, res) => {
 exports.getUser = (req, res) => {
   res.send("wait");
 };
+
+exports.selectSubscription = catchAsync(async (req, res, next) => {
+  const { subscription } = req.body;
+  logger.info("Subscribing to a plan");
+  res.cookie("subscription", subscription, {
+    expires: new Date(Date.now() + 5 * 60 * 1000), // 5 Minutes
+    httpOnly: true,
+  });
+
+  res.json({
+    status: "success",
+    data: null,
+  });
+  // Redirect the user to the signup page
+  // res.redirect("/signup");
+});
+
+// Upgrade subscription Tier
+exports.upgradeSubscription = catchAsync(async (req, res, next) => {
+  try {
+    const user = req.user; // Assuming you have user information available in the request object
+    const { subscription } = req.body;
+
+    // Update the user's subscription in the database
+    user.subscriptionTier = subscription;
+    await user.save();
+
+    // Perform any additional actions required for the upgrade
+    // ...
+
+    res.status(200).json({ message: "Upgraded to Premium from Basic" });
+  } catch (error) {
+    next(error);
+  }
+});
 
 //admin
 exports.updateUser = factory.updateOne(User);
