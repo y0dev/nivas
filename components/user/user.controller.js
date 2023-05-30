@@ -119,8 +119,12 @@ exports.selectSubscription = catchAsync(async (req, res, next) => {
     httpOnly: true,
   });
 
+  res.json({
+    status: "success",
+    data: null,
+  });
   // Redirect the user to the signup page
-  res.redirect("/signup");
+  // res.redirect("/signup");
 });
 
 // Upgrade subscription Tier
