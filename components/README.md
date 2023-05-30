@@ -5,6 +5,7 @@
 ## :open_file_folder: Folder structure
 
 - `auth` Component that handles authentication
+- `coupon` Component that handles coupon generation and validation (Admin Only)
 - `email` Component that handles email
 - `mls` Component that handles Multiple Listing Service (Zillow)
 - `payment` Component that handles Payment Service (Stripe)
