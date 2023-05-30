@@ -1341,6 +1341,9 @@ video {
 .uppercase {
     text-transform: uppercase;
 }
+.capitalize {
+    text-transform: capitalize;
+}
 .leading-7 {
     line-height: 1.75rem;
 }
@@ -2660,6 +2663,11 @@ video {
 
     .lg\:mt-0 {
         margin-top: 0px;
+    }
+
+
+    .lg\:flex {
+        display: flex;
     }
 
 
