@@ -8,11 +8,11 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split("")[0];
     this.url = url;
-    this.from = `Good Digital <${process.env.EMAIL_FROM}>`;
+    this.from = `Urban Insight Inc. <${process.env.EMAIL_FROM}>`;
   }
 
   // constructor() {
-  //   this.from = `Good Digital <${process.env.EMAIL_FROM}>`;
+  //   this.from = `Urban Insight Inc. <${process.env.EMAIL_FROM}>`;
   // }
 
   newTransport() {
@@ -57,7 +57,7 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send("welcome", "Welcome to Pad Harvest!");
+    await this.send("welcome", "Welcome to Urban Insight Inc!");
   }
 
   async sendPasswordReset() {
@@ -65,7 +65,7 @@ module.exports = class Email {
   }
 
   async sendContactEmail() {
-    await this.send("welcome", "Someone will reach out to you shortly.");
+    await this.send("contact_email", "Someone will reach out to you shortly.");
   }
 };
 

@@ -111,6 +111,24 @@ exports.getUser = (req, res) => {
   res.send("wait");
 };
 
+exports.purchaseCoins = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
+  const { coins } = req.body;
+
+  // Find the user by id
+  const user = await User.findById(id);
+
+  // Update the coin bank for the user
+  user.coinBank.coins += coins;
+
+  // Save the updated user
+  await user.save();
+
+  res.status(200).json({ message: "Coins purchased successfully." });
+  // Redirect the user to the signup page
+  // res.redirect("/signup");
+});
+
 exports.selectSubscription = catchAsync(async (req, res, next) => {
   const { subscription } = req.body;
   logger.info("Subscribing to a plan");

@@ -78,6 +78,20 @@ userSchema.pre("save", async function (next) {
     this.passwordCreatedAt = new Date();
   }
 
+  // Create a coin bank record for the user with initial coins
+  const coinBank = new CoinBank({
+    user: this._id,
+    coins: 100, // Set the initial number of coins
+  });
+
+  try {
+    // Save the coin bank record
+    await coinBank.save();
+    next();
+  } catch (error) {
+    next(error);
+  }
+
   this.confirmPassword = undefined;
   next();
 });
@@ -165,6 +179,34 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-const User = mongoose.model("User", userSchema);
+// Coin Bank
+const coinBankSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    unique: true,
+  },
+  coins: {
+    type: Number,
+    default: 0,
+  },
+  purchasedDate: {
+    type: Date,
+    required: true,
+  },
+});
 
-module.exports = User;
+coinBankSchema.pre("save", function (next) {
+  // Set password creation date if it's not already set
+  if (!this.purchasedDate) {
+    this.purchasedDate = new Date();
+  }
+
+  next();
+});
+
+const User = mongoose.model("User", userSchema);
+const CoinBank = mongoose.model("CoinBank", coinBankSchema);
+
+module.exports = { User, CoinBank };
