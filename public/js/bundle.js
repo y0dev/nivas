@@ -12444,7 +12444,7 @@ var searchForMLS = /*#__PURE__*/function () {
               var availCell = row.insertCell();
 
               // Apply CSS styles to columns
-              row.className = "border-b dark:border-neutral-500";
+              row.className = "border-b";
               zpidCell.className = "whitespace-nowrap px-6 py-4";
               addressCell.className = "whitespace-nowrap px-6 py-4";
               bedCell.className = "whitespace-nowrap px-6 py-4";
@@ -12617,14 +12617,14 @@ var getSearchHistory = /*#__PURE__*/function () {
               svgElement = document.createElementNS(svgNS, "svg");
               pathElement1 = document.createElementNS(svgNS, "path");
               pathElement2 = document.createElementNS(svgNS, "path");
-              newItem.className = "p-5 mb-4 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700";
-              dateElement.className = "text-lg font-semibold text-gray-900 dark:text-white";
-              listElement.className = "mt-3 divide-y divider-gray-200 dark:divide-gray-700";
-              listItem.className = "items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700";
-              listInnerDiv.className = "text-gray-600 dark:text-gray-400";
-              mainText.className = "text-base font-normal dark:text-white";
+              newItem.className = "p-5 mb-4 border border-gray-100 rounded-lg bg-gray-50";
+              dateElement.className = "text-lg font-semibold text-gray-900";
+              listElement.className = "mt-3 divide-y divider-gray-200";
+              listItem.className = "items-center block p-3 sm:flex hover:bg-gray-100";
+              listInnerDiv.className = "text-gray-600";
+              mainText.className = "text-base font-normal";
               subText.className = "text-sm font-normal";
-              timeElement.className = "inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400";
+              timeElement.className = "inline-flex items-center text-xs font-normal text-gray-500";
               svgElement.classList.add("w-3", "h-3", "mr-1");
 
               // Append children
@@ -13266,7 +13266,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52176" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60566" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
