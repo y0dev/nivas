@@ -23,8 +23,6 @@ const { makePayment } = require("../payment/payment.controller");
 
 const router = express.Router({ mergeParams: true });
 
-router.post("/subscription", selectSubscription);
-
 // Routes that anyone can access
 router.post("/signup", signUp);
 router.post("/login", login);
