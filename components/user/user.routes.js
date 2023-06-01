@@ -7,7 +7,7 @@ const {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
-  upgradeSubscription,
+  purchaseCoins,
   selectSubscription,
 } = require("./user.controller");
 const {
@@ -19,6 +19,7 @@ const {
   updatePassword,
   logout,
 } = require("../auth/auth.controller");
+const { makePayment } = require("../payment/payment.controller");
 
 const router = express.Router({ mergeParams: true });
 
@@ -43,8 +44,8 @@ router.patch(
   updateUserDetails
 );
 
-// Upgrade user subscription
-router.patch("/upgrade/subscription", upgradeSubscription);
+// Purchase coins
+router.patch("/purchase", makePayment, purchaseCoins);
 
 router.delete("/deleteUser", deleteUser);
 

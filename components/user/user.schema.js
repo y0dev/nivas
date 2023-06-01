@@ -1,9 +1,10 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const Payment = require("../payment/payment.schema");
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: [true, "user must have a name"],
@@ -62,6 +63,16 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   deletedDate: Date,
+  coins: {
+    type: Number,
+    default: 0,
+  },
+  transactions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Payment",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
@@ -78,15 +89,18 @@ userSchema.pre("save", async function (next) {
     this.passwordCreatedAt = new Date();
   }
 
-  // Create a coin bank record for the user with initial coins
-  const coinBank = new CoinBank({
+  // Create a transaction record for the user with initial coins
+  const transaction = new Payment({
     user: this._id,
-    coins: 100, // Set the initial number of coins
+    amount: 0,
+    numberOfCoins: 100,
   });
 
   try {
-    // Save the coin bank record
-    await coinBank.save();
+    // Save the transaction record
+    await transaction.save();
+    this.transactions.push(transaction._id);
+
     next();
   } catch (error) {
     next(error);
@@ -109,36 +123,6 @@ userSchema.pre("findByIdAndUpdate", async function (next) {
 
   // Proceed to the next middleware
   next();
-});
-
-userSchema.pre("save", function (next) {
-  if (this.isModified("subscription")) {
-    const previousSubscription = this.previous("subscription");
-    const newSubscription = this.subscription;
-
-    if (previousSubscription === "free" && newSubscription === "basic") {
-      console.log("Free to Basic");
-    } else if (
-      previousSubscription === "free" &&
-      newSubscription === "premium"
-    ) {
-      console.log("Free to Premium");
-    } else if (
-      previousSubscription === "basic" &&
-      newSubscription === "premium"
-    ) {
-      console.log("Basic to Premium");
-    }
-
-    this.subscriptionDate = new Date();
-    console.log("Subscription upgrade performed");
-
-    // Call `next()` to continue with the save operation
-    next();
-  } else {
-    // Subscription not upgraded, proceed with the save operation
-    next();
-  }
 });
 
 userSchema.methods.verifyPassword = async function (password) {
@@ -179,34 +163,6 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-// Coin Bank
-const coinBankSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-    unique: true,
-  },
-  coins: {
-    type: Number,
-    default: 0,
-  },
-  purchasedDate: {
-    type: Date,
-    required: true,
-  },
-});
+const User = model("User", userSchema);
 
-coinBankSchema.pre("save", function (next) {
-  // Set password creation date if it's not already set
-  if (!this.purchasedDate) {
-    this.purchasedDate = new Date();
-  }
-
-  next();
-});
-
-const User = mongoose.model("User", userSchema);
-const CoinBank = mongoose.model("CoinBank", coinBankSchema);
-
-module.exports = { User, CoinBank };
+module.exports = { User };

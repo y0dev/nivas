@@ -6,6 +6,7 @@ const catchAsync = require("../../utils/catchAsync");
 const logger = require("../../utils/logger").logger;
 const factory = require("../repo/repo.controller");
 const UtilityService = require("../../utils/utilities");
+const Payment = require("../payment/payment.schema");
 
 const multerStorage = multer.memoryStorage();
 
@@ -129,36 +130,33 @@ exports.purchaseCoins = catchAsync(async (req, res, next) => {
   // res.redirect("/signup");
 });
 
-exports.selectSubscription = catchAsync(async (req, res, next) => {
-  const { subscription } = req.body;
-  logger.info("Subscribing to a plan");
-  res.cookie("subscription", subscription, {
-    expires: new Date(Date.now() + 5 * 60 * 1000), // 5 Minutes
-    httpOnly: true,
-  });
+function get_number_of_coins(amount, purchasedItems) {
+  return 0;
+}
 
-  res.json({
-    status: "success",
-    data: null,
-  });
-  // Redirect the user to the signup page
-  // res.redirect("/signup");
-});
-
-// Upgrade subscription Tier
-exports.upgradeSubscription = catchAsync(async (req, res, next) => {
+// Handle purchasing of coins Tier
+exports.purchaseCoins = catchAsync(async (req, res, next) => {
   try {
     const user = req.user; // Assuming you have user information available in the request object
-    const { subscription } = req.body;
+    const { amount, items } = req.payment;
+    const numOfCoins = get_number_of_coins(amount, items);
+    const transaction = new Payment({
+      user: user._id,
+      amount,
+      numberOfCoins: numOfCoins,
+    });
 
-    // Update the user's subscription in the database
-    user.subscriptionTier = subscription;
-    await user.save();
+    await transaction.save();
 
-    // Perform any additional actions required for the upgrade
-    // ...
+    // Add the transaction to the user's transactions array
+    await User.findByIdAndUpdate(user._id, {
+      $push: { transactions: transaction._id },
+    });
 
-    res.status(200).json({ message: "Upgraded to Premium from Basic" });
+    res.status(200).json({
+      status: "success",
+      message: `Purchased ${numOfCoins} number of coins`,
+    });
   } catch (error) {
     next(error);
   }
