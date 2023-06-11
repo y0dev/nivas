@@ -19,13 +19,19 @@ exports.getSignupPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getDashboardPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("user/search", {
+  res.status(200).render("dashboard/index", {
     title: "User Dashboard",
   });
 });
 
+exports.getSearchPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/search", {
+    title: "Search",
+  });
+});
+
 exports.getSettingsPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("user/settings", {
+  res.status(200).render("dashboard/settings", {
     title: "User Settings",
   });
 });
