@@ -25,8 +25,8 @@ exports.getDashboardPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getSearchPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("dashboard/search", {
-    title: "Search",
+  res.status(200).render("dashboard/properties_search", {
+    title: "Properties Search",
   });
 });
 

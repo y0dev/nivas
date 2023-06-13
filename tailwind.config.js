@@ -401,6 +401,10 @@ module.exports = {
       ],
     },
     fontSize: {
+      "size-inherit": "inherit",
+      "3xs": ["0.5rem", { lineHeight: "1rem" }],
+      xxs: ["0.65rem", { lineHeight: "1rem" }],
+      xs: ["0.75rem", { lineHeight: "1rem" }],
       xs: ["0.75rem", { lineHeight: "1rem" }],
       sm: ["0.875rem", { lineHeight: "1.25rem" }],
       base: ["1rem", { lineHeight: "1.5rem" }],
@@ -414,6 +418,8 @@ module.exports = {
       "7xl": ["4.5rem", { lineHeight: "1" }],
       "8xl": ["6rem", { lineHeight: "1" }],
       "9xl": ["8rem", { lineHeight: "1" }],
+      "10xl": ["8rem", { lineHeight: "1" }],
+      "banner-calculate": ["calc(1.625rem+4.5vw)"],
     },
     fontWeight: {
       thin: "100",

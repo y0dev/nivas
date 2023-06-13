@@ -21,7 +21,8 @@ router.get("/error", get404Page);
 
 // These following pages should only be for logged in users only
 // router.use();
-router.get("/test-search", getDashboardPage);
+router.get("/test-dash", getDashboardPage);
+router.get("/test-search", getSearchPage);
 router.get("/dashboard", protectedViewRoutes, getDashboardPage);
 router.get("/prop-search", protectedViewRoutes, getSearchPage);
 router.get("/settings", protectedViewRoutes, getSettingsPage);

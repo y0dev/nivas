@@ -1,20 +1,9 @@
-extends ../base
+extends base
 
 block content
-  .container.dash-container.mx-auto.body-font.px-5.py-24.relative.min-h-screen
-    h1.mb-8.text-xl Property Analyzer
-    .mls-form.responsive-margins-images.md-6.flex.flex-wrap.justify-between(
-      class="md:flex-nowrap lg:items-center"
-    )
+  .px-6.py-6.mx-auto
+    section.flex.flex-wrap.mt-6.-mx-3
       form.form--mls.flex.mr-6.align-center(class="lg:w-2/3 sm:w-full")
-        //- .form__group.mr-4 
-        //-     label.block.mb-2.text-sm.font-medium.text-gray-900(for='countries') Select an option
-        //-     select#countries.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(class='focus:ring-blue-500 focus:border-blue-500 p-2.5')
-        //-         option(selected='') Choose a country
-        //-         option(value='US') United States
-        //-         option(value='CA') Canada
-        //-         option(value='FR') France
-        //-         option(value='DE') Germany
         .form__group.relative.flex.my-4(class="md:my-0")
           input#mls-input.relative.m-0.w-full.block.rounded-l.border.border-solid.border-neutral-300.bg-transparent.bg-clip-padding.px-3.text-base.font-normal.text-neutral-700.outline-none.transition.duration-200.ease-in-out(
             class="-mr-0.5 py-[0.25rem] leading-[1.6] focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none",
@@ -26,74 +15,132 @@ block content
             class="z-[2] py-2.5 hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
           ) 
             span.relative.text-base.font-semibold.text-white Search
+        
       a#download-pdf.relative.flex.h-11.items-center.justify-center.px-6(
         href="#",
         class="w-2/3 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
       ) 
         span.relative.text-base.font-semibold.text-primary Download PDF
+    
+    section#search-info.flex.flex-wrap.mt-6.-mx-3
+      .w-full.max-w-full.px-3.mb-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2')
+        .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border
+          .flex-auto.p-4
+              .flex.flex-row.-mx-3
+                  .flex-none.max-w-full.px-3(class='w-2/3')
+                      div#two-bed-table
+                          p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm 2 Bedrooms Quartiles
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold Q1
+                            p.mb-0
+                                span#q1-value.font-bold.leading-normal.text-sm.text-emerald-500 +55%
+                                | since yesterday
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold Median
+                            p.mb-0
+                                span#q2-value.font-bold.leading-normal.text-sm.text-emerald-500 +55%
+                                | since yesterday
+                          
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold Q3
+                            p.mb-0
+                                span#q3-value.font-bold.leading-normal.text-sm.text-emerald-500 +55%
+                                | since yesterday
+                  .px-3.text-right(class='basis-1/3')
+                    .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-blue-500.to-violet-500
+                      i.bx.bx-dice-2.text-3xl.leading-6.relative.text-white(class='top-3.5')
+      .w-full.max-w-full.px-3.mb-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2')
+        .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border
+          .flex-auto.p-4
+              .flex.flex-row.-mx-3
+                  .flex-none.max-w-full.px-3(class='w-2/3')
+                      div#three-bed-table
+                          p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm 3 Bedrooms Quartiles
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold Q1
+                            p.mb-0
+                                span#q1-value.font-bold.leading-normal.text-sm.text-emerald-500 +55%
+                                | since yesterday
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold Median
+                            p.mb-0
+                                span#q2-value.font-bold.leading-normal.text-sm.text-emerald-500 +55%
+                                | since yesterday
+                          
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold Q3
+                            p.mb-0
+                                span#q3-value.font-bold.leading-normal.text-sm.text-emerald-500 +55%
+                                | since yesterday
+                  .px-3.text-right(class='basis-1/3')
+                    .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-red-600.to-orange-600
+                      i.bx.bx-dice-3.text-3xl.leading-6.relative.text-white(class='top-3.5')
 
-    #search-results.mt-6.relative.min-h-screen
-      .spinner-overlay.absolute.mx-auto.hidden(class="top-1/2 left-1/2")
-        .spinner.flex.justify-center.align-center
-          .spinner-border.w-16.h-16.border-4.border-solid.border-gray-700.border-t-primary.rounded-full
-            .spinner-border-inner.w-full.h-full
+    section#search-results.flex.flex-wrap.mt-6.-mx-3
+      .w-full.max-w-full.px-3.mt-0.mb-6(class='lg:mb-0 lg:flex-none')
+        .relative.flex.flex-col.min-w-0.break-words.bg-white.border-0.border-solid.shadow-xl.border-black-125.rounded-2xl.bg-clip-border
+            .p-4.pb-0.mb-0.rounded-t-4
+                .flex.justify-between
+                h6.mb-2 Sales by Country
+            .overflow-x-auto.ps
+                table.items-center.w-full.mb-0.align-top.border-collapse.border-gray-200
+                  thead.align-bottom
+                    tr
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 ZPID
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Address
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Beds
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Baths
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Price
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Rent to Price Ratio
+                      th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Availability
+                    tbody.text-center
+                      //- tr 
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
+                    //- tbody
+                    //-   tr
+                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap(class='w-3/10')
+                    //-       .flex.items-center.px-2.py-1
+                    //-       div
+                    //-           img(src='../assets/img/icons/flags/US.png', alt='Country flag')
+                    //-       .ml-6
+                    //-           p.mb-0.font-semibold.leading-tight.text-xs Country:
+                    //-           h6.mb-0.leading-normal.text-sm United States
+                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                    //-       .text-center
+                    //-         p.mb-0.font-semibold.leading-tight.text-xs Sales:
+                    //-         h6.mb-0.leading-normal.text-sm 2500
+                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                    //-       .text-center
+                    //-         p.mb-0.font-semibold.leading-tight.text-xs Value:
+                    //-         h6.mb-0.leading-normal.text-sm $230,900
+                    //-     td.p-2.leading-normal.align-middle.bg-transparent.border-b.text-sm.whitespace-nowrap
+                    //-       .flex-1.text-center
+                    //-         p.mb-0.font-semibold.leading-tight.text-xs Bounce:
+                    //-         h6.mb-0.leading-normal.text-sm 29.9%
+                    //-   tr
+                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap(class='w-3/10')
+                    //-       .flex.items-center.px-2.py-1
+                    //-       div
+                    //-           img(src='../assets/img/icons/flags/DE.png', alt='Country flag')
+                    //-       .ml-6
+                    //-           p.mb-0.font-semibold.leading-tight.text-xs Country:
+                    //-           h6.mb-0.leading-normal.text-sm Germany
+                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                    //-       .text-center
+                    //-         p.mb-0.font-semibold.leading-tight.text-xs Sales:
+                    //-         h6.mb-0.leading-normal.text-sm 3.900
+                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                    //-       .text-center
+                    //-         p.mb-0.font-semibold.leading-tight.text-xs Value:
+                    //-         h6.mb-0.leading-normal.text-sm $440,000
+                    //-     td.p-2.leading-normal.align-middle.bg-transparent.border-b.text-sm.whitespace-nowrap
+                    //-       .flex-1.text-center
+                    //-         p.mb-0.font-semibold.leading-tight.text-xs Bounce:
+                    //-         h6.mb-0.leading-normal.text-sm 40.22%
 
-      .listings-container.hidden
-        .title.mb-10.flex.justify-between.flex-wrap(class="md:flex-nowrap")
-          .search-info
-            p.text-lg.leading-8 Zip Code:
-              |
-              span#zip-code 90712
-            p.text-lg.leading-8 City, St:
-              |
-              span#city-state Lakewood, CA
-
-          // Tables for two-bedroom and three-bedroom properties
-          .quartile-container.my-4.flex.flex-wrap(class="md:mt-0 md:flex-nowrap")
-            .table-container
-              h2.text-xl.font-bold.mb-4 2 Bedrooms Quartiles
-              table#two-bed-table.table-auto
-                thead.border-b.font-medium
-                  tr
-                    th.px-6.py-4 Quartile
-                    th.px-6.py-4 Value
-                tbody
-                  tr.border-b
-                    td.whitespace-nowrap.px-6.py-4 Q1
-                    td#q1-value.whitespace-nowrap.px-6.py-4 $1,200
-                  tr.border-b
-                    td.whitespace-nowrap.px-6.py-4 Median
-                    td#q2-value.whitespace-nowrap.px-6.py-4 $1,500
-                  tr.border-b
-                    td.whitespace-nowrap.px-6.py-4 Q3
-                    td#q3-value.whitespace-nowrap.px-6.py-4 $1,800
-            .table-container.mt-8(class="md:mt-0 md:ml-8")
-              h2.text-xl.font-bold.mb-4 3 Bedrooms Quartiles
-              table#three-bed-table.table-auto
-                thead.border-b.font-medium
-                  tr
-                    th.px-6.py-4 Quartile
-                    th.px-6.py-4 Value
-                tbody
-                  tr.border-b
-                    td.whitespace-nowrap.px-6.py-4 Q1
-                    td#q1-value.whitespace-nowrap.px-6.py-4 $1,500
-                  tr.border-b
-                    td.whitespace-nowrap.px-6.py-4 Median
-                    td#q2-value.whitespace-nowrap.px-6.py-4 $1,800
-                  tr.border-b
-                    td.whitespace-nowrap.px-6.py-4 Q3
-                    td#q3-value.whitespace-nowrap.px-6.py-4 $2,100
-        .results.overflow-x-auto
-          table#home-table.min-w-full
-            thead.text-md.text-main-700.uppercase.bg-main-50.border-b.font-medium
-              tr
-                th.px-6.py-3 ZPID
-                th.px-6.py-3 Address
-                th.px-6.py-3 Beds
-                th.px-6.py-3 Baths
-                th.px-6.py-3 Price
-                th.px-6.py-3 Rent to Price Ratio
-                th.px-6.py-3 Availability
-            tbody.text-center
-              // table rows will be updated dynamically
