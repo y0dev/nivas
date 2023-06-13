@@ -63,7 +63,7 @@ block content
             .w-full.max-w-full.px-3.mt-0(class='lg:w-7/12 lg:flex-none')
                 .shadow-xl.relative.z-20.flex.min-w-0.flex-col.break-words.rounded-2xl.border-0.border-solid.bg-white.bg-clip-border(class='border-black/12.5')
                     .mb-0.rounded-t-2xl.border-b-0.border-solid.p-6.pt-4.pb-0(class='border-black/12.5')
-                        h6.capitalize Sales overview
+                        h6.capitalize Return On Investment Overview
                         p.mb-0.leading-normal.text-sm
                             i.fa.fa-arrow-up.text-emerald-500(aria-hidden='true')
                             span.font-semibold 4% more
@@ -71,109 +71,24 @@ block content
                     .flex-auto.p-4
                         div
                             canvas#chart-line(height='300', style='display: block; box-sizing: border-box; height: 300px; width: 629.4px;', width='629')
-            carousel.w-full.max-w-full.px-3(class='lg:w-5/12 lg:flex-none')
-                .relative.w-full.h-full.overflow-hidden.rounded-2xl(slider='')
-                    .absolute.w-full.h-full.transition-all.duration-500(slide='', style='transform: translateX(0%);')
-                        img.object-cover.h-full(src='../assets/img/carousel-1.jpg', alt='carousel image')
-                        .block.text-start.ml-12.left-0.bottom-0.absolute.pt-5.pb-5.text-white(class='right-[15%]')
-                            .inline-block.w-8.h-8.mb-4.text-center.text-black.bg-white.bg-center.rounded-lg.fill-current.stroke-none
-                                i.text-xxs.relative.text-slate-700.ni.ni-camera-compact(class='top-0.75')
-                            h5.mb-1.text-white Get started with Argon
-                            p There&rsquo;s nothing I really wanted to do in life that I wasn&rsquo;t able to get good at.
-                    .absolute.w-full.h-full.transition-all.duration-500(slide='', style='transform: translateX(100%);')
-                        img.object-cover.h-full(src='../assets/img/carousel-2.jpg', alt='carousel image')
-                        .block.text-start.ml-12.left-0.bottom-0.absolute.pt-5.pb-5.text-white(class='right-[15%]')
-                            .inline-block.w-8.h-8.mb-4.text-center.text-black.bg-white.bg-center.rounded-lg.fill-current.stroke-none
-                                i.text-xxs.relative.text-slate-700.ni.ni-bulb-61(class='top-0.75')
-                            h5.mb-1.text-white Faster way to create web pages
-                            p That&rsquo;s my skill. I&rsquo;m not really specifically talented at anything except for the ability to learn.
-                    .absolute.w-full.h-full.transition-all.duration-500(slide='', style='transform: translateX(200%);')
-                        img.object-cover.h-full(src='../assets/img/carousel-3.jpg', alt='carousel image')
-                        .block.text-start.ml-12.left-0.bottom-0.absolute.pt-5.pb-5.text-white(class='right-[15%]')
-                            .inline-block.w-8.h-8.mb-4.text-center.text-black.bg-white.bg-center.rounded-lg.fill-current.stroke-none
-                                i.text-xxs.relative.text-slate-700.ni.ni-trophy(class='top-0.75')
-                            h5.mb-1.text-white Share with us your design tips!
-                            p Don&rsquo;t be afraid to be wrong because you can&rsquo;t learn anything from a compliment.
-                    button.absolute.z-10.w-10.h-10.p-2.text-white.border-none.opacity-50.cursor-pointer.text-lg.far.fa-chevron-right.top-6.right-4(btn-next='', class='hover:opacity-100 active:scale-110', aria-hidden='true')
-                    button.absolute.z-10.w-10.h-10.p-2.text-white.border-none.opacity-50.cursor-pointer.text-lg.far.fa-chevron-left.top-6.right-16(btn-prev='', class='hover:opacity-100 active:scale-110', aria-hidden='true')
-            
-        .flex.flex-wrap.mt-6.-mx-3
-            .w-full.max-w-full.px-3.mt-0.mb-6(class='lg:mb-0 lg:w-7/12 lg:flex-none')
-                .relative.flex.flex-col.min-w-0.break-words.bg-white.border-0.border-solid.shadow-xl.border-black-125.rounded-2xl.bg-clip-border
-                    .p-4.pb-0.mb-0.rounded-t-4
-                        .flex.justify-between
-                        h6.mb-2 Sales by Country
-                    .overflow-x-auto.ps
-                        table.items-center.w-full.mb-4.align-top.border-collapse.border-gray-200
-                            tbody
-                                tr
-                                    td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap(class='w-3/10')
-                                        .flex.items-center.px-2.py-1
-                                        div
-                                            img(src='../assets/img/icons/flags/US.png', alt='Country flag')
-                                        .ml-6
-                                            p.mb-0.font-semibold.leading-tight.text-xs Country:
-                                            h6.mb-0.leading-normal.text-sm United States
-                                    td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                                        .text-center
-                                        p.mb-0.font-semibold.leading-tight.text-xs Sales:
-                                        h6.mb-0.leading-normal.text-sm 2500
-                                    td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                                        .text-center
-                                        p.mb-0.font-semibold.leading-tight.text-xs Value:
-                                        h6.mb-0.leading-normal.text-sm $230,900
-                                    td.p-2.leading-normal.align-middle.bg-transparent.border-b.text-sm.whitespace-nowrap
-                                        .flex-1.text-center
-                                        p.mb-0.font-semibold.leading-tight.text-xs Bounce:
-                                        h6.mb-0.leading-normal.text-sm 29.9%
-                                tr
-                                    td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap(class='w-3/10')
-                                        .flex.items-center.px-2.py-1
-                                        div
-                                            img(src='../assets/img/icons/flags/DE.png', alt='Country flag')
-                                        .ml-6
-                                            p.mb-0.font-semibold.leading-tight.text-xs Country:
-                                            h6.mb-0.leading-normal.text-sm Germany
-                                    td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                                        .text-center
-                                        p.mb-0.font-semibold.leading-tight.text-xs Sales:
-                                        h6.mb-0.leading-normal.text-sm 3.900
-                                    td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                                        .text-center
-                                        p.mb-0.font-semibold.leading-tight.text-xs Value:
-                                        h6.mb-0.leading-normal.text-sm $440,000
-                                    td.p-2.leading-normal.align-middle.bg-transparent.border-b.text-sm.whitespace-nowrap
-                                        .flex-1.text-center
-                                        p.mb-0.font-semibold.leading-tight.text-xs Bounce:
-                                        h6.mb-0.leading-normal.text-sm 40.22%
-                                
-                                
-            .w-full.max-w-full.px-3.mt-0(class='lg:w-5/12 lg:flex-none')
-                .shadow-xl.relative.flex.min-w-0.flex-col.break-words.rounded-2xl.border-0.border-solid.bg-white.bg-clip-border(class='border-black/12.5')
-                    .p-4.pb-0.rounded-t-4
-                        h6.mb-0 Categories
-                .flex-auto.p-4
-                    ul.flex.flex-col.pl-0.mb-0.rounded-lg
-                        li.relative.flex.justify-between.py-2.pr-4.mb-2.border-0.rounded-t-lg.rounded-xl.text-inherit
-                            .flex.items-center
-                                .inline-block.w-8.h-8.mr-4.text-center.text-black.bg-center.shadow-sm.fill-current.stroke-none.bg-gradient-to-tl.from-zinc-800.to-zinc-700.rounded-xl
-                                    i.text-white.ni.ni-mobile-button.relative.text-xxs(class='top-0.75')
+
+            .w-full.max-w-full.px-3(class='lg:w-5/12 lg:flex-none')
+                .relative.flex.flex-col.h-full.min-w-0.break-words.bg-white.border-0.border-transparent.border-solid.shadow-xl.rounded-2xl.bg-clip-border
+                    .p-4.pb-0.mb-0.border-b-0.border-b-solid.rounded-t-2xl.border-b-transparent
+                        .flex.flex-wrap.-mx-3
+                            .flex.items-center.flex-none.max-w-full.px-3(class='w-1/2')
+                                h6.mb-0 Previous Searches
+                            .flex-none.max-w-full.px-3.text-right(class='w-1/2')
+                                button.inline-block.px-8.py-2.mb-0.text-xs.font-bold.leading-normal.text-center.text-blue-500.align-middle.transition-all.ease-in.bg-transparent.border.border-blue-500.border-solid.rounded-lg.shadow-none.cursor-pointer.bg-150.tracking-tight-rem.bg-x-25(class='active:opacity-85 hover:-translate-y-px hover:opacity-75') View All
+                    .flex-auto.p-4.pb-0
+                        ul#history-list.flex.flex-col.pl-0.mb-0.rounded-lg
+                            li.relative.flex.justify-between.px-4.py-2.pl-0.mb-2.border-0.rounded-t-inherit.text-inherit.rounded-xl
                                 .flex.flex-col
-                                    h6.mb-1.leading-normal.text-sm.text-slate-700 Devices
-                                    span.leading-tight.text-xs 250 in stock, 
-                                        span.font-semibold 346+ sold
-                            .flex
-                                button.group.ease-in.leading-pro.text-xs.mx-0.my-auto.inline-block.cursor-pointer.border-0.bg-transparent.text-center.align-middle.font-bold.text-slate-700.shadow-none.transition-all(class='rounded-3.5xl p-1.2 h-6.5 w-6.5')
-                                    i.ni.ease-bounce.text-2xs.ni-bold-right.transition-all.duration-200(class='group-hover:translate-x-1.25', aria-hidden='true')
-                        li.relative.flex.justify-between.py-2.pr-4.mb-2.border-0.rounded-xl.text-inherit
-                            .flex.items-center
-                                .inline-block.w-8.h-8.mr-4.text-center.text-black.bg-center.shadow-sm.fill-current.stroke-none.bg-gradient-to-tl.from-zinc-800.to-zinc-700.rounded-xl
-                                    i.text-white.ni.ni-tag.relative.text-xxs(class='top-0.75')
-                                .flex.flex-col
-                                    h6.mb-1.leading-normal.text-sm.text-slate-700 Tickets
-                                    span.leading-tight.text-xs 123 closed, 
-                                        span.font-semibold 15 open
-                            .flex
-                                button.group.ease-in.leading-pro.text-xs.mx-0.my-auto.inline-block.cursor-pointer.border-0.bg-transparent.text-center.align-middle.font-bold.text-slate-700.shadow-none.transition-all(class='rounded-3.5xl p-1.2 h-6.5 w-6.5')
-                                    i.ni.ease-bounce.text-2xs.ni-bold-right.transition-all.duration-200(class='group-hover:translate-x-1.25', aria-hidden='true')
-                    
+                                    h6.mb-1.text-sm.font-semibold.leading-normal.text-slate-700 March, 01, 2020
+                                    span.text-xs.leading-tight Number of Results: 30
+                                .flex.items-center.text-sm.leading-normal
+                                    span.leading-normal.text-sm $1,800
+                                    button.inline-block.px-0.mb-0.ml-6.font-bold.leading-normal.text-center.uppercase.align-middle.transition-all.bg-transparent.border-0.rounded-lg.shadow-none.cursor-pointer.ease-in.bg-150.text-sm.tracking-tight-rem.bg-x-25.text-slate-700(class='py-2.5 active:opacity-85 hover:-translate-y-px')
+                                        i.mr-1.text-lg.leading-none.bx.bxs-file-pdf(aria-hidden='true')
+                                        |  PDF
+                            
