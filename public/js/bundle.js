@@ -12356,7 +12356,7 @@ var searchForMLS = /*#__PURE__*/function () {
           data = {
             zip_code: zip_code
           };
-          _context.next = 14;
+          _context.next = 15;
           break;
         case 7:
           if (!containsCityAndState(mls_string)) {
@@ -12369,16 +12369,18 @@ var searchForMLS = /*#__PURE__*/function () {
             city: city,
             state: state
           };
-          _context.next = 14;
+          _context.next = 15;
           break;
         case 13:
+          console.log("Failed Parsing");
+          // showAlert("fail", "Missing");
           return _context.abrupt("return");
-        case 14:
+        case 15:
           overlay = document.querySelector(".spinner-overlay");
-          _context.prev = 15;
+          _context.prev = 16;
           token = localStorage.getItem("token"); // display loading overlay when making API call
           overlay.style.display = "block";
-          _context.next = 20;
+          _context.next = 21;
           return (0, _axios.default)({
             method: "POST",
             headers: {
@@ -12387,7 +12389,7 @@ var searchForMLS = /*#__PURE__*/function () {
             url: url,
             data: data
           });
-        case 20:
+        case 21:
           res = _context.sent;
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
           if (status === "success") {
@@ -12505,16 +12507,16 @@ var searchForMLS = /*#__PURE__*/function () {
             //     location.assign("/");
             //   }, 1500);
           }
-          _context.next = 27;
+          _context.next = 28;
           break;
-        case 25:
-          _context.prev = 25;
-          _context.t0 = _context["catch"](15);
-        case 27:
+        case 26:
+          _context.prev = 26;
+          _context.t0 = _context["catch"](16);
+        case 28:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[15, 25]]);
+    }, _callee, null, [[16, 26]]);
   }));
   return function searchForMLS(_x2) {
     return _ref.apply(this, arguments);
@@ -13083,13 +13085,14 @@ var signupForm = document.querySelector(".form--sign-up");
 var loginForm = document.querySelector(".form--login");
 var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
-var dashboardContainer = document.querySelector(".container.dash-container");
+var propertyContainer = document.querySelector(".container.property-container");
 var settingsContainer = document.querySelector(".container.settings-container");
 var pricingSection = document.querySelector("section#pricing");
 // const error404Container = document.querySelector(".container.404-container");
 
-if (settingsContainer || dashboardContainer) {
-  (0, _controller3.addUserMenuBtn)();
+if (settingsContainer || propertyContainer) {
+  // addUserMenuBtn();
+
   if (settingsContainer) {
     // Remove temp history
     var historyContainer = document.getElementById("history-container");
@@ -13102,10 +13105,10 @@ if (settingsContainer || dashboardContainer) {
       (0, _controller2.getSearchHistory)();
     });
   }
-  if (dashboardContainer) {
+  if (propertyContainer) {
     var downloadBtn = document.getElementById("download-pdf");
     var mlsForm = document.querySelector(".form--mls");
-    var table = document.getElementById("home-table");
+    var table = document.getElementById("property-table");
     var tableHeaders = table.querySelectorAll("th");
     // Make clickable the table headers
     tableHeaders.forEach(function (headerCell) {
@@ -13266,7 +13269,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60566" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54297" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

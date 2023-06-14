@@ -912,11 +912,11 @@ video {
 .max-h-screen {
     max-height: 100vh;
 }
+.max-h-xs {
+    max-height: 2.25rem;
+}
 .min-h-35-screen {
     min-height: 35vh;
-}
-.min-h-50-screen {
-    min-height: 50vh;
 }
 .min-h-\[1\.5rem\] {
     min-height: 1.5rem;
@@ -1237,6 +1237,10 @@ video {
 }
 .border-b-transparent {
     border-bottom-color: transparent;
+}
+.bg-black {
+    --tw-bg-opacity: 1;
+    background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 .bg-blue-500 {
     --tw-bg-opacity: 1;
@@ -2239,21 +2243,9 @@ video {
     background-color: rgb(198 200 205 / var(--tw-bg-opacity));
 }
   
-  .hover\:bg-gradient-to-tl:hover {
-    background-image: linear-gradient(to top left, var(--tw-gradient-stops));
-}
-  
-  .hover\:from-blue-500:hover {
-    --tw-gradient-from: #3b82f6 var(--tw-gradient-from-position);
-    --tw-gradient-from-position:  ;
-    --tw-gradient-to: rgb(59 130 246 / 0)  var(--tw-gradient-from-position);
-    --tw-gradient-to-position:  ;
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-  
-  .hover\:to-violet-500:hover {
-    --tw-gradient-to: #8b5cf6 var(--tw-gradient-to-position);
-    --tw-gradient-to-position:  ;
+  .hover\:bg-gray-500:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(119 124 135 / var(--tw-bg-opacity));
 }
   
   .hover\:text-primary:hover {

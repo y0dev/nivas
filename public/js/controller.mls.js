@@ -66,7 +66,7 @@ export const searchForMLS = async (mls_string) => {
       state,
     };
   } else {
-    // console.log("Failed Parsing");
+    console.log("Failed Parsing");
     // showAlert("fail", "Missing");
     return;
   }

@@ -646,6 +646,12 @@ module.exports = {
     }),
     maxHeight: ({ theme }) => ({
       ...theme("spacing"),
+      0: "0rem",
+      xs: "2.25rem",
+      sm: "5rem",
+      md: "10rem",
+      lg: "20rem",
+      xl: "25rem",
       full: "100%",
       screen: "100vh",
       min: "min-content",

@@ -19,15 +19,15 @@ const signupForm = document.querySelector(".form--sign-up");
 const loginForm = document.querySelector(".form--login");
 const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
-let dashboardContainer = document.querySelector(".container.dash-container");
+let propertyContainer = document.querySelector(".container.property-container");
 const settingsContainer = document.querySelector(
   ".container.settings-container"
 );
 const pricingSection = document.querySelector("section#pricing");
 // const error404Container = document.querySelector(".container.404-container");
 
-if (settingsContainer || dashboardContainer) {
-  addUserMenuBtn();
+if (settingsContainer || propertyContainer) {
+  // addUserMenuBtn();
 
   if (settingsContainer) {
     // Remove temp history
@@ -42,10 +42,10 @@ if (settingsContainer || dashboardContainer) {
     });
   }
 
-  if (dashboardContainer) {
+  if (propertyContainer) {
     const downloadBtn = document.getElementById("download-pdf");
     const mlsForm = document.querySelector(".form--mls");
-    const table = document.getElementById("home-table");
+    const table = document.getElementById("property-table");
     const tableHeaders = table.querySelectorAll("th");
     // Make clickable the table headers
     tableHeaders.forEach((headerCell) => {
