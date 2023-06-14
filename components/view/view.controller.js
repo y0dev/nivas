@@ -18,14 +18,26 @@ exports.getSignupPage = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getDashboardPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("user/search", {
+exports.getAdminDashboardPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/admin_dash/index", {
+    title: "Admin Dashboard",
+  });
+});
+
+exports.getUserDashboardPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/user_dash/index", {
     title: "User Dashboard",
   });
 });
 
-exports.getSettingsPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("user/settings", {
+exports.getPropSearchPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/user_dash/properties_search", {
+    title: "Properties Search",
+  });
+});
+
+exports.getUserSettingsPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/user_dash/settings", {
     title: "User Settings",
   });
 });

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const couponSchema = new mongoose.Schema({
+const couponSchema = new Schema({
   code: {
     type: String,
     required: true,
@@ -28,6 +28,6 @@ const couponSchema = new mongoose.Schema({
   },
 });
 
-const Coupon = mongoose.model("Coupon", couponSchema);
+const Coupon = model("Coupon", couponSchema);
 
 module.exports = Coupon;

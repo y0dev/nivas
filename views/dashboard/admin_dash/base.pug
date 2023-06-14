@@ -59,16 +59,22 @@ html
     link(rel="stylesheet", href="/css/style.css")
     title Urban Insight Inc. | #{ title }
 
-  body.bg-white.body-font.relative.text-gray-700
-    main
-      // HEADER
-      include _header
+  body.bg-gray-100.body-font.relative.text-gray-700.font-normal.text-base.leading-default
+  
+    .absolute.w-full.bg-blue-500.min-h-35-screen
 
-      // CONTENT
-      block content
-        h1 This is a placeholder heading
+    // SIDE BAR
+    include _sidebar
 
-      // FOOTER
-      include _footer
+    main.relative.h-full.max-h-screen.transition-all.duration-200.ease-in-out.rounded-xl.ps.ps--active-y(class='xl:ml-60')
+        // HEADER
+        include ../_header  
+
+        // CONTENT
+        block content
+            h1 This is a placeholder heading
+
+        // FOOTER
+        include ../_footer
 
     script(src="/js/bundle.js")

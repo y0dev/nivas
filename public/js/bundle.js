@@ -12341,22 +12341,21 @@ function checkAvailability(availability) {
 }
 var searchForMLS = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
-    var url, data, searchTitle, zip_code, _getCityAndState, city, state, overlay, token, res, _res$data, zipCode, cityState, listings, twoBedsQuartile, threeBedsQuartile, status, zipCodeSpan, cityStateSpan, searchResultDiv, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
+    var url, data, zip_code, _getCityAndState, city, state, token, res, _res$data, zipCode, cityState, listings, twoBedsQuartile, threeBedsQuartile, status, searchInfoSpan, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          // console.log(mls_string);
-          searchTitle = document.querySelector("#search-results .title");
           if (!containsZipCode(mls_string)) {
             _context.next = 7;
             break;
           }
           zip_code = getZipCode(mls_string);
+          console.log(zip_code, port);
           url = "http://localhost:".concat(port, "/api/v1/mls/searchZip");
           data = {
             zip_code: zip_code
           };
-          _context.next = 14;
+          _context.next = 15;
           break;
         case 7:
           if (!containsCityAndState(mls_string)) {
@@ -12369,15 +12368,16 @@ var searchForMLS = /*#__PURE__*/function () {
             city: city,
             state: state
           };
-          _context.next = 14;
+          _context.next = 15;
           break;
         case 13:
+          console.log("Failed Parsing");
+          // showAlert("fail", "Missing");
           return _context.abrupt("return");
-        case 14:
-          overlay = document.querySelector(".spinner-overlay");
+        case 15:
           _context.prev = 15;
+          console.log(url);
           token = localStorage.getItem("token"); // display loading overlay when making API call
-          overlay.style.display = "block";
           _context.next = 20;
           return (0, _axios.default)({
             method: "POST",
@@ -12391,7 +12391,6 @@ var searchForMLS = /*#__PURE__*/function () {
           res = _context.sent;
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
           if (status === "success") {
-            // showAlert("success", "MLS finish successfully");
             // console.log(
             //   zipCode,
             //   cityState,
@@ -12399,15 +12398,11 @@ var searchForMLS = /*#__PURE__*/function () {
             //   twoBedsQuartile,
             //   threeBedsQuartile
             // );
-            zipCodeSpan = searchTitle.querySelector(".search-info #zip-code");
-            cityStateSpan = searchTitle.querySelector(".search-info #city-state");
-            zipCodeSpan.textContent = zipCode;
-            cityStateSpan.textContent = cityState;
-            // console.log(results);
+            searchInfoSpan = document.querySelector("#search-results .search-info span");
+            searchInfoSpan.textContent = "".concat(cityState, " ").concat(zipCode);
 
             // Clear table
-            searchResultDiv = document.querySelector("#search-results .listings-container");
-            table = document.getElementById("home-table");
+            table = document.getElementById("property-table");
             tbody = table.tBodies[0];
             for (i = table.rows.length - 1; i > 0; i--) {
               table.deleteRow(i);
@@ -12416,22 +12411,99 @@ var searchForMLS = /*#__PURE__*/function () {
             // Update quartile tables
             // Two Bedrooms
             twoBedTable = document.getElementById("two-bed-table"); // Find the table cell by ID
-            q1TwoCell = twoBedTable.querySelector("#q1-value");
-            q2TwoCell = twoBedTable.querySelector("#q2-value");
-            q3TwoCell = twoBedTable.querySelector("#q3-value");
-            q1TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile25th);
-            q2TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile50th);
-            q3TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile75th);
+            q1TwoCell = twoBedTable.querySelector("#q1-value span");
+            q2TwoCell = twoBedTable.querySelector("#q2-value span");
+            q3TwoCell = twoBedTable.querySelector("#q3-value span"); // Make sure there exist comparable for 2 beds
+            if (Object.keys(twoBedsQuartile).length !== 0) {
+              q1TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile25th || 0);
+              q2TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile50th || 0);
+              q3TwoCell.textContent = toUSCurrency(twoBedsQuartile.percentile75th || 0);
+            } else {
+              q1TwoCell.textContent = toUSCurrency(0);
+              q2TwoCell.textContent = toUSCurrency(0);
+              q3TwoCell.textContent = toUSCurrency(0);
+            }
+            if (q1TwoCell.textContent === "$0.00") {
+              if (q1TwoCell.classList.contains("text-emerald-500")) {
+                q1TwoCell.classList.remove("text-emerald-500");
+                q1TwoCell.classList.add("text-red-500");
+              }
+            } else {
+              if (q1TwoCell.classList.contains("text-red-500")) {
+                q1TwoCell.classList.remove("text-red-500");
+                q1TwoCell.classList.add("text-emerald-500");
+              }
+            }
+            if (q2TwoCell.textContent === "$0.00") {
+              if (q2TwoCell.classList.contains("text-emerald-500")) {
+                q2TwoCell.classList.remove("text-emerald-500");
+                q2TwoCell.classList.add("text-red-500");
+              }
+            } else {
+              if (q2TwoCell.classList.contains("text-red-500")) {
+                q2TwoCell.classList.remove("text-red-500");
+                q2TwoCell.classList.add("text-emerald-500");
+              }
+            }
+            if (q3TwoCell.textContent === "$0.00") {
+              if (q3TwoCell.classList.contains("text-emerald-500")) {
+                q3TwoCell.classList.remove("text-emerald-500");
+                q3TwoCell.classList.add("text-red-500");
+              }
+            } else {
+              if (q3TwoCell.classList.contains("text-red-500")) {
+                q3TwoCell.classList.remove("text-red-500");
+                q3TwoCell.classList.add("text-emerald-500");
+              }
+            }
 
             // Three Bedrooms
             threeBedTable = document.getElementById("three-bed-table"); // Find the table cell by ID
-            q1ThreeCell = threeBedTable.querySelector("#q1-value");
-            q2ThreeCell = threeBedTable.querySelector("#q2-value");
-            q3ThreeCell = threeBedTable.querySelector("#q3-value");
-            q1ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile25th);
-            q2ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile50th);
-            q3ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile75th);
-
+            q1ThreeCell = threeBedTable.querySelector("#q1-value span");
+            q2ThreeCell = threeBedTable.querySelector("#q2-value span");
+            q3ThreeCell = threeBedTable.querySelector("#q3-value span"); // Make sure there exist comparable for 3+ beds
+            if (Object.keys(threeBedsQuartile).length !== 0) {
+              q1ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile25th || 0);
+              q2ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile50th || 0);
+              q3ThreeCell.textContent = toUSCurrency(threeBedsQuartile.percentile75th || 0);
+            } else {
+              q1ThreeCell.textContent = toUSCurrency(0);
+              q2ThreeCell.textContent = toUSCurrency(0);
+              q3ThreeCell.textContent = toUSCurrency(0);
+            }
+            if (q1ThreeCell.textContent === "$0.00") {
+              if (q1ThreeCell.classList.contains("text-emerald-500")) {
+                q1ThreeCell.classList.remove("text-emerald-500");
+                q1ThreeCell.classList.add("text-red-500");
+              }
+            } else {
+              if (q1ThreeCell.classList.contains("text-red-500")) {
+                q1ThreeCell.classList.remove("text-red-500");
+                q1ThreeCell.classList.add("text-emerald-500");
+              }
+            }
+            if (q2ThreeCell.textContent === "$0.00") {
+              if (q2ThreeCell.classList.contains("text-emerald-500")) {
+                q2ThreeCell.classList.remove("text-emerald-500");
+                q2ThreeCell.classList.add("text-red-500");
+              }
+            } else {
+              if (q2ThreeCell.classList.contains("text-red-500")) {
+                q2ThreeCell.classList.remove("text-red-500");
+                q2ThreeCell.classList.add("text-emerald-500");
+              }
+            }
+            if (q3ThreeCell.textContent === "$0.00") {
+              if (q3ThreeCell.classList.contains("text-emerald-500")) {
+                q3ThreeCell.classList.remove("text-emerald-500");
+                q3ThreeCell.classList.add("text-red-500");
+              }
+            } else {
+              if (q3ThreeCell.classList.contains("text-red-500")) {
+                q3ThreeCell.classList.remove("text-red-500");
+                q3ThreeCell.classList.add("text-emerald-500");
+              }
+            }
             // Add Results to table
             listings.forEach(function (listing) {
               var row = tbody.insertRow();
@@ -12444,22 +12516,22 @@ var searchForMLS = /*#__PURE__*/function () {
               var availCell = row.insertCell();
 
               // Apply CSS styles to columns
-              row.className = "border-b";
-              zpidCell.className = "whitespace-nowrap px-6 py-4";
-              addressCell.className = "whitespace-nowrap px-6 py-4";
-              bedCell.className = "whitespace-nowrap px-6 py-4";
-              bathCell.className = "whitespace-nowrap px-6 py-4";
-              priceCell.className = "whitespace-nowrap px-6 py-4";
-              rentToPriceCell.className = "whitespace-nowrap px-6 py-4";
-              availCell.className = "whitespace-nowrap px-6 py-4";
+              row.className = "text-xs";
+              zpidCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
+              addressCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
+              bedCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
+              bathCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
+              priceCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
+              rentToPriceCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
+              availCell.className = "p-2 align-middle bg-transparent border-b whitespace-nowrap";
               addressCell.classList.add("address");
               zpidCell.textContent = listing.zpid;
               // Calculate the rent to price for listing
               if (listing.beds === 2) {
-                var rentToPrice = calcRentToPriceRatio(listing.price, twoBedsQuartile.percentile50th);
+                var rentToPrice = calcRentToPriceRatio(listing.price, twoBedsQuartile.percentile50th || 0);
                 rentToPriceCell.textContent = rentToPrice.toFixed(2) + "%";
               } else {
-                var _rentToPrice = calcRentToPriceRatio(listing.price, threeBedsQuartile.percentile50th);
+                var _rentToPrice = calcRentToPriceRatio(listing.price, threeBedsQuartile.percentile50th || 0);
                 rentToPriceCell.textContent = _rentToPrice.toFixed(2) + "%";
               }
 
@@ -12473,33 +12545,13 @@ var searchForMLS = /*#__PURE__*/function () {
               bedCell.textContent = listing.beds;
               bathCell.textContent = listing.baths;
               if (checkAvailability(listing.status)) {
-                // Create an SVG element
-                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("fill", "currentColor");
-                svg.setAttribute("viewBox", "0 0 50 50");
-                svg.setAttribute("enable-background", "new 0 0 50 50");
-                svg.setAttribute("xml:space", "preserve");
-                svg.setAttribute("width", "24");
-                svg.setAttribute("height", "24");
+                var font = document.createElement("i");
+                font.className = "bx bx-check text-xl leading-6 relative text-emerald-500";
 
-                // Apply CSS styles to center the SVG
-                svg.style.margin = "0 auto";
-
-                // Create an SVG path element
-                var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute("d", "M40.267,14.628L20.974,33.921l-9.293-9.293c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l10,10c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293l20-20c0.391-0.391,0.391-1.023,0-1.414S40.657,14.237,40.267,14.628z");
-                // Append the path to the SVG element
-                svg.appendChild(path);
-
-                // Append the SVG element to the table cell
-                availCell.appendChild(svg);
+                // Append the font element to the table cell
+                availCell.appendChild(font);
               }
             });
-            if (searchResultDiv.classList.contains("hidden")) {
-              searchResultDiv.classList.remove("hidden");
-            }
-            // hide loading overlay after updating table
-            overlay.style.display = "none";
 
             //   window.setTimeout(() => {
             //     location.assign("/");
@@ -13083,13 +13135,14 @@ var signupForm = document.querySelector(".form--sign-up");
 var loginForm = document.querySelector(".form--login");
 var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
-var dashboardContainer = document.querySelector(".container.dash-container");
+var propertyContainer = document.querySelector(".container.property-container");
 var settingsContainer = document.querySelector(".container.settings-container");
 var pricingSection = document.querySelector("section#pricing");
 // const error404Container = document.querySelector(".container.404-container");
 
-if (settingsContainer || dashboardContainer) {
-  (0, _controller3.addUserMenuBtn)();
+if (settingsContainer || propertyContainer) {
+  // addUserMenuBtn();
+
   if (settingsContainer) {
     // Remove temp history
     var historyContainer = document.getElementById("history-container");
@@ -13102,10 +13155,10 @@ if (settingsContainer || dashboardContainer) {
       (0, _controller2.getSearchHistory)();
     });
   }
-  if (dashboardContainer) {
+  if (propertyContainer) {
     var downloadBtn = document.getElementById("download-pdf");
     var mlsForm = document.querySelector(".form--mls");
-    var table = document.getElementById("home-table");
+    var table = document.getElementById("property-table");
     var tableHeaders = table.querySelectorAll("th");
     // Make clickable the table headers
     tableHeaders.forEach(function (headerCell) {
@@ -13266,7 +13319,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60566" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56573" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
