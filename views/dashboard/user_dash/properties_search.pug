@@ -1,4 +1,4 @@
-extends ../base
+extends base
 
 block content
   .px-6.py-6.mx-auto.container.property-container
@@ -77,9 +77,9 @@ block content
         .relative.flex.flex-col.min-w-0.break-words.bg-white.border-0.border-solid.shadow-xl.border-black-125.rounded-2xl.bg-clip-border
             .p-4.pb-0.mb-0.rounded-t-4
                 .flex.justify-between
-                  .flex.flex-col
+                  .flex.flex-col.search-info
                     h6.mb-2 Properties
-                    span.text-xs.leading-tight McKinney, TX 75071
+                    span.text-xs.leading-tight.pb-2 McKinney, TX 75071
                   button#download-pdf.inline-block.px-8.py-2.mb-0.max-h-xs.text-xs.font-bold.leading-normal.text-center.text-blue-500.align-middle.transition-all.ease-in.bg-transparent.border.border-blue-500.border-solid.rounded-lg.shadow-none.cursor-pointer.bg-150.tracking-tight-rem.bg-x-25(class='active:opacity-85 hover:before:scale-105 hover:-translate-y-px hover:opacity-75')
                     | Download PDF
             .overflow-x-auto.ps
@@ -95,106 +95,66 @@ block content
                       th.px-6.py-3.font-bold.text-left.uppercase.align-middle.bg-transparent.border-b.border-collapse.shadow-none.text-xxs.border-b-solid.tracking-none.whitespace-nowrap.text-slate-400.opacity-70 Availability
                     tbody.text-center
                       tr.text-xs
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2061758485
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 9121 Riverlight Rd PH 5C 54/L, McKinney, TX 75071
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z123456
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 123 Main Street
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $402,290
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.65%
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $250,000
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.75%
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
                           i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
                       tr.text-xs
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2061758485
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 9121 Riverlight Rd PH 5C 54/L, McKinney, TX 75071
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $402,290
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.65%
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                          i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
-                      tr.text-xs
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2061758485
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 9121 Riverlight Rd PH 5C 54/L, McKinney, TX 75071
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $402,290
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.65%
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                          i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
-                      tr.text-xs
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2061758485
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 9121 Riverlight Rd PH 5C 54/L, McKinney, TX 75071
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z987654
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 456 Elm Avenue
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 4
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $402,290
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3.5
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $400,000
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.65%
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
                           i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
                       tr.text-xs
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2061758485
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 9121 Riverlight Rd PH 5C 54/L, McKinney, TX 75071
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z246813
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 789 Oak Drive
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $402,290
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.65%
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 1
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $150,000
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.8%
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
                           i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
                       tr.text-xs
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2061758485
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 9121 Riverlight Rd PH 5C 54/L, McKinney, TX 75071
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $402,290
-                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.65%
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z543210
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 321 Pine Street
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 5
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 4
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $600,000
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.9%
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
                           i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
-                      //- tr 
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                      //-   td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap sample
-                    //- tbody
-                    //-   tr
-                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap(class='w-3/10')
-                    //-       .flex.items-center.px-2.py-1
-                    //-       div
-                    //-           img(src='../assets/img/icons/flags/US.png', alt='Country flag')
-                    //-       .ml-6
-                    //-           p.mb-0.font-semibold.leading-tight.text-xs Country:
-                    //-           h6.mb-0.leading-normal.text-sm United States
-                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                    //-       .text-center
-                    //-         p.mb-0.font-semibold.leading-tight.text-xs Sales:
-                    //-         h6.mb-0.leading-normal.text-sm 2500
-                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                    //-       .text-center
-                    //-         p.mb-0.font-semibold.leading-tight.text-xs Value:
-                    //-         h6.mb-0.leading-normal.text-sm $230,900
-                    //-     td.p-2.leading-normal.align-middle.bg-transparent.border-b.text-sm.whitespace-nowrap
-                    //-       .flex-1.text-center
-                    //-         p.mb-0.font-semibold.leading-tight.text-xs Bounce:
-                    //-         h6.mb-0.leading-normal.text-sm 29.9%
-                    //-   tr
-                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap(class='w-3/10')
-                    //-       .flex.items-center.px-2.py-1
-                    //-       div
-                    //-           img(src='../assets/img/icons/flags/DE.png', alt='Country flag')
-                    //-       .ml-6
-                    //-           p.mb-0.font-semibold.leading-tight.text-xs Country:
-                    //-           h6.mb-0.leading-normal.text-sm Germany
-                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                    //-       .text-center
-                    //-         p.mb-0.font-semibold.leading-tight.text-xs Sales:
-                    //-         h6.mb-0.leading-normal.text-sm 3.900
-                    //-     td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
-                    //-       .text-center
-                    //-         p.mb-0.font-semibold.leading-tight.text-xs Value:
-                    //-         h6.mb-0.leading-normal.text-sm $440,000
-                    //-     td.p-2.leading-normal.align-middle.bg-transparent.border-b.text-sm.whitespace-nowrap
-                    //-       .flex-1.text-center
-                    //-         p.mb-0.font-semibold.leading-tight.text-xs Bounce:
-                    //-         h6.mb-0.leading-normal.text-sm 40.22%
-
+                      tr.text-xs
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z135792
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 987 Cedar Avenue
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $300,000
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.55%
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                          i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
+                      tr.text-xs
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z864209
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 654 Maple Drive
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 4
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 3
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $380,000
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.7%
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                          i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
+                      tr.text-xs
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap Z741852
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 321 Birch Lane
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 2
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 1.5
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap $200,000
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.45%
+                        td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
+                          i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
+                      
