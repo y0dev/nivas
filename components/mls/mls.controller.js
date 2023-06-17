@@ -8,6 +8,8 @@ const AppError = require("../../utils/appError");
 const { createTablePdf } = require("../../utils/pdf.maker");
 const path = require("path");
 const catchAsync = require("../../utils/catchAsync");
+const SearchHistory = require("../history/history.schema");
+const { User } = require("../user/user.schema");
 
 let MAX_LENGTH = 10;
 const SLEEP = 2;
@@ -27,78 +29,77 @@ let url_headers = {
 };
 
 exports.searchByZipCode = catchAsync(async (req, res, next) => {
-  try {
-    // url_headers = req.headers;
-    url_headers["user-agent"] = req.get("user-agent");
-    // For Screen size
-    // logger.warn(url_headers["user-agent"]);
+  // url_headers = req.headers;
+  url_headers["user-agent"] = req.get("user-agent");
+  // For Screen size
+  // logger.warn(url_headers["user-agent"]);
 
-    logger.info("Searching by zip code");
-    const { zip_code } = req.body;
+  logger.info("Searching by zip code");
+  const { zip_code } = req.body;
 
-    const { id } = req.user;
-    const userSettings = UtilityService.getUserSubscription("basic");
-    MAX_LENGTH = userSettings.maxAmountResults;
-    // const id = "jlkdjsaj";
+  const { id } = req.user;
+  const userSettings = UtilityService.getUserSubscription("basic");
+  MAX_LENGTH = userSettings.maxAmountResults;
+  // const id = "648d20625900ad8cee2c6fca";
 
-    logger.info(`Zip Code: ${zip_code}`);
-    if (!zip_code) {
-      return next(new AppError("Not a valid MLS input"), 403);
-    }
-
-    logger.info("Cleaning up zip code");
-    const cleanZipCode = parseInt(zip_code).toString();
-
-    logger.info("Gathering bounds");
-    const map_bounds = await retrieveZipCodeSearchParameters(cleanZipCode);
-
-    const searchTerm = `"${cleanZipCode}"`;
-
-    logger.info("Gathering number of pages to search");
-    const numOfPages = await retrieveNumberOfPages(searchTerm, map_bounds);
-    if (numOfPages == 0) {
-      return next(new AppError("Can not retrieve results"), 401);
-    }
-
-    logger.info("Gathering results from pages");
-    let results = await retrieveResults(searchTerm, numOfPages, map_bounds);
-
-    if (results.length !== 0) {
-      logger.info(`Saving zip code to db`);
-
-      logger.info("Grabbing comparable data from zillow");
-      const { twoBeds, threeBeds } = await assignPercentiles(results);
-      const { trucResults, ids } = await truncateResultList(id, results);
-      addSearchTermToDatabase(id, zip_code, ids, twoBeds, threeBeds);
-      logger.info("Successfully gathered results");
-
-      const { zipCode, city, state } = trucResults[0];
-      const cityState = `${city}, ${state}`;
-
-      prevSearchResults = {
-        "search-term": zip_code,
-        listings: trucResults,
-        twoBedsQuartile: twoBeds,
-        threeBedsQuartile: threeBeds,
-      };
-
-      res.json({
-        zipCode: zipCode,
-        cityState: cityState,
-        listings: trucResults,
-        twoBedsQuartile: twoBeds,
-        threeBedsQuartile: threeBeds,
-        status: "success",
-      });
-    } else {
-      logger.info(`No results at this zip code ${zip_code}`);
-      res.json({ results: [], status: "unsuccess" });
-    }
-  } catch (err) {
-    logger.error(err);
-    return next(new AppError("Failed to get results"), 502);
+  logger.info(`Zip Code: ${zip_code}`);
+  if (!zip_code) {
+    return next(new AppError("Not a valid MLS input"), 403);
   }
-  next();
+
+  logger.info("Cleaning up zip code");
+  const cleanZipCode = parseInt(zip_code).toString();
+
+  logger.info("Gathering bounds");
+  const map_bounds = await retrieveZipCodeSearchParameters(cleanZipCode);
+
+  const searchTerm = `"${cleanZipCode}"`;
+
+  logger.info("Gathering number of pages to search");
+  const numOfPages = await retrieveNumberOfPages(searchTerm, map_bounds);
+  if (numOfPages == 0) {
+    return next(new AppError("Can not retrieve results"), 401);
+  }
+
+  logger.info("Gathering results from pages");
+  let results = await retrieveResults(searchTerm, numOfPages, map_bounds);
+
+  if (results.length !== 0) {
+    logger.info("Grabbing comparable data from zillow");
+    const { twoBeds, threeBeds } = await assignPercentiles(results);
+    const { trucResults, s_id } = await truncateResultList(searchTerm, results);
+
+    logger.info("Saving users search history");
+    User.findById(id).then((user) => {
+      user.searchHistory.push(s_id);
+      user.save();
+    });
+
+    // addSearchTermToDatabase(id, zip_code, ids, twoBeds, threeBeds);
+    logger.info("Successfully gathered results");
+
+    const { zipCode, city, state } = trucResults[0];
+    const cityState = `${city}, ${state}`;
+
+    prevSearchResults = {
+      "search-term": zip_code,
+      listings: trucResults,
+      twoBedsQuartile: twoBeds,
+      threeBedsQuartile: threeBeds,
+    };
+
+    res.json({
+      zipCode: zipCode,
+      cityState: cityState,
+      listings: trucResults,
+      twoBedsQuartile: twoBeds,
+      threeBedsQuartile: threeBeds,
+      status: "success",
+    });
+  } else {
+    logger.info(`No results at this zip code ${zip_code}`);
+    res.json({ results: [], status: "unsuccess" });
+  }
 });
 
 exports.searchByCityState = catchAsync(async (req, res, next) => {
@@ -132,15 +133,21 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
       logger.info("Grabbing comparable data from zillow");
       const { twoBeds, threeBeds } = await assignPercentiles(results);
       // logger.info("Gather the results");
-      const { trucResults, ids } = await truncateResultList(id, results);
+      const { trucResults, s_id } = await truncateResultList(
+        searchTerm,
+        results
+      );
 
-      logger.info(`Saving zip code to db`);
-      addSearchTermToDatabase(id, `${city}, ${state}`, ids, twoBeds, threeBeds);
+      logger.info("Saving users search history");
+      User.findById(id).then((user) => {
+        user.searchHistory.push(s_id);
+        user.save();
+      });
       logger.info("Successfully gathered results");
 
       const { zipCode, city, state } = trucResults[0];
       const cityState = `${city}, ${state}`;
-
+      // TODO: Grab latest from db instead
       prevSearchResults = {
         "search-term": `${city}, ${state}`,
         listings: trucResults,
@@ -167,34 +174,54 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
 });
 
 exports.getSearches = catchAsync(async (req, res, next) => {
-  // const id = "jlkdjsaj";
-  const { id } = req.user;
-  const searchTerms = await SearchTerm.find({ userId: id });
+  const id = "648d20625900ad8cee2c6fca";
+  // const { id, searchHistory } = req.user;
   let results = [];
-  if (searchTerms.length !== 0) {
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    // Sort array in descending order so that the latest would be at the top
-    searchTerms.sort(
-      (a, b) => b.dateCreated.getTime() - a.dateCreated.getTime()
-    );
+  let searchTerm = "";
+  await User.findById(id)
+    .select("searchHistory")
+    .then(async (docs) => {
+      for (const item of docs.searchHistory) {
+        await SearchHistory.findById(item.toString()).then((searchHist) => {
+          // console.log(searchHist);
+          searchTerm = searchHist.searchTerm;
+          for (const i of searchHist.searchResults) {
+            results.push(i);
+          }
+        });
+      }
+    });
 
-    // Create a list of json object that contain search term list with date and time
-    for (let index = 0; index < searchTerms.length; index++) {
-      // Get search term from list
-      const element = searchTerms[index];
-      // Gather ids
-      const jsonObject = {
-        date: element.dateCreated.toLocaleDateString("en-US", options),
-        time: element.dateCreated.toLocaleTimeString(),
-        numOfResults: element.searchIds.length,
-      };
-      results.push(jsonObject);
-    }
-    // Response with results
-    res.json({ status: "success", results: results });
-  } else {
-    res.json({ status: "unsuccess", results: [] });
-  }
+  res.json({
+    status: "success",
+    searchTerm: searchTerm.toString(),
+    results: results,
+  });
+
+  // if (searchTerms.length !== 0) {
+  //   const options = { month: "long", day: "numeric", year: "numeric" };
+  //   // Sort array in descending order so that the latest would be at the top
+  //   searchTerms.sort(
+  //     (a, b) => b.dateCreated.getTime() - a.dateCreated.getTime()
+  //   );
+
+  //   // Create a list of json object that contain search term list with date and time
+  //   for (let index = 0; index < searchTerms.length; index++) {
+  //     // Get search term from list
+  //     const element = searchTerms[index];
+  //     // Gather ids
+  //     const jsonObject = {
+  //       date: element.dateCreated.toLocaleDateString("en-US", options),
+  //       time: element.dateCreated.toLocaleTimeString(),
+  //       numOfResults: element.searchIds.length,
+  //     };
+  //     results.push(jsonObject);
+  //   }
+  // Response with results
+  //   res.json({ status: "success", results: results });
+  // } else {
+  //   res.json({ status: "unsuccess", results: [] });
+  // }
 
   next();
 });
@@ -233,9 +260,9 @@ exports.downloadPreviousSearch = catchAsync(async (req, res, next) => {
   next();
 });
 
-async function truncateResultList(user_id, results) {
-  const ids = [];
+async function truncateResultList(searchTerm, results) {
   let trucResults = [];
+  const finalResult = [];
   logger.info("Truncating Results");
   // Check if the list is longer than the maximum length
   if (results.length > MAX_LENGTH) {
@@ -248,40 +275,25 @@ async function truncateResultList(user_id, results) {
   // Process each object in the list
   for (let i = 0; i < trucResults.length; i++) {
     let obj = trucResults[i];
-    // Do something with the object
-    const id = await addMLSInfoToDatabase(user_id, obj);
-    ids.push(id);
+    finalResult.push({
+      mlsId: obj.zpid,
+      price: obj.priceStr,
+      address: obj.address,
+      city: obj.city,
+      state: obj.state,
+      beds: obj.beds,
+      baths: obj.baths,
+    });
   }
-  // logger.info(ids);
-  return { trucResults, ids };
-}
-async function addSearchTermToDatabase(
-  userId,
-  term,
-  searchIds,
-  twoBeds,
-  threeBeds
-) {
-  await SearchTerm.create({
-    userId: userId,
-    term: term,
-    searchIds: searchIds,
-    twoBeds: twoBeds,
-    threeBeds: threeBeds,
+
+  logger.info("Storing search term to database");
+  const newSearch = await SearchHistory.create({
+    searchTerm: searchTerm,
+    searchResults: finalResult,
   });
-}
-async function addMLSInfoToDatabase(userId, homeInfo) {
-  const doc = await MLS.create({
-    userId: userId,
-    mlsId: homeInfo.zpid,
-    price: homeInfo.priceStr,
-    address: homeInfo.address,
-    city: homeInfo.city,
-    state: homeInfo.state,
-    numOfBeds: homeInfo.beds,
-    numOfBaths: homeInfo.baths,
-  });
-  return doc._id;
+  logger.info("Saving Search History");
+  console.log(newSearch._id);
+  return { trucResults, s_id: newSearch._id };
 }
 
 async function retrieveNumberOfPages(searchTerm, bounds) {

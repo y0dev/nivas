@@ -52,7 +52,7 @@ export const searchForMLS = async (mls_string) => {
   // console.log(mls_string);
   if (containsZipCode(mls_string)) {
     const zip_code = getZipCode(mls_string);
-    console.log(zip_code, port);
+    // console.log(zip_code, port);
     url = `http://localhost:${port}/api/v1/mls/searchZip`;
     data = {
       zip_code,
@@ -72,7 +72,7 @@ export const searchForMLS = async (mls_string) => {
   }
 
   try {
-    console.log(url);
+    // console.log(url);
     const token = localStorage.getItem("token");
     // display loading overlay when making API call
     const res = await axios({

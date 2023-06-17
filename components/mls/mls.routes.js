@@ -13,7 +13,7 @@ const router = express.Router({ mergeParams: true });
 
 // router.get("/sample-pdf", downloadSample);
 // Add an protect middleware to authenticate user
-router.use(protect);
+// router.use(protect);
 
 router.post("/searchZip", searchByZipCode);
 router.post("/searchCS", searchByCityState);

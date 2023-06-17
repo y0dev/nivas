@@ -10,10 +10,6 @@ const paymentSchema = new Schema({
     type: Number,
     required: true,
   },
-  numberOfCoins: {
-    type: Number,
-    required: true,
-  },
   date: {
     type: Date,
     default: Date.now,

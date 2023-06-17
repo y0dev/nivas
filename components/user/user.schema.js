@@ -63,14 +63,16 @@ const userSchema = new Schema({
     select: false,
   },
   deletedDate: Date,
-  coins: {
-    type: Number,
-    default: 0,
-  },
   transactions: [
     {
       type: Schema.Types.ObjectId,
       ref: "Payment",
+    },
+  ],
+  searchHistory: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "SearchHistory",
     },
   ],
 });
@@ -78,6 +80,7 @@ const userSchema = new Schema({
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
+  console.log("saving user");
   // Generate a salt with 10 rounds of hashing
   const salt = await bcrypt.genSalt(10);
 
@@ -87,23 +90,6 @@ userSchema.pre("save", async function (next) {
   // Set password creation date if it's not already set
   if (!this.passwordCreatedAt) {
     this.passwordCreatedAt = new Date();
-  }
-
-  // Create a transaction record for the user with initial coins
-  const transaction = new Payment({
-    user: this._id,
-    amount: 0,
-    numberOfCoins: 100,
-  });
-
-  try {
-    // Save the transaction record
-    await transaction.save();
-    this.transactions.push(transaction._id);
-
-    next();
-  } catch (error) {
-    next(error);
   }
 
   this.confirmPassword = undefined;
