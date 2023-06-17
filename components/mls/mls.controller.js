@@ -33,11 +33,16 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
   url_headers["user-agent"] = req.get("user-agent");
   // For Screen size
   // logger.warn(url_headers["user-agent"]);
-
+  let user_id = "";
+  if (process.env.NODE_ENV === "development") {
+    user_id = "648d20625900ad8cee2c6fca";
+  } else {
+    const { id } = req.user;
+    user_id = id;
+  }
   logger.info("Searching by zip code");
   const { zip_code } = req.body;
 
-  const { id } = req.user;
   const userSettings = UtilityService.getUserSubscription("basic");
   MAX_LENGTH = userSettings.maxAmountResults;
   // const id = "648d20625900ad8cee2c6fca";
@@ -70,7 +75,7 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
     const { trucResults, s_id } = await truncateResultList(searchTerm, results);
 
     logger.info("Saving users search history");
-    User.findById(id).then((user) => {
+    User.findById(user_id).then((user) => {
       user.searchHistory.push(s_id);
       user.save();
     });
@@ -107,8 +112,14 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
   try {
     url_headers["user-agent"] = req.get("user-agent");
     logger.info("Searching by city and state");
+    let user_id = "";
+    if (process.env.NODE_ENV === "development") {
+      user_id = "648d20625900ad8cee2c6fca";
+    } else {
+      const { id } = req.user;
+      user_id = id;
+    }
     const { city, state } = req.body;
-    const { id } = req.user;
 
     logger.info(`City:${city}, State: ${state}`);
     if (!city && !state) {
@@ -139,7 +150,7 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
       );
 
       logger.info("Saving users search history");
-      User.findById(id).then((user) => {
+      User.findById(user_id).then((user) => {
         user.searchHistory.push(s_id);
         user.save();
       });
@@ -174,23 +185,27 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
 });
 
 exports.getSearches = catchAsync(async (req, res, next) => {
-  const id = "648d20625900ad8cee2c6fca";
-  // const { id, searchHistory } = req.user;
   let results = [];
   let searchTerm = "";
-  await User.findById(id)
-    .select("searchHistory")
-    .then(async (docs) => {
-      for (const item of docs.searchHistory) {
-        await SearchHistory.findById(item.toString()).then((searchHist) => {
-          // console.log(searchHist);
-          searchTerm = searchHist.searchTerm;
-          for (const i of searchHist.searchResults) {
-            results.push(i);
-          }
-        });
-      }
-    });
+  if (process.env.NODE_ENV === "development") {
+    const id = "648d20625900ad8cee2c6fca";
+
+    await User.findById(id)
+      .select("searchHistory")
+      .then(async (docs) => {
+        for (const item of docs.searchHistory) {
+          await SearchHistory.findById(item.toString()).then((searchHist) => {
+            // console.log(searchHist);
+            searchTerm = searchHist.searchTerm;
+            for (const i of searchHist.searchResults) {
+              results.push(i);
+            }
+          });
+        }
+      });
+  } else {
+    const { id, searchHistory } = req.user;
+  }
 
   res.json({
     status: "success",
@@ -292,7 +307,7 @@ async function truncateResultList(searchTerm, results) {
     searchResults: finalResult,
   });
   logger.info("Saving Search History");
-  console.log(newSearch._id);
+  // console.log(newSearch._id);
   return { trucResults, s_id: newSearch._id };
 }
 

@@ -11,6 +11,7 @@ mongoose.connect(process.env.DATABASE_LOCAL).then(() => {
 // Upload sample data
 const sampleData = [
   {
+    _id: new mongoose.Types.ObjectId("648d20625900ad8cee2c6fca"),
     name: "Devontae Reid",
     email: "devdoesit17@gmail.com",
     password: process.env.ADMIN_PW,
