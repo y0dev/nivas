@@ -193,20 +193,21 @@ exports.getSearches = catchAsync(async (req, res, next) => {
     await User.findById(id)
       .select("searchHistory")
       .then(async (docs) => {
+        // Get id in search history
         for (const item of docs.searchHistory) {
           await SearchHistory.findById(item.toString()).then((searchHist) => {
-            // console.log(searchHist);
-            searchTerm = searchHist.searchTerm;
-            for (const i of searchHist.searchResults) {
-              results.push(i);
-            }
+            results.push({
+              count: searchHist.searchResults.length,
+              date: searchHist.date,
+              term: searchHist.searchTerm.toString().replace(/"/g, ""),
+            });
           });
         }
       });
   } else {
     const { id, searchHistory } = req.user;
   }
-
+  results.sort((a, b) => b.date.getTime() - a.date.getTime());
   res.json({
     status: "success",
     searchTerm: searchTerm.toString(),

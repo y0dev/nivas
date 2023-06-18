@@ -20,21 +20,14 @@ const loginForm = document.querySelector(".form--login");
 const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
 let propertyContainer = document.querySelector(".container.property-container");
-const settingsContainer = document.querySelector(
-  ".container.settings-container"
-);
+const userContainer = document.querySelector(".container.user-dash-container");
 const pricingSection = document.querySelector("section#pricing");
 // const error404Container = document.querySelector(".container.404-container");
 
-if (settingsContainer || propertyContainer) {
+if (userContainer || propertyContainer) {
   // addUserMenuBtn();
 
-  if (settingsContainer) {
-    // Remove temp history
-    const historyContainer = document.getElementById("history-container");
-    while (historyContainer.firstChild) {
-      historyContainer.removeChild(historyContainer.firstChild);
-    }
+  if (userContainer) {
 
     // Load users history
     window.addEventListener("load", () => {

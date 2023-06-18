@@ -12284,6 +12284,7 @@ var _axios = _interopRequireDefault(require("axios"));
 var _alert = require("./alert");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, catch: function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -12617,7 +12618,7 @@ var downloadResults = /*#__PURE__*/function () {
 exports.downloadResults = downloadResults;
 var getSearchHistory = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    var token, res, results, svgNS, historyContainer, previousDate, newItem, dateElement, listElement, index, element, listItem, listInnerDiv, mainText, subText, timeElement, svgElement, pathElement1, pathElement2;
+    var token, res, results, historyList, _iterator, _step, resItem, listItem, leftContainer, dateTitle, numResults, rightContainer, pdfButton, pdfIcon, pdfText, date, formattedDate;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -12635,63 +12636,64 @@ var getSearchHistory = /*#__PURE__*/function () {
           res = _context3.sent;
           if (res.data.status === "success") {
             results = res.data.results;
-            svgNS = "http://www.w3.org/2000/svg";
-            historyContainer = document.getElementById("history-container");
-            previousDate = results[0]["date"];
-            newItem = document.createElement("div");
-            dateElement = document.createElement("time");
-            listElement = document.createElement("ol");
-            historyContainer.appendChild(newItem);
-            newItem.appendChild(dateElement);
-            newItem.appendChild(listElement);
-            dateElement.textContent = previousDate;
-            for (index = 0; index < results.length; index++) {
-              element = results[index];
-              if (previousDate != element["date"]) {
-                previousDate = element["date"];
-                newItem = document.createElement("div");
-                dateElement = document.createElement("time");
-                listElement = document.createElement("ol");
-                historyContainer.appendChild(newItem);
-                newItem.appendChild(dateElement);
-                newItem.appendChild(listElement);
-                dateElement.textContent = previousDate;
-                console.log(previousDate);
-              }
+            console.log(results);
 
-              // Add new list item
-              listItem = document.createElement("li");
-              listInnerDiv = document.createElement("div");
-              mainText = document.createElement("div");
-              subText = document.createElement("div");
-              timeElement = document.createElement("span");
-              svgElement = document.createElementNS(svgNS, "svg");
-              pathElement1 = document.createElementNS(svgNS, "path");
-              pathElement2 = document.createElementNS(svgNS, "path");
-              newItem.className = "p-5 mb-4 border border-gray-100 rounded-lg bg-gray-50";
-              dateElement.className = "text-lg font-semibold text-gray-900";
-              listElement.className = "mt-3 divide-y divider-gray-200";
-              listItem.className = "items-center block p-3 sm:flex hover:bg-gray-100";
-              listInnerDiv.className = "text-gray-600";
-              mainText.className = "text-base font-normal";
-              subText.className = "text-sm font-normal";
-              timeElement.className = "inline-flex items-center text-xs font-normal text-gray-500";
-              svgElement.classList.add("w-3", "h-3", "mr-1");
+            // Remove temp history
+            historyList = document.getElementById("history-list");
+            while (historyList.firstChild) {
+              historyList.removeChild(historyList.firstChild);
+            }
+            _iterator = _createForOfIteratorHelper(results);
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                resItem = _step.value;
+                console.log(resItem);
+                // List Styling
+                listItem = document.createElement("li");
+                listItem.className = "relative flex justify-between px-4 py-2 pl-0 mb-2 border-0 rounded-t-inherit text-inherit rounded-xl";
 
-              // Append children
-              listElement.appendChild(listItem);
-              listItem.appendChild(listInnerDiv);
-              listInnerDiv.appendChild(mainText);
-              listInnerDiv.appendChild(subText);
-              listInnerDiv.appendChild(timeElement);
-              timeElement.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"w-3 h-3 mr-1\" fill=\"currentColor\" viewBox=\"0 0 24 24\" width=\"24px\" height=\"24px\"><path d=\"M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 6 L 11 12.414062 L 15.292969 16.707031 L 16.707031 15.292969 L 13 11.585938 L 13 6 L 11 6 z\"/></svg> ".concat(element["time"]);
-              if (index % 2 === 0) {
-                mainText.textContent = "There are such and such results ".concat(element["numOfResults"]);
-              } else {
-                mainText.textContent = "There are such and such results ".concat(element["numOfResults"]);
+                // LEFT Container of list item
+                leftContainer = document.createElement("div");
+                leftContainer.className = "flex flex-col";
+                dateTitle = document.createElement("h6");
+                dateTitle.className = "mb-1 text-sm font-semibold leading-normal text-slate-700";
+                numResults = document.createElement("span");
+                numResults.className = "text-xs leading-tight";
+                leftContainer.appendChild(dateTitle);
+                leftContainer.appendChild(numResults);
+
+                // RIGHT Container of list item
+                rightContainer = document.createElement("div");
+                rightContainer.className = "flex items-center text-sm leading-normal";
+                pdfButton = document.createElement("button");
+                pdfButton.className = "inline-block px-0 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm tracking-tight-rem bg-x-25 text-slate-700 py-2.5 active:opacity-85 hover:-translate-y-px";
+                pdfIcon = document.createElement("i");
+                pdfIcon.className = "mr-1 text-lg leading-none bx bxs-file-pdf";
+                pdfText = document.createTextNode(" PDF");
+                pdfButton.append(pdfIcon);
+                pdfButton.append(pdfText);
+                rightContainer.appendChild(pdfButton);
+                listItem.appendChild(leftContainer);
+                listItem.appendChild(rightContainer);
+                historyList.appendChild(listItem);
+
+                // List information
+                date = new Date(resItem.date);
+                formattedDate = date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC"
+                });
+                dateTitle.textContent = formattedDate;
+                numResults.textContent = "Num of Results: ".concat(resItem.count);
+                console.log(resItem.date, formattedDate);
+                // console.log(resItem.date);
               }
-              subText.textContent = "Sample";
-              // timeElement.textContent = element["time"];
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
             }
           }
           _context3.next = 11;
@@ -13135,20 +13137,14 @@ var loginForm = document.querySelector(".form--login");
 var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var propertyContainer = document.querySelector(".container.property-container");
-var settingsContainer = document.querySelector(".container.settings-container");
+var userContainer = document.querySelector(".container.user-dash-container");
 var pricingSection = document.querySelector("section#pricing");
 // const error404Container = document.querySelector(".container.404-container");
 
-if (settingsContainer || propertyContainer) {
+if (userContainer || propertyContainer) {
   // addUserMenuBtn();
 
-  if (settingsContainer) {
-    // Remove temp history
-    var historyContainer = document.getElementById("history-container");
-    while (historyContainer.firstChild) {
-      historyContainer.removeChild(historyContainer.firstChild);
-    }
-
+  if (userContainer) {
     // Load users history
     window.addEventListener("load", function () {
       (0, _controller2.getSearchHistory)();
@@ -13318,7 +13314,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57920" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59184" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
