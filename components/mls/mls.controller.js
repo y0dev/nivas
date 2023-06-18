@@ -2,7 +2,6 @@ const fs = require("fs");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const logger = require("../../utils/logger").logger;
-const { MLS, SearchTerm } = require("./mls.schema");
 const UtilityService = require("../../utils/utilities");
 const AppError = require("../../utils/appError");
 const { createTablePdf } = require("../../utils/pdf.maker");
@@ -10,6 +9,10 @@ const path = require("path");
 const catchAsync = require("../../utils/catchAsync");
 const SearchHistory = require("../history/history.schema");
 const { User } = require("../user/user.schema");
+const {
+  getResultFromRedisClient,
+  setResultInRedisClient,
+} = require("../../utils/redisServer");
 
 let MAX_LENGTH = 10;
 const SLEEP = 2;
@@ -190,6 +193,14 @@ exports.getSearches = catchAsync(async (req, res, next) => {
   if (process.env.NODE_ENV === "development") {
     const id = "648d20625900ad8cee2c6fca";
 
+    // await getResultFromRedisClient("history", (err, result) => {
+    //   res.json({
+    //     status: "success",
+    //     searchTerm: result.searchTerm.toString(),
+    //     results: result.searchItems,
+    //   });
+    // });
+
     await User.findById(id)
       .select("searchHistory")
       .then(async (docs) => {
@@ -208,6 +219,16 @@ exports.getSearches = catchAsync(async (req, res, next) => {
     const { id, searchHistory } = req.user;
   }
   results.sort((a, b) => b.date.getTime() - a.date.getTime());
+  // await setResultInRedisClient(
+  //   "history",
+  //   {
+  //     searchTerm: searchTerm.toString(),
+  //     searchItems: results,
+  //   },
+  //   (err, result) => {
+  //     console.log(result.status);
+  //   }
+  // );
   res.json({
     status: "success",
     searchTerm: searchTerm.toString(),
