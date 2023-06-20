@@ -723,6 +723,9 @@ video {
 .mb-0 {
     margin-bottom: 0px;
 }
+.mb-0\.75 {
+    margin-bottom: 0.2rem;
+}
 .mb-1 {
     margin-bottom: 0.25rem;
 }
@@ -864,6 +867,9 @@ video {
 .h-12 {
     height: 3rem;
 }
+.h-19 {
+    height: 4.75rem;
+}
 .h-20 {
     height: 5rem;
 }
@@ -941,6 +947,9 @@ video {
 }
 .w-4 {
     width: 1rem;
+}
+.w-4\.5 {
+    width: 1.125rem;
 }
 .w-5 {
     width: 1.25rem;
@@ -1072,9 +1081,6 @@ video {
 .items-center {
     align-items: center;
 }
-.items-stretch {
-    align-items: stretch;
-}
 .justify-start {
     justify-content: flex-start;
 }
@@ -1176,12 +1182,6 @@ video {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
-.rounded-br-none {
-    border-bottom-right-radius: 0px;
-}
-.rounded-tr-none {
-    border-top-right-radius: 0px;
-}
 .border {
     border-width: 1px;
 }
@@ -1199,9 +1199,6 @@ video {
 }
 .border-b-0 {
     border-bottom-width: 0px;
-}
-.border-r-0 {
-    border-right-width: 0px;
 }
 .border-solid {
     border-style: solid;
@@ -1427,10 +1424,6 @@ video {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
-.px-2\.5 {
-    padding-left: 0.625rem;
-    padding-right: 0.625rem;
-}
 .px-3 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -1455,6 +1448,10 @@ video {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 }
+.py-1\.2 {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
 .py-2 {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -1462,6 +1459,10 @@ video {
 .py-2\.5 {
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
+}
+.py-2\.7 {
+    padding-top: 0.675rem;
+    padding-bottom: 0.675rem;
 }
 .py-24 {
     padding-top: 6rem;
@@ -1622,9 +1623,6 @@ video {
 }
 .capitalize {
     text-transform: capitalize;
-}
-.leading-5 {
-    line-height: 1.25rem;
 }
 .leading-6 {
     line-height: 1.5rem;
@@ -2291,11 +2289,6 @@ video {
   
   .focus\:z-\[3\]:focus {
     z-index: 3;
-}
-  
-  .focus\:border-blue-500:focus {
-    --tw-border-opacity: 1;
-    border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
   
   .focus\:border-primary:focus {
