@@ -335,7 +335,7 @@ export const getSearchHistory = async () => {
     });
     if (res.data.status === "success") {
       const results = res.data.results;
-      console.log(results);
+      // console.log(results);
 
       // Remove temp history
       const historyList = document.getElementById("history-list");
@@ -344,7 +344,7 @@ export const getSearchHistory = async () => {
       }
 
       for (const resItem of results) {
-        console.log(resItem);
+        // console.log(resItem);
         // List Styling
         const listItem = document.createElement("li");
         listItem.className =
@@ -389,8 +389,7 @@ export const getSearchHistory = async () => {
         dateTitle.textContent = formattedDate;
         numResults.textContent = `Num of Results: ${resItem.count}`;
 
-        console.log(resItem.date, formattedDate);
-        // console.log(resItem.date);
+        // console.log(resItem.date, formattedDate);
       }
     }
   } catch (err) {

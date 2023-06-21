@@ -12,6 +12,8 @@ import {
   removeLogoutBtn,
 } from "./controller.navbar";
 import { signup, login, logout, subscribe } from "./controller.user";
+import { updateChart } from "./dashboard/chart";
+import { sidebarToggle } from "./dashboard/navbar";
 import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
@@ -26,9 +28,9 @@ const pricingSection = document.querySelector("section#pricing");
 
 if (userContainer || propertyContainer) {
   // addUserMenuBtn();
-
+  sidebarToggle();
+  updateChart();
   if (userContainer) {
-
     // Load users history
     window.addEventListener("load", () => {
       getSearchHistory();

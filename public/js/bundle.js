@@ -12635,9 +12635,7 @@ var getSearchHistory = /*#__PURE__*/function () {
         case 4:
           res = _context3.sent;
           if (res.data.status === "success") {
-            results = res.data.results;
-            console.log(results);
-
+            results = res.data.results; // console.log(results);
             // Remove temp history
             historyList = document.getElementById("history-list");
             while (historyList.firstChild) {
@@ -12647,7 +12645,7 @@ var getSearchHistory = /*#__PURE__*/function () {
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 resItem = _step.value;
-                console.log(resItem);
+                // console.log(resItem);
                 // List Styling
                 listItem = document.createElement("li");
                 listItem.className = "relative flex justify-between px-4 py-2 pl-0 mb-2 border-0 rounded-t-inherit text-inherit rounded-xl";
@@ -12687,8 +12685,8 @@ var getSearchHistory = /*#__PURE__*/function () {
                 });
                 dateTitle.textContent = formattedDate;
                 numResults.textContent = "Num of Results: ".concat(resItem.count);
-                console.log(resItem.date, formattedDate);
-                // console.log(resItem.date);
+
+                // console.log(resItem.date, formattedDate);
               }
             } catch (err) {
               _iterator.e(err);
@@ -13070,7 +13068,206 @@ function addUserMenuBtn() {
     userDropdown.classList.toggle("hidden");
   });
 }
-},{"./controller.user":"controller.user.js"}],"tablesort.js":[function(require,module,exports) {
+},{"./controller.user":"controller.user.js"}],"dashboard/chart.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateChart = updateChart;
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function updateChart() {
+  // chart 1
+
+  if (document.querySelector("#chart-bars")) {
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Sales",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "#fff",
+          data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+          maxBarThickness: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: "index"
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 600,
+              beginAtZero: true,
+              padding: 15,
+              font: {
+                size: 14,
+                family: "Open Sans",
+                style: "normal",
+                lineHeight: 2
+              },
+              color: "#fff"
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false
+            },
+            ticks: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // chart 2
+
+  if (document.querySelector("#chart-line")) {
+    var _ref;
+    var ctx1 = document.getElementById("chart-line").getContext("2d");
+    var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+    gradientStroke1.addColorStop(1, "rgba(94, 114, 228, 0.2)");
+    gradientStroke1.addColorStop(0.2, "rgba(94, 114, 228, 0.0)");
+    gradientStroke1.addColorStop(0, "rgba(94, 114, 228, 0)");
+    new Chart(ctx1, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [(_ref = {
+          label: "Number of Good",
+          tension: 0.4,
+          borderWidth: 0,
+          pointRadius: 0,
+          borderColor: "#5e72e4",
+          backgroundColor: gradientStroke1
+        }, _defineProperty(_ref, "borderWidth", 3), _defineProperty(_ref, "fill", true), _defineProperty(_ref, "data", [50, 40, 300, 220, 500, 250, 400, 230, 500]), _defineProperty(_ref, "maxBarThickness", 6), _ref)]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: "index"
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: "#fbfbfb",
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: "normal",
+                lineHeight: 2
+              }
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: "#ccc",
+              padding: 20,
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: "normal",
+                lineHeight: 2
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+}
+},{}],"dashboard/navbar.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sidebarToggle = sidebarToggle;
+// sidenav transition-burger
+function sidebarToggle() {
+  var sidenav = document.querySelector("sidebar");
+  var sidenav_trigger = document.querySelector("[sidenav-trigger]");
+  var sidenav_close_button = document.querySelector("[sidenav-close]");
+  var burger = sidenav_trigger.firstElementChild;
+  var top_bread = burger.firstElementChild;
+  var bottom_bread = burger.lastElementChild;
+  sidenav_trigger.addEventListener("click", function () {
+    // sidenav_close_button.classList.toggle("hidden");
+    if (sidenav.getAttribute("aria-expanded") == "false") {
+      sidenav.setAttribute("aria-expanded", "true");
+    } else {
+      sidenav.setAttribute("aria-expanded", "false");
+    }
+    sidenav.classList.toggle("translate-x-0");
+    sidenav.classList.toggle("ml-6");
+    sidenav.classList.toggle("shadow-xl");
+    sidenav.classList.toggle("z-1000");
+  });
+  sidenav_close_button.addEventListener("click", function () {
+    sidenav_trigger.click();
+  });
+  window.addEventListener("click", function (e) {
+    if (!sidenav.contains(e.target) && !sidenav_trigger.contains(e.target)) {
+      if (sidenav.getAttribute("aria-expanded") == "true") {
+        sidenav_trigger.click();
+      }
+    }
+  });
+}
+},{}],"tablesort.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13128,6 +13325,8 @@ var _controller = require("./controller.email");
 var _controller2 = require("./controller.mls");
 var _controller3 = require("./controller.navbar");
 var _controller4 = require("./controller.user");
+var _chart = require("./dashboard/chart");
+var _navbar = require("./dashboard/navbar");
 var _tablesort = require("./tablesort");
 /* eslint-disable */
 
@@ -13143,7 +13342,8 @@ var pricingSection = document.querySelector("section#pricing");
 
 if (userContainer || propertyContainer) {
   // addUserMenuBtn();
-
+  (0, _navbar.sidebarToggle)();
+  (0, _chart.updateChart)();
   if (userContainer) {
     // Load users history
     window.addEventListener("load", function () {
@@ -13289,7 +13489,7 @@ if (mainWrapper) {
   events();
   var dark = false;
 }
-},{"./controller.email":"controller.email.js","./controller.mls":"controller.mls.js","./controller.navbar":"controller.navbar.js","./controller.user":"controller.user.js","./tablesort":"tablesort.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./controller.email":"controller.email.js","./controller.mls":"controller.mls.js","./controller.navbar":"controller.navbar.js","./controller.user":"controller.user.js","./dashboard/chart":"dashboard/chart.js","./dashboard/navbar":"dashboard/navbar.js","./tablesort":"tablesort.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -13314,7 +13514,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59184" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55900" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

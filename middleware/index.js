@@ -26,6 +26,7 @@ exports.registerMiddleware = (app) => {
             "'unsafe-eval'",
             "maps.googleapis.com",
             "unpkg.com/boxicons@2.1.4",
+            "cdn.jsdelivr.net/npm/chart.js",
           ],
           imgSrc: [
             "'self'",
