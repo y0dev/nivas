@@ -1,11 +1,12 @@
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const User = require("../user/user.schema");
+const { User } = require("../user/user.schema");
 const catchAsync = require("../../utils/catchAsync");
 const AppError = require("../../utils/appError");
 const logger = require("../../utils/logger").logger;
 const Email = require("../email/email.class");
+const SearchHistory = require("../history/history.schema");
 
 require("dotenv").config();
 
@@ -280,3 +281,100 @@ exports.errorHandler = (err, req, res, next) => {
     },
   });
 };
+
+exports.userCount = catchAsync(async (req, res, next) => {
+  logger.info("Getting Total Users");
+  const user = await User.findById(req.user.id);
+
+  if (!user.isAdmin) {
+    return next(
+      new AppError(
+        "User is not authorized to access the requested resource",
+        403
+      )
+    );
+  }
+  const count = await User.countDocuments();
+  res.send({ status: "success", count });
+});
+
+exports.newUserCount = catchAsync(async (req, res, next) => {
+  logger.info("Getting New User Count");
+  const user = await User.findById(req.user.id);
+
+  if (!user.isAdmin) {
+    return next(
+      new AppError(
+        "User is not authorized to access the requested resource",
+        403
+      )
+    );
+  }
+
+  // Get the current date
+  const currentDate = new Date();
+
+  // Get the start of the current month
+  const startOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
+
+  // Get the start of the next month
+  const startOfNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    1
+  );
+
+  // Define the criteria
+  const criteria = {
+    createdOn: {
+      $gte: startOfMonth,
+      $lt: startOfNextMonth,
+    },
+  };
+
+  const count = await User.countDocuments(criteria);
+  res.send({ status: "success", count });
+});
+
+exports.premiumUserCount = catchAsync(async (req, res, next) => {
+  logger.info("Getting Premium Users");
+  const user = await User.findById(req.user.id);
+
+  if (!user.isAdmin) {
+    return next(
+      new AppError(
+        "User is not authorized to access the requested resource",
+        403
+      )
+    );
+  }
+
+  // Define the criteria
+  const criteria = {
+    subscriptionTier: {
+      $eq: "premium",
+    },
+  };
+  const count = await User.countDocuments(criteria);
+  res.send({ status: "success", count });
+});
+
+exports.searchCount = catchAsync(async (req, res, next) => {
+  logger.info("Getting Users Total Search COunt");
+  const user = await User.findById(req.user.id);
+
+  if (!user.isAdmin) {
+    return next(
+      new AppError(
+        "User is not authorized to access the requested resource",
+        403
+      )
+    );
+  }
+  const count = await SearchHistory.countDocuments();
+  res.send({ status: "success", count });
+});

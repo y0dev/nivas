@@ -50,6 +50,10 @@ const userSchema = new Schema({
     type: Date,
     default: null,
   },
+  createdOn: {
+    type: Date,
+    default: Date.now,
+  },
   isAdmin: {
     type: Boolean,
     default: false,
