@@ -17,7 +17,6 @@ export function sidebarToggle() {
     sidenav.classList.toggle("translate-x-0");
     sidenav.classList.toggle("ml-6");
     sidenav.classList.toggle("shadow-xl");
-    sidenav.classList.toggle("z-1000");
   });
   sidenav_close_button.addEventListener("click", function () {
     sidenav_trigger.click();

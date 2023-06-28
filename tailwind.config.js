@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./views/**/*.pug"],
+  content: ["./views/**/*.pug", "./public/js/**/bundle.js"],
   presets: [],
   darkMode: "media", // or 'class'
   theme: {
@@ -961,6 +961,8 @@ module.exports = {
       opacity: "opacity",
       shadow: "box-shadow",
       transform: "transform",
+      background: "background-color",
+      "border-color": "border-color",
     },
     transitionTimingFunction: {
       DEFAULT: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1028,6 +1030,25 @@ module.exports = {
       30: "30",
       40: "40",
       50: "50",
+      100: "100",
+      200: "200",
+      300: "300",
+      400: "400",
+      500: "500",
+      600: "600",
+      700: "700",
+      800: "800",
+      900: "900",
+      910: "910",
+      920: "920",
+      930: "930",
+      940: "940",
+      950: "950",
+      960: "960",
+      970: "970",
+      980: "980",
+      990: "990",
+      1000: "1000",
     },
   },
   variantOrder: [

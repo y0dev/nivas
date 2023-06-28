@@ -13254,7 +13254,6 @@ function sidebarToggle() {
     sidenav.classList.toggle("translate-x-0");
     sidenav.classList.toggle("ml-6");
     sidenav.classList.toggle("shadow-xl");
-    sidenav.classList.toggle("z-1000");
   });
   sidenav_close_button.addEventListener("click", function () {
     sidenav_trigger.click();
@@ -13514,7 +13513,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55900" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51213" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
