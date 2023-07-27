@@ -33,6 +33,7 @@ exports.registerMiddleware = (app) => {
             "maps.gstatic.com",
             "*.googleapis.com",
             "*.ggpht.com",
+            "cdn-icons-png.flaticon.com",
           ],
           frameSrc: ["'self'", "maps.googleapis.com", "*.google.com"],
         },
