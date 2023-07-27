@@ -55,26 +55,26 @@ exports.registerMiddleware = (app) => {
 
   // parse application/json
   app.use(bodyParser.json({ limit: "10kb" }));
-
-  // app.use(
-  //   rateLimit({
-  //     windowMs: 15 * MINUTE, // 15 minutes
-  //     max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  //     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  //     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  //   })
-  // );
+  if (process.env.NODE_ENV !== "production") {
+    app.use(
+      rateLimit({
+        windowMs: 15 * MINUTE, // 15 minutes
+        max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+        standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+        legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+      })
+    );
+  }
 
   app.use(cookieParser());
-
-  app.use(
-    session({
-      secret: "keyboard cat",
-      resave: false,
-      saveUninitialized: true,
-      cookie: { secure: true },
-    })
-  );
+    app.use(
+      session({
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: true },
+      })
+    );
 };
 
 exports.registerErrorHandler = (app) => {};
