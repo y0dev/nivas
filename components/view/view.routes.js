@@ -5,10 +5,11 @@ const {
   getSignupPage,
   getUserDashboardPage,
   getUserSettingsPage,
-  get404Page,
   getPaymentPage,
   getPropSearchPage,
   getAdminDashboardPage,
+  get404Page,
+  get500Page,
 } = require("./view.controller");
 
 const { protectedViewRoutes } = require("../auth/auth.controller");
@@ -18,7 +19,8 @@ const router = express.Router({ mergeParams: true });
 router.get("/", getLandingPage);
 router.get("/login", getLoginPage);
 router.get("/signup", getSignupPage);
-router.get("/error", get404Page);
+router.get("/404", get404Page);
+router.get("/500", get500Page);
 
 // These following pages should only be for logged in users only
 // router.use();

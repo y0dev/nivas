@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
 module.exports = {
   content: ["./views/**/*.pug", "./public/js/**/bundle.js"],
+    safelist: ["rotate-180", "translate-y-0", "translate-y-[100%]", "z-10", "scale-75", "navbar-active"],
   presets: [],
-  darkMode: "media", // or 'class'
+    darkMode: "class", // or 'media' or 'class'
   theme: {
     screens: {
       sm: "640px",
@@ -16,8 +18,12 @@ module.exports = {
       current: colors.current,
       transparent: colors.transparent,
       primary: "#9333EA",
+      primaryLight: "#42a5f5",
       secondary: "#ff7e33",
+      secondaryLight: "#957fef",
       info: "#0C63E7",
+      dark: "#0A101E",
+      darker: "#090E1A",
       black: colors.black,
       white: "#F5F5F5",
       slate: colors.slate,
@@ -1069,5 +1075,9 @@ module.exports = {
     "active",
     "disabled",
   ],
-  plugins: [],
+  plugins: [
+        plugin(function ({ addVariant }) {
+            addVariant("children", "&>*");
+        }),
+  ],
 };

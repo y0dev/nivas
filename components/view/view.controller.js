@@ -50,6 +50,12 @@ exports.getPaymentPage = catchAsync(async (req, res, next) => {
 
 exports.get404Page = catchAsync(async (req, res, next) => {
   res.status(200).render("error/404", {
-    title: "Error",
+    title: "404 Error",
+  });
+});
+
+exports.get500Page = catchAsync(async (req, res, next) => {
+  res.status(200).render("error/500", {
+    title: "500 Error",
   });
 });

@@ -1,4 +1,6 @@
 /* eslint-disable */
+import "./theme";
+import "./solutions";
 import { contactUs } from "./controller.email";
 import {
   downloadResults,
@@ -24,7 +26,16 @@ let mainWrapper = document.querySelector(".main-wrapper");
 let propertyContainer = document.querySelector(".container.property-container");
 const userContainer = document.querySelector(".container.user-dash-container");
 const pricingSection = document.querySelector("section#pricing");
-// const error404Container = document.querySelector(".container.404-container");
+
+const hamburger = document.querySelector("#hamburger");
+const navbar = document.querySelector("#navbar");
+
+if (hamburger) {
+  hamburger.addEventListener("click", () => {
+      navbar.classList.toggle("navbar-active");
+  });
+}
+
 
 if (userContainer || propertyContainer) {
   // addUserMenuBtn();
