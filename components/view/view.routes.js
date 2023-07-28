@@ -3,6 +3,7 @@ const {
   getLandingPage,
   getLoginPage,
   getSignupPage,
+  getForgotPasswordPage,
   getUserDashboardPage,
   getUserSettingsPage,
   getPaymentPage,
@@ -19,6 +20,7 @@ const router = express.Router({ mergeParams: true });
 router.get("/", getLandingPage);
 router.get("/login", getLoginPage);
 router.get("/signup", getSignupPage);
+router.get("/forgot-password", getForgotPasswordPage);
 router.get("/404", get404Page);
 router.get("/500", get500Page);
 

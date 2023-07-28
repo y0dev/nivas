@@ -7,14 +7,20 @@ exports.getLandingPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getLoginPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("signup-login/login", {
+  res.status(200).render("auth/login", {
     title: "Login",
   });
 });
 
 exports.getSignupPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("signup-login/signup", {
+  res.status(200).render("auth/signup", {
     title: "Signup",
+  });
+});
+
+exports.getForgotPasswordPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("auth/forgot_password", {
+    title: "Forgot Password",
   });
 });
 
