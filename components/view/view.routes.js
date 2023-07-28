@@ -11,6 +11,8 @@ const {
   getAdminDashboardPage,
   get404Page,
   get500Page,
+  getBlogSinglePage,
+  getBlogListPage,
 } = require("./view.controller");
 
 const { protectedViewRoutes } = require("../auth/auth.controller");
@@ -23,6 +25,9 @@ router.get("/signup", getSignupPage);
 router.get("/forgot-password", getForgotPasswordPage);
 router.get("/404", get404Page);
 router.get("/500", get500Page);
+
+router.get("/blogs", getBlogListPage);
+router.get("/blog/:id", getBlogSinglePage);
 
 // These following pages should only be for logged in users only
 // router.use();

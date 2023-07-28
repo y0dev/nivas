@@ -24,6 +24,29 @@ exports.getForgotPasswordPage = catchAsync(async (req, res, next) => {
   });
 });
 
+/* 
+==============================
+            BLOGS
+============================== 
+*/
+
+exports.getBlogListPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("blog/index", {
+    title: "Blogs",
+  });
+});
+
+exports.getBlogSinglePage = catchAsync(async (req, res, next) => {
+  res.status(200).render("blog/blog_single", {
+    title: "Blog",
+  });
+});
+
+/* 
+==============================
+            DASHBOARDS
+============================== 
+*/
 exports.getAdminDashboardPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/admin_dash/index", {
     title: "Admin Dashboard",
