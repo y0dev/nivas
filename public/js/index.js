@@ -1,5 +1,6 @@
 /* eslint-disable */
-import "./theme";
+import "./header/theme";
+import "./header/notification";
 import "./solutions";
 import { contactUs } from "./controller.email";
 import {
