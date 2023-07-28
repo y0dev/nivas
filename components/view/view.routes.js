@@ -13,6 +13,9 @@ const {
   get500Page,
   getBlogSinglePage,
   getBlogListPage,
+  getAboutPage,
+  getContactPage,
+  getPricingPage,
 } = require("./view.controller");
 
 const { protectedViewRoutes } = require("../auth/auth.controller");
@@ -26,6 +29,10 @@ router.get("/forgot-password", getForgotPasswordPage);
 router.get("/404", get404Page);
 router.get("/500", get500Page);
 
+
+router.get("/about", getAboutPage);
+router.get("/contact", getContactPage);
+router.get("/pricing", getPricingPage);
 router.get("/blogs", getBlogListPage);
 router.get("/blog/:id", getBlogSinglePage);
 

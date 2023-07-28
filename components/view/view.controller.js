@@ -1,5 +1,11 @@
 const catchAsync = require("../../utils/catchAsync");
 
+/* 
+==============================
+          LANDING PAGE
+============================== 
+*/
+
 exports.getLandingPage = catchAsync(async (req, res, next) => {
   res.status(200).render("index", {
     title: "Home",
@@ -21,6 +27,24 @@ exports.getSignupPage = catchAsync(async (req, res, next) => {
 exports.getForgotPasswordPage = catchAsync(async (req, res, next) => {
   res.status(200).render("auth/forgot_password", {
     title: "Forgot Password",
+  });
+});
+
+exports.getAboutPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("company/about", {
+    title: "About Us",
+  });
+});
+
+exports.getContactPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("company/contact", {
+    title: "Contact",
+  });
+});
+
+exports.getPricingPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("company/pricing", {
+    title: "Contact",
   });
 });
 
