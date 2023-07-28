@@ -355,7 +355,7 @@ export const getSearchHistory = async () => {
         leftContainer.className = "flex flex-col";
         const dateTitle = document.createElement("h6");
         dateTitle.className =
-          "mb-1 text-sm font-semibold leading-normal text-slate-700";
+          "mb-1 text-sm font-semibold leading-normal text-slate-800 dark:text-slate-500";
         const numResults = document.createElement("span");
         numResults.className = "text-xs leading-tight";
         leftContainer.appendChild(dateTitle);
@@ -366,7 +366,7 @@ export const getSearchHistory = async () => {
         rightContainer.className = "flex items-center text-sm leading-normal";
         const pdfButton = document.createElement("button");
         pdfButton.className =
-          "inline-block px-0 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm tracking-tight-rem bg-x-25 text-slate-700 py-2.5 active:opacity-85 hover:-translate-y-px";
+          "inline-block px-0 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm tracking-tight-rem bg-x-25 text-slate-800 dark:text-slate-500 py-2.5 active:opacity-85 hover:-translate-y-px";
         const pdfIcon = document.createElement("i");
         pdfIcon.className = "mr-1 text-lg leading-none bx bxs-file-pdf";
         const pdfText = document.createTextNode(" PDF");

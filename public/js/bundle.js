@@ -12732,7 +12732,7 @@ var getSearchHistory = /*#__PURE__*/function () {
                 leftContainer = document.createElement("div");
                 leftContainer.className = "flex flex-col";
                 dateTitle = document.createElement("h6");
-                dateTitle.className = "mb-1 text-sm font-semibold leading-normal text-slate-700";
+                dateTitle.className = "mb-1 text-sm font-semibold leading-normal text-slate-800 dark:text-slate-500";
                 numResults = document.createElement("span");
                 numResults.className = "text-xs leading-tight";
                 leftContainer.appendChild(dateTitle);
@@ -12742,7 +12742,7 @@ var getSearchHistory = /*#__PURE__*/function () {
                 rightContainer = document.createElement("div");
                 rightContainer.className = "flex items-center text-sm leading-normal";
                 pdfButton = document.createElement("button");
-                pdfButton.className = "inline-block px-0 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm tracking-tight-rem bg-x-25 text-slate-700 py-2.5 active:opacity-85 hover:-translate-y-px";
+                pdfButton.className = "inline-block px-0 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm tracking-tight-rem bg-x-25 text-slate-800 dark:text-slate-500 py-2.5 active:opacity-85 hover:-translate-y-px";
                 pdfIcon = document.createElement("i");
                 pdfIcon.className = "mr-1 text-lg leading-none bx bxs-file-pdf";
                 pdfText = document.createTextNode(" PDF");
@@ -13599,7 +13599,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51142" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63000" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

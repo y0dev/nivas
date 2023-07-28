@@ -9,10 +9,10 @@ const path = require("path");
 const catchAsync = require("../../utils/catchAsync");
 const SearchHistory = require("../history/history.schema");
 const { User } = require("../user/user.schema");
-const {
-  getResultFromRedisClient,
-  setResultInRedisClient,
-} = require("../../utils/redisServer");
+// const {
+//   getResultFromRedisClient,
+//   setResultInRedisClient,
+// } = require("../../utils/redisServer");
 
 let MAX_LENGTH = 10;
 const SLEEP = 2;
