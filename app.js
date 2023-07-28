@@ -3,12 +3,6 @@ const express = require("express");
 const { registerApiRoutes } = require("./components");
 const { registerMiddleware } = require("./middleware");
 
-// const crypto = require("crypto");
-
-// const secretKey = crypto.randomBytes(32).toString("hex");
-
-// console.log(secretKey);
-
 // Create a server
 const app = express();
 

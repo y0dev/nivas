@@ -52,7 +52,7 @@ export const searchForMLS = async (mls_string) => {
   // console.log(mls_string);
   if (containsZipCode(mls_string)) {
     const zip_code = getZipCode(mls_string);
-    console.log(zip_code, port);
+    // console.log(zip_code, port);
     url = `http://localhost:${port}/api/v1/mls/searchZip`;
     data = {
       zip_code,
@@ -72,7 +72,7 @@ export const searchForMLS = async (mls_string) => {
   }
 
   try {
-    console.log(url);
+    // console.log(url);
     const token = localStorage.getItem("token");
     // display loading overlay when making API call
     const res = await axios({
@@ -335,69 +335,61 @@ export const getSearchHistory = async () => {
     });
     if (res.data.status === "success") {
       const results = res.data.results;
-      const svgNS = "http://www.w3.org/2000/svg";
-      const historyContainer = document.getElementById("history-container");
-      let previousDate = results[0]["date"];
+      // console.log(results);
 
-      let newItem = document.createElement("div");
-      let dateElement = document.createElement("time");
-      let listElement = document.createElement("ol");
-      historyContainer.appendChild(newItem);
-      newItem.appendChild(dateElement);
-      newItem.appendChild(listElement);
-      dateElement.textContent = previousDate;
-      for (let index = 0; index < results.length; index++) {
-        const element = results[index];
-        if (previousDate != element["date"]) {
-          previousDate = element["date"];
-          newItem = document.createElement("div");
-          dateElement = document.createElement("time");
-          listElement = document.createElement("ol");
+      // Remove temp history
+      const historyList = document.getElementById("history-list");
+      while (historyList.firstChild) {
+        historyList.removeChild(historyList.firstChild);
+      }
 
-          historyContainer.appendChild(newItem);
-          newItem.appendChild(dateElement);
-          newItem.appendChild(listElement);
-          dateElement.textContent = previousDate;
-          console.log(previousDate);
-        }
-
-        // Add new list item
+      for (const resItem of results) {
+        // console.log(resItem);
+        // List Styling
         const listItem = document.createElement("li");
-        const listInnerDiv = document.createElement("div");
-        const mainText = document.createElement("div");
-        const subText = document.createElement("div");
-        const timeElement = document.createElement("span");
-        const svgElement = document.createElementNS(svgNS, "svg");
-        const pathElement1 = document.createElementNS(svgNS, "path");
-        const pathElement2 = document.createElementNS(svgNS, "path");
-        newItem.className =
-          "p-5 mb-4 border border-gray-100 rounded-lg bg-gray-50";
-        dateElement.className = "text-lg font-semibold text-gray-900";
-        listElement.className = "mt-3 divide-y divider-gray-200";
-        listItem.className = "items-center block p-3 sm:flex hover:bg-gray-100";
-        listInnerDiv.className = "text-gray-600";
-        mainText.className = "text-base font-normal";
-        subText.className = "text-sm font-normal";
-        timeElement.className =
-          "inline-flex items-center text-xs font-normal text-gray-500";
-        svgElement.classList.add("w-3", "h-3", "mr-1");
+        listItem.className =
+          "relative flex justify-between px-4 py-2 pl-0 mb-2 border-0 rounded-t-inherit text-inherit rounded-xl";
 
-        // Append children
-        listElement.appendChild(listItem);
-        listItem.appendChild(listInnerDiv);
-        listInnerDiv.appendChild(mainText);
-        listInnerDiv.appendChild(subText);
-        listInnerDiv.appendChild(timeElement);
+        // LEFT Container of list item
+        const leftContainer = document.createElement("div");
+        leftContainer.className = "flex flex-col";
+        const dateTitle = document.createElement("h6");
+        dateTitle.className =
+          "mb-1 text-sm font-semibold leading-normal text-slate-800 dark:text-slate-500";
+        const numResults = document.createElement("span");
+        numResults.className = "text-xs leading-tight";
+        leftContainer.appendChild(dateTitle);
+        leftContainer.appendChild(numResults);
 
-        timeElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24" width="24px" height="24px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 6 L 11 12.414062 L 15.292969 16.707031 L 16.707031 15.292969 L 13 11.585938 L 13 6 L 11 6 z"/></svg> ${element["time"]}`;
+        // RIGHT Container of list item
+        const rightContainer = document.createElement("div");
+        rightContainer.className = "flex items-center text-sm leading-normal";
+        const pdfButton = document.createElement("button");
+        pdfButton.className =
+          "inline-block px-0 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm tracking-tight-rem bg-x-25 text-slate-800 dark:text-slate-500 py-2.5 active:opacity-85 hover:-translate-y-px";
+        const pdfIcon = document.createElement("i");
+        pdfIcon.className = "mr-1 text-lg leading-none bx bxs-file-pdf";
+        const pdfText = document.createTextNode(" PDF");
+        pdfButton.append(pdfIcon);
+        pdfButton.append(pdfText);
+        rightContainer.appendChild(pdfButton);
 
-        if (index % 2 === 0) {
-          mainText.textContent = `There are such and such results ${element["numOfResults"]}`;
-        } else {
-          mainText.textContent = `There are such and such results ${element["numOfResults"]}`;
-        }
-        subText.textContent = "Sample";
-        // timeElement.textContent = element["time"];
+        listItem.appendChild(leftContainer);
+        listItem.appendChild(rightContainer);
+        historyList.appendChild(listItem);
+
+        // List information
+        const date = new Date(resItem.date);
+        const formattedDate = date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          timeZone: "UTC",
+        });
+        dateTitle.textContent = formattedDate;
+        numResults.textContent = `Num of Results: ${resItem.count}`;
+
+        // console.log(resItem.date, formattedDate);
       }
     }
   } catch (err) {

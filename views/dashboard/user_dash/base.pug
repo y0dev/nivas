@@ -59,9 +59,9 @@ html
     link(rel="stylesheet", href="/css/style.css")
     title Urban Insight Inc. | #{ title }
 
-  body.bg-gray-100.body-font.relative.text-gray-700.font-normal.text-base.leading-default
+  body.bg-gray-100.body-font.relative.text-gray-600.font-normal.text-base.leading-default(class="dark:bg-gray-700 dark:text-gray-300")
   
-    .absolute.w-full.bg-blue-500.min-h-35-screen
+    .absolute.w-full.bg-gradient-to-tl.from-blue-500.to-violet-500.min-h-35-screen
 
     // SIDE BAR
     include _sidebar
@@ -76,5 +76,5 @@ html
 
         // FOOTER
         include ../_footer
-
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
     script(src="/js/bundle.js")

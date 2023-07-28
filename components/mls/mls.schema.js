@@ -1,50 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-let searchTermSchema = new Schema({
-  userId: {
-    type: String,
-    required: [true, "please insert user id"],
-    min: 2,
-    max: 24,
-  },
-  term: {
-    type: String,
-    required: [true, "please insert search term"],
-    min: 2,
-  },
-  searchIds: {
-    type: [String],
-    required: [true, "please add return items if there are any"],
-  },
-  twoBeds: {
-    type: Object,
-    required: true,
-  },
-  threeBeds: {
-    type: Object,
-    required: true,
-  },
-  dateCreated: {
-    type: Date,
-    required: false,
-  },
-});
-
-searchTermSchema.pre("save", async function (next) {
-  let now = new Date();
-  if (!this.dateCreated) {
-    this.dateCreated = now;
-  }
-  next();
-});
-
-let mlsSchema = new Schema({
-  userId: {
-    type: String,
-    required: [true, "please insert user id"],
-    min: 2,
-    max: 24,
-  },
+const mlsSchema = new Schema({
   mlsId: {
     type: String,
     required: [true, "please insert mls id"],
@@ -75,23 +31,19 @@ let mlsSchema = new Schema({
     min: 2,
     max: 255,
   },
-  numOfBeds: {
+  beds: {
     type: Number,
     required: [true, "please insert number of bedrooms"],
     min: 1,
     max: 12,
   },
-  numOfBaths: {
+  baths: {
     type: Number,
     required: [true, "please insert number of bathrooms"],
     min: 1,
     max: 12,
   },
   dateCreated: {
-    type: Date,
-    required: false,
-  },
-  modifiedOn: {
     type: Date,
     required: false,
   },
@@ -107,6 +59,5 @@ mlsSchema.pre("save", async function (next) {
 });
 
 const MLS = model("MLS", mlsSchema);
-const SearchTerm = model("SearchTerm", searchTermSchema);
 
-module.exports = { MLS, SearchTerm };
+module.exports = { MLS, mlsSchema };

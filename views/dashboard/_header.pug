@@ -1,70 +1,68 @@
-nav.relative.flex.flex-wrap.items-center.justify-between.px-0.py-2.mx-6.transition-all.ease-in.shadow-none.duration-250.rounded-2xl(class='lg:flex-nowrap lg:justify-start', navbar-main='', navbar-scroll='false')
+header
+  nav.relative.flex.flex-wrap.items-center.justify-between.px-0.py-2.mx-6.transition-all.ease-in.shadow-none.duration-250.rounded-2xl(class='lg:flex-nowrap lg:justify-start', navbar-main='', navbar-scroll='false')
     .flex.items-center.justify-between.w-full.px-4.py-1.mx-auto.flex-wrap-inherit
         breadcrumb
             ol.flex.flex-wrap.pt-1.mr-12.bg-transparent.rounded-lg(class='sm:mr-16')
                 li.leading-normal.text-sm
-                    a.text-white.opacity-50(href='#') Pages
-                li.text-sm.pl-2.capitalize.leading-normal.text-white(class="before:float-left before:pr-2 before:text-white before:content-['/']", aria-current='page') #{ title }
-            h6.mb-0.font-bold.text-white.capitalize #{ title }
-        .flex.items-center.mt-2.grow(class='sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto')
+                    a.text-gray-900.opacity-50(href='#' class="dark:text-white") Pages
+                li.text-sm.pl-2.capitalize.leading-normal.text-gray-700(class="dark:text-white before:float-left before:pr-2 before:dark:text-white before:content-['/']", aria-current='page') #{ title }
+            h6.mb-0.font-bold.text-gray-800.capitalize(class="dark:text-white") #{ title }
+        .flex.flex-row-reverse.items-center.mt-2.grow(class='sm:mt-0 sm:mr-6 md:mr-0 lg:flex-row lg:basis-auto')
             .flex.items-center(class='md:ml-auto md:pr-4')
-                //- .relative.flex.flex-wrap.items-stretch.w-full.transition-all.rounded-lg.ease
-                    span.text-sm.ease.absolute.z-50.-ml-px.flex.h-full.items-center.whitespace-nowrap.rounded-lg.rounded-tr-none.rounded-br-none.border.border-r-0.border-transparent.bg-transparent.py-2.text-center.font-normal.text-slate-500.transition-all(class='leading-5.6 px-2.5')
-                        i.bx.bx-search-alt(aria-hidden='true')
-                    input.pl-9.text-sm.ease.relative.-ml-px.block.min-w-0.flex-auto.rounded-lg.border.border-solid.border-gray-300.bg-white.bg-clip-padding.py-2.pr-3.text-gray-700.transition-all(type='text', class='focus:shadow-primary-outline w-1/100 leading-5.6 placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow', placeholder='Type here...')
-            ul.flex.flex-row.justify-end.pl-0.mb-0.list-none(class='md-max:w-full')
-                li.flex.items-center.pl-4(class='xl:hidden')
-                    a.block.p-0.text-white.transition-all.ease-nav-brand.text-sm(href='#', sidenav-trigger='')
-                        .overflow-hidden(class='w-4.5')
-                            i.ease.relative.block.rounded-sm.bg-white.transition-all(class='mb-0.75 h-0.5')
-                            i.ease.relative.block.rounded-sm.bg-white.transition-all(class='mb-0.75 h-0.5')
-                            i.ease.relative.block.rounded-sm.bg-white.transition-all(class='h-0.5')
-                li.flex.items-center.px-4
-                    a.p-0.text-white.transition-all.text-sm.ease-nav-brand(href='#')
-                        i.cursor-pointer.bx.bx-cog(fixed-plugin-button-nav='', aria-hidden='true')
-                li.relative.flex.items-center.pr-2
-                    p.hidden.transform-dropdown-show
-                    a.block.p-0.text-white.transition-all.text-sm.ease-nav-brand(href='#', dropdown-trigger='', aria-expanded='false')
-                        i.cursor-pointer.bx.bx-bell(aria-hidden='true')
-                    ul.text-sm.transform-dropdown.duration-250.min-w-44.pointer-events-none.absolute.right-0.top-0.z-50.origin-top.list-none.rounded-lg.border-0.border-solid.border-transparent.bg-white.bg-clip-padding.px-2.py-4.text-left.text-slate-500.opacity-0.transition-all(dropdown-menu='', class="before:font-awesome before:leading-default before:duration-350 before:ease lg:shadow-3xl before:sm:right-8 before:text-5.5 before:absolute before:right-2 before:left-auto before:top-0 before:z-50 before:inline-block before:font-normal before:text-white before:antialiased before:transition-all before:content-['\f0d8'] sm:-mr-6 lg:absolute lg:right-0 lg:left-auto lg:mt-2 lg:block lg:cursor-pointer")
-                        li.relative.mb-2
-                            a.ease.clear-both.block.w-full.whitespace-nowrap.rounded-lg.bg-transparent.px-4.duration-300(class='py-1.2 hover:bg-gray-200 hover:text-slate-700 lg:transition-colors', href='#')
-                            .flex.py-1
-                                .my-auto
-                                    img.inline-flex.items-center.justify-center.mr-4.text-white.text-sm.h-9.w-9.max-w-none.rounded-xl(src='../assets/img/team-2.jpg')
-                                .flex.flex-col.justify-center
-                                    h6.mb-1.font-normal.leading-normal.text-sm
-                                        span.font-semibold New message
-                                        |  from Laur
-                                    p.mb-0.leading-tight.text-xs.text-slate-400
-                                        i.mr-1.bx.bx-clock(aria-hidden='true')
-                                        | 13 minutes ago
-                        li.relative.mb-2
-                            a.ease.clear-both.block.w-full.whitespace-nowrap.rounded-lg.px-4.transition-colors.duration-300(class='py-1.2 hover:bg-gray-200 hover:text-slate-700', href='#')
-                            .flex.py-1
-                                .my-auto
-                                    img.inline-flex.items-center.justify-center.mr-4.text-white.text-sm.bg-gradient-to-tl.from-zinc-800.to-zinc-700.h-9.w-9.max-w-none.rounded-xl(src='../assets/img/small-logos/logo-spotify.svg')
-                                .flex.flex-col.justify-center
-                                    h6.mb-1.font-normal.leading-normal.text-sm
-                                        span.font-semibold New album
-                                        |  by Travis Scott
-                                    p.mb-0.leading-tight.text-xs.text-slate-400
-                                        i.mr-1.bx.bx-clock(aria-hidden='true')
-                                        | 1 day
-                        li.relative
-                            a.ease.clear-both.block.w-full.whitespace-nowrap.rounded-lg.px-4.transition-colors.duration-300(class='py-1.2 hover:bg-gray-200 hover:text-slate-700', href='#')
+                // Hamburger Button
+                button#hamburger.relative.-mr-6.p-6(class='lg:hidden' aria-label='hamburger' sidenav-trigger='')
+                    .m-auto.w-5.rounded.bg-sky-900.transition.duration-300(aria-hidden='true' class='h-0.5 dark:bg-gray-300')
+                    .m-auto.mt-2.w-5.rounded.bg-sky-900.transition.duration-300(aria-hidden='true' class='h-0.5 dark:bg-gray-300')
+                #layer.fixed.inset-0.z-10.h-screen.w-screen.origin-bottom.scale-y-0.backdrop-blur-2xl.transition.duration-500(aria-hidden='true' class='bg-white/70 dark:bg-gray-900/70 lg:hidden')
+                .text-gray-600(class='dark:text-gray-300')
+                        ul.text-sm.transform-dropdown.duration-250.min-w-44.pointer-events-none.absolute.right-0.top-0.z-50.origin-top.list-none.rounded-lg.border-0.border-solid.border-transparent.bg-white.bg-clip-padding.px-2.py-4.text-left.text-slate-800.opacity-0.transition-all(dropdown-menu='', class="dark:text-slate-500 before:font-awesome before:leading-default before:duration-350 before:ease lg:shadow-3xl before:sm:right-8 before:text-5.5 before:absolute before:right-2 before:left-auto before:top-0 before:z-50 before:inline-block before:font-normal before:text-white before:antialiased before:transition-all before:content-['\f0d8'] sm:-mr-6 lg:absolute lg:right-0 lg:left-auto lg:mt-2 lg:block lg:cursor-pointer")
+                            li.relative.mb-2
+                                a.ease.clear-both.block.w-full.whitespace-nowrap.rounded-lg.bg-transparent.px-4.duration-300(class='py-1.2 hover:bg-gray-200 hover:text-slate-700 lg:transition-colors', href='#')
                                 .flex.py-1
-                                    .inline-flex.items-center.justify-center.my-auto.mr-4.text-white.transition-all.duration-200.ease-nav-brand.text-sm.bg-gradient-to-tl.from-slate-600.to-slate-300.h-9.w-9.rounded-xl
-                                        svg(width='12px', height='12px', viewBox='0 0 43 36', version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink')
-                                            title credit-card
-                                            g(stroke='none', stroke-width='1', fill='none', fill-rule='evenodd')
-                                            g(transform='translate(-2169.000000, -745.000000)', fill='#FFFFFF', fill-rule='nonzero')
-                                                g(transform='translate(1716.000000, 291.000000)')
-                                                g(transform='translate(453.000000, 454.000000)')
-                                                    path.color-background(d='M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z', opacity='0.593633743')
-                                                    path.color-background(d='M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z')
+                                    .my-auto
+                                        img.inline-flex.items-center.justify-center.mr-4.text-white.text-sm.h-9.w-9.max-w-none.rounded-xl(src='../assets/img/team-2.jpg')
                                     .flex.flex-col.justify-center
-                                        h6.mb-1.font-normal.leading-normal.text-sm Payment successfully completed
+                                        h6.mb-1.font-normal.leading-normal.text-sm
+                                            span.font-semibold New message
+                                            |  from Laur
                                         p.mb-0.leading-tight.text-xs.text-slate-400
                                             i.mr-1.bx.bx-clock(aria-hidden='true')
-                                            | 2 days
+                                            | 13 minutes ago
+                            li.relative.mb-2
+                                a.ease.clear-both.block.w-full.whitespace-nowrap.rounded-lg.px-4.transition-colors.duration-300(class='py-1.2 hover:bg-gray-200 hover:text-slate-700', href='#')
+                                .flex.py-1
+                                    .my-auto
+                                        img.inline-flex.items-center.justify-center.mr-4.text-white.text-sm.bg-gradient-to-tl.from-zinc-800.to-zinc-700.h-9.w-9.max-w-none.rounded-xl(src='../assets/img/small-logos/logo-spotify.svg')
+                                    .flex.flex-col.justify-center
+                                        h6.mb-1.font-normal.leading-normal.text-sm
+                                            span.font-semibold New album
+                                            |  by Travis Scott
+                                        p.mb-0.leading-tight.text-xs.text-slate-400
+                                            i.mr-1.bx.bx-clock(aria-hidden='true')
+                                            | 1 day
+                // Nav Links
+                #navlinks.invisible.absolute.top-full.left-0.z-20.w-full.origin-top-right.translate-y-1.scale-90.flex-col.flex-wrap.justify-end.gap-6.rounded-3xl.border.border-gray-100.bg-white.p-8.opacity-0.shadow-2xl.transition-all.duration-300(class='shadow-gray-600/10 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none lg:visible lg:relative lg:flex lg:w-auto lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none lg:peer-checked:translate-y-0 dark:lg:bg-transparent')
+                    .mt-12.-ml-1.flex.w-full.flex-col.space-y-2(class='border-primary/10 dark:border-gray-700 sm:flex-row md:w-max lg:mt-0 lg:mr-6 lg:space-y-0 lg:border-l lg:pl-6')
+                        button.notifier.group.relative.hidden.h-9.w-9.rounded-full(aria-label='user notification' dropdown-trigger='' aria-expanded='false' class='before:absolute before:inset-0 before:rounded-full before:border before:border-gray-200 before:bg-gray-50 before:bg-gradient-to-b before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 lg:flex')
+                            svg.transition.absolute.top-2.m-auto.h-5.w-5.fill-red-500.duration-300(viewbox='-3 3 20 20' version='1.1' xmlns='http://www.w3.org/2000/svg' fill='currentColor' class="left-1.4 group-hover:rotate-12 group-hover:fill-sky-400")
+                                path(d='M17.7778 16.4066C18.1725 16.2808 18.3904 15.8588 18.2646 15.4642C18.1388 15.0696 17.7168 14.8516 17.3222 14.9774L17.7778 16.4066ZM11.6797 15.9343C11.2657 15.9455 10.9391 16.2902 10.9503 16.7043C10.9615 17.1183 11.3062 17.4449 11.7203 17.4337L11.6797 15.9343ZM16.876 16.0131C17.0578 16.3853 17.5068 16.5397 17.8791 16.358C18.2513 16.1762 18.4057 15.7272 18.224 15.3549L16.876 16.0131ZM16.9104 14.374L16.2225 14.6728C16.2269 14.683 16.2316 14.6931 16.2364 14.7031L16.9104 14.374ZM15.9422 10.806L16.6868 10.7157C16.6855 10.7048 16.6839 10.694 16.6821 10.6832L15.9422 10.806ZM11.7068 5.941C11.2926 5.941 10.9568 6.27679 10.9568 6.691C10.9568 7.10521 11.2926 7.441 11.7068 7.441V5.941ZM11.7068 7.441C12.121 7.441 12.4568 7.10521 12.4568 6.691C12.4568 6.27679 12.121 5.941 11.7068 5.941V7.441ZM7.45778 10.807L6.71795 10.6839C6.71614 10.6948 6.71457 10.7057 6.71325 10.7166L7.45778 10.807ZM6.48961 14.374L7.16357 14.7031C7.16843 14.6931 7.17308 14.683 7.1775 14.6728L6.48961 14.374ZM5.17605 15.3549C4.99431 15.7272 5.14873 16.1762 5.52095 16.358C5.89317 16.5397 6.34223 16.3853 6.52397 16.0131L5.17605 15.3549ZM10.9568 6.691C10.9568 7.10521 11.2926 7.441 11.7068 7.441C12.121 7.441 12.4568 7.10521 12.4568 6.691H10.9568ZM12.4568 5C12.4568 4.58579 12.121 4.25 11.7068 4.25C11.2926 4.25 10.9568 4.58579 10.9568 5H12.4568ZM10.9568 6.691C10.9568 7.10521 11.2926 7.441 11.7068 7.441C12.121 7.441 12.4568 7.10521 12.4568 6.691H10.9568ZM12.4568 5C12.4568 4.58579 12.121 4.25 11.7068 4.25C11.2926 4.25 10.9568 4.58579 10.9568 5H12.4568ZM6.07781 14.9774C5.68317 14.8516 5.26125 15.0696 5.13544 15.4642C5.00963 15.8588 5.22756 16.2808 5.6222 16.4066L6.07781 14.9774ZM11.6797 17.4337C12.0938 17.4449 12.4385 17.1183 12.4497 16.7043C12.4609 16.2902 12.1343 15.9455 11.7203 15.9343L11.6797 17.4337ZM10.5 16.523C10.5 16.1088 10.1642 15.773 9.75001 15.773C9.33579 15.773 9.00001 16.1088 9.00001 16.523H10.5ZM14.4049 16.523C14.4049 16.1088 14.0691 15.773 13.6549 15.773C13.2407 15.773 12.9049 16.1088 12.9049 16.523H14.4049ZM17.3222 14.9774C15.4929 15.5606 13.5943 15.8825 11.6797 15.9343L11.7203 17.4337C13.7761 17.3782 15.8144 17.0325 17.7778 16.4066L17.3222 14.9774ZM18.224 15.3549L17.5844 14.0449L16.2364 14.7031L16.876 16.0131L18.224 15.3549ZM17.5983 14.0752C17.1347 13.008 16.8275 11.8759 16.6868 10.7157L15.1977 10.8963C15.3558 12.1997 15.701 13.4723 16.2225 14.6728L17.5983 14.0752ZM16.6821 10.6832C16.4696 9.40313 16.017 8.21501 15.1948 7.33897C14.3526 6.44171 13.1869 5.941 11.7068 5.941V7.441C12.8193 7.441 13.5729 7.80279 14.1011 8.36553C14.6492 8.94949 15.0181 9.81887 15.2024 10.9288L16.6821 10.6832ZM11.7068 5.941C10.2266 5.941 9.05835 6.44146 8.21321 7.33789C7.38755 8.21366 6.93123 9.40201 6.71795 10.6839L8.19761 10.9301C8.38214 9.82099 8.75359 8.95134 9.30463 8.36686C9.83619 7.80304 10.5936 7.441 11.7068 7.441V5.941ZM6.71325 10.7166C6.57244 11.8765 6.26519 13.0083 5.80171 14.0752L7.1775 14.6728C7.69888 13.4727 8.04413 12.2004 8.20232 10.8974L6.71325 10.7166ZM5.81565 14.0449L5.17605 15.3549L6.52397 16.0131L7.16357 14.7031L5.81565 14.0449ZM12.4568 6.691V5H10.9568V6.691H12.4568ZM12.4568 6.691V5H10.9568V6.691H12.4568ZM5.6222 16.4066C7.58558 17.0325 9.62394 17.3782 11.6797 17.4337L11.7203 15.9343C9.80576 15.8825 7.90713 15.5606 6.07781 14.9774L5.6222 16.4066ZM9.00001 16.523V17.023H10.5V16.523H9.00001ZM9.00001 17.023C9.00001 18.5252 10.1921 19.7755 11.7024 19.7755V18.2755C11.0561 18.2755 10.5 17.7327 10.5 17.023H9.00001ZM11.7024 19.7755C13.2127 19.7755 14.4049 18.5252 14.4049 17.023H12.9049C12.9049 17.7327 12.3487 18.2755 11.7024 18.2755V19.7755ZM14.4049 17.023V16.523H12.9049V17.023H14.4049Z')
+                            span.relative.flex.h-3.w-3
+                                span.animate-ping.absolute.inline-flex.h-full.w-full.rounded-full.bg-red-400.opacity-75
+                                span.relative.inline-flex.rounded-full.h-3.w-3.bg-red-500
+
+                    button.switcher.group.relative.hidden.h-9.w-9.rounded-full(aria-label='switch theme' class='before:absolute before:inset-0 before:rounded-full before:border before:border-gray-200 before:bg-gray-50 before:bg-gradient-to-b before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 lg:flex')
+                        svg.transition.relative.m-auto.hidden.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:rotate-180 group-hover:fill-yellow-400 dark:block dark:fill-gray-300' viewbox='0 0 20 20' fill='currentColor')
+                            path(fill-rule='evenodd' d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' clip-rule='evenodd')
+                        svg.transition.relative.m-auto.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:-rotate-90 group-hover:fill-blue-900 dark:hidden' viewbox='0 0 20 20' fill='currentColor')
+                            path(d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z')
+            // Small Screen Buttons
+            .flex.top-7.right-14.z-20(class='sm:right-24 lg:hidden')
+                button.notifier.group.relative.mr-4.h-9.w-9.rounded-full(aria-label='switch theme' class='before:absolute before:inset-0 before:rounded-full before:border before:border-gray-200 before:bg-gray-50 before:bg-gradient-to-b before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 lg:flex')
+                    svg.transition.relative.m-auto.h-5.w-5.fill-red-500.duration-300(viewbox='2 3 20 20' version='1.1' xmlns='http://www.w3.org/2000/svg' fill='currentColor' class="group-hover:rotate-180 group-hover:fill-yellow-400")
+                        path(d='M17.7778 16.4066C18.1725 16.2808 18.3904 15.8588 18.2646 15.4642C18.1388 15.0696 17.7168 14.8516 17.3222 14.9774L17.7778 16.4066ZM11.6797 15.9343C11.2657 15.9455 10.9391 16.2902 10.9503 16.7043C10.9615 17.1183 11.3062 17.4449 11.7203 17.4337L11.6797 15.9343ZM16.876 16.0131C17.0578 16.3853 17.5068 16.5397 17.8791 16.358C18.2513 16.1762 18.4057 15.7272 18.224 15.3549L16.876 16.0131ZM16.9104 14.374L16.2225 14.6728C16.2269 14.683 16.2316 14.6931 16.2364 14.7031L16.9104 14.374ZM15.9422 10.806L16.6868 10.7157C16.6855 10.7048 16.6839 10.694 16.6821 10.6832L15.9422 10.806ZM11.7068 5.941C11.2926 5.941 10.9568 6.27679 10.9568 6.691C10.9568 7.10521 11.2926 7.441 11.7068 7.441V5.941ZM11.7068 7.441C12.121 7.441 12.4568 7.10521 12.4568 6.691C12.4568 6.27679 12.121 5.941 11.7068 5.941V7.441ZM7.45778 10.807L6.71795 10.6839C6.71614 10.6948 6.71457 10.7057 6.71325 10.7166L7.45778 10.807ZM6.48961 14.374L7.16357 14.7031C7.16843 14.6931 7.17308 14.683 7.1775 14.6728L6.48961 14.374ZM5.17605 15.3549C4.99431 15.7272 5.14873 16.1762 5.52095 16.358C5.89317 16.5397 6.34223 16.3853 6.52397 16.0131L5.17605 15.3549ZM10.9568 6.691C10.9568 7.10521 11.2926 7.441 11.7068 7.441C12.121 7.441 12.4568 7.10521 12.4568 6.691H10.9568ZM12.4568 5C12.4568 4.58579 12.121 4.25 11.7068 4.25C11.2926 4.25 10.9568 4.58579 10.9568 5H12.4568ZM10.9568 6.691C10.9568 7.10521 11.2926 7.441 11.7068 7.441C12.121 7.441 12.4568 7.10521 12.4568 6.691H10.9568ZM12.4568 5C12.4568 4.58579 12.121 4.25 11.7068 4.25C11.2926 4.25 10.9568 4.58579 10.9568 5H12.4568ZM6.07781 14.9774C5.68317 14.8516 5.26125 15.0696 5.13544 15.4642C5.00963 15.8588 5.22756 16.2808 5.6222 16.4066L6.07781 14.9774ZM11.6797 17.4337C12.0938 17.4449 12.4385 17.1183 12.4497 16.7043C12.4609 16.2902 12.1343 15.9455 11.7203 15.9343L11.6797 17.4337ZM10.5 16.523C10.5 16.1088 10.1642 15.773 9.75001 15.773C9.33579 15.773 9.00001 16.1088 9.00001 16.523H10.5ZM14.4049 16.523C14.4049 16.1088 14.0691 15.773 13.6549 15.773C13.2407 15.773 12.9049 16.1088 12.9049 16.523H14.4049ZM17.3222 14.9774C15.4929 15.5606 13.5943 15.8825 11.6797 15.9343L11.7203 17.4337C13.7761 17.3782 15.8144 17.0325 17.7778 16.4066L17.3222 14.9774ZM18.224 15.3549L17.5844 14.0449L16.2364 14.7031L16.876 16.0131L18.224 15.3549ZM17.5983 14.0752C17.1347 13.008 16.8275 11.8759 16.6868 10.7157L15.1977 10.8963C15.3558 12.1997 15.701 13.4723 16.2225 14.6728L17.5983 14.0752ZM16.6821 10.6832C16.4696 9.40313 16.017 8.21501 15.1948 7.33897C14.3526 6.44171 13.1869 5.941 11.7068 5.941V7.441C12.8193 7.441 13.5729 7.80279 14.1011 8.36553C14.6492 8.94949 15.0181 9.81887 15.2024 10.9288L16.6821 10.6832ZM11.7068 5.941C10.2266 5.941 9.05835 6.44146 8.21321 7.33789C7.38755 8.21366 6.93123 9.40201 6.71795 10.6839L8.19761 10.9301C8.38214 9.82099 8.75359 8.95134 9.30463 8.36686C9.83619 7.80304 10.5936 7.441 11.7068 7.441V5.941ZM6.71325 10.7166C6.57244 11.8765 6.26519 13.0083 5.80171 14.0752L7.1775 14.6728C7.69888 13.4727 8.04413 12.2004 8.20232 10.8974L6.71325 10.7166ZM5.81565 14.0449L5.17605 15.3549L6.52397 16.0131L7.16357 14.7031L5.81565 14.0449ZM12.4568 6.691V5H10.9568V6.691H12.4568ZM12.4568 6.691V5H10.9568V6.691H12.4568ZM5.6222 16.4066C7.58558 17.0325 9.62394 17.3782 11.6797 17.4337L11.7203 15.9343C9.80576 15.8825 7.90713 15.5606 6.07781 14.9774L5.6222 16.4066ZM9.00001 16.523V17.023H10.5V16.523H9.00001ZM9.00001 17.023C9.00001 18.5252 10.1921 19.7755 11.7024 19.7755V18.2755C11.0561 18.2755 10.5 17.7327 10.5 17.023H9.00001ZM11.7024 19.7755C13.2127 19.7755 14.4049 18.5252 14.4049 17.023H12.9049C12.9049 17.7327 12.3487 18.2755 11.7024 18.2755V19.7755ZM14.4049 17.023V16.523H12.9049V17.023H14.4049Z')
+
+                button.switcher.group.relative.flex.h-9.w-9.rounded-full(aria-label='switch theme' class='before:absolute before:inset-0 before:rounded-full before:border before:border-gray-200 before:bg-gray-50 before:bg-gradient-to-b before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800')
+                    svg.transition.relative.m-auto.hidden.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:rotate-180 group-hover:fill-yellow-400 dark:block dark:fill-gray-300' viewbox='0 0 20 20' fill='currentColor')
+                        path(fill-rule='evenodd' d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' clip-rule='evenodd')
+                    svg.transition.relative.m-auto.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:-rotate-90 group-hover:fill-blue-900 dark:hidden' viewbox='0 0 20 20' fill='currentColor')
+                        path(d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z')
