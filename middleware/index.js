@@ -56,7 +56,7 @@ exports.registerMiddleware = (app) => {
 
   // parse application/json
   app.use(bodyParser.json({ limit: "10kb" }));
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV === "production") {
     app.use(
       rateLimit({
         windowMs: 15 * MINUTE, // 15 minutes
