@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
 module.exports = {
   content: ["./views/**/*.pug", "./public/js/**/bundle.js"],
+    safelist: ["rotate-180", "translate-y-0", "translate-y-[100%]", "z-10", "scale-75", "navbar-active"],
   presets: [],
-  darkMode: "media", // or 'class'
+    darkMode: "class", // or 'media' or 'class'
   theme: {
     screens: {
       sm: "640px",
@@ -16,8 +18,12 @@ module.exports = {
       current: colors.current,
       transparent: colors.transparent,
       primary: "#9333EA",
+      primaryLight: "#42a5f5",
       secondary: "#ff7e33",
+      secondaryLight: "#957fef",
       info: "#0C63E7",
+      dark: "#0A101E",
+      darker: "#090E1A",
       black: colors.black,
       white: "#F5F5F5",
       slate: colors.slate,
@@ -46,7 +52,18 @@ module.exports = {
       teal: colors.teal,
       cyan: colors.cyan,
       sky: colors.sky,
-      blue: colors.blue,
+      blue: {
+        50: "#F7FBFF",
+        100: "#CEE6FC",
+        200: "#A5D2F9",
+        300: "#7CBDF6",
+        400: "#52A8F2",
+        500: "#2994EF",
+        600: "#007FEC",
+        700: "#0065BD",
+        800: "#004C8D",
+        900: "#00325E",
+      },
       indigo: colors.indigo,
       violet: colors.violet,
       purple: colors.purple,
@@ -838,6 +855,7 @@ module.exports = {
       0: "0px",
       1: "1px",
       2: "2px",
+      3: "3px",
       4: "4px",
       8: "8px",
     },
@@ -1069,5 +1087,10 @@ module.exports = {
     "active",
     "disabled",
   ],
-  plugins: [],
+  plugins: [
+        plugin(function ({ addVariant }) {
+            addVariant("children", "&>*");
+        }),
+        require("@tailwindcss/forms"),
+  ],
 };

@@ -1,0 +1,513 @@
+extends ../base
+
+block content
+    section.overflow-x-clip.pt-32(class='sm:pt-40 md:pt-48 lg:pt-56')
+        .mx-auto.px-4(class='sm:px-12 xl:max-w-5xl xl:px-0')
+            .relative.z-10.text-center(class='md:mx-auto md:w-5/6 lg:w-4/6')
+                h1.relative.text-center.text-4xl.font-bold.text-gray-900(class='dark:text-white sm:text-5xl md:text-6xl')
+                    | Find a plan to power your 
+                    span.opacity-80 team.
+                p.mt-6.text-gray-700(class='dark:text-gray-300')
+                    | Saepe nulla ab nobis itaque corporis fuga illo doloribus sequi esse aspernatur impedit nihil quisquam, voluptates placeat architecto adipisci id cum enim.
+            .relative.mt-20
+                .absolute.inset-0.-bottom-20.mx-auto.mt-auto.rounded-full.blur-3xl(aria-hidden='true' class='h-[50rem] w-[68rem] bg-secondaryLight/50 dark:bg-secondary/40 md:m-auto')
+                .m-auto.items-center.justify-center.-space-y-4(class='md:flex md:space-y-0 md:-space-x-1')
+                    .relative.z-10.-mx-2.rounded-3xl.border.border-gray-100.bg-white.shadow-2xl(class='shadow-gray-600/10 dark:border-gray-700/60 dark:bg-gray-800 dark:shadow-none md:mx-0 md:w-6/12 lg:w-5/12')
+                        .space-y-6.p-8(class='sm:p-12')
+                            .flex.items-center.justify-center.gap-4
+                                .flex.h-16.w-16.rounded-full.border.border-gray-200.bg-white(class='dark:border-gray-700 dark:bg-gray-800')
+                                    img.m-auto.h-8.w-auto(src='https://tailus.io/sources/blocks/comparator/preview/images/team.webp' alt='organization icon' width='' height='')
+                                div
+                                    h2.text-2xl.font-semibold.text-gray-800(class='dark:text-white') Teams
+                                    p.mt-1.text-gray-600(class='dark:text-gray-400') For product teams
+                            .relative.flex.justify-around
+                                .flex.items-end
+                                    span.leading-0.text-8xl.font-bold.text-gray-800(class='dark:text-white') 35
+                                    .pb-2
+                                        span.block.text-2xl.font-bold.text-gray-700(class='dark:text-white') %
+                                        span.block.text-xl.font-bold.text-primary(class='dark:text-primaryLight') Off
+                            ul.m-auto.w-max.space-y-4.py-6.text-gray-600(role='list' class='dark:text-gray-300')
+                                li.space-x-2
+                                    span.font-semibold.text-gray-500 ✓
+                                    span First premium advantage
+                                li.space-x-2
+                                    span.font-semibold.text-gray-500 ✓
+                                    span Second advantage weekly
+                                li.space-x-2
+                                    span.font-semibold.text-gray-500 ✓
+                                    span Third advantage donate to project
+                            p.mt-6.flex.items-center.justify-center.space-x-4.text-center.text-lg.text-gray-600(class='dark:text-gray-300')
+                                span Call us at
+                                a.flex.items-center.space-x-2.text-blue-600(href='tel:+24300' class='dark:text-blue-400')
+                                    svg.w-6(xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewbox='0 0 16 16')
+                                        path(d='M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z')
+                                    span.font-semibold +1 123-456-7890
+                                span or
+                            a.relative.flex.h-11.w-full.items-center.justify-center.px-6(href='/contact' class='before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition-transform before:duration-300 active:duration-75 active:before:scale-95 dark:before:bg-primaryLight')
+                                span.relative.text-base.font-semibold.text-white(class='dark:text-dark') Send us an Email
+                    .relative.mx-4.rounded-3xl.rounded-t-none.border.border-gray-700.bg-gray-800.shadow-2xl(class='shadow-gray-600/10 dark:border-gray-100 dark:bg-white dark:shadow-none md:mx-0 md:w-6/12 md:rounded-l-none md:rounded-tl-none md:rounded-tr-3xl lg:w-7/12')
+                        .relative.p-6.pt-16(class='md:rounded-r-2xl md:p-8 md:pl-9 lg:p-16 lg:pl-[4.375rem]')
+                            .flex.items-center.gap-4
+                                .rounded-full.bg-gradient-to-br.from-primaryLight.to-yellow-500(class='dark:from-primary dark:to-yellow-400')
+                                    .flex.h-16.w-16.rounded-full.bg-gray-900(class='scale-[0.96] dark:bg-white')
+                                        img.m-auto.h-8.w-auto(src='https://tailus.io/sources/blocks/comparator/preview/images/organization.webp' alt='organization icon' width='' height='')
+                                div
+                                    h2.text-2xl.font-semibold.text-white(class='dark:text-gray-800') Organizations
+                                    p.mt-1.text-gray-400(class='dark:text-gray-600') For teams with 100+ employees
+                            p.my-8.text-white(class='dark:text-gray-700')
+                                | Voluptatum iure rerum qui Voluptates dignissimos quibusdam reiciendis soluta tempore illum possimus esse.
+                            .mb-8.grid.grid-cols-2.rounded-3xl.border.border-gray-700.text-white(class='dark:border-gray-200 dark:text-gray-600 [&>*]:border-gray-700 [&>*]:p-4 [&>*]:dark:border-gray-200')
+                                .flex.justify-center.gap-2.border-b
+                                    svg.h-5.w-5.opacity-60(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor')
+                                        path(fill-rule='evenodd' d='M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z' clip-rule='evenodd')
+                                    | Shine
+                                .flex.justify-center.gap-2.border-b.border-l
+                                    svg.h-5.w-5.opacity-60(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor')
+                                        path(fill-rule='evenodd' d='M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z' clip-rule='evenodd')
+                                    | Feature
+                                .flex.justify-center.gap-2
+                                    svg.h-5.w-5.opacity-60(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor')
+                                        path(fill-rule='evenodd' d='M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 01.75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 019.75 22.5a.75.75 0 01-.75-.75v-4.131A15.838 15.838 0 016.382 15H2.25a.75.75 0 01-.75-.75 6.75 6.75 0 017.815-6.666zM15 6.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z' clip-rule='evenodd')
+                                        path(d='M5.26 17.242a.75.75 0 10-.897-1.203 5.243 5.243 0 00-2.05 5.022.75.75 0 00.625.627 5.243 5.243 0 005.022-2.051.75.75 0 10-1.202-.897 3.744 3.744 0 01-3.008 1.51c0-1.23.592-2.323 1.51-3.008z')
+                                    | Boost
+                                .flex.justify-center.gap-2.border-l
+                                    svg.h-5.w-5.opacity-60(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor')
+                                        path(fill-rule='evenodd' d='M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 01.75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 019.75 22.5a.75.75 0 01-.75-.75v-4.131A15.838 15.838 0 016.382 15H2.25a.75.75 0 01-.75-.75 6.75 6.75 0 017.815-6.666zM15 6.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z' clip-rule='evenodd')
+                                        path(d='M5.26 17.242a.75.75 0 10-.897-1.203 5.243 5.243 0 00-2.05 5.022.75.75 0 00.625.627 5.243 5.243 0 005.022-2.051.75.75 0 10-1.202-.897 3.744 3.744 0 01-3.008 1.51c0-1.23.592-2.323 1.51-3.008z')
+                                    | Build
+                            a.block.rounded-2xl.border.border-gray-700.p-6.text-center(href='.//contact' class='bg-gray-700/50 dark:border-primary/20 dark:bg-primary/5 md:-mx-6 md:-mb-6 lg:-mx-12 lg:-mb-12')
+                                span.text-xl.font-semibold.text-primaryLight(class='dark:text-primary') Contact sales
+                //- .mt-12.text-center
+                    a.text-sm.font-semibold.tracking-wider(href='./customers.html' class='dark:text-white') TRUSTED BY YOUR FAVORED TOP TECHS COMPANIES
+                    .mt-8.flex.flex-wrap.justify-center.gap-6.brightness-75.contrast-200.grayscale(class='dark:brightness-200 dark:contrast-0 lg:gap-24')
+                        img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/airbnb.svg' loading='lazy' alt='airbnb' width='' height='')
+                        img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/coty.svg' loading='lazy' alt='coty' width='' height='')
+                        img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/ge.svg' loading='lazy' alt='ge' width='' height='')
+                        img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/lilly.png' loading='lazy' alt='lilly' width='' height='')
+                        img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/microsoft.svg' loading='lazy' alt='microsoft' width='' height='')
+                        
+    section.mt-32
+        .mx-auto.px-4(class='sm:px-12 xl:max-w-5xl xl:px-0')
+            h2.mb-12.text-center.text-3xl.font-bold.text-gray-800(class='dark:text-white md:text-4xl') Compare plans
+            .mx-auto.max-w-2xl.space-y-16(class='lg:hidden')
+                section
+                    .relative.h-full.space-y-8.border-t.border-gray-100.py-8(class='dark:border-gray-700')
+                        img.h-12.w-auto(src='https://tailus.io/sources/blocks/comparator/preview/images/team.webp' alt='team icon' width='512' height='512' loading='lazy')
+                        .space-y-4
+                            h3.text-2xl.font-semibold.text-gray-800(class='dark:text-gray-100') Team
+                            p.text-sm.text-gray-600(class='dark:text-gray-400')
+                                | Delectus natus illum vel veritatis in, iste ut facilis ex sit culpa fuga dolor atque? Quis.
+                        a.relative.flex.h-9.w-full.items-center.justify-center.px-6(href='/contact' class='before:absolute before:inset-0 before:rounded-full before:bg-secondary before:transition before:duration-300 active:duration-75 active:before:scale-95 dark:before:bg-white')
+                            span.relative.text-sm.font-semibold.text-white(class='dark:text-dark') Send us an email
+                    table.w-full
+                        caption.border-t.border-gray-200.bg-gray-50.py-3.px-4.text-left.text-sm.font-medium.text-gray-900(class='dark:border-gray-700 dark:bg-gray-800 dark:text-white')
+                            | Features
+                        thead
+                            tr
+                                th.sr-only(scope='col') Feature
+                                th.sr-only(scope='col') Included
+                        tbody.divide-y.divide-gray-200(class='dark:divide-gray-700')
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 1
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 2
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 3
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature new and great
+                                td.py-5.pr-4
+                                    span.block.text-right.text-sm.text-gray-700(class='dark:text-white') Up to 20 users
+                    table.w-full
+                        caption.border-t.border-gray-200.bg-gray-50.py-3.px-4.text-left.text-sm.font-medium.text-gray-900(class='dark:border-gray-700 dark:bg-gray-800 dark:text-white')
+                            | Reporting
+                        thead
+                            tr
+                                th.sr-only(scope='col') Feature
+                                th.sr-only(scope='col') Included
+                        tbody.divide-y.divide-gray-200(class='dark:divide-gray-700')
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Lorem ipsum set dolor.
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature 1
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature 3
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-gray-400(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-gray-600')
+                                        path(fill-rule='evenodd' d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z' clip-rule='evenodd')
+                                    span.sr-only No
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature new and great for long text3
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-gray-400(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-gray-600')
+                                        path(fill-rule='evenodd' d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z' clip-rule='evenodd')
+                                    span.sr-only No
+                    table.w-full
+                        caption.border-t.border-gray-200.bg-gray-50.py-3.px-4.text-left.text-sm.font-medium.text-gray-900(class='dark:border-gray-700 dark:bg-gray-800 dark:text-white')
+                            | Support
+                        thead
+                            tr
+                                th.sr-only(scope='col') Feature
+                                th.sr-only(scope='col') Included
+                        tbody.divide-y.divide-gray-200(class='dark:divide-gray-700')
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') First support feature
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') The second
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') An other one
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') The last and the great
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-gray-400(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-gray-600')
+                                        path(fill-rule='evenodd' d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z' clip-rule='evenodd')
+                                    span.sr-only No
+                section
+                    .relative.table.h-full.space-y-8.border-t.border-gray-100.py-8(class='dark:border-gray-700')
+                        img.h-12.w-auto(src='https://tailus.io/sources/blocks/comparator/preview/images/organization.webp' alt='team icon' width='512' height='512' loading='lazy')
+                        .space-y-4
+                            h3.text-2xl.font-semibold.text-gray-800(class='dark:text-gray-100') Organizations
+                            p.text-sm.text-gray-600(class='dark:text-gray-400')
+                                | Delectus natus illum vel veritatis in, iste ut facilis ex sit culpa fuga dolor atque? Quis.
+                        a.relative.flex.h-9.w-full.items-center.justify-center.px-6(href='/contact' class='before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition-transform before:duration-300 active:duration-75 active:before:scale-95 dark:before:bg-primaryLight')
+                            span.relative.text-sm.font-semibold.text-white(class='dark:text-gray-900') Contact sales
+                    table.w-full
+                        caption.border-t.border-gray-200.bg-gray-50.py-3.px-4.text-left.text-sm.font-medium.text-gray-900(class='dark:border-gray-700 dark:bg-gray-800 dark:text-white')
+                            | Features
+                        thead
+                            tr
+                                th.sr-only(scope='col') Feature
+                                th.sr-only(scope='col') Included
+                        tbody.divide-y.divide-gray-200(class='dark:divide-gray-700')
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 1
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 2
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 3
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature new and great
+                                td.py-5.pr-4
+                                    span.block.text-right.text-sm.text-gray-700(class='dark:text-white') Up to 50 users
+                    table.w-full
+                        caption.border-t.border-gray-200.bg-gray-50.py-3.px-4.text-left.text-sm.font-medium.text-gray-900(class='dark:border-gray-700 dark:bg-gray-800 dark:text-white')
+                            | Reporting
+                        thead
+                            tr
+                                th.sr-only(scope='col') Feature
+                                th.sr-only(scope='col') Included
+                        tbody.divide-y.divide-gray-200(class='dark:divide-gray-700')
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Lorem ipsum set dolor.
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature 1
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature 3
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature new and great for long text3
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                    table.w-full
+                        caption.border-t.border-gray-200.bg-gray-50.py-3.px-4.text-left.text-sm.font-medium.text-gray-900(class='dark:border-gray-700 dark:bg-gray-800 dark:text-white')
+                            | Support
+                        thead
+                            tr
+                                th.sr-only(scope='col') Feature
+                                th.sr-only(scope='col') Included
+                        tbody.divide-y.divide-gray-200(class='dark:divide-gray-700')
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') First support feature
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') The second
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') An other one
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+                            tr.border-t.border-gray-200(class='dark:border-gray-800')
+                                th.py-5.px-4.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') The last and the great
+                                td.py-5.pr-4
+                                    svg.ml-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                        path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                    span.sr-only Yes
+    section
+        .mx-auto.px-4(class='sm:px-12 xl:max-w-5xl xl:px-0')
+            .hidden(class='lg:block')
+                table.h-px.w-full.table-fixed
+                    caption.sr-only
+                        | Pricing plan comparison
+                    thead
+                        tr
+                            th.px-6.pb-4.text-left.text-sm.font-medium.text-gray-900(class='w-1/3' scope='col')
+                                span.sr-only Feature by
+                                span
+                            th.px-6.pb-4.text-left.text-lg.font-medium.leading-6.text-gray-900(class='w-1/3' scope='col')
+                            th.px-6.pb-4.text-left.text-lg.font-medium.leading-6.text-gray-900(class='w-1/3' scope='col')
+                    tbody.divide-y.divide-gray-200.border-x.border-b.border-gray-200(class='dark:divide-gray-700 dark:border-gray-700 [&>*]:divide-x [&>*]:divide-gray-200 [&>*]:dark:divide-gray-700')
+                        tr
+                            th.border-l.border-white.py-8.px-6.text-left.align-top.text-sm.font-medium.text-gray-900(class='dark:border-gray-900' scope='row')
+                            td.h-full.border-t.py-12.px-6.align-top
+                                .relative.table.h-full.space-y-8
+                                    img.h-12.w-auto(src='https://tailus.io/sources/blocks/comparator/preview/images/team.webp' alt='team icon' width='512' height='512' loading='lazy')
+                                    .space-y-4
+                                        h4.text-2xl.font-semibold.text-gray-800(class='dark:text-gray-100') Team
+                                        p.text-sm.text-gray-600(class='dark:text-gray-400')
+                                            | Delectus natus illum vel veritatis in, iste ut facilis ex sit culpa fuga dolor atque? Quis.
+                                    a.relative.flex.h-9.w-full.items-center.justify-center.px-6(href='/contact' class='before:absolute before:inset-0 before:rounded-full before:bg-secondary before:transition before:duration-300 active:duration-75 active:before:scale-95 dark:before:bg-white')
+                                        span.relative.text-sm.font-semibold.text-white(class='dark:text-dark') Send us an email
+                            td.h-full.border-t.bg-gray-50.py-12.px-6.align-top(class='dark:bg-gray-800')
+                                .relative.table.h-full.space-y-8
+                                    img.h-12.w-auto(src='https://tailus.io/sources/blocks/comparator/preview/images/organization.webp' alt='team icon' width='512' height='512' loading='lazy')
+                                    .space-y-4
+                                        h4.text-2xl.font-semibold.text-gray-800(class='dark:text-gray-100') Organizations
+                                        p.text-sm.text-gray-600(class='dark:text-gray-400')
+                                            | Delectus natus illum vel veritatis in, iste ut facilis ex sit culpa fuga dolor atque? Quis.
+                                    a.relative.flex.h-9.w-full.items-center.justify-center.px-6(href='/contact' class='before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition-transform before:duration-300 active:duration-75 active:before:scale-95 dark:before:bg-primaryLight')
+                                        span.relative.text-sm.font-semibold.text-white(class='dark:text-gray-900') Contact sales
+                        tr
+                            th.bg-gray-50.py-3.pl-6.text-left.text-sm.font-medium.text-gray-900(class='dark:bg-gray-800 dark:text-white' colspan='4' scope='colgroup') Features
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 1
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 2
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature 3
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Feature new and great
+                            td.py-5.px-6
+                                span.block.text-center.text-sm.text-gray-700(class='dark:text-gray-300') Up to 20 users
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                span.block.text-center.text-sm.text-gray-700(class='dark:text-gray-300') Up to 50 users
+                        tr
+                            th.bg-gray-50.py-3.pl-6.text-left.text-sm.font-medium.text-gray-900(class='dark:bg-gray-800 dark:text-white' colspan='4' scope='colgroup') Reporting
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Lorem ipsum set dolor.
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature 1
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature 3
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-gray-400(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-gray-600')
+                                    path(fill-rule='evenodd' d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z' clip-rule='evenodd')
+                                span.sr-only Not included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') Reporting feature new and great for long text3
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-gray-400(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-gray-600')
+                                    path(fill-rule='evenodd' d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z' clip-rule='evenodd')
+                                span.sr-only Not included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.bg-gray-50.py-3.pl-6.text-left.text-sm.font-medium.text-gray-900(class='dark:bg-gray-800 dark:text-white' colspan='4' scope='colgroup') Support
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') First support feature
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') The second
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') An other one
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-secondary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-secondaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+                        tr
+                            th.py-5.px-6.text-left.text-sm.font-normal.text-gray-600(class='dark:text-gray-400' scope='row') The last and the great
+                            td.py-5.px-6
+                                svg.mx-auto.h-6.w-6.text-gray-400(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-gray-600')
+                                    path(fill-rule='evenodd' d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm3 10.5a.75.75 0 000-1.5H9a.75.75 0 000 1.5h6z' clip-rule='evenodd')
+                                span.sr-only Not included in Essential
+                            td.bg-gray-50.py-5.px-6(class='dark:bg-gray-800')
+                                svg.mx-auto.h-6.w-6.text-primary(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' fill='currentColor' class='dark:text-primaryLight')
+                                    path(fill-rule='evenodd' d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z' clip-rule='evenodd')
+                                span.sr-only Included in Premium
+    section.my-32
+        .mx-auto.px-4(class='sm:px-12 xl:max-w-5xl xl:px-0')
+            h2.mb-12.text-center.text-3xl.font-bold.text-gray-800(class='dark:text-white md:text-4xl') Frequently Asked Questions
+            .divide-y.divide-gray-200.border-y.border-gray-200(class='dark:divide-gray-800 dark:border-gray-800')
+                div
+                    dl.faq.mx-auto.max-w-2xl
+                        dt.text-lg
+                            button.flex.w-full.items-start.justify-between.py-6.text-left.text-gray-400(type='button' aria-controls='faq-0' data-active='false')
+                                span.font-medium.text-gray-900(class='dark:text-white') What included in the pack ?
+                                span.ml-6.flex.h-7.items-center
+                                    svg.arrow-down.h-6.w-6.rotate-0.transform.duration-300(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor' aria-hidden='true')
+                                        path(stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5')
+                        dd#faq-0.faq-answer.block.max-h-0.overflow-hidden.pr-12.duration-300.ease-in-out
+                            p.pb-6.text-base.text-gray-600(class='dark:text-gray-400')
+                                | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum quod pariatur possimus at fugit natus aspernatur molestiae. Velit, odio modi provident necessitatibus molestias qui voluptatibus similique magnam a nam rem!
+                div
+                    dl.faq.mx-auto.max-w-2xl
+                        dt.text-lg
+                            button.flex.w-full.items-start.justify-between.py-6.text-left.text-gray-400(type='button' aria-controls='faq-1' data-active='false')
+                                span.font-medium.text-gray-900(class='dark:text-white') What included in the pack ?
+                                span.ml-6.flex.h-7.items-center
+                                    svg.arrow-down.h-6.w-6.rotate-0.transform.duration-300(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor' aria-hidden='true')
+                                        path(stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5')
+                        dd#faq-1.faq-answer.block.max-h-0.overflow-hidden.pr-12.duration-300.ease-in-out
+                            p.pb-6.text-base.text-gray-600(class='dark:text-gray-400')
+                                | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum quod pariatur possimus at fugit natus aspernatur molestiae. Velit, odio modi provident necessitatibus molestias qui voluptatibus similique magnam a nam rem!
+                div
+                    dl.faq.mx-auto.max-w-2xl
+                        dt.text-lg
+                            button.flex.w-full.items-start.justify-between.py-6.text-left.text-gray-400(type='button' aria-controls='faq-2' data-active='false')
+                                span.font-medium.text-gray-900(class='dark:text-white') What included in the pack ?
+                                span.ml-6.flex.h-7.items-center
+                                    svg.arrow-down.h-6.w-6.rotate-0.transform.duration-300(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor' aria-hidden='true')
+                                        path(stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5')
+                        dd#faq-2.faq-answer.block.max-h-0.overflow-hidden.pr-12.duration-300.ease-in-out
+                            p.pb-6.text-base.text-gray-600(class='dark:text-gray-400')
+                                | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum quod pariatur possimus at fugit natus aspernatur molestiae. Velit, odio modi provident necessitatibus molestias qui voluptatibus similique magnam a nam rem!
+                div
+                    dl.faq.mx-auto.max-w-2xl
+                        dt.text-lg
+                            button.flex.w-full.items-start.justify-between.py-6.text-left.text-gray-400(type='button' aria-controls='faq-4' data-active='false')
+                                span.font-medium.text-gray-900(class='dark:text-white') Are updates included in this pack ?
+                                span.ml-6.flex.h-7.items-center
+                                    svg.arrow-down.h-6.w-6.rotate-0.transform.duration-300(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor' aria-hidden='true')
+                                        path(stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5')
+                        dd#faq-4.faq-answer.block.max-h-0.overflow-hidden.pr-12.duration-300.ease-in-out
+                            p.pb-6.text-base.text-gray-600(class='dark:text-gray-400')
+                                | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum quod pariatur possimus at fugit natus aspernatur molestiae. Velit, odio modi provident necessitatibus molestias qui voluptatibus similique magnam a nam rem!
+                div
+                    dl.faq.mx-auto.max-w-2xl
+                        dt.text-lg
+                            button.flex.w-full.items-start.justify-between.py-6.text-left.text-gray-400(type='button' aria-controls='faq-5' data-active='false')
+                                span.font-medium.text-gray-900(class='dark:text-white') What included in the pack ?
+                                span.ml-6.flex.h-7.items-center
+                                    svg.arrow-down.h-6.w-6.rotate-0.transform.duration-300(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke-width='1.5' stroke='currentColor' aria-hidden='true')
+                                        path(stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5')
+                        dd#faq-5.faq-answer.block.max-h-0.overflow-hidden.pr-12.duration-300.ease-in-out
+                            p.pb-6.text-base.text-gray-600(class='dark:text-gray-400')
+                                | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum quod pariatur possimus at fugit natus aspernatur molestiae. Velit, odio modi provident necessitatibus molestias qui voluptatibus similique magnam a nam rem!

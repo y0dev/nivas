@@ -1,83 +1,38 @@
-header.bg-gray-900.text-tc-primary.body-font
-  nav.bg-white.border-gray-200
-    .max-w-screen-xl.flex.flex-wrap.relative.items-center.justify-between.mx-auto.p-4
-      a.flex.items-center.pl-4(href="/", class="md:pl-8")
-        img.h-10.mr-3(src="/img/brand-logo.png", alt="brand-logo")
-        h3.text-2xl.font-bold.text-gray-900 Urban Insight Inc.
-
-      input#toggle_nav.hidden.peer(
-        aria-hidden="true",
-        type="checkbox",
-        name="toggle_nav"
-      )
-      // Menu
-      .flex.items-center(class="md:order-2")
-        button#user-menu-button.hidden.flex.mr-3.text-sm.bg-gray-800.relative.rounded-full(
-          type="button",
-          class="md:mr-0 focus:ring-4 focus:ring-gray-300",
-          aria-expanded="false",
-          data-dropdown-toggle="user-dropdown",
-          data-dropdown-placement="bottom"
-        )
-          span.sr-only Open user menu
-          img.w-8.h-8.rounded-full(src="/img/70x70.jpg", alt="user photo")
-          // User drop down
-          #user-dropdown.absolute.float-left.z-50.hidden.my-4.text-base.list-none.bg-white.divide-y.divide-gray-100.rounded-lg.shadow.text-left.top-5.right-0
-            .px-4.py-3
-              span#user-name.block.text-sm.text-gray-900 John Doe
-              span#user-email.block.text-sm.text-gray-500.truncate name@flowbite.com
-            ul.py-2(aria-labelledby="user-menu-button")
+header
+  nav#navbar.fixed.inset-x-0.z-20.w-full.border-b.border-gray-100.backdrop-blur(class='bg-white/80 dark:border-gray-700/30 dark:bg-gray-900/80')
+    .mx-auto.px-4(class='sm:px-12 xl:max-w-6xl xl:px-0')
+      .relative.flex.flex-wrap.items-center.justify-between.gap-6(class='lg:gap-0 lg:py-4')
+        .relative.z-20.flex.w-full.justify-between(class='md:px-0 lg:w-max')
+          a.flex.items-center.space-x-2(href='/' aria-label='logo')
+            img.h-10.mr-3(src="/img/brand-logo.png", alt="brand-logo")
+            h3.text-2xl.font-bold.text-white(class='dark:text-gray-900 lg:text-primary lg:dark:text-white') Urban Insight Inc.
+          button#hamburger.relative.-mr-6.p-6(aria-label='hamburger' class='lg:hidden')
+            .m-auto.w-5.rounded.bg-sky-900.transition.duration-300(aria-hidden='true' class='h-0.5 dark:bg-gray-300')
+            .m-auto.mt-2.w-5.rounded.bg-sky-900.transition.duration-300(aria-hidden='true' class='h-0.5 dark:bg-gray-300')
+        #layer.fixed.inset-0.z-10.h-screen.w-screen.origin-bottom.scale-y-0.backdrop-blur-2xl.transition.duration-500(aria-hidden='true' class='bg-white/70 dark:bg-gray-900/70 lg:hidden')
+        #navlinks.invisible.absolute.top-full.left-0.z-20.w-full.origin-top-right.translate-y-1.scale-90.flex-col.flex-wrap.justify-end.gap-6.rounded-3xl.border.border-gray-100.bg-white.p-8.opacity-0.shadow-2xl.transition-all.duration-300(class='shadow-gray-600/10 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none lg:visible lg:relative lg:flex lg:w-auto lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none lg:peer-checked:translate-y-0 dark:lg:bg-transparent')
+          .text-gray-600(class='dark:text-gray-300 lg:pr-4')
+            ul.space-y-6.text-base.font-medium.tracking-wide(class='lg:flex lg:space-y-0 lg:text-sm')
               li
-                .flex.justify-between.px-4.py-2.text-sm.text-gray-700(
-                  href="/search",
-                  class="hover:text-yellow-400"
-                ) 
-                  .information Coins
-                    |
-                    i.bx.bxs-coin-stack.text-yellow-300
-                  span.coin-balance.ml-4 100
+                a.block.transition(href='/pricing' class='hover:text-primary dark:hover:text-primaryLight md:px-4')
+                  span Pricing
               li
-                a.block.px-4.py-2.text-sm.text-gray-700(
-                  href="/search",
-                  class="hover:bg-gray-100"
-                ) Search Properties
+                a.block.transition(href='/blogs' class='hover:text-primary dark:hover:text-primaryLight md:px-4')
+                  span Blog
               li
-                a.block.px-4.py-2.text-sm.text-gray-700(
-                  href="settings",
-                  class="hover:bg-gray-100"
-                ) Settings
-              li
-                a#logout-btn.block.px-4.py-2.text-sm.text-gray-700(
-                  href="#",
-                  class="hover:bg-gray-100"
-                ) Sign out
-        // Menu Button
-        .relative.flex.max-h-10.items-center.z-20(class="md:hidden")
-          label#hamburger.relative.-mr-6.p-6(role="button", for="toggle_nav")
-            #line.m-auto.w-5.rounded.bg-sky-900.transition.duration-300(, class="h-0.5")
-            #line2.m-auto.mt-2.w-5.rounded.bg-sky-900.transition.duration-300(
-              ,
-              class="h-0.5"
-            ) 
-      // Change to dropdown
-      .fixed.z-10.inset-0.h-screen.w-screen.backdrop-blur-2xl.origin-bottom.scale-y-0.transition.duration-500(
-        aria-hidden="true",
-        class="bg-white/70 peer-checked:origin-top peer-checked:scale-y-100 md:hidden"
-      )
-      .flex-col.z-20.flex-wrap.gap-6.p-8.rounded-3xl.border.border-gray-100.bg-white.shadow-2xl.justify-end.w-full.invisible.opacity-0.translate-y-1.absolute.top-full.left-0.transition-all.duration-300.scale-95.origin-top(
-        class="shadow-gray-600/10 md:relative md:scale-100 md:peer-checked:translate-y-0 md:translate-y-0 md:flex md:flex-row md:items-center md:gap-0 md:p-0 md:bg-transparent md:w-7/12 md:visible md:opacity-100 md:border-none peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible md:shadow-none"
-      )
-        .w-full.text-gray-600(class="md:w-auto md:pr-4 md:pt-0")
-          ul.flex.flex-col.gap-6.tracking-wide(class="md:flex-row md:gap-0 md:text-sm")
-            li
-              a#login-btn.block.transition(
-                href="/login",
-                class="hover:text-primary md:px-4"
-              ) 
-                span Login
-            li
-              a#sign-up-btn.block.transition(
-                href="/signup",
-                class="hover:text-primary md:px-4"
-              ) 
-                span Sign up
+                a.block.transition(href='/about' class='hover:text-primary dark:hover:text-primaryLight md:px-4')
+                  span Company
+          .mt-12.-ml-1.flex.w-full.flex-col.space-y-2(class='border-primary/10 dark:border-gray-700 sm:flex-row md:w-max lg:mt-0 lg:mr-6 lg:space-y-0 lg:border-l lg:pl-6')
+            a.relative.ml-auto.flex.h-9.w-full.items-center.justify-center(href='/signup' class='before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-primaryLight sm:px-4 lg:before:border lg:before:border-gray-200 lg:before:bg-gray-100 lg:dark:before:bg-gray-800')
+              span.relative.text-sm.font-semibold.text-white(class='dark:text-gray-900 lg:text-primary lg:dark:text-white') Get started
+          button.switcher.group.relative.hidden.h-9.w-9.rounded-full(aria-label='switch theme' class='before:absolute before:inset-0 before:rounded-full before:border before:border-gray-200 before:bg-gray-50 before:bg-gradient-to-b before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 lg:flex')
+            svg.transition.relative.m-auto.hidden.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:rotate-180 group-hover:fill-yellow-400 dark:block dark:fill-gray-300' viewbox='0 0 20 20' fill='currentColor')
+              path(fill-rule='evenodd' d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' clip-rule='evenodd')
+            svg.transition.relative.m-auto.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:-rotate-90 group-hover:fill-blue-900 dark:hidden' viewbox='0 0 20 20' fill='currentColor')
+              path(d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z')
+        .fixed.top-3.right-14.z-20(class='sm:right-24 lg:hidden')
+          button.switcher.group.relative.flex.h-9.w-9.rounded-full(aria-label='switch theme' class='before:absolute before:inset-0 before:rounded-full before:border before:border-gray-200 before:bg-gray-50 before:bg-gradient-to-b before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800')
+            svg.transition.relative.m-auto.hidden.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:rotate-180 group-hover:fill-yellow-400 dark:block dark:fill-gray-300' viewbox='0 0 20 20' fill='currentColor')
+              path(fill-rule='evenodd' d='M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z' clip-rule='evenodd')
+            svg.transition.relative.m-auto.h-5.w-5.fill-gray-500.duration-300(xmlns='http://www.w3.org/2000/svg' class='group-hover:-rotate-90 group-hover:fill-blue-900 dark:hidden' viewbox='0 0 20 20' fill='currentColor')
+              path(d='M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z')
