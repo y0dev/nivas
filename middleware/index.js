@@ -79,7 +79,7 @@ exports.registerMiddleware = (app) => {
         resave: false,
         saveUninitialized: true,
         cookie: {
-          secure: false, // Set to true if using HTTPS
+          secure: true, // Set to true if using HTTPS
           sameSite: "strict"
         },
       })
