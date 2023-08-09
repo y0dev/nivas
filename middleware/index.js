@@ -72,31 +72,17 @@ exports.registerMiddleware = (app) => {
   app.use(cookieParser());
 
   // Session Key
-  if (process.env.NODE_ENV === "production") {
-    app.use(
-      session({
-        secret: "secretkey",
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-          secure: true, // Set to true if using HTTPS
-          sameSite: "strict"
-        },
-      })
-    );
-  } else if (process.env.NODE_ENV === "development") { 
-    app.use(
-      session({
-        secret: "secretkey",
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-          secure: false, // Set to true if using HTTPS
-          sameSite: "strict"
-        },
-      })
-    );
-  }
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET_KEY,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: process.env.NODE_ENV === "production" ? true : false, // Set to true if using HTTPS
+        sameSite: "strict"
+      },
+    })
+  );
 };
 
 exports.registerErrorHandler = (app) => {};
