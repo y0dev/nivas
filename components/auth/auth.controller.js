@@ -46,6 +46,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    username: req.body.username,
     password: req.body.password,
     confirmPassword: req.body.passwordConfirmation,
   });
@@ -116,7 +117,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
   logger.info("PVR Ensure that a valid user is logged in");
   let token = null;
-  // console.log(req.headers);
+  console.log(req.headers);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -126,7 +127,7 @@ exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    res.redirect("/error");
+    res.redirect("/login");
     next();
   }
 
@@ -136,7 +137,7 @@ exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
   logger.info("Search for user");
   const loggedInUser = await User.findById(decoded.id);
   if (!loggedInUser) {
-    res.redirect("/error");
+    res.redirect("/login");
     next();
   }
 

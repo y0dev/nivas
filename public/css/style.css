@@ -3560,6 +3560,14 @@ select {
     --tw-shadow: var(--tw-shadow-colored);
 }
   
+  .peer:-moz-placeholder-shown ~ .peer-placeholder-shown\:\!invisible {
+    visibility: hidden !important;
+}
+  
+  .peer:placeholder-shown ~ .peer-placeholder-shown\:\!invisible {
+    visibility: hidden !important;
+}
+  
   .peer:invalid ~ .peer-invalid\:block {
     display: block;
 }

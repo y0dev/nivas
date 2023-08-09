@@ -9,7 +9,6 @@ import {
   getSearchHistory,
 } from "./controller.mls";
 import {
-  addUserMenuBtn,
   removeLoginBtn,
   removeSignupBtn,
   removeLogoutBtn,
@@ -22,7 +21,6 @@ import { sortTableByColumn } from "./tablesort";
 const contactForm = document.querySelector(".form--contact");
 const signupForm = document.querySelector(".form--sign-up");
 const loginForm = document.querySelector(".form--login");
-const showcaseArea = document.querySelector(".showcase-area");
 let mainWrapper = document.querySelector(".main-wrapper");
 let propertyContainer = document.querySelector(".container.property-container");
 const userContainer = document.querySelector(".container.user-dash-container");
@@ -105,7 +103,7 @@ if (pricingSection) {
 }
 
 if (contactForm) {
-  removeLogoutBtn();
+  // removeLogoutBtn();
   contactForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("name").value;
@@ -120,29 +118,26 @@ if (contactForm) {
 }
 
 if (signupForm) {
-  removeSignupBtn();
-  removeLogoutBtn();
   signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const firstName = document.getElementById("first-name").value;
     const lastName = document.getElementById("last-name").value;
     const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const passwordConfirmed =
-      document.getElementById("passwordConfirmed").value;
+      document.getElementById("confirm-password").value;
     const name = firstName.concat(" ", lastName);
-    signup(name, email, password, passwordConfirmed);
+    signup(name, email, username, password, passwordConfirmed);
   });
 }
 
 if (loginForm) {
-  removeLoginBtn();
-  removeLogoutBtn();
-
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    console.log(email, password);
     login(email, password);
   });
 }

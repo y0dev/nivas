@@ -16,12 +16,11 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === "success") {
-      console.log(res.data);
       // Store token
       localStorage.setItem("token", res.data.token);
       showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
-        location.assign("/search");
+        location.assign("/dashboard");
       }, 1500);
     }
   } catch (err) {
@@ -47,7 +46,7 @@ export const logout = async () => {
   }
 };
 
-export const signup = async (name, email, password, passwordConfirmation) => {
+export const signup = async (name, email, username, password, passwordConfirmation) => {
   try {
     const res = await axios({
       method: "POST",
@@ -55,19 +54,22 @@ export const signup = async (name, email, password, passwordConfirmation) => {
       data: {
         name,
         email,
+        username,
         password,
         passwordConfirmation,
       },
     });
 
     if (res.data.status === "success") {
-      console.log(res.data);
+      // Store token
+      localStorage.setItem("token", res.data.token);
       showAlert("success", "signed up successfully");
       window.setTimeout(() => {
-        location.assign("/search");
+        location.assign("/dashboard");
       }, 1500);
     }
   } catch (err) {
+    localStorage.removeItem("token");
     showAlert("fail", err.response.data.message);
   }
 };
