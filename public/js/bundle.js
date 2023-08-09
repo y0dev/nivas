@@ -12954,8 +12954,6 @@ var login = /*#__PURE__*/function () {
         case 3:
           res = _context.sent;
           if (res.data.status === "success") {
-            // Store token
-            localStorage.setItem("token", res.data.token);
             (0, _alert.showAlert)("success", "Logged in successfully");
             window.setTimeout(function () {
               location.assign("/dashboard");
@@ -12994,7 +12992,7 @@ var logout = /*#__PURE__*/function () {
         case 3:
           res = _context2.sent;
           if (res.data.status = "success") {
-            localStorage.removeItem("token");
+            // localStorage.removeItem("token");
             window.setTimeout(function () {
               location.assign("/");
             }, 1000);
@@ -13039,20 +13037,20 @@ var signup = /*#__PURE__*/function () {
           res = _context3.sent;
           if (res.data.status === "success") {
             // Store token
-            localStorage.setItem("token", res.data.token);
+            // localStorage.setItem("token", res.data.token);
             (0, _alert.showAlert)("success", "signed up successfully");
             window.setTimeout(function () {
               location.assign("/dashboard");
             }, 1500);
           }
-          _context3.next = 11;
+          _context3.next = 10;
           break;
         case 7:
           _context3.prev = 7;
           _context3.t0 = _context3["catch"](0);
-          localStorage.removeItem("token");
+          // localStorage.removeItem("token");
           (0, _alert.showAlert)("fail", _context3.t0.response.data.message);
-        case 11:
+        case 10:
         case "end":
           return _context3.stop();
       }
@@ -13427,6 +13425,11 @@ if (hamburger) {
   });
 }
 if (userContainer || propertyContainer) {
+  var logoutButton = document.getElementById("logout");
+  logoutButton.addEventListener("click", function () {
+    (0, _controller4.logout)();
+  });
+
   // addUserMenuBtn();
   (0, _navbar.sidebarToggle)();
   (0, _chart.updateChart)();
@@ -13598,7 +13601,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61511" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55193" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

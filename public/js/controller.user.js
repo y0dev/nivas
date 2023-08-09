@@ -16,8 +16,6 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === "success") {
-      // Store token
-      localStorage.setItem("token", res.data.token);
       showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
         location.assign("/dashboard");
@@ -36,7 +34,7 @@ export const logout = async () => {
       url: `http://localhost:${port}/api/v1/user/logout`,
     });
     if ((res.data.status = "success")) {
-      localStorage.removeItem("token");
+      // localStorage.removeItem("token");
       window.setTimeout(() => {
         location.assign("/");
       }, 1000);
@@ -62,14 +60,14 @@ export const signup = async (name, email, username, password, passwordConfirmati
 
     if (res.data.status === "success") {
       // Store token
-      localStorage.setItem("token", res.data.token);
+      // localStorage.setItem("token", res.data.token);
       showAlert("success", "signed up successfully");
       window.setTimeout(() => {
         location.assign("/dashboard");
       }, 1500);
     }
   } catch (err) {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
     showAlert("fail", err.response.data.message);
   }
 };
