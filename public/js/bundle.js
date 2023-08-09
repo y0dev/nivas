@@ -12954,12 +12954,9 @@ var login = /*#__PURE__*/function () {
         case 3:
           res = _context.sent;
           if (res.data.status === "success") {
-            console.log(res.data);
-            // Store token
-            localStorage.setItem("token", res.data.token);
             (0, _alert.showAlert)("success", "Logged in successfully");
             window.setTimeout(function () {
-              location.assign("/search");
+              location.assign("/dashboard");
             }, 1500);
           }
           _context.next = 11;
@@ -12995,7 +12992,7 @@ var logout = /*#__PURE__*/function () {
         case 3:
           res = _context2.sent;
           if (res.data.status = "success") {
-            localStorage.removeItem("token");
+            // localStorage.removeItem("token");
             window.setTimeout(function () {
               location.assign("/");
             }, 1000);
@@ -13018,7 +13015,7 @@ var logout = /*#__PURE__*/function () {
 }();
 exports.logout = logout;
 var signup = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, password, passwordConfirmation) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, username, password, passwordConfirmation) {
     var res;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
@@ -13031,6 +13028,7 @@ var signup = /*#__PURE__*/function () {
             data: {
               name: name,
               email: email,
+              username: username,
               password: password,
               passwordConfirmation: passwordConfirmation
             }
@@ -13038,10 +13036,11 @@ var signup = /*#__PURE__*/function () {
         case 3:
           res = _context3.sent;
           if (res.data.status === "success") {
-            console.log(res.data);
+            // Store token
+            // localStorage.setItem("token", res.data.token);
             (0, _alert.showAlert)("success", "signed up successfully");
             window.setTimeout(function () {
-              location.assign("/search");
+              location.assign("/dashboard");
             }, 1500);
           }
           _context3.next = 10;
@@ -13049,6 +13048,7 @@ var signup = /*#__PURE__*/function () {
         case 7:
           _context3.prev = 7;
           _context3.t0 = _context3["catch"](0);
+          // localStorage.removeItem("token");
           (0, _alert.showAlert)("fail", _context3.t0.response.data.message);
         case 10:
         case "end":
@@ -13056,7 +13056,7 @@ var signup = /*#__PURE__*/function () {
       }
     }, _callee3, null, [[0, 7]]);
   }));
-  return function signup(_x3, _x4, _x5, _x6) {
+  return function signup(_x3, _x4, _x5, _x6, _x7) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -13097,7 +13097,7 @@ var subscribe = /*#__PURE__*/function () {
       }
     }, _callee4, null, [[0, 8]]);
   }));
-  return function subscribe(_x7) {
+  return function subscribe(_x8) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -13413,7 +13413,6 @@ var _tablesort = require("./tablesort");
 var contactForm = document.querySelector(".form--contact");
 var signupForm = document.querySelector(".form--sign-up");
 var loginForm = document.querySelector(".form--login");
-var showcaseArea = document.querySelector(".showcase-area");
 var mainWrapper = document.querySelector(".main-wrapper");
 var propertyContainer = document.querySelector(".container.property-container");
 var userContainer = document.querySelector(".container.user-dash-container");
@@ -13426,6 +13425,11 @@ if (hamburger) {
   });
 }
 if (userContainer || propertyContainer) {
+  var logoutButton = document.getElementById("logout");
+  logoutButton.addEventListener("click", function () {
+    (0, _controller4.logout)();
+  });
+
   // addUserMenuBtn();
   (0, _navbar.sidebarToggle)();
   (0, _chart.updateChart)();
@@ -13481,7 +13485,7 @@ if (pricingSection) {
   }
 }
 if (contactForm) {
-  (0, _controller3.removeLogoutBtn)();
+  // removeLogoutBtn();
   contactForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var name = document.getElementById("name").value;
@@ -13495,26 +13499,24 @@ if (contactForm) {
   // contactUsBtn.remove();
 }
 if (signupForm) {
-  (0, _controller3.removeSignupBtn)();
-  (0, _controller3.removeLogoutBtn)();
   signupForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var firstName = document.getElementById("first-name").value;
     var lastName = document.getElementById("last-name").value;
     var email = document.getElementById("email").value;
+    var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-    var passwordConfirmed = document.getElementById("passwordConfirmed").value;
+    var passwordConfirmed = document.getElementById("confirm-password").value;
     var name = firstName.concat(" ", lastName);
-    (0, _controller4.signup)(name, email, password, passwordConfirmed);
+    (0, _controller4.signup)(name, email, username, password, passwordConfirmed);
   });
 }
 if (loginForm) {
-  (0, _controller3.removeLoginBtn)();
-  (0, _controller3.removeLogoutBtn)();
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var email = document.getElementById("email").value;
     var password = document.getElementById("password").value;
+    console.log(email, password);
     (0, _controller4.login)(email, password);
   });
 }
@@ -13599,7 +13601,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63000" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55193" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

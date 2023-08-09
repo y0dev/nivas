@@ -56,7 +56,9 @@ exports.registerMiddleware = (app) => {
 
   // parse application/json
   app.use(bodyParser.json({ limit: "10kb" }));
+
   if (process.env.NODE_ENV === "production") {
+    // Rate Limiter
     app.use(
       rateLimit({
         windowMs: 15 * MINUTE, // 15 minutes
@@ -68,14 +70,33 @@ exports.registerMiddleware = (app) => {
   }
 
   app.use(cookieParser());
+
+  // Session Key
+  if (process.env.NODE_ENV === "production") {
     app.use(
       session({
-        secret: "keyboard cat",
+        secret: "secretkey",
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: true },
+        cookie: {
+          secure: true, // Set to true if using HTTPS
+          sameSite: "strict"
+        },
       })
     );
+  } else if (process.env.NODE_ENV === "development") { 
+    app.use(
+      session({
+        secret: "secretkey",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          secure: false, // Set to true if using HTTPS
+          sameSite: "strict"
+        },
+      })
+    );
+  }
 };
 
 exports.registerErrorHandler = (app) => {};

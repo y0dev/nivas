@@ -18,6 +18,12 @@ const userSchema = new Schema({
     lowercase: true,
     validate: [validator.isEmail, "please provide a valid email"],
   },
+  username: {
+    type: String,
+    required: [true, "user must have a username"],
+    maxlength: 30,
+    minlength: 2,
+  },
   photo: {
     type: String,
     default: "default.jpg",

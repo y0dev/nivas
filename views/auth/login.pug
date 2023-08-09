@@ -20,17 +20,15 @@ block content
                   label.mb-2.block.text-gray-600(for="email" class='dark:text-gray-300')
                     | Email
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#email.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='email' name='0' autocomplete='email' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Helper
+                  input#email.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='email' name='email' autocomplete='email' class='focus:ring-2 dark:border-gray-700')
                 div.form__group
                   label.mb-2.block.text-gray-600(for='password' class='dark:text-gray-300')
                     | Password 
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='password' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Invalid
+                  input#password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='password' autocomplete="current-password" class='focus:ring-2 dark:border-gray-700')
                 div.form__group.flex.items-start
                   .flex.items-center.h-5
-                    input#remember.w-4.h-4.border.border-gray-100.rounded.bg-transparent(aria-describedby='remember' type='checkbox' class='focus:ring-3 focus:ring-primary dark:border-gray-700 dark:focus:ring-primaryLight dark:ring-offset-gray-800' required='')
+                    input#remember.w-4.h-4.border.border-gray-100.rounded.bg-transparent(aria-describedby='remember' type='checkbox' class='focus:ring-3 focus:ring-primary dark:border-gray-700 dark:focus:ring-primaryLight dark:ring-offset-gray-800')
                   .ml-3.text-sm
                     label.font-light.text-gray-500(for='remember' class='dark:text-gray-300')
                       | Remember this device

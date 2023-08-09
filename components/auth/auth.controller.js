@@ -28,6 +28,11 @@ const createAndSendToken = (user, statusCode, req, res) => {
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
+  logger.info("Saving session data");
+  req.session.authorized = true;
+  req.session.authorization = `Bearer ${token}`
+
+  console.log(req.session);
   logger.info("Sending token to user");
   // logger.info(`Token: ${token}`);
   res.status(statusCode).json({
@@ -46,6 +51,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    username: req.body.username,
     password: req.body.password,
     confirmPassword: req.body.passwordConfirmation,
   });
@@ -117,16 +123,17 @@ exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
   logger.info("PVR Ensure that a valid user is logged in");
   let token = null;
   // console.log(req.headers);
+  console.log(req.session);
   if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.session.authorization &&
+    req.session.authorization.startsWith("Bearer")
   ) {
     // Grab the token which is the second element after split
-    token = req.headers.authorization.split(" ")[1];
+    token = req.session.authorization.split(" ")[1];
   }
 
   if (!token) {
-    res.redirect("/error");
+    res.redirect("/login");
     next();
   }
 
@@ -136,7 +143,7 @@ exports.protectedViewRoutes = catchAsync(async (req, res, next) => {
   logger.info("Search for user");
   const loggedInUser = await User.findById(decoded.id);
   if (!loggedInUser) {
-    res.redirect("/error");
+    res.redirect("/login");
     next();
   }
 
@@ -157,6 +164,7 @@ exports.logout = (req, res) => {
     expires: new Date(Date.now() + 10 * 1000), // 10 Seconds
     httpOnly: true,
   });
+  req.session.destroy();
   res.status(200).json({ status: "success" });
 };
 

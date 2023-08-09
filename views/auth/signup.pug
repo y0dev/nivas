@@ -11,7 +11,7 @@ block content
           | Join our community of real estate investors and gain access to powerful tools that will help you boost your portfolio!
       .mt-12.grid.gap-12(class='sm:mx-auto sm:max-w-lg lg:max-w-full lg:grid-cols-2')
         .relative
-          form.form--login.relative.rounded-3xl.border.border-gray-100.bg-white.p-8.shadow-2xl(action='' class='shadow-gray-600/10 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none sm:p-12')
+          form.form--sign-up.relative.rounded-3xl.border.border-gray-100.bg-white.p-8.shadow-2xl(action='' class='shadow-gray-600/10 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none sm:p-12')
             .absolute.inset-0.hidden.scale-105.rounded-3xl.bg-gradient-to-b.from-transparent(class='dark:block dark:to-gray-900/80')
             .relative
               h2.text-2xl.font-bold.text-gray-800(class='dark:text-white') Create an Account
@@ -20,41 +20,41 @@ block content
                   label.mb-2.block.text-gray-600(for="first-name" class='dark:text-gray-300')
                     | First Name
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#first-name.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='text' name='first-name' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Helper
+                  input#first-name.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='text' name='first-name' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700')
+                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Please enter your first name
                 div.form__group
                   label.mb-2.block.text-gray-600(for="last-name" class='dark:text-gray-300')
                     | Last Name
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#last-name.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='text' name='last-name' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Helper
+                  input#last-name.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='text' name='last-name' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700')
+                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Please enter your last name
                 div.form__group
                   label.mb-2.block.text-gray-600(for="user-name" class='dark:text-gray-300')
                     | User Name
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#user-name.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='text' name='user-name' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Helper
+                  input#username.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='text' name='user-name' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700')
+                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Please enter a user name
                 div.form__group
                   label.mb-2.block.text-gray-600(for="email" class='dark:text-gray-300')
                     | Email
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#email.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='email' name='email' autocomplete='email' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Helper
+                  input#email.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='email' name='email' autocomplete='email' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700')
+                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Please enter your email
                 div.form__group
                   label.mb-2.block.text-gray-600(for='password' class='dark:text-gray-300')
                     | Password 
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='password' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Invalid
+                  input#password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='password' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700')
+                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Please enter a password
                 div.form__group
                   label.mb-2.block.text-gray-600(for='password' class='dark:text-gray-300')
                     | Confirm Password 
                     span.text-xl.text-red-500(class='dark:text-red-400') *
-                  input#confirm-password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='confirm-password' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700' required)
-                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Invalid
+                  input#confirm-password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='confirm-password' class='invalid:ring-2 invalid:ring-red-400 focus:ring-2 dark:border-gray-700')
+                  span.mt-1.hidden.text-sm.text-red-500(class='peer-invalid:block') Password does not match
                 div.form__group.flex.items-start
                   .flex.items-center.h-5
-                    input#newsletter.w-4.h-4.border.border-gray-100.rounded.bg-transparent(aria-describedby='newsletter' type='checkbox' class='focus:ring-3 focus:ring-primary dark:border-gray-700 dark:focus:ring-primaryLight dark:ring-offset-gray-800' required='')
+                    input#newsletter.w-4.h-4.border.border-gray-100.rounded.bg-transparent(aria-describedby='newsletter' type='checkbox' class='focus:ring-3 focus:ring-primary dark:border-gray-700 dark:focus:ring-primaryLight dark:ring-offset-gray-800')
                   .ml-3.text-sm
                     label.font-light.text-gray-500(for='newsletter' class='dark:text-gray-300')
                       | I accept the 
