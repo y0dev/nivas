@@ -72,8 +72,7 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
     const mapBounds = await retrieveZipCodeSearchParameters(cleanZipCode);
     const searchTerm = `"${cleanZipCode}"`;
 
-    logger.debug(`Searching... ${searchTerm}`);
-    const numOfPages = await retrieveNumberOfPages(searchTerm, mapBounds);
+    const numOfPages = await retrieveNumberOfPages(cleanZipCode, mapBounds);
     if (numOfPages === 0) {
       return next(new AppError("Cannot retrieve results", 401));
     }
@@ -85,7 +84,6 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
       return res.json({ results: [], status: "unsuccess" });
     }
 
-    logger.debug(`Search Results: ${results}`);
     const { twoBeds, threeBeds } = await assignPercentiles(results);
     const { trucResults, s_id: searchId } = await truncateResultList(searchTerm, results);
 
@@ -255,53 +253,28 @@ async function truncateResultList(searchTerm, results) {
 }
 
 // Helper function to retrieve number of pages
-async function retrieveNumberOfPages(searchTerm, bounds) {
+async function retrieveNumberOfPages(searchTerm, mapBounds) {
   const reqId = Math.floor((Math.random() + 1) * 5);
-
-  const filterState = {
-    price: { min: 100000 },
-    monthlyPayment: { min: 495 },
-    sortSelection: { value: "globalrelevanceex" },
-    isAllHomes: { value: true }
-  };
-
-  const searchQueryState = {
-    pagination: {},
-    usersSearchTerm: searchTerm,
-    filterState: filterState,
-    isMapVisible: true,
-    isListVisible: true,
-    mapBounds: bounds,
-    mapZoom: 12
-  };
-
-  const payload = {
-    searchQueryState: searchQueryState,
-    wants: {
-      cat1: ["listResults", "mapResults"],
-      cat2: ["total"]
-    },
-    requestId: reqId
-  };
-
+  
+  const payload = createPayload(searchTerm, mapBounds, reqId);
   const url = `https://www.zillow.com/async-create-search-page-state`;
-  logger.debug(`URL: ${url}`);
-  console.log("Payload: %j", payload);
   urlHeaders["Content-Type"] = "application/json";
-  console.log("Headers: %j", urlHeaders);
   
   try {
     const response = await axios.put(url, payload, { headers: urlHeaders });
-    logger.debug(`Response: ${response.data}`);
     const cat1 = response.data.cat1;
     return cat1 ? Math.min(cat1.searchList.totalPages, 2) : 0;
   } catch (error) {
+    if (error.config && error.config.data) {
+      console.error(error.config);
+      // console.error('Request Payload:', JSON.parse(error.config.data));
+    }
     logger.error('Error retrieving number of pages:', error);
     throw error;
   } finally {
     // Remove the 'Content-Type' key from urlHeaders
     delete urlHeaders['Content-Type'];
-}
+  } 
 }
 
 
@@ -323,8 +296,9 @@ async function retrieveZipCodeSearchParameters(zipCode) {
 
   const data = response.data;
   const position = data.search(/"queryState"/);
-  const bounds = data.substring(position + 14, data.lastIndexOf("7}]") + 3);
-  return bounds;
+  const boundsString = data.substring(position + 14, data.lastIndexOf("7}]") + 3);
+  const boundsObject = JSON.parse(`{${boundsString}}`); // Parse the string into JSON object
+  return boundsObject;
 }
 
 // Helper function to retrieve results
@@ -333,37 +307,51 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
 
   for (let idx = 1; idx <= numOfPages; idx++) {
     const reqId = Math.floor((Math.random() + 1) * 5);
-    const url = `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState={"pagination":{"currentPage":${idx}},"usersSearchTerm":${searchTerm},${bounds},"isMapVisible":true,"filterState":{"price":{"min":100000},"monthlyPayment":{"min":495},"sortSelection":{"value":"days"},"isAllHomes":{"value":true}},"isListVisible":true,"mapZoom":12}&wants={"cat1":["listResults","mapResults"],"cat2":["total"]}&requestId=${reqId}`;
-    
-    const response = await axios.get(url, { headers: urlHeaders });
-    const cat1 = response.data.cat1;
-    if (cat1) {
-      cat1.searchResults.listResults.forEach(element => {
-        if (element.beds && element.baths && element.area && element.statusType === "FOR_SALE") {
-          results.push({
-            price: element.unformattedPrice,
-            priceStr: element.price,
-            address: element.address,
-            city: element.addressCity,
-            state: element.addressState,
-            zipCode: parseInt(element.addressZipcode),
-            beds: parseInt(element.beds),
-            baths: parseInt(element.baths),
-            street: element.addressStreet,
-            sqft: parseInt(element.area),
-            url: element.detailUrl,
-            status: element.statusType,
-            zpid: parseInt(element.zpid),
-            percentile25th: 0,
-            percentile50th: 0,
-            percentile75th: 0,
-          });
-        }
-      });
-    } else {
-      UtilityService.handleError("cat1 does not exist!");
-    }
-
+    const payload = createPayload(searchTerm, bounds, reqId);
+    const url = `https://www.zillow.com/async-create-search-page-state`;
+    // const url = `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState={"pagination":{"currentPage":${idx}},"usersSearchTerm":${searchTerm},${bounds},"isMapVisible":true,"filterState":{"price":{"min":100000},"monthlyPayment":{"min":495},"sortSelection":{"value":"days"},"isAllHomes":{"value":true}},"isListVisible":true,"mapZoom":12}&wants={"cat1":["listResults","mapResults"],"cat2":["total"]}&requestId=${reqId}`;
+    urlHeaders["Content-Type"] = "application/json";
+  
+    try {
+      const response = await axios.put(url, payload, { headers: urlHeaders });
+      const cat1 = response.data.cat1;
+      if (cat1) {
+        cat1.searchResults.listResults.forEach(element => {
+          if (element.beds && element.baths && element.area && element.statusType === "FOR_SALE") {
+            results.push({
+              price: element.unformattedPrice,
+              priceStr: element.price,
+              address: element.address,
+              city: element.addressCity,
+              state: element.addressState,
+              zipCode: parseInt(element.addressZipcode),
+              beds: parseInt(element.beds),
+              baths: parseInt(element.baths),
+              street: element.addressStreet,
+              sqft: parseInt(element.area),
+              url: element.detailUrl,
+              status: element.statusType,
+              zpid: parseInt(element.zpid),
+              percentile25th: 0,
+              percentile50th: 0,
+              percentile75th: 0,
+            });
+          }
+        });
+      } else {
+        UtilityService.handleError("cat1 does not exist!");
+      }
+    } catch (error) {
+      if (error.config && error.config.data) {
+        console.error(error.config);
+        // console.error('Request Payload:', JSON.parse(error.config.data));
+      }
+      logger.error('Error retrieving number of pages:', error);
+      throw error;
+    } finally {
+      // Remove the 'Content-Type' key from urlHeaders
+      delete urlHeaders['Content-Type'];
+    } 
     await UtilityService.sleep(SLEEP);
   }
 
@@ -373,7 +361,7 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
 // Helper function to assign percentiles
 async function assignPercentiles(listings) {
   const results = { twoBeds: {}, threeBeds: {} };
-
+  
   const twoBedsListing = listings.find(listing => listing.beds === 2 && /\d/.test(listing.address));
   const threeBedsListing = listings.find(listing => listing.beds >= 3 && listing.beds <= 4 && /\d/.test(listing.address));
 
@@ -403,6 +391,7 @@ async function getComparableHomes(address) {
   };
 
   const url = `https://www.zillow.com/rental-manager/price-my-rental/results/${address}`;
+  logger.debug(`Url: ${url}`);
   const response = await axios.get(url, { headers: urlHeaders });
   const $ = cheerio.load(response.data);
 
@@ -425,4 +414,34 @@ async function getComparableHomes(address) {
   comparable.percentile75th = percentiles["75th_Percentile"];
 
   return comparable;
+}
+
+// Function to create the payload object
+function createPayload(searchTerm, mapBounds, reqId) {
+  const filterState = {
+    price: { min: 100000 },
+    monthlyPayment: { min: 495 },
+    sortSelection: { value: "globalrelevanceex" },
+    isAllHomes: { value: true }
+  };
+
+  const searchQueryState = {
+    pagination: {},
+    usersSearchTerm: searchTerm,
+    filterState: filterState,
+    isMapVisible: true,
+    isListVisible: true,
+    mapBounds: mapBounds.mapBounds,
+    regionSelection: mapBounds.regionSelection,
+    mapZoom: 12
+  };
+
+  return {
+    searchQueryState: searchQueryState,
+    wants: {
+      cat1: ["listResults", "mapResults"],
+      cat2: ["total"]
+    },
+    requestId: reqId
+  };
 }
