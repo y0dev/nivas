@@ -293,6 +293,26 @@ class UtilityService {
     }
     return userSettings;
   }
+
+  // Function to safely parse JSON
+  static safeJsonParse(text) {
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      console.error("Failed to parse JSON:", e);
+      return null;
+    }
+  }
+
+  // Function to extract JSON from script text content
+  static extractJson(text) {
+    const jsonStringMatch = text.match(/{.*}/s);
+    if (jsonStringMatch) {
+      return jsonStringMatch[0];
+    }
+    console.error("No JSON object found in script text.");
+    return null;
+  }
 }
 
 module.exports = UtilityService;

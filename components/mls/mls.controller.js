@@ -396,9 +396,12 @@ async function getComparableHomes(address) {
   const $ = cheerio.load(response.data);
 
   const script = $("script[type*=text/javascript]");
-  const text = script.text();
-  const json = JSON.parse(text.match(/"comparables":({.*?})/)[1]);
-
+  const comparables = getComparablesFromScript(script);
+  console.log(comparables)
+  const comparableText = text.match(/"comparables":({.*?})/)[1];
+  console.log(comparableText);
+  const json = JSON.parse(comparableText);
+  console.log(json)
   json.items.forEach(element => {
     if (element.street !== "(Undisclosed address)" && element.monthlyRent) {
       prices.push(UtilityService.currencyConverter(element.monthlyRent));
@@ -444,4 +447,22 @@ function createPayload(searchTerm, mapBounds, reqId) {
     },
     requestId: reqId
   };
+}
+
+function getComparablesFromScript(script) {
+  // Get the text content of the script
+  const text = script.text();
+
+   // Extract the JSON part from the text content
+  const jsonText = UtilityService.extractJson(text);
+  console.log(jsonText)
+
+  // Parse the text content to an object
+  const initialState = UtilityService.safeJsonParse(jsonText);
+
+  // Check if the initial state and the comparables object exist
+  if (initialState && initialState.address && initialState.address.comparables) {
+    return initialState.address.comparables;
+  }
+  return null; // Return null if the comparables object is not found
 }
