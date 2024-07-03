@@ -451,6 +451,21 @@ video {
   height: auto;
 }
 
+/* Shaking animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+  
+/* Error class */
+.input-error {
+border-color: red;
+animation: shake 0.5s;
+}
+
 /* Make elements with the HTML hidden attribute stay hidden by default */
 
 [hidden] {
@@ -1547,8 +1562,6 @@ select {
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 @keyframes ping {
-
-
     75%, 100% {
         transform: scale(2);
         opacity: 0;
