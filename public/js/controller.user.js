@@ -14,7 +14,7 @@ export const login = async (email, password) => {
         password,
       },
     });
-
+    
     if (res.data.status === "success") {
       showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
@@ -23,7 +23,7 @@ export const login = async (email, password) => {
     }
   } catch (err) {
     localStorage.removeItem("token");
-    showAlert("fail", err.response.data.message);
+    showLoginFailure();
   }
 };
 
@@ -92,3 +92,19 @@ export const subscribe = async (subscription) => {
     showAlert("fail", err.response.data.message);
   }
 };
+
+
+function showLoginFailure() {
+  const emailField = document.getElementById('email');
+  const passwordField = document.getElementById('password');
+
+  // Add error class to fields
+  emailField.classList.add('input-error');
+  passwordField.classList.add('input-error');
+
+  // Remove error class after animation ends
+  setTimeout(() => {
+    emailField.classList.remove('input-error');
+    passwordField.classList.remove('input-error');
+  }, 500); // Match this duration to the animation duration
+}
