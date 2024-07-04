@@ -12112,6 +12112,9 @@ function showMap(coordinates) {
 function updateMap(coordinates) {
   var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e350b40 (Title: Update Google Maps position from TX -> CA)
   var mapElement = document.getElementById('map');
   console.log(coordinates);
   if (!mapElement) {
@@ -12140,8 +12143,11 @@ function updateMap(coordinates) {
     },
     radius: radius
   });
+<<<<<<< HEAD
 =======
 >>>>>>> ff7fc3c (Title:Add Google Maps)
+=======
+>>>>>>> e350b40 (Title: Update Google Maps position from TX -> CA)
   if (map && circle) {
     // Update the circle's center and radius
     circle.setCenter(new google.maps.LatLng(coordinates.lat, coordinates.lng));
@@ -12632,11 +12638,15 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
         case 19:
           res = _context.sent;
 <<<<<<< HEAD
+<<<<<<< HEAD
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, coordinates = _res$data.coordinates, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
 =======
           (0, _utilities.showSpinner)();
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
 >>>>>>> ff7fc3c (Title:Add Google Maps)
+=======
+          _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, coordinates = _res$data.coordinates, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
+>>>>>>> e350b40 (Title: Update Google Maps position from TX -> CA)
           if (status === "success") {
             searchInfoSpan = document.querySelector("#search-results .search-info span");
             searchInfoSpan.textContent = "".concat(cityState, " ").concat(zipCode);
@@ -12801,17 +12811,16 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
             //     location.assign("/");
             //   }, 1500);
           }
-          _context.next = 27;
+          _context.next = 25;
           break;
-        case 24:
-          _context.prev = 24;
-          _context.t0 = _context["catch"](15);
-          (0, _alert.showAlert)("fail", _context.t0.response.data);
-        case 27:
+        case 23:
+          _context.prev = 23;
+          _context.t0 = _context["catch"](14);
+        case 25:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[15, 24]]);
+    }, _callee, null, [[14, 23]]);
   }));
   return function searchForMLS(_x) {
     return _ref.apply(this, arguments);
@@ -13772,10 +13781,14 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 <<<<<<< HEAD
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "49156" + '/');
 =======
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "59165" + '/');
 >>>>>>> ff7fc3c (Title:Add Google Maps)
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49156" + '/');
+>>>>>>> e350b40 (Title: Update Google Maps position from TX -> CA)
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
