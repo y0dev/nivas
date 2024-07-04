@@ -40,9 +40,18 @@ const getUserId = (req) => {
  * @param {string} searchId - The search ID
  */
 const saveSearchHistory = async (userId, searchId) => {
-  const user = await User.findById(userId);
-  user.searchHistory.push(searchId);
-  await user.save();
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.searchHistory.push(searchId);
+    await user.save();
+  } catch (error) {
+    console.error('Error saving search history:', error);
+    // Optionally, you can rethrow the error or handle it in another way
+    throw error;
+  }
 };
 
 /**
@@ -54,10 +63,11 @@ const saveSearchHistory = async (userId, searchId) => {
  * @param {Object} twoBeds - The two beds quartile data
  * @param {Object} threeBeds - The three beds quartile data
  */
-const sendResultsResponse = (res, zipCode, cityState, trucResults, twoBeds, threeBeds) => {
+const sendResultsResponse = (res, zipCode, cityState, coordinates, trucResults, twoBeds, threeBeds) => {
   res.json({
     zipCode,
     cityState,
+    coord: coordinates,
     listings: trucResults,
     twoBedsQuartile: twoBeds,
     threeBedsQuartile: threeBeds,
@@ -117,9 +127,10 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
       listings: trucResults,
       twoBedsQuartile: twoBeds,
       threeBedsQuartile: threeBeds,
+      coord: searchParams.coordinates
     };
 
-    sendResultsResponse(res, resultZipCode, cityState, trucResults, twoBeds, threeBeds);
+    sendResultsResponse(res, resultZipCode, cityState, searchParams.coordinates, trucResults, twoBeds, threeBeds);
     logger.info("Successfully gathered results");
 
   } catch (error) {
@@ -175,9 +186,10 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
       listings: trucResults,
       twoBedsQuartile: twoBeds,
       threeBedsQuartile: threeBeds,
+      coord: searchParams.coordinates
     };
 
-    sendResultsResponse(res, zipCode, cityState, trucResults, twoBeds, threeBeds);
+    sendResultsResponse(res, zipCode, cityState, searchParams.coordinates, trucResults, twoBeds, threeBeds);
     logger.info("Successfully gathered results");
 
   } catch (error) {
@@ -357,11 +369,12 @@ async function retrieveZipCodeSearchParameters(zipCode) {
   const data = response.data;
   const $ = cheerio.load(data);
   const script = $("script[type*=application/json][id=\"__NEXT_DATA__\"]");
-  const coords = getCoordFromScript(script);
+  const coords = getCoordFromScript(script); // ex: { latitude: 33.842545, longitude: -118.15571 }
+  
 
   const text = script.text();
   const bounds = findZillowBounds(text);
-
+  
   return { bounds: bounds, coordinates: coords};
 }
 

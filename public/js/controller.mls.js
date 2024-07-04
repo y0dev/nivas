@@ -1,6 +1,6 @@
 import "@babel/polyfill";
 import axios from "axios";
-import { showAlert } from "./alert";
+import { showAlert, showSpinner, hideSpinner, updateMap } from "./utilities";
 
 const port = process.env.PORT || 3000;
 
@@ -112,6 +112,7 @@ export const searchForMLS = async (mls_string) => {
       zipCode,
       cityState,
       listings,
+      coordinates,
       twoBedsQuartile,
       threeBedsQuartile,
       status,
@@ -122,6 +123,7 @@ export const searchForMLS = async (mls_string) => {
         zipCode,
         cityState,
         listings,
+        coordinates,
         twoBedsQuartile,
         threeBedsQuartile
       );
@@ -178,6 +180,8 @@ function updateQuartileTable(tableId, quartileData) {
   updateCellColor(q1Cell);
   updateCellColor(q2Cell);
   updateCellColor(q3Cell);
+
+  updateMap({ lat: coordinates.latitude, lng: coordinates.latitude });
 }
 
 /**
