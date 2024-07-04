@@ -20,25 +20,40 @@ let urlHeaders = {
   "sec-fetch-dest": "empty",
   "sec-fetch-mode": "cors",
   "sec-fetch-site": "same-origin",
-  "sec-ch-ua-mobile": "?0",
-  "user-agent": "PostmanRuntime/7.36.1",
+  "sec-ch-ua-mobile": "?0"
 };
 
-// Helper function to get user ID
+/**
+ * Helper function to get user ID from the request
+ * @param {Object} req - The request object
+ * @returns {string} - The user ID
+ */
 const getUserId = (req) => {
   return process.env.NODE_ENV === "development"
     ? "648d20625900ad8cee2c6fca"
     : req.user.id;
 };
 
-// Helper function to handle search history saving
+/**
+ * Helper function to handle search history saving
+ * @param {string} userId - The user ID
+ * @param {string} searchId - The search ID
+ */
 const saveSearchHistory = async (userId, searchId) => {
   const user = await User.findById(userId);
   user.searchHistory.push(searchId);
   await user.save();
 };
 
-// Helper function to send results response
+/**
+ * Helper function to send results response
+ * @param {Object} res - The response object
+ * @param {string} zipCode - The zip code
+ * @param {string} cityState - The city and state
+ * @param {Array} trucResults - The truncated results
+ * @param {Object} twoBeds - The two beds quartile data
+ * @param {Object} threeBeds - The three beds quartile data
+ */
 const sendResultsResponse = (res, zipCode, cityState, trucResults, twoBeds, threeBeds) => {
   res.json({
     zipCode,
@@ -50,13 +65,18 @@ const sendResultsResponse = (res, zipCode, cityState, trucResults, twoBeds, thre
   });
 };
 
-// Main function to search by zip code
+/**
+ * Main function to search by zip code
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ */
 exports.searchByZipCode = catchAsync(async (req, res, next) => {
   urlHeaders["user-agent"] = req.get("user-agent");
   const userId = getUserId(req);
 
   logger.info("Searching by zip code");
-  
+
   const { zip_code: zipCode } = req.body;
   if (!zipCode) {
     return next(new AppError("Not a valid MLS input", 403));
@@ -72,7 +92,6 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
     const searchParams = await retrieveZipCodeSearchParameters(cleanZipCode);
     const searchTerm = `"${cleanZipCode}"`;
 
-    console.log(searchParams)
     const numOfPages = await retrieveNumberOfPages(cleanZipCode, searchParams.bounds);
     if (numOfPages === 0) {
       return next(new AppError("Cannot retrieve results", 401));
@@ -109,7 +128,12 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
   }
 });
 
-// Main function to search by city and state
+/**
+ * Main function to search by city and state
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ */
 exports.searchByCityState = catchAsync(async (req, res, next) => {
   urlHeaders["user-agent"] = req.get("user-agent");
   const userId = getUserId(req);
@@ -162,7 +186,12 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
   }
 });
 
-// Function to get search history
+/**
+ * Function to get search history
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ */
 exports.getSearches = catchAsync(async (req, res, next) => {
   let results = [];
 
@@ -200,7 +229,12 @@ exports.getSearches = catchAsync(async (req, res, next) => {
   next();
 });
 
-// Function to download sample PDF
+/**
+ * Function to download sample PDF
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ */
 exports.downloadSample = catchAsync(async (req, res, next) => {
   const pdfFilePath = path.join(__dirname, "..", "../pdf/sample.pdf");
 
@@ -212,7 +246,12 @@ exports.downloadSample = catchAsync(async (req, res, next) => {
   next();
 });
 
-// Function to download previous search results PDF
+/**
+ * Function to download previous search results PDF
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ */
 exports.downloadPreviousSearch = catchAsync(async (req, res, next) => {
   if (!prevSearchResults) {
     return next(new AppError("Failed to get results", 502));
@@ -229,7 +268,12 @@ exports.downloadPreviousSearch = catchAsync(async (req, res, next) => {
   next();
 });
 
-// Helper function to truncate result list
+/**
+ * Helper function to truncate result list
+ * @param {string} searchTerm - The search term
+ * @param {Array} results - The results array
+ * @returns {Object} - The truncated results and search ID
+ */
 async function truncateResultList(searchTerm, results) {
   const trucResults = results.length > MAX_LENGTH_DEFAULT 
     ? results.slice(0, MAX_LENGTH_DEFAULT) 
@@ -253,7 +297,12 @@ async function truncateResultList(searchTerm, results) {
   return { trucResults, s_id: newSearch._id };
 }
 
-// Helper function to retrieve number of pages
+/**
+ * Helper function to retrieve number of pages
+ * @param {string} searchTerm - The search term
+ * @param {Object} mapBounds - The map bounds
+ * @returns {number} - The number of pages to search
+ */
 async function retrieveNumberOfPages(searchTerm, mapBounds) {
   const reqId = Math.floor((Math.random() + 1) * 5);
   
@@ -275,8 +324,12 @@ async function retrieveNumberOfPages(searchTerm, mapBounds) {
   }
 }
 
-
-// Helper function to retrieve city and state search parameters
+/**
+ * Helper function to retrieve city and state search parameters
+ * @param {string} city - The city name
+ * @param {string} state - The state name
+ * @returns {Object} - The map bounds and coordinates
+ */
 async function retrieveCityStateSearchParameters(city, state) {
   const regionUrl = `https://www.zillow.com/homes/${city},-${state}/`;
   const response = await axios.get(regionUrl, { headers: urlHeaders });
@@ -290,7 +343,11 @@ async function retrieveCityStateSearchParameters(city, state) {
   return { bounds: bounds, coordinates: coords};
 }
 
-// Helper function to retrieve zip code search parameters
+/**
+ * Helper function to retrieve zip code search parameters
+ * @param {string} zipCode - The zip code
+ * @returns {Object} - The map bounds and coordinates
+ */
 async function retrieveZipCodeSearchParameters(zipCode) {
   const regionUrl = `https://www.zillow.com/homes/${zipCode}/`;
   const response = await axios.get(regionUrl, { headers: urlHeaders });
@@ -305,7 +362,13 @@ async function retrieveZipCodeSearchParameters(zipCode) {
   return { bounds: boundsObject, coordinates: coords};
 }
 
-// Helper function to retrieve results
+/**
+ * Helper function to retrieve results
+ * @param {string} searchTerm - The search term
+ * @param {number} numOfPages - The number of pages to search
+ * @param {Object} bounds - The map bounds
+ * @returns {Array} - The search results
+ */
 async function retrieveResults(searchTerm, numOfPages, bounds) {
   const results = [];
 
@@ -361,7 +424,12 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
   return results;
 }
 
-// Helper function to assign percentiles
+/**
+ * Helper function to assign percentiles to listings
+ * @param {Array} listings - The list of properties
+ * @param {Object} coordinates - The coordinates for comparison
+ * @returns {Object} - The percentile data for two and three-bedroom properties
+ */
 async function assignPercentiles(listings, coordinates) {
   const results = { twoBeds: {}, threeBeds: {} };
   
@@ -399,7 +467,12 @@ async function assignPercentiles(listings, coordinates) {
   return results;
 }
 
-// Helper function to get comparable homes
+/**
+ * Helper function to get comparable homes
+ * @param {Object} listing - The current property listing
+ * @param {Object} queryParams - The query parameters for the API request
+ * @returns {Object} - The comparable properties data
+ */
 async function getComparableHomes(listing, queryParams) {
 
   const prices = [];
@@ -454,7 +527,13 @@ async function getComparableHomes(listing, queryParams) {
   return comparable;
 }
 
-// Function to create the payload object
+/**
+ * Function to create the payload object for API request
+ * @param {string} searchTerm - The search term
+ * @param {Object} mapBounds - The map bounds
+ * @param {number} reqId - The request ID
+ * @returns {Object} - The payload object
+ */
 function createPayload(searchTerm, mapBounds, reqId) {
   const filterState = {
     price: { min: 100000 },
@@ -484,8 +563,13 @@ function createPayload(searchTerm, mapBounds, reqId) {
   };
 }
 
+/**
+ * Helper function to extract comparables from the script
+ * @param {Object} script - The script element
+ * @returns {Array|null} - The comparables data
+ */
 function getComparablesFromScript(script) {
-  // Get the text content of the script
+// Get the text content of the script
   const text = script.text();
 
   // Parse the text content to an object
@@ -494,7 +578,7 @@ function getComparablesFromScript(script) {
   const rentEstimator = UtilityService.findKeyContainingSubstring(json.props.pageProps["__storeData"], "rentEstimatorStore");
   const data = json.props.pageProps["__storeData"][rentEstimator]
 
-  // Check if the initial state and the comparables object exist
+// Check if the initial state and the comparables object exist
   if (data && data.state) {
     const listingJson = UtilityService.safeJsonParse(data.state);
     return listingJson.listings;
@@ -503,6 +587,11 @@ function getComparablesFromScript(script) {
   return null; // Return null if the comparables object is not found
 }
 
+/**
+ * Helper function to extract coordinates from the script
+ * @param {Object} script - The script element
+ * @returns {Object|null} - The coordinates data
+ */
 function getCoordFromScript(script) {
   // Get the text content of the script
   const text = script.text();
@@ -542,36 +631,36 @@ function findLatLong(text) {
   return matches;
 }
 
-// Function to update rental price based on comparable properties
+/**
+ * Function to update rental price based on comparable properties
+ * @param {Object} currentProperty - The current property listing
+ * @param {Array} comparableProperties - The comparable properties data
+ * @returns {number} - The updated rental price
+ */
 function updateRentalPriceAwning(currentProperty, comparableProperties) {
-  // Calculate average rent, size, beds, and baths for comparable properties
   let totalRent = 0;
   let totalSqft = 0;
   let totalBeds = 0;
   let totalBaths = 0;
 
   comparableProperties.forEach(property => {
-      totalRent += property.askingRent;
-      totalSqft += property.unitSqFt;
-      totalBeds += property.bedroomCount;
-      totalBaths += property.bathroomCount;
+    totalRent += property.askingRent;
+    totalSqft += property.unitSqFt;
+    totalBeds += property.bedroomCount;
+    totalBaths += property.bathroomCount;
   });
 
-  let avgRent = totalRent / comparableProperties.length;
-  let avgSqft = totalSqft / comparableProperties.length;
-  let avgBeds = totalBeds / comparableProperties.length;
-  let avgBaths = totalBaths / comparableProperties.length;
+  const avgRent = totalRent / comparableProperties.length;
+  const avgSqft = totalSqft / comparableProperties.length;
+  const avgBeds = totalBeds / comparableProperties.length;
+  const avgBaths = totalBaths / comparableProperties.length;
 
-  // Adjust rental price based on size, beds, and baths differences
-  let sizeDifference = currentProperty.sqft - avgSqft;
-  let bedsDifference = currentProperty.beds - avgBeds;
-  let bathsDifference = currentProperty.baths - avgBaths;
+  const sizeDifference = currentProperty.sqft - avgSqft;
+  const bedsDifference = currentProperty.beds - avgBeds;
+  const bathsDifference = currentProperty.baths - avgBaths;
 
-  let rentAdjustment = sizeDifference * 0.1 + bedsDifference * 100 + bathsDifference * 50;
+  const rentAdjustment = sizeDifference * 0.1 + bedsDifference * 100 + bathsDifference * 50;
+  const updatedRent = avgRent + rentAdjustment;
 
-  // Calculate updated rental price
-  let updatedRent = avgRent + rentAdjustment;
-
-  // Return the updated rental price
   return parseInt(updatedRent);
 }
