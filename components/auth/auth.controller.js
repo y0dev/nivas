@@ -2,9 +2,11 @@ const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { User } = require("../user/user.schema");
+const { Subscription } = require("../subscription/subscription.schema");
 const catchAsync = require("../../utils/catchAsync");
 const AppError = require("../../utils/appError");
 const logger = require("../../utils/logger").logger;
+const { subscriptionPlans } = require("../../utils/config");
 const Email = require("../email/email.class");
 const SearchHistory = require("../history/history.schema");
 
@@ -41,6 +43,27 @@ const createAndSendToken = (user, statusCode, req, res) => {
   });
 };
 
+// Create a subscription if the user doesn't have one
+const ensureSubscription = async (user) => {
+  const activeSubscription = await Subscription.findOne({
+    user: user._id,
+    active: true,
+    endDate: { $gte: new Date() },
+  });
+
+  if (!activeSubscription) {
+    const plan = 'basic'; // Default plan
+    const planConfig = subscriptionPlans[plan];
+    logger.debug(`Create a ${plan} which has ${planConfig} searches`);
+    await Subscription.create({
+      user: user._id,
+      plan,
+      endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // 1 year subscription
+      allowedSearches: planConfig.allowedSearches,
+    });
+  }
+};
+
 exports.signUp = catchAsync(async (req, res, next) => {
   logger.info("Signing up a new user");
   const { subscription } = req.session;
@@ -54,6 +77,16 @@ exports.signUp = catchAsync(async (req, res, next) => {
     username: req.body.username,
     password: req.body.password,
     confirmPassword: req.body.passwordConfirmation,
+  });
+
+  // Create a subscription for the new user
+  const plan = 'basic'; // Default plan
+  const planConfig = subscriptionPlans[plan];
+  await Subscription.create({
+    user: newUser._id,
+    plan,
+    endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // 1 year subscription
+    allowedSearches: planConfig.allowedSearches,
   });
 
   logger.info("Sending a welcome email to user");
@@ -78,6 +111,9 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
   }
+
+  // Ensure the user has an active subscription
+  await ensureSubscription(user);
 
   createAndSendToken(user, 200, req, res);
 });
