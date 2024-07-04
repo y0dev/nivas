@@ -313,6 +313,62 @@ class UtilityService {
     console.error("No JSON object found in script text.");
     return null;
   }
+
+  static buildUrl(baseUrl, queryParams) {
+    let url = baseUrl;
+    let isFirstParam = true;
+  
+    // Check if the baseUrl already has query parameters
+    if (baseUrl.includes('?')) {
+      isFirstParam = false;
+    }
+  
+    for (let key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        const value = key === 'modelParams' ? JSON.stringify(queryParams[key]) : queryParams[key];
+        const encodedValue = encodeURIComponent(value);
+        if (isFirstParam) {
+          url += `?${key}=${encodedValue}`;
+          isFirstParam = false;
+        } else {
+          url += `&${key}=${encodedValue}`;
+        }
+      }
+    }
+    return url;
+  }
+
+  static findKeyContainingSubstring(obj, substring) {
+    const keys = Object.keys(obj);
+    for (let key of keys) {
+      if (key.includes(substring)) {
+        return key;
+      }
+    }
+    return null;
+  }
+
+  static findMinMax(arr, propName) {
+    if (!Array.isArray(arr) || arr.length === 0) {
+        return { min: undefined, max: undefined };
+    }
+
+    let minVal = arr[0][propName];
+    let maxVal = arr[0][propName];
+
+    for (let i = 1; i < arr.length; i++) {
+        let val = arr[i][propName];
+        if (val < minVal) {
+            minVal = val;
+        }
+        if (val > maxVal) {
+            maxVal = val;
+        }
+    }
+
+    return { min: minVal, max: maxVal };
+}
+  
 }
 
 module.exports = UtilityService;
