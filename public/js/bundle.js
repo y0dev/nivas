@@ -12111,6 +12111,7 @@ function showMap(coordinates) {
  */
 function updateMap(coordinates) {
   var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+<<<<<<< HEAD
   var mapElement = document.getElementById('map');
   console.log(coordinates);
   if (!mapElement) {
@@ -12139,6 +12140,8 @@ function updateMap(coordinates) {
     },
     radius: radius
   });
+=======
+>>>>>>> ff7fc3c (Title:Add Google Maps)
   if (map && circle) {
     // Update the circle's center and radius
     circle.setCenter(new google.maps.LatLng(coordinates.lat, coordinates.lng));
@@ -12628,7 +12631,12 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
           });
         case 19:
           res = _context.sent;
+<<<<<<< HEAD
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, coordinates = _res$data.coordinates, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
+=======
+          (0, _utilities.showSpinner)();
+          _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
+>>>>>>> ff7fc3c (Title:Add Google Maps)
           if (status === "success") {
             searchInfoSpan = document.querySelector("#search-results .search-info span");
             searchInfoSpan.textContent = "".concat(cityState, " ").concat(zipCode);
@@ -13763,7 +13771,11 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "49156" + '/');
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59165" + '/');
+>>>>>>> ff7fc3c (Title:Add Google Maps)
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
