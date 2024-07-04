@@ -77,6 +77,30 @@ export function showMap(coordinates, radius = 1000) {
  * @param {number} radius - The new radius of the circle in meters
  */
 export function updateMap(coordinates, radius = 1000) {
+  const mapElement = document.getElementById('map');
+  console.log(coordinates);
+  if (!mapElement) {
+    console.error('Map element not found');
+    return;
+  }
+
+  let map = new google.maps.Map(mapElement, {
+    center: { lat: coordinates.lat, lng: coordinates.lng },
+    zoom: 20,
+  });
+
+  // Draw the circle
+  let circle = new google.maps.Circle({
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35,
+    map,
+    center: { lat: coordinates.lat, lng: coordinates.lng },
+    radius: radius,
+  });
+
   if (map && circle) {
     // Update the circle's center and radius
     circle.setCenter(new google.maps.LatLng(coordinates.lat, coordinates.lng));

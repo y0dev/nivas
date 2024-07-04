@@ -1,6 +1,6 @@
 import "@babel/polyfill";
 import axios from "axios";
-import { showAlert, showSpinner, hideSpinner } from "./utilities";
+import { showAlert, showSpinner, hideSpinner, updateMap } from "./utilities";
 
 const port = process.env.PORT || 3000;
 
@@ -72,7 +72,6 @@ export const searchForMLS = async (mls_string) => {
   }
 
   try {
-    // console.log(url);
     const token = localStorage.getItem("token");
     // display loading overlay when making API call
     const res = await axios({
@@ -83,11 +82,12 @@ export const searchForMLS = async (mls_string) => {
       url: url,
       data: data,
     });
-    showSpinner();
+    
     const {
       zipCode,
       cityState,
       listings,
+      coordinates,
       twoBedsQuartile,
       threeBedsQuartile,
       status,
@@ -285,8 +285,9 @@ export const searchForMLS = async (mls_string) => {
           // Append the font element to the table cell
           availCell.appendChild(font);
         }
-      });
-      hideSpinner()
+      }); // End for loop
+      
+      updateMap({ lat: coordinates.latitude, lng: coordinates.latitude });
       //   window.setTimeout(() => {
       //     location.assign("/");
       //   }, 1500);
@@ -338,7 +339,6 @@ export const getSearchHistory = async () => {
       }
 
       for (const resItem of results) {
-        // console.log(resItem);
         // List Styling
         const listItem = document.createElement("li");
         listItem.className =

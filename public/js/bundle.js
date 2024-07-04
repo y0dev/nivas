@@ -12111,6 +12111,34 @@ function showMap(coordinates) {
  */
 function updateMap(coordinates) {
   var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+  var mapElement = document.getElementById('map');
+  console.log(coordinates);
+  if (!mapElement) {
+    console.error('Map element not found');
+    return;
+  }
+  var map = new google.maps.Map(mapElement, {
+    center: {
+      lat: coordinates.lat,
+      lng: coordinates.lng
+    },
+    zoom: 20
+  });
+
+  // Draw the circle
+  var circle = new google.maps.Circle({
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35,
+    map: map,
+    center: {
+      lat: coordinates.lat,
+      lng: coordinates.lng
+    },
+    radius: radius
+  });
   if (map && circle) {
     // Update the circle's center and radius
     circle.setCenter(new google.maps.LatLng(coordinates.lat, coordinates.lng));
@@ -12515,7 +12543,7 @@ function checkAvailability(availability) {
 }
 var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(mls_string) {
-    var url, data, zip_code, _getCityAndState, city, state, token, res, _res$data, zipCode, cityState, listings, twoBedsQuartile, threeBedsQuartile, status, searchInfoSpan, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
+    var url, data, zip_code, _getCityAndState, city, state, token, res, _res$data, zipCode, cityState, listings, coordinates, twoBedsQuartile, threeBedsQuartile, status, searchInfoSpan, table, tbody, i, twoBedTable, q1TwoCell, q2TwoCell, q3TwoCell, threeBedTable, q1ThreeCell, q2ThreeCell, q3ThreeCell;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -12549,7 +12577,6 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
           return _context.abrupt("return");
         case 14:
           _context.prev = 14;
-          // console.log(url);
           token = localStorage.getItem("token"); // display loading overlay when making API call
           _context.next = 18;
           return (0, _axios.default)({
@@ -12562,8 +12589,7 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
           });
         case 18:
           res = _context.sent;
-          (0, _utilities.showSpinner)();
-          _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
+          _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, coordinates = _res$data.coordinates, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
           if (status === "success") {
             searchInfoSpan = document.querySelector("#search-results .search-info span");
             searchInfoSpan.textContent = "".concat(cityState, " ").concat(zipCode);
@@ -12718,22 +12744,26 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
                 // Append the font element to the table cell
                 availCell.appendChild(font);
               }
+            }); // End for loop
+
+            (0, _utilities.updateMap)({
+              lat: coordinates.latitude,
+              lng: coordinates.latitude
             });
-            (0, _utilities.hideSpinner)();
             //   window.setTimeout(() => {
             //     location.assign("/");
             //   }, 1500);
           }
-          _context.next = 26;
+          _context.next = 25;
           break;
-        case 24:
-          _context.prev = 24;
+        case 23:
+          _context.prev = 23;
           _context.t0 = _context["catch"](14);
-        case 26:
+        case 25:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[14, 24]]);
+    }, _callee, null, [[14, 23]]);
   }));
   return function searchForMLS(_x) {
     return _ref.apply(this, arguments);
@@ -12810,7 +12840,6 @@ var getSearchHistory = exports.getSearchHistory = /*#__PURE__*/function () {
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 resItem = _step.value;
-                // console.log(resItem);
                 // List Styling
                 listItem = document.createElement("li");
                 listItem.className = "relative flex justify-between px-4 py-2 pl-0 mb-2 border-0 rounded-t-inherit text-inherit rounded-xl";
@@ -13694,7 +13723,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59165" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49156" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
