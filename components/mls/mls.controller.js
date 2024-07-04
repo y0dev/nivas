@@ -69,22 +69,23 @@ exports.searchByZipCode = catchAsync(async (req, res, next) => {
   const MAX_LENGTH = userSettings.maxAmountResults;
 
   try {
-    const mapBounds = await retrieveZipCodeSearchParameters(cleanZipCode);
+    const searchParams = await retrieveZipCodeSearchParameters(cleanZipCode);
     const searchTerm = `"${cleanZipCode}"`;
 
-    const numOfPages = await retrieveNumberOfPages(cleanZipCode, mapBounds);
+    console.log(searchParams)
+    const numOfPages = await retrieveNumberOfPages(cleanZipCode, searchParams.bounds);
     if (numOfPages === 0) {
       return next(new AppError("Cannot retrieve results", 401));
     }
 
     logger.debug(`Number of Pages: ${numOfPages}`);
-    const results = await retrieveResults(searchTerm, numOfPages, mapBounds);
+    const results = await retrieveResults(searchTerm, numOfPages, searchParams.bounds);
     if (results.length === 0) {
       logger.debug(`No results at this zip code ${cleanZipCode}`);
       return res.json({ results: [], status: "unsuccess" });
     }
 
-    const { twoBeds, threeBeds } = await assignPercentiles(results);
+    const { twoBeds, threeBeds } = await assignPercentiles(results, searchParams.coordinates);
     const { trucResults, s_id: searchId } = await truncateResultList(searchTerm, results);
 
     await saveSearchHistory(userId, searchId);
@@ -281,9 +282,12 @@ async function retrieveCityStateSearchParameters(city, state) {
   const response = await axios.get(regionUrl, { headers: urlHeaders });
 
   const data = response.data;
+  const $ = cheerio.load(data);
+  const script = $("script[type*=application/json]");
+  const coords = getCoordFromScript(script);
   const position = data.search(/"queryState"/);
   const bounds = data.substring(position + 14, data.lastIndexOf("6}]") + 3);
-  return bounds;
+  return { bounds: bounds, coordinates: coords};
 }
 
 // Helper function to retrieve zip code search parameters
@@ -292,10 +296,13 @@ async function retrieveZipCodeSearchParameters(zipCode) {
   const response = await axios.get(regionUrl, { headers: urlHeaders });
 
   const data = response.data;
+  const $ = cheerio.load(data);
+  const script = $("script[type*=application/json]");
+  const coords = getCoordFromScript(script);
   const position = data.search(/"queryState"/);
   const boundsString = data.substring(position + 14, data.lastIndexOf("7}]") + 3);
   const boundsObject = JSON.parse(`{${boundsString}}`); // Parse the string into JSON object
-  return boundsObject;
+  return { bounds: boundsObject, coordinates: coords};
 }
 
 // Helper function to retrieve results
@@ -306,7 +313,6 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
     const reqId = Math.floor((Math.random() + 1) * 5);
     const payload = createPayload(searchTerm, bounds, reqId);
     const url = `https://www.zillow.com/async-create-search-page-state`;
-    // const url = `https://www.zillow.com/search/GetSearchPageState.htm?searchQueryState={"pagination":{"currentPage":${idx}},"usersSearchTerm":${searchTerm},${bounds},"isMapVisible":true,"filterState":{"price":{"min":100000},"monthlyPayment":{"min":495},"sortSelection":{"value":"days"},"isAllHomes":{"value":true}},"isListVisible":true,"mapZoom":12}&wants={"cat1":["listResults","mapResults"],"cat2":["total"]}&requestId=${reqId}`;
     urlHeaders["Content-Type"] = "application/json";
   
     try {
@@ -356,27 +362,46 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
 }
 
 // Helper function to assign percentiles
-async function assignPercentiles(listings) {
+async function assignPercentiles(listings, coordinates) {
   const results = { twoBeds: {}, threeBeds: {} };
   
   const twoBedsListing = listings.find(listing => listing.beds === 2 && /\d/.test(listing.address));
   const threeBedsListing = listings.find(listing => listing.beds >= 3 && listing.beds <= 4 && /\d/.test(listing.address));
 
   if (twoBedsListing) {
-    results.twoBeds = await getComparableHomes(twoBedsListing);
+    const queryParams = {
+      address: UtilityService.hyphenateAddress(twoBedsListing.address),
+      lat: coordinates.latitude,
+      lng: coordinates.longitude,
+      modelParams: {
+        bedrooms: twoBedsListing.beds,
+        bathrooms: twoBedsListing.baths,
+        property_type: 'single_family'
+      }
+    }
+    results.twoBeds = await getComparableHomes(twoBedsListing, queryParams);
   }
 
   if (threeBedsListing) {
-    results.threeBeds = await getComparableHomes(threeBedsListing);
+    const queryParams = {
+      address: UtilityService.hyphenateAddress(threeBedsListing.address),
+      lat: coordinates.latitude,
+      lng: coordinates.longitude,
+      modelParams: {
+        bedrooms: threeBedsListing.beds,
+        bathrooms: threeBedsListing.baths,
+        property_type: 'single_family'
+      }
+    }
+    results.threeBeds = await getComparableHomes(threeBedsListing, queryParams);
   }
 
   return results;
 }
 
 // Helper function to get comparable homes
-async function getComparableHomes(listing) {
-  const address = UtilityService.hyphenateAddress(listing.address);
-  
+async function getComparableHomes(listing, queryParams) {
+
   const prices = [];
   const comparable = {
     price: 0,
@@ -389,16 +414,6 @@ async function getComparableHomes(listing) {
   };
 
   const url = `https://awning.com/a/rent-estimator`;
-  const queryParams = {
-    address: address,
-    lat: 33.2459283,
-    lng: -96.5304738,
-    modelParams: {
-      bedrooms: 4,
-      bathrooms: 4,
-      property_type: 'single_family'
-    }
-  }
 
   const url_merge = UtilityService.buildUrl(url, queryParams)
   logger.debug(`Url: ${url_merge}`);
@@ -486,6 +501,45 @@ function getComparablesFromScript(script) {
   }
 
   return null; // Return null if the comparables object is not found
+}
+
+function getCoordFromScript(script) {
+  // Get the text content of the script
+  const text = script.text();
+  
+  // Parse the text content to an array of objects
+  const matches = findLatLong(text);
+
+  // Check if the matches has contents
+  if (matches.length > 0) {
+    return matches[0];
+  }
+
+  return null; // Return null if the matches aren't found
+}
+
+/**
+ * Finds all occurrences of "latLong":{"latitude":<latitude>,"longitude":<longitude>} in a text
+ * and ensures that "latLong" is not null.
+ * 
+ * @param {string} text - The input text to search within.
+ * @returns {Array} - An array of objects containing latitude and longitude.
+ */
+function findLatLong(text) {
+  const latLongPattern = /"latLong":\{"latitude":([\d.-]+),"longitude":([\d.-]+)\}/g;
+  const matches = [];
+  let match;
+
+  while ((match = latLongPattern.exec(text)) !== null) {
+    const latitude = parseFloat(match[1]);
+    const longitude = parseFloat(match[2]);
+
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+      matches.push({ latitude, longitude });
+    }
+  }
+
+  return matches;
 }
 
 // Function to update rental price based on comparable properties
