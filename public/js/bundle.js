@@ -12496,24 +12496,44 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var port = "8000" || 3000;
+
+/**
+ * Check if a string contains a zip code
+ * @param {string} str - The input string
+ * @returns {boolean} - True if the string contains a zip code, false otherwise
+ */
 function containsZipCode(str) {
-  // Match 5 digits with optional 4 digits after a space
   var zipCodeRegex = /\b\d{5}(?:-\d{4})?\b/;
   return zipCodeRegex.test(str);
 }
+
+/**
+ * Extract the zip code from a string
+ * @param {string} str - The input string
+ * @returns {string|null} - The extracted zip code or null if not found
+ */
 function getZipCode(str) {
-  // Match 5 digits with optional 4 digits after a space
   var zipCodeRegex = /\b\d{5}(?:-\d{4})?\b/;
   var match = str.match(zipCodeRegex);
   return match ? match[0] : null;
 }
+
+/**
+ * Check if a string contains a city and state
+ * @param {string} str - The input string
+ * @returns {boolean} - True if the string contains a city and state, false otherwise
+ */
 function containsCityAndState(str) {
-  // Match a city name followed by a comma and 2-letter state code
   var cityStateRegex = /\b[\w\s]+,\s[A-Z]{2}\b/;
   return cityStateRegex.test(str);
 }
+
+/**
+ * Extract the city and state from a string
+ * @param {string} str - The input string
+ * @returns {Object|null} - An object with city and state properties or null if not found
+ */
 function getCityAndState(str) {
-  // Match a city name followed by a comma and 2-letter state code
   var cityStateRegex = /\b[\w\s]+,\s[A-Z]{2}\b/;
   var match = str.match(cityStateRegex);
   if (match) {
@@ -12529,15 +12549,34 @@ function getCityAndState(str) {
     return null;
   }
 }
+
+/**
+ * Calculate the rent to price ratio
+ * @param {number} purchasePrice - The purchase price of the property
+ * @param {number} monthlyRent - The monthly rent
+ * @returns {number} - The rent to price ratio
+ */
 function calcRentToPriceRatio(purchasePrice, monthlyRent) {
   return monthlyRent / purchasePrice * 100;
 }
+
+/**
+ * Convert a number to US currency format
+ * @param {number} number - The input number
+ * @returns {string} - The number formatted as US currency
+ */
 function toUSCurrency(number) {
   return number.toLocaleString("en-US", {
     style: "currency",
     currency: "USD"
   });
 }
+
+/**
+ * Check if a property is available for sale
+ * @param {string} availability - The availability status of the property
+ * @returns {boolean} - True if the property is for sale, false otherwise
+ */
 function checkAvailability(availability) {
   return availability === "FOR_SALE";
 }
@@ -12551,29 +12590,29 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
             _context.next = 6;
             break;
           }
-          zip_code = getZipCode(mls_string); // console.log(zip_code, port);
+          zip_code = getZipCode(mls_string);
           url = "http://localhost:".concat(port, "/api/v1/mls/searchZip");
           data = {
             zip_code: zip_code
           };
-          _context.next = 14;
+          _context.next = 15;
           break;
         case 6:
           if (!containsCityAndState(mls_string)) {
             _context.next = 12;
             break;
           }
-          _getCityAndState = getCityAndState(mls_string), city = _getCityAndState.city, state = _getCityAndState.state; // console.log(city, state);
+          _getCityAndState = getCityAndState(mls_string), city = _getCityAndState.city, state = _getCityAndState.state;
           url = "http://localhost:".concat(port, "/api/v1/mls/searchCS");
           data = {
             city: city,
             state: state
           };
-          _context.next = 14;
+          _context.next = 15;
           break;
         case 12:
           console.log("Failed Parsing");
-          // showAlert("fail", "Missing");
+          (0, _alert.showAlert)("fail", "Missing");
           return _context.abrupt("return");
         case 14:
           _context.prev = 14;
@@ -12587,7 +12626,7 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
             url: url,
             data: data
           });
-        case 18:
+        case 19:
           res = _context.sent;
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, coordinates = _res$data.coordinates, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
           if (status === "success") {
@@ -12754,16 +12793,17 @@ var searchForMLS = exports.searchForMLS = /*#__PURE__*/function () {
             //     location.assign("/");
             //   }, 1500);
           }
-          _context.next = 25;
+          _context.next = 27;
           break;
-        case 23:
-          _context.prev = 23;
-          _context.t0 = _context["catch"](14);
-        case 25:
+        case 24:
+          _context.prev = 24;
+          _context.t0 = _context["catch"](15);
+          (0, _alert.showAlert)("fail", _context.t0.response.data);
+        case 27:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[14, 23]]);
+    }, _callee, null, [[15, 24]]);
   }));
   return function searchForMLS(_x) {
     return _ref.apply(this, arguments);
@@ -12813,7 +12853,7 @@ var downloadResults = exports.downloadResults = /*#__PURE__*/function () {
 }();
 var getSearchHistory = exports.getSearchHistory = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    var token, res, results, historyList, _iterator, _step, resItem, listItem, leftContainer, dateTitle, numResults, rightContainer, pdfButton, pdfIcon, pdfText, date, formattedDate;
+    var token, res;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:

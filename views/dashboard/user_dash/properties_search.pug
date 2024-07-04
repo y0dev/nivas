@@ -79,7 +79,7 @@ block content
                 .flex.justify-between
                   .flex.flex-col.search-info
                     h6.mb-2(class='dark:text-white') Properties
-                    span.text-xs.leading-tight.pb-2 McKinney, TX 75071
+                    span.text-xs.leading-tight.pb-2 Los Angeles, CA 90001
                   button#download-pdf.inline-block.px-8.py-2.mb-0.max-h-xs.text-xs.font-bold.leading-normal.text-center.text-blue-500.align-middle.transition-all.ease-in.bg-transparent.border.border-blue-500.border-solid.rounded-lg.shadow-none.cursor-pointer.bg-150.tracking-tight-rem.bg-x-25(class='active:opacity-85 hover:before:scale-105 hover:-translate-y-px hover:opacity-75')
                     | Download PDF
             .overflow-x-auto.ps
@@ -157,6 +157,7 @@ block content
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap 0.45%
                         td.p-2.align-middle.bg-transparent.border-b.whitespace-nowrap
                           i.bx.bx-check.text-xl.leading-6.relative.text-emerald-500
+<<<<<<< HEAD
       w-full.max-w-full.px-3.mb-6.mt-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2')
         .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class='dark:bg-gray-800 dark:shadow-dark-xl')
           .flex-auto.p-4
@@ -164,3 +165,32 @@ block content
                   .flex-none.max-w-full.px-3(class='w-full')
                       div#map.h-80
                         iframe.w-full.h-full(src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d136124.28401209877!2d-118.19845033590111!3d34.04048440714107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1720121512117!5m2!1sen!2sus", frameborder="0", allowfullscreen="", aria-hidden="false", tabindex="0") 
+=======
+      .w-full.max-w-full.px-3.mb-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2')
+        .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class='dark:bg-gray-800 dark:shadow-dark-xl')
+          .flex-auto.p-4
+              .flex.flex-row.-mx-3
+                  .flex-none.max-w-full.px-3(class='w-3/4 lg:w-5/6')
+                      div#two-bed-table
+                          p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm 2 Bedrooms Quartiles
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold(class='dark:text-white') Q1
+                            p.mb-0(class='dark:text-white dark:opacity-60')
+                              a#q1-value(href="#")
+                                span.font-bold.leading-normal.text-sm.text-emerald-500 $1,200
+
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold(class='dark:text-white') Median
+                            p.mb-0(class='dark:text-white dark:opacity-60')
+                              a#q2-value(href="#")
+                                span.font-bold.leading-normal.text-sm.text-emerald-500 $1,500
+                          
+                          .flex.flex-row.justify-between
+                            h5.mb-2.font-bold(class='dark:text-white') Q3
+                            p.mb-0(class='dark:text-white dark:opacity-60')
+                              a#q3-value(href="#")
+                                span.font-bold.leading-normal.text-sm.text-emerald-500 $1,800
+
+
+                      
+>>>>>>> 56f028f (refactor controller.mls)
