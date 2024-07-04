@@ -267,14 +267,11 @@ async function retrieveNumberOfPages(searchTerm, mapBounds) {
   } catch (error) {
     if (error.config && error.config.data) {
       console.error(error.config);
-      // console.error('Request Payload:', JSON.parse(error.config.data));
+      console.error('Request Payload:', JSON.parse(error.config.data));
     }
     logger.error('Error retrieving number of pages:', error);
     throw error;
-  } finally {
-    // Remove the 'Content-Type' key from urlHeaders
-    delete urlHeaders['Content-Type'];
-  } 
+  }
 }
 
 
@@ -344,7 +341,7 @@ async function retrieveResults(searchTerm, numOfPages, bounds) {
     } catch (error) {
       if (error.config && error.config.data) {
         console.error(error.config);
-        // console.error('Request Payload:', JSON.parse(error.config.data));
+        console.error('Request Payload:', JSON.parse(error.config.data));
       }
       logger.error('Error retrieving number of pages:', error);
       throw error;
@@ -366,22 +363,23 @@ async function assignPercentiles(listings) {
   const threeBedsListing = listings.find(listing => listing.beds >= 3 && listing.beds <= 4 && /\d/.test(listing.address));
 
   if (twoBedsListing) {
-    const firstResultAddress = UtilityService.hyphenateAddress(twoBedsListing.address);
-    results.twoBeds = await getComparableHomes(firstResultAddress);
+    results.twoBeds = await getComparableHomes(twoBedsListing);
   }
 
   if (threeBedsListing) {
-    const secondResultAddress = UtilityService.hyphenateAddress(threeBedsListing.address);
-    results.threeBeds = await getComparableHomes(secondResultAddress);
+    results.threeBeds = await getComparableHomes(threeBedsListing);
   }
 
   return results;
 }
 
 // Helper function to get comparable homes
-async function getComparableHomes(address) {
+async function getComparableHomes(listing) {
+  const address = UtilityService.hyphenateAddress(listing.address);
+  
   const prices = [];
   const comparable = {
+    price: 0,
     minPrice: 0,
     maxPrice: 0,
     averagePrice: 0,
@@ -390,27 +388,45 @@ async function getComparableHomes(address) {
     percentile75th: 0,
   };
 
-  const url = `https://www.zillow.com/rental-manager/price-my-rental/results/${address}`;
-  logger.debug(`Url: ${url}`);
-  const response = await axios.get(url, { headers: urlHeaders });
+  const url = `https://awning.com/a/rent-estimator`;
+  const queryParams = {
+    address: address,
+    lat: 33.2459283,
+    lng: -96.5304738,
+    modelParams: {
+      bedrooms: 4,
+      bathrooms: 4,
+      property_type: 'single_family'
+    }
+  }
+
+  const url_merge = UtilityService.buildUrl(url, queryParams)
+  logger.debug(`Url: ${url_merge}`);
+
+  const response = await axios.get(url_merge, { headers: urlHeaders });
   const $ = cheerio.load(response.data);
 
-  const script = $("script[type*=text/javascript]");
+  const script = $("script[type*=application/json]");
   const comparables = getComparablesFromScript(script);
-  console.log(comparables)
-  const comparableText = text.match(/"comparables":({.*?})/)[1];
-  console.log(comparableText);
-  const json = JSON.parse(comparableText);
-  console.log(json)
-  json.items.forEach(element => {
-    if (element.street !== "(Undisclosed address)" && element.monthlyRent) {
-      prices.push(UtilityService.currencyConverter(element.monthlyRent));
+  const price = updateRentalPriceAwning(listing, comparables);
+  
+  let result = UtilityService.findMinMax(comparables, "askingRent");
+  logger.debug(`Result: ${result.min} - ${result.max}`);
+  
+
+  comparables.forEach(comp => {
+    if (comp.askingRent) {
+      prices.push(comp.askingRent);
     }
   });
 
   const percentiles = UtilityService.calcPercentiles(prices);
-  comparable.minPrice = parseInt(json.min) || 0;
-  comparable.maxPrice = parseInt(json.max) || 0;
+
+  logger.debug(`Percentile: ${percentiles["25th_Percentile"]} - ${percentiles["50th_Percentile"]} - ${percentiles["75th_Percentile"]}`);
+
+  comparable.price = price || 0;
+  comparable.minPrice = result.min || 0;
+  comparable.maxPrice = result.max || 0;
   comparable.averagePrice = (comparable.minPrice + comparable.maxPrice) / 2;
   comparable.percentile25th = percentiles["25th_Percentile"];
   comparable.percentile50th = percentiles["50th_Percentile"];
@@ -453,16 +469,51 @@ function getComparablesFromScript(script) {
   // Get the text content of the script
   const text = script.text();
 
-   // Extract the JSON part from the text content
-  const jsonText = UtilityService.extractJson(text);
-  console.log(jsonText)
-
   // Parse the text content to an object
-  const initialState = UtilityService.safeJsonParse(jsonText);
+  const json = UtilityService.safeJsonParse(text);
+
+  const rentEstimator = UtilityService.findKeyContainingSubstring(json.props.pageProps["__storeData"], "rentEstimatorStore");
+  const data = json.props.pageProps["__storeData"][rentEstimator]
 
   // Check if the initial state and the comparables object exist
-  if (initialState && initialState.address && initialState.address.comparables) {
-    return initialState.address.comparables;
+  if (data && data.state) {
+    const listingJson = UtilityService.safeJsonParse(data.state);
+    return listingJson.listings;
   }
+
   return null; // Return null if the comparables object is not found
+}
+
+// Function to update rental price based on comparable properties
+function updateRentalPriceAwning(currentProperty, comparableProperties) {
+  // Calculate average rent, size, beds, and baths for comparable properties
+  let totalRent = 0;
+  let totalSqft = 0;
+  let totalBeds = 0;
+  let totalBaths = 0;
+
+  comparableProperties.forEach(property => {
+      totalRent += property.askingRent;
+      totalSqft += property.unitSqFt;
+      totalBeds += property.bedroomCount;
+      totalBaths += property.bathroomCount;
+  });
+
+  let avgRent = totalRent / comparableProperties.length;
+  let avgSqft = totalSqft / comparableProperties.length;
+  let avgBeds = totalBeds / comparableProperties.length;
+  let avgBaths = totalBaths / comparableProperties.length;
+
+  // Adjust rental price based on size, beds, and baths differences
+  let sizeDifference = currentProperty.sqft - avgSqft;
+  let bedsDifference = currentProperty.beds - avgBeds;
+  let bathsDifference = currentProperty.baths - avgBaths;
+
+  let rentAdjustment = sizeDifference * 0.1 + bedsDifference * 100 + bathsDifference * 50;
+
+  // Calculate updated rental price
+  let updatedRent = avgRent + rentAdjustment;
+
+  // Return the updated rental price
+  return parseInt(updatedRent);
 }
