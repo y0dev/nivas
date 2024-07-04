@@ -148,21 +148,21 @@ exports.searchByCityState = catchAsync(async (req, res, next) => {
   logger.info(`City:${city}, State: ${state}`);
 
   try {
-    const mapBounds = await retrieveCityStateSearchParameters(city, state);
+    const searchParams = await retrieveCityStateSearchParameters(city, state);
     const searchTerm = `"${city}, ${state}"`.toLowerCase();
 
-    const numOfPages = await retrieveNumberOfPages(searchTerm, mapBounds);
+    const numOfPages = await retrieveNumberOfPages(searchTerm, searchParams.bounds);
     if (numOfPages === 0) {
       return next(new AppError("Cannot retrieve results", 401));
     }
 
-    const results = await retrieveResults(searchTerm, numOfPages, mapBounds);
+    const results = await retrieveResults(searchTerm, numOfPages, searchParams.bounds);
     if (results.length === 0) {
       logger.info(`No results at this city, state ${city}, ${state}`);
       return res.json({ results: [], status: "unsuccess" });
     }
 
-    const { twoBeds, threeBeds } = await assignPercentiles(results);
+    const { twoBeds, threeBeds } = await assignPercentiles(results, searchParams.coordinates);
     const { trucResults, s_id: searchId } = await truncateResultList(searchTerm, results);
 
     await saveSearchHistory(userId, searchId);
@@ -336,10 +336,12 @@ async function retrieveCityStateSearchParameters(city, state) {
 
   const data = response.data;
   const $ = cheerio.load(data);
-  const script = $("script[type*=application/json]");
+  const script = $("script[type*=application/json][id=\"__NEXT_DATA__\"]");
   const coords = getCoordFromScript(script);
-  const position = data.search(/"queryState"/);
-  const bounds = data.substring(position + 14, data.lastIndexOf("6}]") + 3);
+
+  const text = script.text();
+  const bounds = findZillowBounds(text);
+
   return { bounds: bounds, coordinates: coords};
 }
 
@@ -354,12 +356,13 @@ async function retrieveZipCodeSearchParameters(zipCode) {
 
   const data = response.data;
   const $ = cheerio.load(data);
-  const script = $("script[type*=application/json]");
+  const script = $("script[type*=application/json][id=\"__NEXT_DATA__\"]");
   const coords = getCoordFromScript(script);
-  const position = data.search(/"queryState"/);
-  const boundsString = data.substring(position + 14, data.lastIndexOf("7}]") + 3);
-  const boundsObject = JSON.parse(`{${boundsString}}`); // Parse the string into JSON object
-  return { bounds: boundsObject, coordinates: coords};
+
+  const text = script.text();
+  const bounds = findZillowBounds(text);
+
+  return { bounds: bounds, coordinates: coords};
 }
 
 /**
@@ -630,6 +633,46 @@ function findLatLong(text) {
 
   return matches;
 }
+
+/**
+ * Parses the given text to extract Zillow bounds and region selection.
+ * @param {string} text - The text to search for Zillow bounds and region selection.
+ * @returns {object|null} An object containing parsed map bounds and region selection,
+ *                        or null if either query state or region selection is not found or parsed.
+ */
+function findZillowBounds(text) {
+  // Regex patterns to find "queryState" and "regionSelection" objects
+  const queryStateRegex = /"queryState"\s*:\s*({[^}]*})/;
+  const regionRegex = /"regionSelection"\s*:\s*\[\s*{[^{}]*}\s*]/;
+
+  // Attempt to match the regex patterns in the given text
+  const queryStateMatch = text.match(queryStateRegex);
+  const regionMatch = text.match(regionRegex);
+
+  // If both queryState and regionSelection are found, attempt to parse them
+  if (queryStateMatch && queryStateMatch[1] && regionMatch && regionMatch[0]) {
+    try {
+      // Concatenate missing closing braces and parse JSON safely
+      const queryState = queryStateMatch[1].concat("}");
+      const queryStateParsed = UtilityService.safeJsonParse(queryState);
+
+      const regionSelection = "{".concat(regionMatch[0], "}");
+      const regionSelectionParsed = UtilityService.safeJsonParse(regionSelection);
+
+      // Return parsed mapBounds and regionSelection
+      return {
+        mapBounds: queryStateParsed["mapBounds"],
+        regionSelection: regionSelectionParsed["regionSelection"],
+      };
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+  }
+
+  // Return null if either query state or region selection is not found or parsed
+  return null;
+}
+
 
 /**
  * Function to update rental price based on comparable properties
