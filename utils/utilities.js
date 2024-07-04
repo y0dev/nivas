@@ -1,45 +1,37 @@
 const { compare, genSalt, hash } = require("bcryptjs");
-const { v1 } = require("uuid");
+const { v1: uuidv1 } = require("uuid");
 const crypto = require("crypto");
-
 const logger = require("./logger").logger;
 
-/*
-  Youtube Video from Joshua Baldovino
-  on Analyzing Zillow Data Automatically
-  https://www.youtube.com/watch?v=D9jnmz_93XI
-*/
-
+/**
+ * UtilityService Class
+ * Contains various utility methods used throughout the application
+ */
 class UtilityService {
   /**
-   * Error handler
-   *
-   * @param {Error} err
-   * @returns
+   * Logs an error using the logger and console
+   * @param {Error} err - The error to log
    */
   static handleError(err) {
     logger.error(err.stack || err);
-    console.log(err.stack || err);
+    console.error(err.stack || err);
   }
 
   /**
-   * Hash plain password
-   *
-   * @param plainPassword Password to hash
-   * @returns hashed password
+   * Hashes a plain password using bcrypt
+   * @param {string} plainPassword - The password to hash
+   * @returns {Promise<string>} - The hashed password
    */
   static hashPassword(plainPassword) {
     return new Promise((resolve, reject) => {
       genSalt((err, salt) => {
         if (err) {
-          reject(err);
+          return reject(err);
         }
-
         hash(plainPassword, salt, (error, hashedVal) => {
           if (error) {
-            reject(error);
+            return reject(error);
           }
-
           resolve(hashedVal);
         });
       });
@@ -47,17 +39,16 @@ class UtilityService {
   }
 
   /**
-   * Compares plain password with hashed password
-   *
-   * @param plainPassword Plain password to compare
-   * @param hashedPassword Hashed password to compare
-   * @returns whether passwords match
+   * Compares a plain password with a hashed password
+   * @param {string} plainPassword - The plain password
+   * @param {string} hashedPassword - The hashed password
+   * @returns {Promise<boolean>} - Whether the passwords match
    */
   static verifyPassword(plainPassword, hashedPassword) {
     return new Promise((resolve, reject) => {
       compare(plainPassword, hashedPassword, (err, res) => {
         if (err) {
-          reject(err);
+          return reject(err);
         }
         resolve(res);
       });
@@ -65,46 +56,55 @@ class UtilityService {
   }
 
   /**
-   * Hash string with sha256 algorithm
-   *
-   * @param text String to hash
-   * @returns Returns hashed string
+   * Hashes a string using SHA-256 algorithm
+   * @param {string} text - The string to hash
+   * @returns {string} - The hashed string
    */
   static hashString(text) {
     return crypto.createHash("sha256").update(text).digest("hex");
   }
 
   /**
-   * Generate UUID
-   *
-   * @returns UUID
+   * Generates a UUID (version 1)
+   * @returns {string} - The generated UUID
    */
   static generateUuid() {
-    return v1();
-  }
-
-  // helper functions (degrees<–>radians)
-  static #degToRad(number) {
-    return number * (Math.PI / 180);
-  }
-
-  static #radToDeg(number) {
-    return (180 * number) / Math.PI;
-  }
-
-  static async sleep(seconds) {
-    await new Promise((r) => setTimeout(r, seconds * 1000));
+    return uuidv1();
   }
 
   /**
-   * @param {number} distance - distance (km) from the point represented by centerPoint
-   * @param {array[2]} centerPoint - two-dimensional array containing center coords [latitude, longitude]
-   * @description
-   *   Computes the bounding coordinates of all points on the surface of a sphere
-   *   that has a great circle distance to the point represented by the centerPoint
-   *   argument that is less or equal to the distance argument.
-   *   Technique from: Jan Matuschek <http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates>
-   * @author Alex Salisbury
+   * Converts degrees to radians
+   * @param {number} degrees - The value in degrees
+   * @returns {number} - The value in radians
+   */
+  static #degToRad(degrees) {
+    return degrees * (Math.PI / 180);
+  }
+
+  /**
+   * Converts radians to degrees
+   * @param {number} radians - The value in radians
+   * @returns {number} - The value in degrees
+   */
+  static #radToDeg(radians) {
+    return (180 * radians) / Math.PI;
+  }
+
+  /**
+   * Sleeps for a given number of seconds
+   * @param {number} seconds - The number of seconds to sleep
+   * @returns {Promise<void>}
+   */
+  static async sleep(seconds) {
+    await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+  }
+
+  /**
+   * Computes the bounding box of all points on the surface of a sphere
+   * that are within a given distance of a center point
+   * @param {number[]} centerPoint - The center coordinates [latitude, longitude]
+   * @param {number} distance - The distance (in km) from the center point
+   * @returns {number[]} - The bounding box coordinates [minLon, minLat, maxLon, maxLat]
    */
   static getBoundingBox(centerPoint, distance) {
     if (centerPoint.length !== 2) {
@@ -112,53 +112,40 @@ class UtilityService {
       return [null];
     }
 
-    let minLat, maxLat, minLon, maxLon;
+    const [degLat, degLon] = centerPoint;
+    const RADIUS = 6378.1; // Earth's radius in km
+    const radDist = distance / RADIUS;
 
-    // coordinate limits
+    const radLat = this.#degToRad(degLat);
+    const radLon = this.#degToRad(degLon);
+
     const MIN_LAT = this.#degToRad(-90);
     const MAX_LAT = this.#degToRad(90);
     const MIN_LON = this.#degToRad(-180);
     const MAX_LON = this.#degToRad(180);
 
-    // Earth's radius (km)
-    const RADIUS = 6378.1;
+    let minLat = radLat - radDist;
+    let maxLat = radLat + radDist;
+    let minLon, maxLon;
 
-    // angular distance in radians on a great circle
-    const radDist = distance / RADIUS;
-
-    // center point coordinates (deg)
-    const [degLat, degLon] = centerPoint;
-
-    // center point coordinates (rad)
-    const radLat = this.#degToRad(degLat);
-    const radLon = this.#degToRad(degLon);
-
-    // minimum and maximum latitudes for given distance
-    minLat = radLat - radDist;
-    maxLat = radLat + radDist;
-    // minimum and maximum longitudes for given distance
-    minLon = void 0;
-    maxLon = void 0;
-
-    // define deltaLon to help determine min and max longitudes
     const deltaLon = Math.asin(Math.sin(radDist) / Math.cos(radLat));
+
     if (minLat > MIN_LAT && maxLat < MAX_LAT) {
       minLon = radLon - deltaLon;
       maxLon = radLon + deltaLon;
       if (minLon < MIN_LON) {
-        minLon = minLon + 2 * Math.PI;
+        minLon += 2 * Math.PI;
       }
       if (maxLon > MAX_LON) {
-        maxLon = maxLon - 2 * Math.PI;
+        maxLon -= 2 * Math.PI;
       }
-    }
-    // a pole is within the given distance
-    else {
+    } else {
       minLat = Math.max(minLat, MIN_LAT);
       maxLat = Math.min(maxLat, MAX_LAT);
       minLon = MIN_LON;
       maxLon = MAX_LON;
     }
+
     return [
       this.#radToDeg(minLon),
       this.#radToDeg(minLat),
@@ -168,101 +155,81 @@ class UtilityService {
   }
 
   /**
-   * @param {string} currency - currency needed to be converted into a number
-   * @description
-   *   Transforms a string currency into a number
-   * @author Devontae Reid
+   * Converts a currency string to a number
+   * @param {string} currency - The currency string
+   * @returns {number} - The numeric value of the currency
    */
   static currencyConverter(currency) {
     return Number(currency.replace(/[^0-9.-]+/g, ""));
   }
 
   /**
-   * @param {number} num1 - numerator
-   * @param {number} num2 - denominator
-   * @description
-   *   Calculates the percentage of two given numbers
-   * @author Devontae Reid
+   * Calculates the percentage of two numbers
+   * @param {number} num1 - The numerator
+   * @param {number} num2 - The denominator
+   * @returns {number} - The percentage
    */
   static percentage(num1, num2) {
     return Number(((num1 / num2) * 100).toFixed(2));
   }
 
   /**
-   * @param {string} address
-   * @description
-   *   Replace spaces and commas with hyphens
-   * @author Devontae Reid
+   * Replaces spaces and commas in an address with hyphens
+   * @param {string} address - The address string
+   * @returns {string} - The hyphenated address
    */
   static hyphenateAddress(address) {
     return address.replace(/[\s,]+/g, "-");
   }
 
   /**
-   * @param {number[]} number - list of numbers
-   * @description
-   *   Calculates the percentiles for a given array of numbers
-   * @author Devontae Reid
+   * Calculates the percentiles for an array of numbers
+   * @param {number[]} numbers - The array of numbers
+   * @returns {Object} - The percentiles {25th_Percentile, 50th_Percentile, 75th_Percentile}
    */
   static calcPercentiles(numbers) {
     const filteredNumbers = numbers.filter((num) => !isNaN(num));
-    // sort array ascending
     const asc = (arr) => arr.sort((a, b) => a - b);
-
     const sum = (arr) => arr.reduce((a, b) => a + b, 0);
-
     const mean = (arr) => sum(arr) / arr.length;
-
-    // sample standard deviation
     const std = (arr) => {
       const mu = mean(arr);
       const diffArr = arr.map((a) => (a - mu) ** 2);
       return Math.sqrt(sum(diffArr) / (arr.length - 1));
     };
-
     const quartile = (arr, q) => {
       const sorted = asc(arr);
       const pos = (sorted.length - 1) * q;
       const base = Math.floor(pos);
       const rest = pos - base;
-      if (sorted[base + 1] !== undefined) {
-        return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-      } else {
-        return sorted[base];
-      }
+      return sorted[base + 1] !== undefined
+        ? sorted[base] + rest * (sorted[base + 1] - sorted[base])
+        : sorted[base];
     };
 
-    const q25 = (arr) => quartile(arr, 0.25);
-
-    const q50 = (arr) => quartile(arr, 0.5);
-
-    const q75 = (arr) => quartile(arr, 0.75);
-
-    const median = (arr) => q50(arr);
-
     return {
-      "25th_Percentile": q25(filteredNumbers),
-      "50th_Percentile": median(filteredNumbers),
-      "75th_Percentile": q75(filteredNumbers),
+      "25th_Percentile": quartile(filteredNumbers, 0.25),
+      "50th_Percentile": quartile(filteredNumbers, 0.5),
+      "75th_Percentile": quartile(filteredNumbers, 0.75),
     };
   }
 
   /**
-   * Calculates the rent-to-price ratio of a property given its purchase price and monthly rent.
-   * @param {number} purchasePrice - The purchase price of the property.
-   * @param {number} monthlyRent - The monthly rent of the property.
-   * @returns {number} The rent-to-price ratio, expressed as a decimal.
+   * Calculates the rent-to-price ratio of a property
+   * @param {number} purchasePrice - The purchase price of the property
+   * @param {number} monthlyRent - The monthly rent of the property
+   * @returns {number} - The rent-to-price ratio
    */
   static calcRentToPriceRatio(purchasePrice, monthlyRent) {
     return (monthlyRent * 12) / purchasePrice;
   }
 
   /**
-   * Calculates the rental yield of a property given its purchase price, monthly rent, and additional expenses.
-   * @param {number} purchasePrice - The purchase price of the property.
-   * @param {number} monthlyRent - The monthly rent of the property.
-   * @param {number} additionalExpenses - The additional expenses associated with the property, such as property taxes, insurance, and maintenance costs.
-   * @returns {number} The rental yield, expressed as a decimal.
+   * Calculates the rental yield of a property
+   * @param {number} purchasePrice - The purchase price of the property
+   * @param {number} monthlyRent - The monthly rent of the property
+   * @param {number} additionalExpenses - Additional expenses (e.g., taxes, insurance)
+   * @returns {number} - The rental yield
    */
   static calcRentalYield(purchasePrice, monthlyRent, additionalExpenses) {
     const annualGrossIncome = monthlyRent * 12;
@@ -271,34 +238,38 @@ class UtilityService {
   }
 
   /**
-   * Get the max number of requests a month.
-   * @param {string} subscriptionTier - Tier of user.
-   * @returns {number} The rental yield, expressed as a decimal.
+   * Gets user subscription settings based on the tier
+   * @param {string} subscriptionTier - The subscription tier
+   * @returns {Object} - The user settings {maxAmountResults, maxAmountSearches}
    */
   static getUserSubscription(subscriptionTier) {
     const userSettings = {
       maxAmountResults: 0,
       maxAmountSearches: 0,
     };
-    const tier = subscriptionTier.toLowerCase();
-    if (tier === "free") {
-      userSettings.maxAmountResults = 10;
-      userSettings.maxAmountSearches = 20;
-    } else if (tier === "basic") {
-      userSettings.maxAmountResults = 25;
-      userSettings.maxAmountSearches = 50;
-    } else if (tier === "premium") {
-      userSettings.maxAmountResults = Number.MAX_SAFE_INTEGER;
-      userSettings.maxAmountSearches = 100;
+
+    switch (subscriptionTier.toLowerCase()) {
+      case "free":
+        userSettings.maxAmountResults = 10;
+        userSettings.maxAmountSearches = 20;
+        break;
+      case "basic":
+        userSettings.maxAmountResults = 25;
+        userSettings.maxAmountSearches = 50;
+        break;
+      case "premium":
+        userSettings.maxAmountResults = Number.MAX_SAFE_INTEGER;
+        userSettings.maxAmountSearches = 100;
+        break;
     }
+
     return userSettings;
   }
 
   /**
-   * @param {json} text - text to convert to json
-   * @description
-   *   Function to safely parse JSON
-   * @author Devontae Reid
+   * Safely parses JSON text
+   * @param {string} text - The JSON text to parse
+   * @returns {Object|null} - The parsed JSON object or null if parsing fails
    */
   static safeJsonParse(text) {
     try {
@@ -310,98 +281,76 @@ class UtilityService {
   }
 
   /**
-   * @param {string} text - text to retrieve json from
-   * @description
-   *   Function to extract JSON from script text content
-   * @returns {json} json object from script
-   * @author Devontae Reid
+   * Extracts JSON from a script text content
+   * @param {string} text - The script text content
+   * @returns {Object|null} - The extracted JSON object or null if not found
    */
   static extractJson(text) {
     const jsonStringMatch = text.match(/{.*}/s);
     if (jsonStringMatch) {
-      return jsonStringMatch[0];
+      return JSON.parse(jsonStringMatch[0]);
     }
     console.error("No JSON object found in script text.");
     return null;
   }
 
   /**
-   * @param {string} baseUrl - base url
-   * @param {json} queryParams - json object
-   * @description
-   *   creates a url from the query parameters
-   * @returns {string} merge query and url
-   * @author Devontae Reid
+   * Builds a URL from a base URL and query parameters
+   * @param {string} baseUrl - The base URL
+   * @param {Object} queryParams - The query parameters
+   * @returns {string} - The constructed URL
    */
   static buildUrl(baseUrl, queryParams) {
     let url = baseUrl;
-    let isFirstParam = true;
-  
-    // Check if the baseUrl already has query parameters
-    if (baseUrl.includes('?')) {
-      isFirstParam = false;
-    }
-  
-    for (let key in queryParams) {
+    let isFirstParam = !baseUrl.includes('?');
+
+    for (const key in queryParams) {
       if (queryParams.hasOwnProperty(key)) {
         const value = key === 'modelParams' ? JSON.stringify(queryParams[key]) : queryParams[key];
         const encodedValue = encodeURIComponent(value);
-        if (isFirstParam) {
-          url += `?${key}=${encodedValue}`;
-          isFirstParam = false;
-        } else {
-          url += `&${key}=${encodedValue}`;
-        }
+        url += isFirstParam ? `?${key}=${encodedValue}` : `&${key}=${encodedValue}`;
+        isFirstParam = false;
       }
     }
     return url;
   }
 
   /**
-   * @param {json} obj - json object
-   * @param {number} substring - substring of value
-   * @description
-   *   Find the key in json object that matches substring
-   * @author Devontae Reid
+   * Finds a key in a JSON object that contains a specific substring
+   * @param {Object} obj - The JSON object
+   * @param {string} substring - The substring to search for
+   * @returns {string|null} - The matching key or null if not found
    */
   static findKeyContainingSubstring(obj, substring) {
-    const keys = Object.keys(obj);
-    for (let key of keys) {
-      if (key.includes(substring)) {
-        return key;
-      }
-    }
-    return null;
+    return Object.keys(obj).find(key => key.includes(substring)) || null;
   }
 
   /**
-   * @param {array} arr - numerator
-   * @param {number} propName - name of property that contain numerical value
-   * @description
-   *   Find the min and max value in array of json objects
-   * @author Devontae Reid
+   * Finds the min and max values in an array of JSON objects
+   * @param {Object[]} arr - The array of JSON objects
+   * @param {string} propName - The property name to search for numeric values
+   * @returns {Object} - The min and max values {min, max}
    */
   static findMinMax(arr, propName) {
     if (!Array.isArray(arr) || arr.length === 0) {
-        return { min: undefined, max: undefined };
+      return { min: undefined, max: undefined };
     }
 
     let minVal = arr[0][propName];
     let maxVal = arr[0][propName];
 
     for (let i = 1; i < arr.length; i++) {
-        let val = arr[i][propName];
-        if (val < minVal) {
-            minVal = val;
-        }
-        if (val > maxVal) {
-            maxVal = val;
-        }
+      const val = arr[i][propName];
+      if (val < minVal) {
+        minVal = val;
+      }
+      if (val > maxVal) {
+        maxVal = val;
+      }
     }
 
     return { min: minVal, max: maxVal };
-}
-  
+  }
 }
 
 module.exports = UtilityService;
