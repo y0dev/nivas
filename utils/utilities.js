@@ -294,7 +294,12 @@ class UtilityService {
     return userSettings;
   }
 
-  // Function to safely parse JSON
+  /**
+   * @param {json} text - text to convert to json
+   * @description
+   *   Function to safely parse JSON
+   * @author Devontae Reid
+   */
   static safeJsonParse(text) {
     try {
       return JSON.parse(text);
@@ -304,7 +309,13 @@ class UtilityService {
     }
   }
 
-  // Function to extract JSON from script text content
+  /**
+   * @param {string} text - text to retrieve json from
+   * @description
+   *   Function to extract JSON from script text content
+   * @returns {json} json object from script
+   * @author Devontae Reid
+   */
   static extractJson(text) {
     const jsonStringMatch = text.match(/{.*}/s);
     if (jsonStringMatch) {
@@ -314,6 +325,14 @@ class UtilityService {
     return null;
   }
 
+  /**
+   * @param {string} baseUrl - base url
+   * @param {json} queryParams - json object
+   * @description
+   *   creates a url from the query parameters
+   * @returns {string} merge query and url
+   * @author Devontae Reid
+   */
   static buildUrl(baseUrl, queryParams) {
     let url = baseUrl;
     let isFirstParam = true;
@@ -338,6 +357,13 @@ class UtilityService {
     return url;
   }
 
+  /**
+   * @param {json} obj - json object
+   * @param {number} substring - substring of value
+   * @description
+   *   Find the key in json object that matches substring
+   * @author Devontae Reid
+   */
   static findKeyContainingSubstring(obj, substring) {
     const keys = Object.keys(obj);
     for (let key of keys) {
@@ -348,6 +374,13 @@ class UtilityService {
     return null;
   }
 
+  /**
+   * @param {array} arr - numerator
+   * @param {number} propName - name of property that contain numerical value
+   * @description
+   *   Find the min and max value in array of json objects
+   * @author Devontae Reid
+   */
   static findMinMax(arr, propName) {
     if (!Array.isArray(arr) || arr.length === 0) {
         return { min: undefined, max: undefined };
