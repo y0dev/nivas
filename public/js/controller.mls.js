@@ -107,6 +107,7 @@ export const searchForMLS = async (mls_string) => {
       url: url,
       data: data,
     });
+
     const {
       zipCode,
       cityState,
