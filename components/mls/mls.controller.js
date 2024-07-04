@@ -408,7 +408,11 @@ async function getComparableHomes(listing) {
 
   const script = $("script[type*=application/json]");
   const comparables = getComparablesFromScript(script);
-  const price = updateRentalPriceAwning(listing, comparables);
+
+  let price = undefined;
+  if (comparables[0] && comparables[0].askingRent) {
+    price = updateRentalPriceAwning(listing, comparables);
+  }
   
   let result = UtilityService.findMinMax(comparables, "askingRent");
   logger.debug(`Result: ${result.min} - ${result.max}`);
