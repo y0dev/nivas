@@ -1,6 +1,6 @@
 import "@babel/polyfill";
 import axios from "axios";
-import { showAlert } from "./alert";
+import { showAlert } from "./utilities";
 
 const port = process.env.PORT || 3000;
 

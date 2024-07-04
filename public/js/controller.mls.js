@@ -1,6 +1,6 @@
 import "@babel/polyfill";
 import axios from "axios";
-import { showAlert } from "./alert";
+import { showAlert, showSpinner, hideSpinner } from "./utilities";
 
 const port = process.env.PORT || 3000;
 
@@ -83,6 +83,7 @@ export const searchForMLS = async (mls_string) => {
       url: url,
       data: data,
     });
+    showSpinner();
     const {
       zipCode,
       cityState,
@@ -92,13 +93,6 @@ export const searchForMLS = async (mls_string) => {
       status,
     } = res.data;
     if (status === "success") {
-      // console.log(
-      //   zipCode,
-      //   cityState,
-      //   listings,
-      //   twoBedsQuartile,
-      //   threeBedsQuartile
-      // );
       const searchInfoSpan = document.querySelector(
         "#search-results .search-info span"
       );
@@ -292,7 +286,7 @@ export const searchForMLS = async (mls_string) => {
           availCell.appendChild(font);
         }
       });
-
+      hideSpinner()
       //   window.setTimeout(() => {
       //     location.assign("/");
       //   }, 1500);

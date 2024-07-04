@@ -40,9 +40,18 @@ const getUserId = (req) => {
  * @param {string} searchId - The search ID
  */
 const saveSearchHistory = async (userId, searchId) => {
-  const user = await User.findById(userId);
-  user.searchHistory.push(searchId);
-  await user.save();
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.searchHistory.push(searchId);
+    await user.save();
+  } catch (error) {
+    console.error('Error saving search history:', error);
+    // Optionally, you can rethrow the error or handle it in another way
+    throw error;
+  }
 };
 
 /**
