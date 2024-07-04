@@ -30,7 +30,7 @@ let urlHeaders = {
  */
 const getUserId = (req) => {
   return process.env.NODE_ENV === "development"
-    ? "648d20625900ad8cee2c6fca"
+    ? process.env.DEV_OBJ_ID
     : req.user.id;
 };
 
