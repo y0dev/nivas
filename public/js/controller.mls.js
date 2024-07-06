@@ -112,24 +112,24 @@ export const searchForMLS = async (mls_string) => {
       zipCode,
       cityState,
       listings,
-      coordinates,
+      coord,
       twoBedsQuartile,
       threeBedsQuartile,
       status,
     } = res.data;
-
+    console.log(coord)
     if (status === "success") {
       updateSearchResults(
         zipCode,
         cityState,
         listings,
-        coordinates,
+        coord,
         twoBedsQuartile,
         threeBedsQuartile
       );
     }
   } catch (err) {
-    showAlert("fail", err.response.data);
+    showAlert("fail", err);
   }
 };
 
@@ -141,7 +141,7 @@ export const searchForMLS = async (mls_string) => {
  * @param {Object} twoBedsQuartile - Quartile data for two-bedroom properties
  * @param {Object} threeBedsQuartile - Quartile data for three-bedroom properties
  */
-function updateSearchResults(zipCode, cityState, listings, twoBedsQuartile, threeBedsQuartile) {
+function updateSearchResults(zipCode, cityState, listings, coordinates, twoBedsQuartile, threeBedsQuartile) {
   const searchInfoSpan = document.querySelector(
     "#search-results .search-info span"
   );
@@ -160,6 +160,8 @@ function updateSearchResults(zipCode, cityState, listings, twoBedsQuartile, thre
 
   // Add listings to the table
   listings.forEach((listing) => addListingToTable(tbody, listing, twoBedsQuartile, threeBedsQuartile));
+
+  updateMap({ lat: coordinates.latitude, lng: coordinates.longitude });
 }
 
 /**
@@ -180,8 +182,6 @@ function updateQuartileTable(tableId, quartileData) {
   updateCellColor(q1Cell);
   updateCellColor(q2Cell);
   updateCellColor(q3Cell);
-
-  updateMap({ lat: coordinates.latitude, lng: coordinates.latitude });
 }
 
 /**
