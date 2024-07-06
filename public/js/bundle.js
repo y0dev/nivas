@@ -12887,7 +12887,7 @@ var define;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.subscribe = exports.signup = exports.logout = exports.login = void 0;
+exports.subscribe = exports.signup = exports.purchaseSubscription = exports.logout = exports.login = void 0;
 require("core-js/modules/es6.array.copy-within.js");
 require("core-js/modules/es6.array.fill.js");
 require("core-js/modules/es6.array.filter.js");
@@ -13026,6 +13026,12 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var port = "8000" || 3000;
+
+/**
+ * Function to log in a user.
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ */
 var login = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(email, password) {
     var res;
@@ -13067,6 +13073,10 @@ var login = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
+
+/**
+ * Function to log out a user.
+ */
 exports.login = login;
 var logout = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -13104,6 +13114,15 @@ var logout = /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }();
+
+/**
+ * Function to sign up a user.
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email.
+ * @param {string} username - The user's username.
+ * @param {string} password - The user's password.
+ * @param {string} passwordConfirmation - The user's password confirmation.
+ */
 exports.logout = logout;
 var signup = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, username, password, passwordConfirmation) {
@@ -13151,6 +13170,11 @@ var signup = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
+
+/**
+ * Function to subscribe a user to a plan.
+ * @param {string} subscription - The subscription plan.
+ */
 exports.signup = signup;
 var subscribe = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(subscription) {
@@ -13192,7 +13216,60 @@ var subscribe = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
+
+/**
+ * Function to purchase a subscription.
+ * @param {string} plan - The subscription plan.
+ * @param {string} billingInterval - The billing interval (monthly/annual).
+ * @param {string} paymentMethodId - The payment method ID.
+ */
 exports.subscribe = subscribe;
+var purchaseSubscription = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(plan, billingInterval, paymentMethodId) {
+    var res;
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.prev = 0;
+          _context5.next = 3;
+          return (0, _axios.default)({
+            method: "POST",
+            url: "http://localhost:".concat(port, "/api/v1/subscriptions/purchase"),
+            data: {
+              plan: plan,
+              billingInterval: billingInterval,
+              paymentMethodId: paymentMethodId
+            }
+          });
+        case 3:
+          res = _context5.sent;
+          if (res.data.status === 'success') {
+            (0, _utilities.showAlert)('success', 'Subscription purchased successfully!');
+            setTimeout(function () {
+              window.location.assign('/dashboard');
+            }, 1500);
+          }
+          _context5.next = 10;
+          break;
+        case 7:
+          _context5.prev = 7;
+          _context5.t0 = _context5["catch"](0);
+          (0, _utilities.showAlert)('error', _context5.t0);
+        case 10:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5, null, [[0, 7]]);
+  }));
+  return function purchaseSubscription(_x9, _x10, _x11) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+/**
+ * Function to show login failure animation.
+ */
+exports.purchaseSubscription = purchaseSubscription;
 function showLoginFailure() {
   var emailField = document.getElementById('email');
   var passwordField = document.getElementById('password');
@@ -13705,7 +13782,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57194" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55205" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -1,4 +1,5 @@
 const { Subscription } = require('./subscription.schema');
+const { User } = require('../user/user.schema');
 const logger = require("../../utils/logger").logger;
 const UtilityService = require("../../utils/utilities");
 const { subscriptionPlans, TRIAL_PERIOD_DAYS } = require("../../utils/config");
@@ -164,6 +165,48 @@ exports.checkSubscription = (requiredPlan) => {
     next();
   });
 };
+
+/**
+ * Purchase a subscription and apply it to the user's account
+ */
+exports.purchaseSubscription = catchAsync(async (req, res, next) => {
+  const { plan, billingInterval } = req.body;
+  const userId = req.user.id;
+
+  if (!subscriptionPlans[plan]) {
+    return next(new AppError('Invalid subscription plan', 400));
+  }
+
+  if (!subscriptionPlans[plan][billingInterval]) {
+    return next(new AppError('Invalid billing interval', 400));
+  }
+
+  const planConfig = subscriptionPlans[plan][billingInterval];
+  const endDate = new Date();
+
+  if (billingInterval === 'monthly') {
+    endDate.setMonth(endDate.getMonth() + 1);
+  } else if (billingInterval === 'annual') {
+    endDate.setFullYear(endDate.getFullYear() + 1);
+  }
+
+  const subscription = await Subscription.create({
+    user: userId,
+    plan,
+    billingInterval,
+    endDate,
+    allowedSearches: planConfig.allowedSearches,
+  });
+
+  await User.findByIdAndUpdate(userId, { $push: { subscriptions: subscription._id } });
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      subscription,
+    },
+  });
+});
 
 /**
  * Get subscription plans and their details

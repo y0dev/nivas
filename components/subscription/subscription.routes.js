@@ -3,7 +3,8 @@ const {
   createSubscription,
   getSubscriptions,
   cancelSubscription,
-  getSubscriptionPlans
+  getSubscriptionPlans,
+  purchaseSubscription
 } = require("./subscription.controller");
 
 const { protect } = require("../auth/auth.controller");
@@ -48,5 +49,12 @@ router.get("/cancel", cancelSubscription);
  * @returns {Object} Subscription plans and details
  */
 router.get("/plans", getSubscriptionPlans);
+
+/**
+ * Route to purchase a subscription
+ * @route POST /purchase
+ * @access Protected (if not in development)
+ */
+router.post("/purchase", purchaseSubscription);
 
 module.exports = router;

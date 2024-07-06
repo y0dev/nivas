@@ -19,7 +19,6 @@ const {
   updatePassword,
   logout,
 } = require("../auth/auth.controller");
-const { makePayment } = require("../payment/payment.controller");
 
 const router = express.Router({ mergeParams: true });
 
@@ -41,9 +40,6 @@ router.patch(
   resizeUserPhoto,
   updateUserDetails
 );
-
-// Purchase coins
-router.patch("/purchase", makePayment, purchaseCoins);
 
 router.delete("/deleteUser", deleteUser);
 

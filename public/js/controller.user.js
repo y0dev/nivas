@@ -4,6 +4,11 @@ import { showAlert } from "./utilities";
 
 const port = process.env.PORT || 3000;
 
+/**
+ * Function to log in a user.
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ */
 export const login = async (email, password) => {
   try {
     const res = await axios({
@@ -27,6 +32,9 @@ export const login = async (email, password) => {
   }
 };
 
+/**
+ * Function to log out a user.
+ */
 export const logout = async () => {
   try {
     const res = await axios({
@@ -44,6 +52,14 @@ export const logout = async () => {
   }
 };
 
+/**
+ * Function to sign up a user.
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email.
+ * @param {string} username - The user's username.
+ * @param {string} password - The user's password.
+ * @param {string} passwordConfirmation - The user's password confirmation.
+ */
 export const signup = async (name, email, username, password, passwordConfirmation) => {
   try {
     const res = await axios({
@@ -72,6 +88,10 @@ export const signup = async (name, email, username, password, passwordConfirmati
   }
 };
 
+/**
+ * Function to subscribe a user to a plan.
+ * @param {string} subscription - The subscription plan.
+ */
 export const subscribe = async (subscription) => {
   try {
     console.log(subscription);
@@ -93,7 +113,38 @@ export const subscribe = async (subscription) => {
   }
 };
 
+/**
+ * Function to purchase a subscription.
+ * @param {string} plan - The subscription plan.
+ * @param {string} billingInterval - The billing interval (monthly/annual).
+ * @param {string} paymentMethodId - The payment method ID.
+ */
+export const purchaseSubscription = async (plan, billingInterval, paymentMethodId) => {
+  try {
+    const res = await axios({
+      method: "POST",
+      url: `http://localhost:${port}/api/v1/subscriptions/purchase`,
+      data: {
+        plan,
+        billingInterval,
+        paymentMethodId,
+      },
+    });
+    
+    if (res.data.status === 'success') {
+      showAlert('success', 'Subscription purchased successfully!');
+      setTimeout(() => {
+        window.location.assign('/dashboard');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', err);
+  }
+};
 
+/**
+ * Function to show login failure animation.
+ */
 function showLoginFailure() {
   const emailField = document.getElementById('email');
   const passwordField = document.getElementById('password');
