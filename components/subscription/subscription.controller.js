@@ -94,7 +94,7 @@ exports.createSubscription = catchAsync(async (req, res, next) => {
  * @returns {Array} Array of subscription objects
  */
 exports.getSubscriptions = catchAsync(async (req, res, next) => {
-  const subscriptions = await Subscription.find({ user: req.user.id });
+  const subscriptions = await Subscription.find({ user: getUserId(req) });
 
   res.status(200).json({
     status: 'success',
@@ -171,7 +171,7 @@ exports.checkSubscription = (requiredPlan) => {
  */
 exports.purchaseSubscription = catchAsync(async (req, res, next) => {
   const { plan, billingInterval } = req.body;
-  const userId = req.user.id;
+  const userId = getUserId(req);
 
   if (!subscriptionPlans[plan]) {
     return next(new AppError('Invalid subscription plan', 400));
