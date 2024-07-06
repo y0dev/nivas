@@ -1,9 +1,10 @@
 const { Subscription } = require('./subscription.schema');
 const logger = require("../../utils/logger").logger;
 const UtilityService = require("../../utils/utilities");
-const { subscriptionPlans } = require("../../utils/config");
+const { subscriptionPlans, TRIAL_PERIOD_DAYS } = require("../../utils/config");
 const AppError = require("../../utils/appError");
 const catchAsync = require("../../utils/catchAsync");
+
 
 /**
  * Helper function to get user ID from the request
@@ -26,36 +27,64 @@ const getUserId = (req) => {
  * @returns {Object} Subscription object
  */
 exports.createSubscription = catchAsync(async (req, res, next) => {
-  const { userId, plan, endDate } = req.body;
+  const { userId, plan, billingInterval } = req.body;
 
-  // Get allowed searches from configuration
-  const planConfig = subscriptionPlans[plan];
+  const planConfig = subscriptionPlans[plan]?.[billingInterval];
   if (!planConfig) {
-    return next(new AppError('Invalid subscription plan', 400));
+    return next(new AppError('Invalid subscription plan or billing interval', 400));
   }
 
   logger.debug(`Current Plan: ${planConfig}`);
-  
-  // Create new subscription
+
+  // Calculate the end date based on the billing interval
+  const endDate = new Date();
+  if (billingInterval === 'monthly') {
+    endDate.setMonth(endDate.getMonth() + 1);
+  } else if (billingInterval === 'annual') {
+    endDate.setFullYear(endDate.getFullYear() + 1);
+  }
+
+  // Check if the user is eligible for a trial
+  const user = await User.findById(userId);
+  const hasActiveSubscription = await Subscription.findOne({
+    user: userId,
+    active: true,
+    endDate: { $gte: new Date() },
+  });
+
+  let trialEndDate = null;
+  if (!hasActiveSubscription) {
+    trialEndDate = new Date();
+    trialEndDate.setDate(trialEndDate.getDate() + TRIAL_PERIOD_DAYS);
+  }
+
   const subscription = await Subscription.create({
     user: userId,
     plan,
+    billingInterval,
     endDate,
+    trialEndDate,
     allowedSearches: planConfig.allowedSearches,
   });
 
-  // Add subscription to user's subscriptions
-  const user = await User.findById(userId);
   user.subscriptions.push(subscription._id);
   await user.save();
+
+  const payment = await Payment.create({
+    user: userId,
+    amount: planConfig.price,
+    subscription: subscription._id,
+  });
 
   res.status(201).json({
     status: 'success',
     data: {
       subscription,
+      payment,
     },
   });
 });
+
 
 /**
  * Get all subscriptions for the logged-in user
@@ -136,3 +165,12 @@ exports.checkSubscription = (requiredPlan) => {
   });
 };
 
+/**
+ * Get subscription plans and their details
+ */
+exports.getSubscriptionPlans = (req, res, next) => {
+  res.status(200).json({
+    status: 'success',
+    data: subscriptionPlans,
+  });
+};

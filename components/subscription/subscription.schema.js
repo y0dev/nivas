@@ -1,16 +1,20 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const subscriptionSchema = new Schema({
+const subscriptionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    required: true,
+    required: [true, 'Subscription must belong to a user'],
   },
   plan: {
     type: String,
-    enum: ['basic', 'premium', 'vip'],
-    required: true,
+    enum: ['basic', 'pro', 'elite'],
+    required: [true, 'Subscription must have a plan'],
+  },
+  billingInterval: {
+    type: String,
+    enum: ['monthly', 'annual'],
+    required: [true, 'Subscription must have a billing interval'],
   },
   startDate: {
     type: Date,
@@ -18,19 +22,22 @@ const subscriptionSchema = new Schema({
   },
   endDate: {
     type: Date,
-    required: true,
+    required: [true, 'Subscription must have an end date'],
   },
-  active: {
-    type: Boolean,
-    default: true,
+  trialEndDate: {
+    type: Date,
   },
   allowedSearches: {
     type: Number,
-    required: true,
+    required: [true, 'Subscription must have allowed searches'],
   },
   searchesMade: {
     type: Number,
     default: 0,
+  },
+  active: {
+    type: Boolean,
+    default: true,
   },
 });
 

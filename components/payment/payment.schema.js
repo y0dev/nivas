@@ -1,21 +1,25 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require('mongoose');
 
-const paymentSchema = new Schema({
+const paymentSchema = new mongoose.Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'Payment must belong to a user']
   },
   amount: {
     type: Number,
-    required: true,
+    required: [true, 'Payment must have an amount']
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
+  subscription: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Subscription'
+  }
 });
 
-const Payment = new model("Payment", paymentSchema);
+const Payment = mongoose.model('Payment', paymentSchema);
 
-module.exports = Payment;
+module.exports = { Payment, paymentSchema };

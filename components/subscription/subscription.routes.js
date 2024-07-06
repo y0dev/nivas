@@ -1,5 +1,10 @@
 const express = require("express");
-const { createSubscription, getSubscriptions, cancelSubscription } = require("./subscription.controller");
+const {
+  createSubscription,
+  getSubscriptions,
+  cancelSubscription,
+  getSubscriptionPlans
+} = require("./subscription.controller");
 
 const { protect } = require("../auth/auth.controller");
 const router = express.Router({ mergeParams: true });
@@ -36,5 +41,12 @@ router.post("/mine", getSubscriptions);
  * @returns {Object} Updated subscription object with active set to false
  */
 router.get("/cancel", cancelSubscription);
+
+/**
+ * Route to get subscription plans and their details
+ * @route GET /plans
+ * @returns {Object} Subscription plans and details
+ */
+router.get("/plans", getSubscriptionPlans);
 
 module.exports = router;

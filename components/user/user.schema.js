@@ -7,20 +7,20 @@ const Payment = require("../payment/payment.schema");
 const userSchema = new Schema({
   name: {
     type: String,
-    required: [true, "user must have a name"],
+    required: [true, "User must have a name"],
     maxlength: 30,
     minlength: 2,
   },
   email: {
     type: String,
-    required: [true, "user must have an email"],
+    required: [true, "User must have an email"],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "please provide a valid email"],
+    validate: [validator.isEmail, "Please provide a valid email"],
   },
   username: {
     type: String,
-    required: [true, "user must have a username"],
+    required: [true, "User must have a username"],
     maxlength: 30,
     minlength: 2,
   },
@@ -30,31 +30,21 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, "please provide a valid password"],
-    minLength: 8,
+    required: [true, "Please provide a valid password"],
+    minlength: 8,
     select: false,
   },
   confirmPassword: {
     type: String,
-    required: [true, "please confirm password"],
+    required: [true, "Please confirm password"],
     validate: {
-      // this only works on create and save not update
+      // This only works on CREATE and SAVE, not on UPDATE
       validator: function (el) {
         return el === this.password;
       },
-      message: "password and confirm password do not match",
+      message: "Password and confirm password do not match",
     },
     select: false,
-  },
-  subscriptionTier: {
-    type: String, // or any other appropriate data type
-    default: "free",
-    required: true,
-    enum: ["free", "basic", "premium"],
-  },
-  subscriptionDate: {
-    type: Date,
-    default: null,
   },
   createdOn: {
     type: Date,
@@ -85,12 +75,19 @@ const userSchema = new Schema({
       ref: "SearchHistory",
     },
   ],
+  subscriptions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Subscription",
+    },
+  ],
 });
 
+// Hash the password before saving the user
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  console.log("saving user");
+  console.log("Saving user");
   // Generate a salt with 10 rounds of hashing
   const salt = await bcrypt.genSalt(10);
 
@@ -121,6 +118,7 @@ userSchema.pre("findByIdAndUpdate", async function (next) {
   next();
 });
 
+// Methods to handle password verification and resetting
 userSchema.methods.verifyPassword = async function (password) {
   try {
     // Compare the input password with the stored hashed password
@@ -130,10 +128,7 @@ userSchema.methods.verifyPassword = async function (password) {
   }
 };
 
-userSchema.methods.correctPassword = function (
-  candidatePassword,
-  userPassword
-) {
+userSchema.methods.correctPassword = function (candidatePassword, userPassword) {
   return bcrypt.compare(candidatePassword, userPassword);
 };
 

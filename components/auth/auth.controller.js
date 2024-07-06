@@ -43,8 +43,12 @@ const createAndSendToken = (user, statusCode, req, res) => {
   });
 };
 
-// Create a subscription if the user doesn't have one
+/**
+ * Ensure the user has an active subscription. If not, create a default subscription.
+ * @param {Object} user - The user object.
+ */
 const ensureSubscription = async (user) => {
+  // Check for an active subscription
   const activeSubscription = await Subscription.findOne({
     user: user._id,
     active: true,
@@ -53,12 +57,21 @@ const ensureSubscription = async (user) => {
 
   if (!activeSubscription) {
     const plan = 'basic'; // Default plan
-    const planConfig = subscriptionPlans[plan];
-    logger.debug(`Create a ${plan} which has ${planConfig} searches`);
+    const billingInterval = 'monthly'; // Basic plan is only monthly
+    const planConfig = subscriptionPlans[plan][billingInterval];
+    
+    // Set the end date to one month from now
+    const endDate = new Date();
+    endDate.setMonth(endDate.getMonth() + 1); // 1 month subscription
+
+    logger.debug(`Creating a ${plan} plan which has ${planConfig.allowedSearches} searches`);
+
+    // Create the subscription
     await Subscription.create({
       user: user._id,
       plan,
-      endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // 1 year subscription
+      billingInterval,
+      endDate,
       allowedSearches: planConfig.allowedSearches,
     });
   }
