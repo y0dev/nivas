@@ -12017,9 +12017,11 @@ exports.Axios = Axios;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.showAlert = exports.hideSpinner = exports.hideAlert = void 0;
+exports.hideAlert = void 0;
+exports.hideSpinner = hideSpinner;
+exports.showAlert = void 0;
 exports.showMap = showMap;
-exports.showSpinner = void 0;
+exports.showSpinner = showSpinner;
 exports.updateMap = updateMap;
 // Function to hide the alert
 var hideAlert = function hideAlert() {
@@ -12036,21 +12038,6 @@ var showAlert = function showAlert(type, msg) {
   window.setTimeout(hideAlert, 5000);
 };
 
-// Function to show the spinner
-exports.showAlert = showAlert;
-var showSpinner = function showSpinner() {
-  hideSpinner();
-  var markup = "\n    <div class=\"spinner-container\">\n      <div class=\"spinner\"></div>\n    </div>\n  ";
-  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
-};
-
-// Function to hide the spinner
-exports.showSpinner = showSpinner;
-var hideSpinner = function hideSpinner() {
-  var el = document.querySelector('.spinner-container');
-  if (el) el.parentElement.removeChild(el);
-};
-
 // let map;
 
 /**
@@ -12060,7 +12047,7 @@ var hideSpinner = function hideSpinner() {
  * @param {number} coordinates.lng - The longitude of the center
  * @param {number} radius - The radius of the circle in meters
  */
-exports.hideSpinner = hideSpinner;
+exports.showAlert = showAlert;
 function showMap(coordinates) {
   var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
   var mapElement = document.getElementById('map');
@@ -12132,6 +12119,18 @@ function updateMap(coordinates) {
   } else {
     console.error("Map or circle is not initialized. Call showMap first.");
   }
+}
+
+// Function to show the overlay
+function showSpinner() {
+  var overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden');
+}
+
+// Function to hide the overlay
+function hideSpinner() {
+  var overlay = document.getElementById('overlay');
+  overlay.classList.add('hidden');
 }
 
 // Example usage:
@@ -12604,9 +12603,10 @@ var searchForMLS = /*#__PURE__*/function () {
           (0, _utilities.showAlert)("fail", "Missing");
           return _context.abrupt("return");
         case 15:
-          _context.prev = 15;
+          (0, _utilities.showSpinner)();
+          _context.prev = 16;
           token = localStorage.getItem("token");
-          _context.next = 19;
+          _context.next = 20;
           return (0, _axios.default)({
             method: "POST",
             headers: {
@@ -12615,24 +12615,26 @@ var searchForMLS = /*#__PURE__*/function () {
             url: url,
             data: data
           });
-        case 19:
+        case 20:
           res = _context.sent;
           _res$data = res.data, zipCode = _res$data.zipCode, cityState = _res$data.cityState, listings = _res$data.listings, coord = _res$data.coord, twoBedsQuartile = _res$data.twoBedsQuartile, threeBedsQuartile = _res$data.threeBedsQuartile, status = _res$data.status;
           console.log(coord);
           if (status === "success") {
             updateSearchResults(zipCode, cityState, listings, coord, twoBedsQuartile, threeBedsQuartile);
           }
-          _context.next = 28;
+          _context.next = 29;
           break;
-        case 25:
-          _context.prev = 25;
-          _context.t0 = _context["catch"](15);
+        case 26:
+          _context.prev = 26;
+          _context.t0 = _context["catch"](16);
           (0, _utilities.showAlert)("fail", _context.t0);
-        case 28:
+        case 29:
+          (0, _utilities.hideSpinner)();
+        case 30:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[15, 25]]);
+    }, _callee, null, [[16, 26]]);
   }));
   return function searchForMLS(_x2) {
     return _ref.apply(this, arguments);

@@ -19,25 +19,6 @@ export const showAlert = (type, msg) => {
   window.setTimeout(hideAlert, 5000);
 };
 
-// Function to show the spinner
-export const showSpinner = () => {
-  hideSpinner();
-
-  const markup = `
-    <div class="spinner-container">
-      <div class="spinner"></div>
-    </div>
-  `;
-  
-  document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
-};
-
-// Function to hide the spinner
-export const hideSpinner = () => {
-  const el = document.querySelector('.spinner-container');
-  if (el) el.parentElement.removeChild(el);
-};
-
 // let map;
 
 /**
@@ -112,6 +93,19 @@ export function updateMap(coordinates, radius = 1000) {
     console.error("Map or circle is not initialized. Call showMap first.");
   }
 }
+
+// Function to show the overlay
+export function showSpinner() {
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('hidden');
+}
+
+// Function to hide the overlay
+export function hideSpinner() {
+  const overlay = document.getElementById('overlay');
+  overlay.classList.add('hidden');
+}
+
 
 // Example usage:
 // showMap({ lat: 40.730610, lng: -73.935242 }, 1500);

@@ -99,6 +99,8 @@ export const searchForMLS = async (mls_string) => {
     return;
   }
 
+  showSpinner();
+
   try {
     const token = localStorage.getItem("token");
     const res = await axios({
@@ -131,6 +133,8 @@ export const searchForMLS = async (mls_string) => {
   } catch (err) {
     showAlert("fail", err);
   }
+
+  hideSpinner();
 };
 
 /**
