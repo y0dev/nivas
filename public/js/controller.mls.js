@@ -159,7 +159,19 @@ function updateSearchResults(zipCode, cityState, listings, coordinates, twoBedsQ
   updateQuartileTable("three-bed-table", threeBedsQuartile);
 
   // Add listings to the table
-  listings.forEach((listing) => addListingToTable(tbody, listing, twoBedsQuartile, threeBedsQuartile));
+  listings.forEach((listing, index) => {
+    addListingToTable(tbody, listing, twoBedsQuartile, threeBedsQuartile);
+
+    // If it's the last row, remove the bottom border
+    if (index === listings.length - 1) {
+      const lastRow = tbody.rows[tbody.rows.length - 1];
+      for (let cell of lastRow.cells) {
+        cell.classList.remove('border-b');
+      }
+    }
+  });
+
+  
 
   updateMap({ lat: coordinates.latitude, lng: coordinates.longitude });
 }
