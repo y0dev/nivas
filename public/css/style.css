@@ -451,21 +451,6 @@ video {
   height: auto;
 }
 
-/* Shaking animation */
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}
-  
-/* Error class */
-.input-error {
-border-color: red;
-animation: shake 0.5s;
-}
-
 /* Make elements with the HTML hidden attribute stay hidden by default */
 
 [hidden] {
@@ -1562,6 +1547,8 @@ select {
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 @keyframes ping {
+
+
     75%, 100% {
         transform: scale(2);
         opacity: 0;
@@ -1569,6 +1556,21 @@ select {
 }
 .animate-ping {
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes spin {
+
+
+    from {
+        transform: rotate(0deg);
+    }
+
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
 }
 .cursor-pointer {
     cursor: pointer;
@@ -2142,6 +2144,9 @@ select {
 }
 .bg-center {
     background-position: center;
+}
+.fill-blue-600 {
+    fill: #007FEC;
 }
 .fill-current {
     fill: currentColor;
@@ -3573,14 +3578,6 @@ select {
     --tw-shadow: var(--tw-shadow-colored);
 }
   
-  .peer:-moz-placeholder-shown ~ .peer-placeholder-shown\:\!invisible {
-    visibility: hidden !important;
-}
-  
-  .peer:placeholder-shown ~ .peer-placeholder-shown\:\!invisible {
-    visibility: hidden !important;
-}
-  
   .peer:invalid ~ .peer-invalid\:block {
     display: block;
 }
@@ -3839,6 +3836,10 @@ select {
   :is(.dark .dark\:to-yellow-400) {
     --tw-gradient-to: #facc15 var(--tw-gradient-to-position);
     --tw-gradient-to-position:  ;
+}
+  
+  :is(.dark .dark\:fill-blue-300) {
+    fill: #7CBDF6;
 }
   
   :is(.dark .dark\:fill-gray-300) {
