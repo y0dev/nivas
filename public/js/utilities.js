@@ -106,7 +106,6 @@ export function hideSpinner() {
   overlay.classList.add('hidden');
 }
 
-
 // Example usage:
 // showMap({ lat: 40.730610, lng: -73.935242 }, 1500);
 // updateMap({ lat: 34.052235, lng: -118.243683 }, 2000);

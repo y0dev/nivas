@@ -119,7 +119,7 @@ export const searchForMLS = async (mls_string) => {
       threeBedsQuartile,
       status,
     } = res.data;
-    console.log(coord)
+    
     if (status === "success") {
       updateSearchResults(
         zipCode,

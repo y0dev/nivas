@@ -9,6 +9,8 @@ const {
   resizeUserPhoto,
   purchaseCoins,
   selectSubscription,
+  setCookieConsent,
+  getCookieConsent
 } = require("./user.controller");
 const {
   signUp,
@@ -40,6 +42,9 @@ router.patch(
   resizeUserPhoto,
   updateUserDetails
 );
+
+router.post('/cookie-consent', setCookieConsent);
+router.get('/cookie-consent', getCookieConsent);
 
 router.delete("/deleteUser", deleteUser);
 

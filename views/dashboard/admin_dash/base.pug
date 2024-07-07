@@ -63,6 +63,14 @@ html
   
     .absolute.w-full.bg-blue-500.min-h-35-screen
 
+    #cookie-banner.max-w-screen-xl.bg-white.inset-x-5.p-5.z-50.mx-auto.fixed.bottom-0.rounded-lg.drop-shadow-2xl.flex.gap-4.flex-wrap.text-center.items-center.justify-center(class="dark:bg-slate-900 dark:text-gray-300 md:flex-nowrap md:text-left md:justify-between" x-show='open' x-transition:enter-start='opacity-0 scale-90' x-transition:enter='transition duration-200 transform ease' x-transition:leave='transition duration-200 transform ease' x-transition:leave-end='opacity-0 scale-90')
+      .w-full
+        | This website uses cookies to ensure you get the best experience on our website. 
+        a.text-gray-600.whitespace-nowrap(href='#' class="dark:text-gray-300 dark:fill-blue-300 hover:underline") Learn more
+      .flex.gap-4.items-center.flex-shrink-0
+        button#decline-cookies.text-gray-600(class="dark:text-gray-300 focus:outline-none hover:underline") Decline
+        button#accept-cookies.px-5.py-2.text-white.rounded-md.bg-gradient-to-tl.from-blue-500.to-violet-500(class="focus:outline-none") Allow Cookies
+
     // SIDE BAR
     include _sidebar
 

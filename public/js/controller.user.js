@@ -159,3 +159,45 @@ function showLoginFailure() {
     passwordField.classList.remove('input-error');
   }, 500); // Match this duration to the animation duration
 }
+
+// Set a cookie
+export const setCookie = async (name, value, days) => {
+  const date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = `${name}=${value};${expires};path=/`;
+  
+  // Send consent information to the backend if accepted
+  if (name === 'cookieConsent') {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `http://localhost:${port}/api/v1/user/cookie-consent`,
+        data: {
+          value,
+        },
+      });
+      
+      if (res.data.status === 'success') {
+        console.log('Cookie consent stored in the database.');
+      }
+    } catch (err) {
+      showAlert('error', err);
+      console.error('Error storing cookie consent in the database:', error);
+    }
+  }
+}
+
+// Get a cookie value
+export const getCookie = async (name) => {
+  const nameEQ = `${name}=`;
+  const ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+

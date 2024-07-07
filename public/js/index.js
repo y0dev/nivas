@@ -13,7 +13,7 @@ import {
   removeSignupBtn,
   removeLogoutBtn,
 } from "./controller.navbar";
-import { signup, login, logout, subscribe } from "./controller.user";
+import { signup, login, logout, subscribe, setCookie, getCookie } from "./controller.user";
 import { updateChart } from "./dashboard/chart";
 import { sidebarToggle } from "./dashboard/navbar";
 import { sortTableByColumn } from "./tablesort";
@@ -28,6 +28,10 @@ const pricingSection = document.querySelector("section#pricing");
 
 const hamburger = document.querySelector("#hamburger");
 const navbar = document.querySelector("#navbar");
+
+const cookieBanner = document.querySelector('#cookie-banner');
+const acceptCookiesButton = document.querySelector('#accept-cookies');
+const declineCookiesButton = document.querySelector('#decline-cookies');
 
 if (hamburger) {
   hamburger.addEventListener("click", () => {
@@ -146,9 +150,11 @@ if (loginForm) {
   });
 }
 
+// Theme toggle functionality
 if (mainWrapper) {
   let hamburgerBtn;
   let toggleBtn;
+  let dark = false;
 
   function declareElements() {
     hamburgerBtn = document.querySelector(".hamburger-menu");
@@ -160,10 +166,8 @@ if (mainWrapper) {
 
   function toggleTheme() {
     let main = document.querySelector("main");
-    // Clone the wrapper
     dark = !dark;
 
-    // NEED TO FIX
     if (dark) {
       toggleBtn.children[0].classList.add("hidden");
       toggleBtn.children[1].classList.remove("hidden");
@@ -173,23 +177,13 @@ if (mainWrapper) {
     }
 
     let clone = mainWrapper.cloneNode(true);
-    if (dark) {
-      clone.classList.remove("light");
-      clone.classList.add("dark");
-      toggleBtn.children[0].classList.add("hidden");
-      toggleBtn.children[1].classList.remove("hidden");
-    } else {
-      clone.classList.remove("dark");
-      clone.classList.add("light");
-      toggleBtn.children[0].classList.remove("hidden");
-      toggleBtn.children[1].classList.add("hidden");
-    }
+    clone.classList.add(dark ? "dark" : "light");
+    clone.classList.remove(dark ? "light" : "dark");
     clone.classList.add("copy");
     main.appendChild(clone);
 
     document.body.classList.add("stop-scrolling");
 
-    // Remove unnecessary elements
     clone.addEventListener("animationend", () => {
       document.body.classList.remove("stop-scrolling");
       mainWrapper.remove();
@@ -207,6 +201,28 @@ if (mainWrapper) {
   }
 
   events();
-
-  let dark = false;
 }
+
+acceptCookiesButton.addEventListener('click', () => {
+  setCookie('cookieConsent', 'true', 365);
+  cookieBanner.classList.add('hidden');
+});
+
+declineCookiesButton.addEventListener('click', () => {
+  setCookie('cookieConsent', 'false', 365);
+  cookieBanner.classList.add('hidden');
+});
+
+// Check if user has given cookie consent and handle accordingly
+function checkCookieConsent(){
+  const cookieConsent = getCookie('cookieConsent');
+  if (!cookieConsent) {
+    // Show the cookie consent banner
+    cookieBanner.style.display = 'block';
+  } else {
+    // Hide the cookie consent banner
+    cookieBanner.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', checkCookieConsent);

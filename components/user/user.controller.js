@@ -162,6 +162,34 @@ exports.purchaseCoins = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.setCookieConsent = catchAsync(async (req, res, next) => {
+  const { value } = req.body;
+  const user = await User.findByIdAndUpdate(req.user.id, { cookieConsent: value }, { new: true });
+
+  if (!user) {
+    return next(new AppError('User not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success'
+  });
+});
+
+exports.getCookieConsent = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new AppError('User not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      cookieConsent: user.cookieConsent,
+    },
+  });
+});
+
 //admin
 exports.updateUser = factory.updateOne(User);
 exports.deleteAsAdmin = factory.deleteOne(User);

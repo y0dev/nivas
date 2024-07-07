@@ -63,6 +63,10 @@ const userSchema = new Schema({
     select: false,
   },
   deletedDate: Date,
+  cookieConsent: {
+    type: Boolean,
+    default: false,
+  },
   transactions: [
     {
       type: Schema.Types.ObjectId,
