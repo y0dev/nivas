@@ -6,6 +6,7 @@ const logger = require("../../utils/logger").logger;
 const UtilityService = require("../../utils/utilities");
 const AppError = require("../../utils/appError");
 const { createTablePdf } = require("../../utils/pdf.maker");
+const { createTableExcel } = require("../../utils/excel.maker");
 const catchAsync = require("../../utils/catchAsync");
 const SearchHistory = require("../history/history.schema");
 const { User } = require("../user/user.schema");
@@ -277,6 +278,23 @@ exports.downloadPreviousSearch = catchAsync(async (req, res, next) => {
 
   const pdfStream = fs.createReadStream(newFilePath);
   pdfStream.pipe(res);
+  next();
+});
+
+// Function to download previous search results in Excel format
+exports.downloadPreviousSearchExcel = catchAsync(async (req, res, next) => {
+  if (!prevSearchResults) {
+    return next(new AppError("Failed to get results", 502));
+  }
+
+  const excelFilePath = "document.xlsx";
+  const newFilePath = createTableExcel(excelFilePath, prevSearchResults);
+
+  res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  res.setHeader("Content-Disposition", "attachment; filename=document.xlsx");
+
+  const excelStream = fs.createReadStream(newFilePath);
+  excelStream.pipe(res);
   next();
 });
 
