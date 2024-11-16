@@ -8,6 +8,7 @@ const {
   getUserSettingsPage,
   getPaymentPage,
   getPropSearchPage,
+  getPropSearchAdPage,
   getAdminDashboardPage,
   get404Page,
   get500Page,
@@ -22,7 +23,7 @@ const { protectedViewRoutes } = require("../auth/auth.controller");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/", getLandingPage);
+router.get("/", getPropSearchAdPage);
 router.get("/login", getLoginPage);
 router.get("/signup", getSignupPage);
 router.get("/forgot-password", getForgotPasswordPage);

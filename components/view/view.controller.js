@@ -89,6 +89,12 @@ exports.getPropSearchPage = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getPropSearchAdPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/user_dash_ad/properties_search", {
+    title: "Properties Search",
+  });
+});
+
 exports.getUserSettingsPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/user_dash/settings", {
     title: "User Settings",
