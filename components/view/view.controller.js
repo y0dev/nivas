@@ -18,8 +18,20 @@ exports.getLoginPage = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getLoginPasswordPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("auth/login_pw", {
+    title: "Login",
+  });
+});
+
 exports.getSignupPage = catchAsync(async (req, res, next) => {
   res.status(200).render("auth/signup", {
+    title: "Signup",
+  });
+});
+
+exports.getSignupPasswordPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("auth/signup_pw", {
     title: "Signup",
   });
 });

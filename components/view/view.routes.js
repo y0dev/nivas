@@ -2,7 +2,9 @@ const express = require("express");
 const {
   getLandingPage,
   getLoginPage,
+  getLoginPasswordPage,
   getSignupPage,
+  getSignupPasswordPage,
   getForgotPasswordPage,
   getUserDashboardPage,
   getUserSettingsPage,
@@ -23,9 +25,11 @@ const { protectedViewRoutes } = require("../auth/auth.controller");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/", getPropSearchAdPage);
+router.get("/", getLandingPage);
 router.get("/login", getLoginPage);
+router.get("/login/password", getLoginPasswordPage);
 router.get("/signup", getSignupPage);
+router.get("/signup/password", getSignupPasswordPage);
 router.get("/forgot-password", getForgotPasswordPage);
 router.get("/404", get404Page);
 router.get("/500", get500Page);
