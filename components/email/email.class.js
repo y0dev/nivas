@@ -1,4 +1,5 @@
 const sgMail = require("@sendgrid/mail");
+const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const pug = require("pug");
 const { htmlToText } = require("html-to-text");
@@ -94,5 +95,15 @@ module.exports = class Email {
    */
   async sendContactEmail() {
     await this.send("contact_email", "Someone will reach out to you shortly.");
+  }
+
+  /**
+   * Sends a magic link email
+   */
+  async sendMagicLink(email) {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "10m" });
+    const magicLink = `${process.env.FRONTEND_URL}/auth/magic-login?token=${token}`;
+    
+    await this.send("magic_link", `Click <a href="${magicLink}">here</a> to log in.`);
   }
 };
