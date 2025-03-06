@@ -6,6 +6,7 @@ dist
 .example
 deploy
 logs
+notes
 
 # For Heroku
 package-lock.json
