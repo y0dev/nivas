@@ -41,15 +41,18 @@ router.get("/pricing", getPricingPage);
 router.get("/blogs", getBlogListPage);
 router.get("/blog/:id", getBlogSinglePage);
 
-// These following pages should only be for logged in users only
 // router.use();
-router.get("/test-admin-dash", getAdminDashboardPage);
-router.get("/test-user-dash", getUserDashboardPage);
-router.get("/test-search", getPropSearchPage);
+if (process.env.NODE_ENV == "production") {
+  // These following pages should only be for logged in users only
+  router.get("/dashboard", protectedViewRoutes, getUserDashboardPage);
+  router.get("/prop-search", protectedViewRoutes, getPropSearchPage);
+  router.get("/settings", protectedViewRoutes, getUserSettingsPage);
 
-router.get("/dashboard", protectedViewRoutes, getUserDashboardPage);
-router.get("/prop-search", protectedViewRoutes, getPropSearchPage);
-router.get("/settings", protectedViewRoutes, getUserSettingsPage);
+} else if (process.env.NODE_ENV == "development") {
+  router.get("/dashboard", getUserDashboardPage);
+  router.get("/prop-search", getPropSearchPage);
+  router.get("/settings", getUserSettingsPage);
+}
 
 router.get("/payment", getPaymentPage);
 

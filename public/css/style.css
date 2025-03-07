@@ -1830,6 +1830,10 @@ select {
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
 }
+.rounded-r-2xl {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
 .rounded-t-2xl {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
@@ -3449,6 +3453,10 @@ select {
   
   .hover\:underline:hover {
     text-decoration-line: underline;
+}
+  
+  .hover\:no-underline:hover {
+    text-decoration-line: none;
 }
   
   .hover\:opacity-75:hover {
