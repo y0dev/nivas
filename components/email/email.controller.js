@@ -1,11 +1,16 @@
 const jwt = require("jsonwebtoken");
+const { User } = require("../user/user.schema");
+const { Subscription } = require("../subscription/subscription.schema");
 const Email = require("./email.class");
 const catchAsync = require("../../utils/catchAsync");
+const { subscriptionPlans } = require("../../utils/config");
 const logger = require("../../utils/logger").logger;
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const generateMagicToken = (email) => {
-  return crypto.createHash("sha256").update(email + Date.now().toString()).digest("hex");
+  return jwt.sign({ email }, process.env.MAGIC_LINK_SECRET_KEY || "your_secret_key", {
+    expiresIn: "15m", // Token expires in 15 minutes
+  });
 }
 
 /**
@@ -43,7 +48,32 @@ exports.sendMagicLinkEmail = catchAsync(async (req, res) => {
   }
 
   try {
+    // Find user in the database or create one if not found
+    let user = await User.findOne({ email });
 
+    if (!user) {
+      // Create a new user with only the email (no password required initially)
+      user = await User.create({
+        email,
+        // No password field needed at this point
+      });
+
+      // Create a subscription for the new user
+      const plan = 'basic'; // Default plan
+      const planConfig = subscriptionPlans[plan];
+      await Subscription.create({
+        user: user._id,
+        plan,
+        endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // 1 year subscription
+        allowedSearches: planConfig.allowedSearches,
+      });
+
+      logger.info(`User created: ${email}`);
+    }
+
+    if (!user) {
+      return res.status(404).json({ status: "fail", message: "User not found" });
+    }
     // Generate Magic Link Token
     const token = generateMagicToken(email);
     const magicLink = `https://www.urbaninsightinc.com/magic-link?token=${token}`;

@@ -10,7 +10,8 @@ const {
   purchaseCoins,
   selectSubscription,
   setCookieConsent,
-  getCookieConsent
+  getCookieConsent,
+  getMagicLink
 } = require("./user.controller");
 const {
   signUp,
@@ -28,6 +29,7 @@ const router = express.Router({ mergeParams: true });
 router.post("/signup", signUp);
 router.post("/login", login);
 router.get("/logout", logout);
+router.get("/magic-link", getMagicLink);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);
 
