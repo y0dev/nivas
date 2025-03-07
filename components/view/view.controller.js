@@ -83,11 +83,6 @@ exports.getBlogSinglePage = catchAsync(async (req, res, next) => {
             DASHBOARDS
 ============================== 
 */
-exports.getAdminDashboardPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("dashboard/admin_dash/index", {
-    title: "Admin Dashboard",
-  });
-});
 
 exports.getUserDashboardPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/user_dash/index", {
@@ -134,5 +129,17 @@ exports.get500Page = catchAsync(async (req, res, next) => {
 exports.getEmailSignInPage = catchAsync(async (req, res, next) => {
   res.status(200).render("email/signin", {
     title: "Sign In",
+  });
+});
+
+exports.getEmailContactPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("email/contact_email", {
+    title: "Contact",
+  });
+});
+
+exports.getEmailResetPWPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("email/reset_password", {
+    title: "Reset Password",
   });
 });

@@ -11,7 +11,6 @@ const {
   getPaymentPage,
   getPropSearchPage,
   getPropSearchAdPage,
-  getAdminDashboardPage,
   get404Page,
   get500Page,
   getBlogSinglePage,
@@ -19,7 +18,10 @@ const {
   getAboutPage,
   getContactPage,
   getPricingPage,
-  getEmailSignInPage
+  getEmailSignInPage,
+  getEmailWelcomePage,
+  getEmailResetPWPage,
+  getEmailContactPage
 } = require("./view.controller");
 
 const { protectedViewRoutes } = require("../auth/auth.controller");
@@ -54,6 +56,8 @@ if (process.env.NODE_ENV == "production") {
   router.get("/prop-search", getPropSearchPage);
   router.get("/settings", getUserSettingsPage);
   router.get("/email/signin", getEmailSignInPage);
+  router.get("/email/reset", getEmailResetPWPage);
+  router.get("/email/contact", getEmailContactPage);
 }
 
 router.get("/payment", getPaymentPage);
