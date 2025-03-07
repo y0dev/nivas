@@ -2,6 +2,7 @@ const adminRouter = require("./admin/admin.routes");
 const userRouter = require("./user/user.routes");
 const emailRouter = require("./email/email.routes");
 const mlsRouter = require("./mls/mls.routes");
+const paymentRouter = require("./payment/payment.routes");
 const subscriptRouter = require("./subscription/subscription.routes");
 const viewRouter = require("./view/view.routes");
 const { errorHandler } = require("./auth/auth.controller");
@@ -15,5 +16,6 @@ exports.registerApiRoutes = (app, prefix) => {
   app.use(`${prefix}/email`, emailRouter);
   app.use(`${prefix}/mls`, mlsRouter);
   app.use(`${prefix}/subscription`, subscriptRouter);
+  app.use(`${prefix}/payments`, paymentRouter);
   app.use(errorHandler);
 };
