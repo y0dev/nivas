@@ -87,60 +87,6 @@ export const signup = async (email, password, passwordConfirmation) => {
 };
 
 /**
- * Function to subscribe a user to a plan.
- * @param {string} subscription - The subscription plan.
- */
-export const subscribe = async (subscription) => {
-  try {
-    console.log(subscription);
-    const res = await axios({
-      method: "POST",
-      url: `http://localhost:${port}/api/v1/user/subscription`,
-      data: {
-        subscription,
-      },
-    });
-    if (res.data.status === "success") {
-      console.log(res.data);
-      window.setTimeout(() => {
-        location.assign("/signup");
-      }, 1500);
-    }
-  } catch (err) {
-    showAlert("fail", err.response.data.message);
-  }
-};
-
-/**
- * Function to purchase a subscription.
- * @param {string} plan - The subscription plan.
- * @param {string} billingInterval - The billing interval (monthly/annual).
- * @param {string} paymentMethodId - The payment method ID.
- */
-export const purchaseSubscription = async (plan, billingInterval, paymentMethodId) => {
-  try {
-    const res = await axios({
-      method: "POST",
-      url: `http://localhost:${port}/api/v1/subscriptions/purchase`,
-      data: {
-        plan,
-        billingInterval,
-        paymentMethodId,
-      },
-    });
-    
-    if (res.data.status === 'success') {
-      showAlert('success', 'Subscription purchased successfully!');
-      setTimeout(() => {
-        window.location.assign('/dashboard');
-      }, 1500);
-    }
-  } catch (err) {
-    showAlert('error', err);
-  }
-};
-
-/**
  * Function to show login failure animation.
  */
 function showLoginFailure() {
