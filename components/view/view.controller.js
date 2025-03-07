@@ -104,7 +104,13 @@ exports.getPropSearchAdPage = catchAsync(async (req, res, next) => {
 
 exports.getUserSettingsPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/user_dash/settings", {
-    title: "User Settings",
+    title: "Account Settings",
+  });
+});
+
+exports.getUserBillingPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/user_dash/billing", {
+    title: "Billing",
   });
 });
 

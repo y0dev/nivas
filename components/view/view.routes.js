@@ -19,7 +19,7 @@ const {
   getContactPage,
   getPricingPage,
   getEmailSignInPage,
-  getEmailWelcomePage,
+  getUserBillingPage,
   getEmailResetPWPage,
   getEmailContactPage
 } = require("./view.controller");
@@ -50,11 +50,13 @@ if (process.env.NODE_ENV == "production") {
   router.get("/dashboard", protectedViewRoutes, getUserDashboardPage);
   router.get("/prop-search", protectedViewRoutes, getPropSearchPage);
   router.get("/settings", protectedViewRoutes, getUserSettingsPage);
+  router.get("/billing", protectedViewRoutes, getUserBillingPage);
 
 } else if (process.env.NODE_ENV == "development") {
   router.get("/dashboard", getUserDashboardPage);
   router.get("/prop-search", getPropSearchPage);
   router.get("/settings", getUserSettingsPage);
+  router.get("/billing", getUserBillingPage);
   router.get("/email/signin", getEmailSignInPage);
   router.get("/email/reset", getEmailResetPWPage);
   router.get("/email/contact", getEmailContactPage);

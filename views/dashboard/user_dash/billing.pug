@@ -1,0 +1,81 @@
+extends base
+
+block content
+  .mx-auto.mt-8.max-w-screen-lg.p-2.rounded-xl.border.bg-white.shadow(class='dark:bg-gray-800 dark:shadow-dark-xl')
+    .flex-col(class='sm:flex sm:items-center sm:justify-between sm:flex-row')
+      p.flex-1.text-base.font-bold.text-gray-800(class='dark:text-white') Latest Payments
+      .mt-4(class='sm:mt-0')
+        .flex.items-center.justify-start(class='sm:justify-end')
+          .flex.items-center
+            label.mr-2.flex-shrink-0.text-sm.font-medium.text-gray-800(for='' class='dark:text-white')  Sort by: 
+            select.mr-4.block.w-full.whitespace-pre.rounded-lg.border.p-1.pr-10.text-base.outline-none(name='', class='sm: focus:shadow sm:text-sm')
+              option.whitespace-no-wrap.text-sm Recent
+          button.inline-flex.cursor-pointer.items-center.rounded-lg.border.border-gray-400.bg-white.py-2.px-3.text-center.text-sm.font-medium.text-gray-800.shadow(type='button', class='hover:bg-gray-100 focus:shadow')
+            svg.mr-1.h-4.w-4(xmlns='http://www.w3.org/2000/svg', fill='none', viewBox='0 0 24 24', stroke='currentColor', stroke-width='2')
+              path(stroke-linecap='round', stroke-linejoin='round', d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z')
+            | Export to CSV
+            
+    .mt-6.overflow-hidden
+      table.min-w-full.border-separate.border-spacing-y-2.border-spacing-x-2
+        thead.hidden.border-b(class='lg:table-header-group')
+          tr
+            td.whitespace-normal.py-4.text-sm.font-medium.text-slate-800(width='50%' class="dark:text-slate-500 sm:px-6") Invoice
+            td.whitespace-normal.py-4.text-sm.font-medium.text-slate-800(class="dark:text-slate-500 sm:px-6") Date
+            td.whitespace-normal.py-4.text-sm.font-medium.text-slate-800(class="dark:text-slate-500 sm:px-6") Amount
+            td.whitespace-normal.py-4.text-sm.font-medium.text-slate-800(class="dark:text-slate-500 sm:px-6") Status
+        tbody(class='lg:border-gray-300')
+          tr
+            td.whitespace-no-wrap.py-4.text-sm.font-bold.text-gray-900(width='50%', class='sm:px-6 dark:text-white')
+              | Standard Plan - Feb 2022
+              .mt-1(class='lg:hidden')
+                p.font-normal.text-gray-500 07 February, 2022
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell dark:text-white') 07 February, 2022
+            td.whitespace-no-wrap.py-4.px-6.text-right.text-sm.text-gray-600(class='lg:text-left dark:text-white')
+              | $59.00
+              .flex.mt-1.ml-auto.w-fit.items-center.rounded-full.bg-blue-600.py-2.px-3.text-left.text-xs.font-medium.text-white(class='lg:hidden') Complete
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell')
+              .inline-flex.items-center.rounded-full.bg-blue-600.py-2.px-3.text-xs.text-white Complete
+          tr
+            td.whitespace-no-wrap.py-4.text-sm.font-bold.text-gray-900(width='50%', class='sm:px-6 dark:text-white')
+              | Standard Plan - Jan 2022
+              .mt-1(class='lg:hidden')
+                p.font-normal.text-gray-500 09 January, 2022
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell dark:text-white') 09 January, 2022
+            td.whitespace-no-wrap.py-4.px-6.text-right.text-sm.text-gray-600(class='lg:text-left dark:text-white')
+              | $59.00
+              .flex.mt-1.ml-auto.w-fit.items-center.rounded-full.bg-red-200.py-1.px-2.text-left.font-medium.text-red-500(class='lg:hidden') Canceled
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell')
+              .inline-flex.items-center.rounded-full.bg-red-200.py-1.px-2.text-red-500 Canceled
+          tr
+            td.whitespace-no-wrap.py-4.text-sm.font-bold.text-gray-900(width='50%', class='sm:px-6 dark:text-white')
+              | Basic Plan - Dec 2021
+              .mt-1(class='lg:hidden')
+                p.font-normal.text-gray-500 15 December, 2021
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell dark:text-white') 15 December, 2021
+            td.whitespace-no-wrap.py-4.px-6.text-right.text-sm.text-gray-600(class='lg:text-left dark:text-white')
+              | $29.00
+              .flex.mt-1.ml-auto.w-fit.items-center.rounded-full.bg-blue-600.py-2.px-3.text-left.text-xs.font-medium.text-white(class='lg:hidden') Complete
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell')
+              .inline-flex.items-center.rounded-full.bg-blue-600.py-2.px-3.text-xs.text-white Complete
+          tr
+            td.whitespace-no-wrap.py-4.text-sm.font-bold.text-gray-900(width='50%', class='sm:px-6 dark:text-white')
+              | Basic Plan - Nov 2021
+              .mt-1(class='lg:hidden')
+                p.font-normal.text-gray-500 14 November, 2021
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell dark:text-white') 14 November, 2021
+            td.whitespace-no-wrap.py-4.px-6.text-right.text-sm.text-gray-600(class='lg:text-left dark:text-white')
+              | $29.00
+              .flex.mt-1.ml-auto.w-fit.items-center.rounded-full.bg-blue-200.py-1.px-2.text-left.font-medium.text-blue-500(class='lg:hidden') Pending
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell')
+              .inline-flex.items-center.rounded-full.bg-blue-200.py-1.px-2.text-blue-500 Pending
+          tr
+            td.whitespace-no-wrap.py-4.text-sm.font-bold.text-gray-900(width='50%', class='sm:px-6 dark:text-white')
+              | Basic Plan - Oct 2021
+              .mt-1(class='lg:hidden')
+                p.font-normal.text-gray-500 15 October, 2021
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell dark:text-white') 15 October, 2021
+            td.whitespace-no-wrap.py-4.px-6.text-right.text-sm.text-gray-600(class='lg:text-left dark:text-white')
+              | $29.00
+              .flex.mt-1.ml-auto.w-fit.items-center.rounded-full.bg-blue-600.py-2.px-3.text-left.text-xs.font-medium.text-white(class='lg:hidden') Complete
+            td.whitespace-no-wrap.hidden.py-4.text-sm.font-normal.text-gray-500(class='sm:px-6 lg:table-cell')
+              .inline-flex.items-center.rounded-full.bg-blue-600.py-2.px-3.text-xs.text-white Complete
