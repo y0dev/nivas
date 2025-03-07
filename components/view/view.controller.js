@@ -18,8 +18,20 @@ exports.getLoginPage = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getLoginPasswordPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("auth/login_pw", {
+    title: "Login",
+  });
+});
+
 exports.getSignupPage = catchAsync(async (req, res, next) => {
   res.status(200).render("auth/signup", {
+    title: "Signup",
+  });
+});
+
+exports.getSignupPasswordPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("auth/signup_pw", {
     title: "Signup",
   });
 });
@@ -71,11 +83,6 @@ exports.getBlogSinglePage = catchAsync(async (req, res, next) => {
             DASHBOARDS
 ============================== 
 */
-exports.getAdminDashboardPage = catchAsync(async (req, res, next) => {
-  res.status(200).render("dashboard/admin_dash/index", {
-    title: "Admin Dashboard",
-  });
-});
 
 exports.getUserDashboardPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/user_dash/index", {
@@ -85,6 +92,12 @@ exports.getUserDashboardPage = catchAsync(async (req, res, next) => {
 
 exports.getPropSearchPage = catchAsync(async (req, res, next) => {
   res.status(200).render("dashboard/user_dash/properties_search", {
+    title: "Properties Search",
+  });
+});
+
+exports.getPropSearchAdPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("dashboard/user_dash_ad/properties_search", {
     title: "Properties Search",
   });
 });
@@ -110,5 +123,23 @@ exports.get404Page = catchAsync(async (req, res, next) => {
 exports.get500Page = catchAsync(async (req, res, next) => {
   res.status(200).render("error/500", {
     title: "500 Error",
+  });
+});
+
+exports.getEmailSignInPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("email/signin", {
+    title: "Sign In",
+  });
+});
+
+exports.getEmailContactPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("email/contact_email", {
+    title: "Contact",
+  });
+});
+
+exports.getEmailResetPWPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("email/reset_password", {
+    title: "Reset Password",
   });
 });

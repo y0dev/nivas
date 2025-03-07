@@ -85,9 +85,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   }
 
   const newUser = await User.create({
-    name: req.body.name,
     email: req.body.email,
-    username: req.body.username,
     password: req.body.password,
     confirmPassword: req.body.passwordConfirmation,
   });
@@ -421,7 +419,7 @@ exports.premiumUserCount = catchAsync(async (req, res, next) => {
 });
 
 exports.searchCount = catchAsync(async (req, res, next) => {
-  logger.info("Getting Users Total Search COunt");
+  logger.info("Getting Users Total Search Count");
   const user = await User.findById(req.user.id);
 
   if (!user.isAdmin) {
@@ -435,3 +433,4 @@ exports.searchCount = catchAsync(async (req, res, next) => {
   const count = await SearchHistory.countDocuments();
   res.send({ status: "success", count });
 });
+

@@ -17,7 +17,7 @@ const subscriptionPlans = {
       allowedSearches: 120,
     },
     support: 'Community Support',
-    features: ['Basic Analytics', 'Access to Standard Content'],
+    features: ['Basic Analytics', 'Access to Standard Content', '3 Searches per day'],
     trialPeriod: 0, // No trial period for free plan
   },
   pro: {
@@ -32,7 +32,7 @@ const subscriptionPlans = {
       allowedSearches: 360,
     },
     support: 'Priority Email Support',
-    features: ['Advanced Analytics', 'Access to Premium Content', 'API Access'],
+    features: ['Advanced Analytics', 'Access to Premium Content', '30 Searches per day', 'Block Ads'],
     trialPeriod: TRIAL_PERIOD_DAYS, // in days
   },
   elite: {
@@ -47,7 +47,7 @@ const subscriptionPlans = {
       allowedSearches: 1200,
     },
     support: '24/7 Phone Support',
-    features: ['Advanced Analytics', 'Access to Premium Content', 'API Access', 'Data Export'],
+    features: ['Advanced Analytics', 'Access to Premium Content', 'API Access', 'Data Export', '75 Searches per day', 'Block Ads'],
     trialPeriod: TRIAL_PERIOD_DAYS, // in days
   },
 };

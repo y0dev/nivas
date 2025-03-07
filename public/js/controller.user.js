@@ -60,15 +60,13 @@ export const logout = async () => {
  * @param {string} password - The user's password.
  * @param {string} passwordConfirmation - The user's password confirmation.
  */
-export const signup = async (name, email, username, password, passwordConfirmation) => {
+export const signup = async (email, password, passwordConfirmation) => {
   try {
     const res = await axios({
       method: "POST",
       url: `http://localhost:${port}/api/v1/user/signup`,
       data: {
-        name,
         email,
-        username,
         password,
         passwordConfirmation,
       },

@@ -1,5 +1,7 @@
 const multer = require("multer");
 const sharp = require("sharp");
+const jwt = require('jsonwebtoken');
+const { promisify } = require("util");
 const User = require("./user.schema");
 const AppError = require("../../utils/appError");
 const catchAsync = require("../../utils/catchAsync");
@@ -23,6 +25,45 @@ const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
 });
+
+/**
+ * This function will verify the magic token, check if it is valid, 
+ * unexpired, and associated with a user.
+ */
+const verifyMagicToken = async (token) => {
+  try {
+      // Decode and verify the token
+      const decoded = await promisify(jwt.verify)(token, process.env.MAGIC_LINK_SECRET_KEY || "your_secret_key");
+
+      // Extract the email from the token
+      const { email } = decoded;
+
+      // Find the user by email
+      const user = await User.findOne({ email });
+
+      if (!user) {
+          return null; // User not found
+      }
+
+      return user; // Return the authenticated user
+  } catch (error) {
+      console.error("Magic token verification failed:", error);
+      return null; // Token invalid or expired
+  }
+};
+
+/**
+ * This function generates an authentication token (e.g., a session or JWT) 
+ * after verifying the magic token.
+ */
+const generateAuthToken = (user) => {
+  const payload = {
+      id: user._id,
+      email: user.email,
+  };
+
+  return jwt.sign(payload, process.env.AUTH_SECRET || "auth_secret_key", { expiresIn: "7d" });
+};
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
@@ -188,6 +229,25 @@ exports.getCookieConsent = catchAsync(async (req, res, next) => {
       cookieConsent: user.cookieConsent,
     },
   });
+});
+
+exports.getMagicLink = catchAsync(async (req, res, next) => {
+  const { token } = req.query;
+
+  if (!token) {
+    return res.status(400).json({ status: "fail", message: "Invalid magic link" });
+  }
+
+  // Verify the token
+  const user = verifyMagicToken(token);
+  if (!user) {
+      return res.status(401).json({ status: "fail", message: "Invalid or expired token" });
+  }
+
+  // Log the user in (e.g., create a session, issue JWT, etc.)
+  const authToken = generateAuthToken(user);
+  // Redirect the user to the dashboard or appropriate page
+  res.redirect(`https://www.urbaninsightinc.com/dashboard?auth=${authToken}`);
 });
 
 //admin

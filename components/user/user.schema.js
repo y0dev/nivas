@@ -5,24 +5,12 @@ const crypto = require("crypto");
 const Payment = require("../payment/payment.schema");
 
 const userSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "User must have a name"],
-    maxlength: 30,
-    minlength: 2,
-  },
   email: {
     type: String,
     required: [true, "User must have an email"],
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email"],
-  },
-  username: {
-    type: String,
-    required: [true, "User must have a username"],
-    maxlength: 30,
-    minlength: 2,
   },
   photo: {
     type: String,

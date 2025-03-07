@@ -24,10 +24,22 @@ block content
                   | Email
                   span.text-xl.text-red-500(class='dark:text-red-400') *
                 input#email.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='email' name='email' autocomplete='email' class='focus:ring-2 dark:border-gray-700')
+                div.form__group
+                  label.mb-2.block.text-gray-600(for='password' class='dark:text-gray-300')
+                    | Password 
+                    span.text-xl.text-red-500(class='dark:text-red-400') *
+                  input#password.peer.block.w-full.rounded-lg.border.border-gray-200.bg-transparent.px-4.py-2.text-gray-600.transition-shadow.duration-300(type='password' name='password' autocomplete="current-password" class='focus:ring-2 dark:border-gray-700')
+                div.form__group.flex.items-start
+                  .flex.items-center.h-5
+                  //-   input#remember.w-4.h-4.border.border-gray-100.rounded.bg-transparent(aria-describedby='remember' type='checkbox' class='focus:ring-3 focus:ring-primary dark:border-gray-700 dark:focus:ring-primaryLight dark:ring-offset-gray-800')
+                  //- .ml-3.text-sm
+                  //-   label.font-light.text-gray-500(for='remember' class='dark:text-gray-300')
+                  //-     | Remember this device
+                  a.ml-auto.text-sm.font-medium.text-primary(href='/forgot-password' class='hover:underline dark:text-primaryLight') Forgot Password?
             button.relative.m-auto.flex.w-full.h-11.items-center.justify-center.px-6(type='submit' class='before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition-transform before:duration-300 active:duration-75 active:before:scale-95 dark:before:bg-primaryLight')
-              span.relative.text-base.font-semibold.text-white(class='dark:text-gray-900') Send me a magic link
+              span.relative.text-base.font-semibold.text-white(class='dark:text-gray-900') Login
           .flex.flex-col.items-center.px-8.py-4.text-center.text-sm.text-gray-800(class='dark:text-white')
-            a.underline.underline-offset-4(class='hover:text-brand', data-state='closed', href='/login/password') Log in using password
+            a.underline.underline-offset-4(class='hover:text-brand', data-state='closed', href='/login') Log in using magic link
           .relative.py-2
             div.absolute.inset-0.flex.items-center
               span.w-full.border-t
@@ -63,3 +75,13 @@ block content
                 //- img.h-12.w-12.rounded-full(src='./../images/avatars/avatar-2.webp' alt='user avatar' width='200' height='200' loading='lazy')
                 div
                   h2.leading-0.text-lg.font-medium.text-gray-700(class='dark:text-white') Maya Angelou
+                  //- p.leading-0.text-sm.text-gray-500(class='-mt-0.5 dark:text-gray-400') Backend dev
+          
+          //- .mt-12.text-center
+            a.text-sm.font-semibold.tracking-widest(href='./customers.html' class='dark:text-white') TRUSTED BY TOP TECHS COMPANIES
+            .mt-8.flex.flex-wrap.justify-center.gap-6.brightness-75.contrast-200.grayscale(class='dark:brightness-200 dark:contrast-0 lg:gap-x-24')
+              img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/airbnb.svg' loading='lazy' alt='airbnb' width='' height='')
+              img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/coty.svg' loading='lazy' alt='coty' width='' height='')
+              img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/ge.svg' loading='lazy' alt='ge' width='' height='')
+              img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/lilly.png' loading='lazy' alt='lilly' width='' height='')
+              img.h-8.w-auto(class='lg:h-10 lg:w-auto' src='./../images/clients/microsoft.svg' loading='lazy' alt='microsoft' width='' height='')

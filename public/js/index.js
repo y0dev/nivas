@@ -129,15 +129,11 @@ if (contactForm) {
 if (signupForm) {
   signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const firstName = document.getElementById("first-name").value;
-    const lastName = document.getElementById("last-name").value;
     const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const passwordConfirmed =
       document.getElementById("confirm-password").value;
-    const name = firstName.concat(" ", lastName);
-    signup(name, email, username, password, passwordConfirmed);
+    signup(email, password, passwordConfirmed);
   });
 }
 
