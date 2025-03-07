@@ -1937,10 +1937,6 @@ select {
     --tw-bg-opacity: 1;
     background-color: rgb(206 230 252 / var(--tw-bg-opacity, 1));
 }
-.bg-blue-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(41 148 239 / var(--tw-bg-opacity, 1));
-}
 .bg-gray-100 {
     --tw-bg-opacity: 1;
     background-color: rgb(233 233 236 / var(--tw-bg-opacity, 1));

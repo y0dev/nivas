@@ -130,3 +130,9 @@ exports.get500Page = catchAsync(async (req, res, next) => {
     title: "500 Error",
   });
 });
+
+exports.getEmailSignInPage = catchAsync(async (req, res, next) => {
+  res.status(200).render("email/signin", {
+    title: "Sign In",
+  });
+});

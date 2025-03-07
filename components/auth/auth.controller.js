@@ -434,22 +434,3 @@ exports.searchCount = catchAsync(async (req, res, next) => {
   res.send({ status: "success", count });
 });
 
-exports.sendMagicLink = async (req, res) => {
-  const { email } = req.body;
-
-  logger.info(`Sending Magic Link to ${email}...`);
-  
-  if (!email) {
-    return res.status(400).json({ status: "fail", message: "Email is required" });
-  }
-
-  try {
-
-    await new Email(user, resetURL).sendMagicLink(email);
-
-    res.status(200).json({ status: "success", message: "Magic link sent!" });
-  } catch (error) {
-    console.error("Error sending magic link:", error);
-    res.status(500).json({ status: "error", message: "Failed to send magic link" });
-  }
-};

@@ -19,6 +19,7 @@ const {
   getAboutPage,
   getContactPage,
   getPricingPage,
+  getEmailSignInPage
 } = require("./view.controller");
 
 const { protectedViewRoutes } = require("../auth/auth.controller");
@@ -52,6 +53,7 @@ if (process.env.NODE_ENV == "production") {
   router.get("/dashboard", getUserDashboardPage);
   router.get("/prop-search", getPropSearchPage);
   router.get("/settings", getUserSettingsPage);
+  router.get("/email/signin", getEmailSignInPage);
 }
 
 router.get("/payment", getPaymentPage);

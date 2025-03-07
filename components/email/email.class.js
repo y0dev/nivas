@@ -57,7 +57,6 @@ module.exports = class Email {
     const html = pug.renderFile(
       `${__dirname}/../../views/email/${template}.pug`,
       {
-        firstName: this.firstName,
         url: this.url,
         subject,
       }
@@ -68,6 +67,32 @@ module.exports = class Email {
       from: this.from,
       to: this.to,
       subject: subject,
+      html,
+      text: htmlToText(html),
+    };
+
+    // Send email
+    await this.newTransport().sendMail(mailOptions);
+  }
+
+  /**
+   * Sends a magic link email
+   * @param {string} magicLink - The magic link that allows user to login
+   */
+  async sendMagicLink() {
+    // Render HTML based on the template
+    const html = pug.renderFile(
+      `${__dirname}/../../views/email/signin.pug`,
+      {
+        magicLink: this.url,
+      }
+    );
+
+    // Email options
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject: "Your Urban Insights Magic Sign-In Link",
       html,
       text: htmlToText(html),
     };
@@ -98,12 +123,12 @@ module.exports = class Email {
   }
 
   /**
-   * Sends a magic link email
+   * 
    */
-  async sendMagicLink(email) {
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "10m" });
-    const magicLink = `${process.env.FRONTEND_URL}/auth/magic-login?token=${token}`;
+  // async sendMagicLink(email) {
+  //   const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "10m" });
+  //   const magicLink = `${process.env.FRONTEND_URL}/auth/magic-login?token=${token}`;
     
-    await this.send("magic_link", `Click <a href="${magicLink}">here</a> to log in.`);
-  }
+  //   await this.send("signin", `Click <a href="${magicLink}">here</a> to log in.`);
+  // }
 };
