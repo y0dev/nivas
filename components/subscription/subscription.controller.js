@@ -217,20 +217,23 @@ exports.purchaseSubscription = catchAsync(async (req, res, next) => {
 
 /**
  * Get upgrade options
- * @route GET /api/v1/user/upgrade-options
+ * @route GET /api/v1/subscription/upgrade-options
  * @access Protected (if not in development)
  * @returns {Object[]} Available upgrade options
  */
 exports.getUpgradeOptions = catchAsync(async (req, res, next) => {
   try {
-    const plans = [
-      { name: "Basic", price: 10, features: ["5 searches/day"] },
-      { name: "Pro", price: 25, features: ["50 searches/day", "Priority support"] },
-      { name: "Enterprise", price: 50, features: ["Unlimited searches", "Market reports"] },
-    ];
-    res.status(200).json({ status: "success", data: plans });
+    // Exclude the free plan if only paid upgrades should be displayed
+    const availablePlans = Object.keys(subscriptionPlans)
+      .filter((plan) => plan !== "basic") // Remove this line if the basic plan should be included
+      .reduce((acc, key) => {
+        acc[key] = subscriptionPlans[key];
+        return acc;
+      }, {});
+
+    res.status(200).json({ status: "success", data: availablePlans });
   } catch (error) {
-    res.status(500).json({ status: "error", message: "Failed to fetch upgrade options" });
+    return next(new AppError("Failed to fetch upgrade options", 500));
   }
 });
 
@@ -243,28 +246,28 @@ exports.getUpgradeOptions = catchAsync(async (req, res, next) => {
  */
 exports.upgradeSubscription = catchAsync(async (req, res, next)  => {
   try {
-    const { plan } = req.body;
+    const { plan, billingCycle } = req.body;
 
-    // Example plan details
-    const planConfig = {
-      basic: { price: 10, allowedSearches: 5 },
-      pro: { price: 25, allowedSearches: 50 },
-      enterprise: { price: 50, allowedSearches: Infinity },
-    };
-
-    if (!planConfig[plan]) {
-      return res.status(400).json({ status: "fail", message: "Invalid plan" });
+    if (!subscriptionPlans[plan]) {
+      return next(new AppError("Invalid plan", 400));
     }
+
+    if (!["monthly", "annual"].includes(billingCycle)) {
+      return next(new AppError("Invalid billing cycle", 400));
+    }
+
+    // Get allowed searches based on billing cycle
+    const allowedSearches = subscriptionPlans[plan][billingCycle].allowedSearches;
 
     const subscription = await Subscription.findOneAndUpdate(
       { user: req.user.id },
-      { plan, allowedSearches: planConfig[plan].allowedSearches },
+      { plan, allowedSearches: allowedSearches },
       { new: true }
     );
 
     res.status(200).json({ status: "success", data: subscription });
   } catch (error) {
-    res.status(500).json({ status: "error", message: "Failed to upgrade subscription" });
+    return next(new AppError("Failed to upgrade subscription", 500));
   }
 });
 
@@ -277,27 +280,28 @@ exports.upgradeSubscription = catchAsync(async (req, res, next)  => {
  */
 exports.downgradeSubscription = catchAsync(async (req, res, next)  => {
   try {
-    const { plan } = req.body;
+    const { plan, billingCycle } = req.body;
 
-    const planConfig = {
-      basic: { price: 10, allowedSearches: 5 },
-      pro: { price: 25, allowedSearches: 50 },
-      enterprise: { price: 50, allowedSearches: Infinity },
-    };
-
-    if (!planConfig[plan]) {
-      return res.status(400).json({ status: "fail", message: "Invalid plan" });
+    if (!subscriptionPlans[plan]) {
+      return next(new AppError("Invalid plan", 400));
     }
+
+    if (!["monthly", "annual"].includes(billingCycle)) {
+      return next(new AppError("Invalid billing cycle", 400));
+    }
+
+    // Get allowed searches based on billing cycle
+    const allowedSearches = subscriptionPlans[plan][billingCycle].allowedSearches;
 
     const subscription = await Subscription.findOneAndUpdate(
       { user: req.user.id },
-      { plan, allowedSearches: planConfig[plan].allowedSearches },
+      { plan, allowedSearches: allowedSearches },
       { new: true }
     );
 
     res.status(200).json({ status: "success", data: subscription });
   } catch (error) {
-    res.status(500).json({ status: "error", message: "Failed to downgrade subscription" });
+    return next(new AppError("Failed to downgrade subscription", 500));
   }
 });
 
@@ -309,8 +313,12 @@ exports.downgradeSubscription = catchAsync(async (req, res, next)  => {
  * @returns {Object} Updated subscription object with active set to false
  */
 exports.getSubscriptionPlans = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    status: 'success',
-    data: subscriptionPlans,
-  });
+  try {
+    res.status(200).json({
+      status: "success",
+      data: subscriptionPlans,
+    });
+  } catch (error) {
+    return next(new AppError("Failed to fetch subscription plans", 500));
+  }
 });

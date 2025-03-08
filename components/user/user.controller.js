@@ -2,7 +2,8 @@ const multer = require("multer");
 const sharp = require("sharp");
 const jwt = require('jsonwebtoken');
 const { promisify } = require("util");
-const User = require("./user.schema");
+const { User, Property } = require("./user.schema");
+const { SearchHistory } = require("../history/history.schema");
 const AppError = require("../../utils/appError");
 const catchAsync = require("../../utils/catchAsync");
 const logger = require("../../utils/logger").logger;
@@ -51,6 +52,33 @@ const verifyMagicToken = async (token) => {
       console.error("Magic token verification failed:", error);
       return null; // Token invalid or expired
   }
+};
+
+/**
+ * Helper function to calculate the start date based on the requested period.
+ * @param {string} period - The period for filtering search history ('week', 'twoWeeks', 'month')
+ * @returns {Date} The start date based on the given period
+ */
+const getDateRange = (period) => {
+  const today = new Date();
+  let startDate;
+
+  switch (period) {
+    case 'week':
+      startDate = new Date(today.setDate(today.getDate() - 7));
+      break;
+    case 'twoWeeks':
+      startDate = new Date(today.setDate(today.getDate() - 14));
+      break;
+    case 'month':
+      startDate = new Date(today.setMonth(today.getMonth() - 1));
+      break;
+    default:
+      startDate = today;
+      break;
+  }
+
+  return startDate;
 };
 
 /**
@@ -252,6 +280,38 @@ exports.getCookieConsent = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getSearchHistory = catchAsync(async (req, res, next) => {
+  const { period } = req.params;
+
+  try {
+    // Validate period (week, twoWeeks, or month)
+    if (!['week', 'twoWeeks', 'month'].includes(period)) {
+      return next(new AppError('Invalid period. Use week, twoWeeks, or month.', 400));
+    }
+
+    // Get the start date based on the period
+    const startDate = getDateRange(period);
+
+    // Fetch search history from the database within the date range
+    const searchHistory = await SearchHistory.find({
+      userId: req.user.id,
+      searchedAt: { $gte: startDate },
+    })
+      .sort({ searchedAt: -1 }) // Sort by most recent searches
+      .exec();
+
+    res.status(200).json({
+      status: 'success',
+      data: searchHistory,
+    });
+
+  } catch (error) {
+    // Handle any errors during the search history retrieval process
+    console.error(error);
+    return next(new AppError('Failed to fetch search history', 500));
+  }
+});
+
 /**
  * Generates a Magic Link for User Login
  * @route GET /api/v1/subscriptions/remaining-searches
@@ -295,7 +355,7 @@ exports.getBillingDetails = catchAsync(async(req, res, next) => {
 
 /**
  * Retrieves the remaining searches for the month
- * @route GET /api/v1/subscriptions/remaining-searches
+ * @route GET /api/v1/user/remaining-searches
  * @access Protected (if not in development)
  * @returns {Object} Remaining searches count
  */
@@ -314,20 +374,20 @@ exports.getRemainingSearches = catchAsync(async(req, res, next) => {
 
 /**
  * Retrieve recent searches (last 10)
- * @route GET /api/v1/user/remaining-searches
+ * @route GET /api/v1/user/recent-searches
  * @access Protected (if not in development)
  * @returns {Object[]} List of recent searches
  */
-exports.getRecentSearches = async (req, res) => {
+exports.getRecentSearches = catchAsync(async(req, res, next) => {
   try {
-    const searches = await Search.find({ userId: req.user.id })
+    const searches = await SearchHistory.find({ userId: req.user.id })
       .sort({ createdAt: -1 })
       .limit(10);
     res.status(200).json({ status: "success", data: searches });
   } catch (error) {
     res.status(500).json({ status: "error", message: "Failed to fetch searches" });
   }
-};
+});
 
 /**
  * Retrieve saved properties
@@ -335,14 +395,14 @@ exports.getRecentSearches = async (req, res) => {
  * @access Protected (if not in development)
  * @returns {Object[]} List of saved properties
  */
-exports.getSavedProperties = async (req, res) => {
+exports.getSavedProperties = catchAsync(async(req, res, next) => {
   try {
     const properties = await Property.find({ savedBy: req.user.id });
     res.status(200).json({ status: "success", data: properties });
   } catch (error) {
     res.status(500).json({ status: "error", message: "Failed to fetch properties" });
   }
-};
+});
 
 //admin
 exports.updateUser = factory.updateOne(User);

@@ -4,7 +4,10 @@ const {
   getSubscriptions,
   cancelSubscription,
   getSubscriptionPlans,
-  purchaseSubscription
+  purchaseSubscription,
+  upgradeSubscription,
+  downgradeSubscription,
+  getUpgradeOptions
 } = require("./subscription.controller");
 
 const { protect } = require("../auth/auth.controller");
@@ -56,5 +59,31 @@ router.get("/plans", getSubscriptionPlans);
  * @access Protected (if not in development)
  */
 router.post("/purchase", purchaseSubscription);
+
+/**
+ * Upgrade subscription
+ * @route POST /api/v1/subscription/upgrade
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be upgraded
+ * @returns {Object} Updated subscription object
+ */
+router.post("/upgrade", upgradeSubscription);
+
+/**
+ * Downgrade subscription
+ * @route POST /api/v1/subscription/downgrade
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be downgraded
+ * @returns {Object} Updated subscription object
+ */
+router.post("/downgrade", downgradeSubscription);
+
+/**
+ * Retrieve upgrade options
+ * @route GET /api/v1/subscription/upgrade-options
+ * @access Protected
+ * @returns {Object[]} Available upgrade options
+ */
+router.get("/upgrade-options", getUpgradeOptions);
 
 module.exports = router;

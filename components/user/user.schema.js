@@ -26,7 +26,6 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Please confirm password"],
     validate: {
-      // This only works on CREATE and SAVE, not on UPDATE
       validator: function (el) {
         return el === this.password;
       },
@@ -73,6 +72,34 @@ const userSchema = new Schema({
       ref: "Subscription",
     },
   ],
+  billing: {
+    billingAddress: {
+      street: String,
+      city: String,
+      state: String,
+      zipCode: String,
+    },
+    cardDetails: {
+      cardNumber: String,
+      expirationDate: String,
+      cardHolder: String,
+      cardType: {
+        type: String,
+        enum: ["VISA", "MasterCard", "AMEX", "Discover"],
+      },
+    },
+    billingCycle: {
+      type: String,
+      enum: ["Monthly", "Annually"],
+    },
+    nextBillingDate: {
+      type: Date,
+    },
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
+  },
 });
 
 // Hash the password before saving the user
@@ -148,4 +175,94 @@ userSchema.methods.createPasswordResetToken = function () {
 
 const User = model("User", userSchema);
 
-module.exports = { User };
+/**
+ * Property Schema
+ * Represents a real estate property saved by the user.
+ */
+const propertySchema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    mlsId: {
+      type: String,
+      required: false, // Optional for non-MLS properties
+      minLength: 2,
+      maxLength: 12,
+    },
+    address: {
+      type: String,
+      required: true,
+      minLength: 2,
+      maxLength: 255,
+    },
+    city: {
+      type: String,
+      required: true,
+      minLength: 2,
+      maxLength: 255,
+    },
+    state: {
+      type: String,
+      required: true,
+      minLength: 2,
+      maxLength: 255,
+    },
+    zipCode: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    bedrooms: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 12,
+    },
+    bathrooms: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 12,
+    },
+    squareFeet: {
+      type: Number,
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ["Single Family", "Multi Family", "Condo", "Townhouse", "Land"],
+      required: true,
+    },
+    imageUrl: {
+      type: String,
+    },
+    listedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    modifiedOn: {
+      type: Date,
+      default: Date.now,
+    },
+    savedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
+
+propertySchema.pre("save", function (next) {
+  this.modifiedOn = new Date();
+  next();
+});
+
+const Property = model("User", propertySchema);
+
+module.exports = { User, Property };

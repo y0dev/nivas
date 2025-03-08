@@ -12,7 +12,13 @@ const {checkSubscription} = require("../subscription/subscription.controller");
 
 const router = express.Router({ mergeParams: true });
 
-// Conditionally apply the `protect` middleware in non-development environments
+/**
+ * Protect routes for authenticated users
+ * @route GET /api/v1/me
+ * @access Protected
+ * @returns {Object} User details
+ * @throws {401} Unauthorized if the user is not authenticated
+ */
 if (process.env.NODE_ENV !== "development") {
   router.use(protect);
 }
