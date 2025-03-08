@@ -400,28 +400,25 @@ export const updateUserDetails = async (name, email) => {
  * Function to delete the user's account (with confirmation before running).
  */
 export const deleteUserAccount = async () => {
-  const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-  if (confirmDelete) {
-    try {
-      const res = await fetch(`http://localhost:${port}/api/v1/user/deleteUser`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+  try {
+    const res = await fetch(`http://localhost:${port}/api/v1/user/deleteUser`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
 
-      const data = await res.json();
-      if (data.status === "success") {
-        showAlert("success", "Account deleted successfully");
-        // Redirect to logout or landing page
-        window.location.href = "/";
-      } else {
-        throw new Error(data.message || "Failed to delete account");
-      }
-    } catch (err) {
-      showAlert("error", err.message);
+    const data = await res.json();
+    if (data.status === "success") {
+      showAlert("success", "Account deleted successfully");
+      // Redirect to logout or landing page
+      window.location.href = "/";
+    } else {
+      throw new Error(data.message || "Failed to delete account");
     }
+  } catch (err) {
+    showAlert("error", err.message);
   }
 };
 

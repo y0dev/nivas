@@ -2,7 +2,11 @@
 import "./header/theme";
 import "./header/notification";
 import "./solutions";
-import { contactUs } from "./controller.email";
+import {
+  contactUs,
+  sendContactEmail,
+  sendMagicLinkEmail
+} from "./controller.email";
 import {
   downloadResults,
   searchForMLS,
@@ -13,7 +17,22 @@ import {
   removeSignupBtn,
   removeLogoutBtn,
 } from "./controller.navbar";
-import { signup, login, logout, setCookie, getCookie } from "./controller.user";
+import {
+  signup, login, logout, getUserDetails,
+  setCookie, getCookie, getRecentSearches,
+  getSavedProperties, updateUserDetails,
+  updatePassword, deleteUserAccount, forgotPassword
+} from "./controller.user";
+import {
+  createSubscription,
+  getSubscriptions,
+  cancelSubscription,
+  getSubscriptionPlans,
+  purchaseSubscription,
+  upgradeSubscription,
+  downgradeSubscription,
+  getUpgradeOptions,
+} from "./controller.subscription";
 import { subscribe, handleCheckout } from "./controller.stripe";
 import { updateChart } from "./dashboard/chart";
 import { sidebarToggle } from "./dashboard/navbar";
@@ -21,10 +40,14 @@ import { sortTableByColumn } from "./tablesort";
 
 const contactForm = document.querySelector(".form--contact");
 const signupForm = document.querySelector(".form--sign-up");
+const signupMagicForm = document.querySelector(".form-magic--sign-up");
 const loginForm = document.querySelector(".form--login");
+const loginMagicForm = document.querySelector(".form-magic--login");
 let mainWrapper = document.querySelector(".main-wrapper");
-let propertyContainer = document.querySelector(".container.property-container");
+const propertyContainer = document.querySelector(".container.property-container");
 const userContainer = document.querySelector(".container.user-dash-container");
+const accountSettingsContainer = document.querySelector("#account-settings.container");
+const billingContainer = document.querySelector("#billing.container");
 const pricingSection = document.querySelector("section#pricing");
 
 const hamburger = document.querySelector("#hamburger");
@@ -41,7 +64,8 @@ if (hamburger) {
 }
 
 
-if (userContainer || propertyContainer) {
+if (userContainer || propertyContainer ||
+  accountSettingsContainer || billingContainer) {
   const logoutButton = document.getElementById("logout");
   logoutButton.addEventListener("click", () => {
     logout();
@@ -54,6 +78,8 @@ if (userContainer || propertyContainer) {
     // Load users history
     window.addEventListener("load", () => {
       getSearchHistory();
+      getRecentSearches();
+      getSavedProperties();
     });
   }
 
@@ -88,6 +114,57 @@ if (userContainer || propertyContainer) {
         downloadResults();
       });
     }
+  }
+
+  if (accountSettingsContainer) {
+    window.addEventListener("load", () => {
+      getUserDetails();
+    });
+
+    const emailChangeBtn = document.querySelector("#email-change-btn");
+    if (emailChangeBtn) {
+      emailChangeBtn.addEventListener("click", () => {
+        // Call function to handle email change (e.g., show email change form)
+        updateUserDetails();
+      });
+    }
+
+    const forgotPWBtn = document.querySelector("#forgot-pw-btn");
+    if (forgotPWBtn) {
+      forgotPWBtn.addEventListener("click", () => {
+        forgotPassword();
+      });
+    }
+
+    // Listener for save password button
+    const savePwBtn = document.querySelector("#save-pw-btn");
+    if (savePwBtn) {
+      const currentPassword = document.querySelector("#current-password");
+      const newPassword = document.querySelector("#new-password");
+      savePwBtn.addEventListener("click", () => {
+        // Call function to handle password saving (e.g., validate and update password)
+        updatePassword(currentPassword, newPassword);
+      });
+    }
+
+    const deleteBtn = document.querySelector("#delete-btn");
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", () => {
+        // Ask for confirmation before deleting the account
+        const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        if (confirmation) {
+          deleteUserAccount();
+        }
+      });
+    }
+  }
+
+  if (billingContainer) {
+    window.addEventListener("load", () => {
+      getSubscriptions();
+      getSubscriptionPlans();
+      getUpgradeOptions();
+    });
   }
 }
 
@@ -135,6 +212,15 @@ if (signupForm) {
     const passwordConfirmed =
       document.getElementById("confirm-password").value;
     signup(email, password, passwordConfirmed);
+  });
+}
+
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    login(email, password);
   });
 }
 
