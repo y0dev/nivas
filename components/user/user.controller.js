@@ -8,6 +8,7 @@ const catchAsync = require("../../utils/catchAsync");
 const logger = require("../../utils/logger").logger;
 const factory = require("../repo/repo.controller");
 const UtilityService = require("../../utils/utilities");
+const { Subscription } = require('../subscription/subscription.schema');
 const Payment = require("../payment/payment.schema");
 
 const multerStorage = multer.memoryStorage();
@@ -175,7 +176,13 @@ function get_number_of_coins(amount, purchasedItems) {
   return 0;
 }
 
-// Handle purchasing of coins Tier
+/**
+ * Handle purchasing of coins Tier
+ * @route GET /api/v1/subscriptions/remaining-searches
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be canceled
+ * @returns {Object} Updated subscription object with active set to false
+ */
 exports.purchaseCoins = catchAsync(async (req, res, next) => {
   try {
     const user = req.user; // Assuming you have user information available in the request object
@@ -203,6 +210,13 @@ exports.purchaseCoins = catchAsync(async (req, res, next) => {
   }
 });
 
+/**
+ * Generates a Magic Link for User Login
+ * @route GET /api/v1/subscriptions/remaining-searches
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be canceled
+ * @returns {Object} Updated subscription object with active set to false
+ */
 exports.setCookieConsent = catchAsync(async (req, res, next) => {
   const { value } = req.body;
   const user = await User.findByIdAndUpdate(req.user.id, { cookieConsent: value }, { new: true });
@@ -216,6 +230,13 @@ exports.setCookieConsent = catchAsync(async (req, res, next) => {
   });
 });
 
+/**
+ * Generates a Magic Link for User Login
+ * @route GET /api/v1/subscriptions/remaining-searches
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be canceled
+ * @returns {Object} Updated subscription object with active set to false
+ */
 exports.getCookieConsent = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
 
@@ -231,6 +252,13 @@ exports.getCookieConsent = catchAsync(async (req, res, next) => {
   });
 });
 
+/**
+ * Generates a Magic Link for User Login
+ * @route GET /api/v1/subscriptions/remaining-searches
+ * @access Protected (if not in development)
+ * @param {string} token - ID of the magic link to create
+ * @returns {Object} Updated subscription object with active set to false
+ */
 exports.getMagicLink = catchAsync(async (req, res, next) => {
   const { token } = req.query;
 
@@ -249,6 +277,72 @@ exports.getMagicLink = catchAsync(async (req, res, next) => {
   // Redirect the user to the dashboard or appropriate page
   res.redirect(`https://www.urbaninsightinc.com/dashboard?auth=${authToken}`);
 });
+
+/**
+ * Retrieve billing details
+ * @route GET /api/v1/user/billing
+ * @access Protected (if not in development)
+ * @returns {Object} User's billing details
+ */
+exports.getBillingDetails = catchAsync(async(req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select("billing");
+    res.status(200).json({ status: "success", data: user.billing });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to fetch billing details" });
+  }
+});
+
+/**
+ * Retrieves the remaining searches for the month
+ * @route GET /api/v1/subscriptions/remaining-searches
+ * @access Protected (if not in development)
+ * @returns {Object} Remaining searches count
+ */
+exports.getRemainingSearches = catchAsync(async(req, res, next) => {
+  try {
+    const subscription = await Subscription.findOne({ user: req.user.id });
+    if (!subscription) {
+      return next(new AppError('Subscription not found', 404));
+    }
+
+    res.status(200).json({ status: "success", remainingSearches: subscription.allowedSearches });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to retrieve remaining searches" });
+  }
+});
+
+/**
+ * Retrieve recent searches (last 10)
+ * @route GET /api/v1/user/remaining-searches
+ * @access Protected (if not in development)
+ * @returns {Object[]} List of recent searches
+ */
+exports.getRecentSearches = async (req, res) => {
+  try {
+    const searches = await Search.find({ userId: req.user.id })
+      .sort({ createdAt: -1 })
+      .limit(10);
+    res.status(200).json({ status: "success", data: searches });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to fetch searches" });
+  }
+};
+
+/**
+ * Retrieve saved properties
+ * @route GET /api/v1/user/saved-properties
+ * @access Protected (if not in development)
+ * @returns {Object[]} List of saved properties
+ */
+exports.getSavedProperties = async (req, res) => {
+  try {
+    const properties = await Property.find({ savedBy: req.user.id });
+    res.status(200).json({ status: "success", data: properties });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to fetch properties" });
+  }
+};
 
 //admin
 exports.updateUser = factory.updateOne(User);

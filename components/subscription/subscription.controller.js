@@ -95,6 +95,9 @@ exports.createSubscription = catchAsync(async (req, res, next) => {
  */
 exports.getSubscriptions = catchAsync(async (req, res, next) => {
   const subscriptions = await Subscription.find({ user: getUserId(req) });
+  if (!subscription) {
+    return res.status(404).json({ status: "fail", message: "Subscription not found" });
+  }
 
   res.status(200).json({
     status: 'success',
@@ -168,6 +171,10 @@ exports.checkSubscription = (requiredPlan) => {
 
 /**
  * Purchase a subscription and apply it to the user's account
+ * @route GET /api/v1/subscriptions/cancel
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be canceled
+ * @returns {Object} Updated subscription object with active set to false
  */
 exports.purchaseSubscription = catchAsync(async (req, res, next) => {
   const { plan, billingInterval } = req.body;
@@ -209,11 +216,101 @@ exports.purchaseSubscription = catchAsync(async (req, res, next) => {
 });
 
 /**
- * Get subscription plans and their details
+ * Get upgrade options
+ * @route GET /api/v1/user/upgrade-options
+ * @access Protected (if not in development)
+ * @returns {Object[]} Available upgrade options
  */
-exports.getSubscriptionPlans = (req, res, next) => {
+exports.getUpgradeOptions = catchAsync(async (req, res, next) => {
+  try {
+    const plans = [
+      { name: "Basic", price: 10, features: ["5 searches/day"] },
+      { name: "Pro", price: 25, features: ["50 searches/day", "Priority support"] },
+      { name: "Enterprise", price: 50, features: ["Unlimited searches", "Market reports"] },
+    ];
+    res.status(200).json({ status: "success", data: plans });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to fetch upgrade options" });
+  }
+});
+
+/**
+ * Upgrade subscription
+ * @route POST /api/v1/subscription/upgrade
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be upgraded
+ * @returns {Object} Updated subscription object
+ */
+exports.upgradeSubscription = catchAsync(async (req, res, next)  => {
+  try {
+    const { plan } = req.body;
+
+    // Example plan details
+    const planConfig = {
+      basic: { price: 10, allowedSearches: 5 },
+      pro: { price: 25, allowedSearches: 50 },
+      enterprise: { price: 50, allowedSearches: Infinity },
+    };
+
+    if (!planConfig[plan]) {
+      return res.status(400).json({ status: "fail", message: "Invalid plan" });
+    }
+
+    const subscription = await Subscription.findOneAndUpdate(
+      { user: req.user.id },
+      { plan, allowedSearches: planConfig[plan].allowedSearches },
+      { new: true }
+    );
+
+    res.status(200).json({ status: "success", data: subscription });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to upgrade subscription" });
+  }
+});
+
+/**
+ * Downgrade subscription
+ * @route POST /api/v1/subscription/downgrade
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be downgraded
+ * @returns {Object} Updated subscription object
+ */
+exports.downgradeSubscription = catchAsync(async (req, res, next)  => {
+  try {
+    const { plan } = req.body;
+
+    const planConfig = {
+      basic: { price: 10, allowedSearches: 5 },
+      pro: { price: 25, allowedSearches: 50 },
+      enterprise: { price: 50, allowedSearches: Infinity },
+    };
+
+    if (!planConfig[plan]) {
+      return res.status(400).json({ status: "fail", message: "Invalid plan" });
+    }
+
+    const subscription = await Subscription.findOneAndUpdate(
+      { user: req.user.id },
+      { plan, allowedSearches: planConfig[plan].allowedSearches },
+      { new: true }
+    );
+
+    res.status(200).json({ status: "success", data: subscription });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Failed to downgrade subscription" });
+  }
+});
+
+/**
+ * Get subscription plans and their details
+ * @route GET /api/v1/subscriptions/plans
+ * @access Protected (if not in development)
+ * @param {string} subscriptionId - ID of the subscription to be canceled
+ * @returns {Object} Updated subscription object with active set to false
+ */
+exports.getSubscriptionPlans = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: subscriptionPlans,
   });
-};
+});
