@@ -3,67 +3,69 @@ extends base
 block content
     .px-6.py-6.mx-auto.container.user-dash-container
         .flex.flex-wrap.-mx-3
+            // Searches This Month
             .w-full.max-w-full.px-3.mb-6(class='dark:bg-slate-850 dark:shadow-dark-xl sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4')
-                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800")
+                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800 flex-grow: 1")
                     .flex-auto.p-4
                         .flex.flex-row.-mx-3
                             .flex-none.max-w-full.px-3(class='w-2/3')
                                 div
-                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Today&apos;s Money
-                                    h5.mb-2.font-bold(class='dark:text-white') $53,000
-                                    p.mb-0(class='dark:text-white dark:opacity-60')
-                                        span.font-bold.mr-2.leading-normal.text-sm.text-emerald-500 +55%
-                                        | since yesterday
+                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Searches This Month
+                                    h5.mb-2.font-bold(class='dark:text-white') 25
+                                    div(class="pt-2")
+                                        p(class="text-sm text-gray-500") 2 searches remaining
                             .px-3.text-right(class='basis-1/3')
                                 .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-blue-500.to-violet-500
-                                    i.ni.ni-money-coins.text-3xl.relative.text-white(class='top-3.5')
+                                    i.bx.bx-search.text-3xl.relative.text-white(class='top-2')
+            // Market Trends
             .w-full.max-w-full.px-3.mb-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4')
-                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800")
-                    .flex-auto.p-4
+                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800 flex-grow: 1")
+                    .flex-auto.p-4.h-full
                         .flex.flex-row.-mx-3
                             .flex-none.max-w-full.px-3(class='w-2/3')
                                 div
-                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Today&apos;s Users
-                                    h5.mb-2.font-bold(class='dark:text-white') 2,300
-                                    p.mb-0(class='dark:text-white dark:opacity-60')
-                                        span.font-bold.mr-2.leading-normal.text-sm.text-emerald-500 +3%
-                                        | since last week
-                            .px-3.text-right(class='basis-1/3')
-                                .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-red-600.to-orange-600
-                                    i.ni.ni-world.text-3xl.relative.text-white(class='top-3.5')
-            .w-full.max-w-full.px-3.mb-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4')
-                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800")
-                    .flex-auto.p-4
-                        .flex.flex-row.-mx-3
-                            .flex-none.max-w-full.px-3(class='w-2/3')
-                                div
-                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') New Clients
-                                    h5.mb-2.font-bold(class='dark:text-white') +3,462
-                                    p.mb-0(class='dark:text-white dark:opacity-60')
-                                        span.font-bold.mr-2.leading-normal.text-sm.text-red-500 -2%
-                                        | since last quarter
-                            .px-3.text-right(class='basis-1/3')
-                                .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-emerald-500.to-teal-400
-                                    i.ni.ni-paper-diploma.text-3xl.relative.text-white(class='top-3.5')
-            .w-full.max-w-full.px-3(class='sm:w-1/2 sm:flex-none xl:w-1/4')
-                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800")
-                    .flex-auto.p-4
-                        .flex.flex-row.-mx-3
-                            .flex-none.max-w-full.px-3(class='w-2/3')
-                                div
-                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Sales
-                                    h5.mb-2.font-bold(class='dark:text-white') $103,430
+                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Market Trends
+                                    h5.mb-2.font-bold(class='dark:text-white') 2
                                     p.mb-0(class='dark:text-white dark:opacity-60')
                                         span.font-bold.mr-2.leading-normal.text-sm.text-emerald-500 +5%
-                                        | than last month
+                                        | avg price increase
+                                    p(class="text-sm text-gray-500") Based on saved searches  
+                            .px-3.text-right(class='basis-1/3')
+                                .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-red-600.to-orange-600
+                                    i.bx.bx-trending-up.text-3xl.relative.text-white(class='top-2')
+            // Saved Properties
+            .w-full.max-w-full.px-3.mb-6(class='sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4')
+                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800 flex-grow: 1")
+                    .flex-auto.p-4
+                        .flex.flex-row.-mx-3
+                            .flex-none.max-w-full.px-3(class='w-2/3')
+                                div
+                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Saved Properties
+                                    h5.mb-2.font-bold(class='dark:text-white') 10
+                                    p.mb-0(class='dark:text-white dark:opacity-60') Bookmarked listings
+                            .px-3.text-right(class='basis-1/3')
+                                .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-emerald-500.to-teal-400
+                                    i.bx.bx-building-house.text-3xl.relative.text-white(class='top-2')
+            // Subscription Details
+            .w-full.max-w-full.px-3(class='sm:w-1/2 sm:flex-none xl:w-1/4')
+                .relative.flex.flex-col.min-w-0.break-words.bg-white.shadow-xl.rounded-2xl.bg-clip-border(class="dark:bg-gray-800 flex-grow: 1")
+                    .flex-auto.p-4
+                        .flex.flex-row.-mx-3
+                            .flex-none.max-w-full.px-3(class='w-2/3')
+                                div
+                                    p.mb-0.font-sans.font-semibold.leading-normal.uppercase.text-sm(class='dark:text-white dark:opacity-60') Subscription Plan
+                                    h5.mb-2.font-bold(class='dark:text-white') Pro
+                                    p.mb-0(class='dark:text-white dark:opacity-60') Next billing: 
+                                        span.font-bold.mr-2.leading-normal.text-sm April 15, 2020
                             .px-3.text-right(class='basis-1/3')
                                 .inline-block.w-12.h-12.text-center.rounded-full.bg-gradient-to-tl.from-orange-500.to-yellow-500
-                                    i.ni.ni-cart.text-3xl.relative.text-white(class='top-3.5')
+                                    i.bx.bx-detail.text-3xl.relative.text-white(class='top-2')
+        // Searches By Month Chart
         .flex.flex-wrap.mt-6.-mx-3
             .w-full.max-w-full.px-3.mt-0(class='lg:w-7/12 lg:flex-none')
                 .shadow-xl.relative.z-20.flex.min-w-0.flex-col.break-words.rounded-2xl.border-0.border-solid.bg-white.bg-clip-border(class='dark:bg-gray-800 border-black/12.5')
                     .mb-0.rounded-t-2xl.border-b-0.border-solid.p-6.pt-4.pb-0(class='border-black/12.5')
-                        h6.capitalize(class='dark:text-white') Return On Investment Overview
+                        h6.capitalize(class='dark:text-white') Total Searches
                         p.mb-0.leading-normal.text-sm(class='dark:text-white dark:opacity-60')
                             i.fa.fa-arrow-up.text-emerald-500(aria-hidden='true')
                             span.font-semibold 4% more
