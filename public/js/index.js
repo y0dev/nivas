@@ -13,7 +13,7 @@ import {
   removeSignupBtn,
   removeLogoutBtn,
 } from "./controller.navbar";
-import { signup, login, logout, subscribe, setCookie, getCookie } from "./controller.user";
+import { signup, login, logout, setCookie, getCookie } from "./controller.user";
 import { subscribe, handleCheckout } from "./controller.stripe";
 import { updateChart } from "./dashboard/chart";
 import { sidebarToggle } from "./dashboard/navbar";
