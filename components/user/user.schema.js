@@ -263,6 +263,6 @@ propertySchema.pre("save", function (next) {
   next();
 });
 
-const Property = model("User", propertySchema);
+const Property = model("Property", propertySchema);
 
 module.exports = { User, Property };
