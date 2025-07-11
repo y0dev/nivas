@@ -16,6 +16,7 @@ import {
   Calendar
 } from 'lucide-react'
 import { formatCurrency, formatPercentage } from '@/lib/utils'
+import PageHeader from '@/components/dashboard/page-header'
 
 const mockSavedProperties = [
   {
@@ -113,13 +114,11 @@ export default function SavedPropertiesPage() {
   return (
     <div className="flex-1 overflow-auto">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Saved Properties</h1>
-            <p className="text-gray-600">Manage your bookmarked investment properties</p>
-          </div>
-          <div className="flex items-center space-x-4">
+      <PageHeader
+        title="Saved Propertie"
+        description="Manage your bookmarked investment properties"
+        actions={
+          <>
             <Button variant="outline" size="sm">
               <Filter className="w-4 h-4 mr-2" />
               Filter
@@ -128,9 +127,9 @@ export default function SavedPropertiesPage() {
               <Share2 className="w-4 h-4 mr-2" />
               Export
             </Button>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
       <div className="p-6 space-y-6">
         {/* Search and Controls */}
@@ -287,7 +286,7 @@ export default function SavedPropertiesPage() {
                 
                 {property.notes && (
                   <div className="mt-3 pt-3 border-t">
-                    <p className="text-xs text-gray-600 italic">"{property.notes}"</p>
+                    <p className="text-xs text-gray-600 italic">&quot;{property.notes}&quot;</p>
                   </div>
                 )}
                 

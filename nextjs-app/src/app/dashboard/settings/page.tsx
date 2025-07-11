@@ -16,6 +16,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react'
+import PageHeader from '@/components/dashboard/page-header'
 
 export default function SettingsPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -53,18 +54,18 @@ export default function SettingsPage() {
   return (
     <div className="flex-1 overflow-auto">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-            <p className="text-gray-600">Manage your account preferences and settings</p>
-          </div>
-          <Button>
-            <Save className="w-4 h-4 mr-2" />
-            Save Changes
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title="Settings"
+        description="Manage your account preferences and settings"
+        actions={
+          <>
+            <Button>
+              <Save className="w-4 h-4 mr-2" />
+              Save Changes
+            </Button>
+          </>
+        }
+      />
 
       <div className="p-6 space-y-6">
         {/* Profile Settings */}
