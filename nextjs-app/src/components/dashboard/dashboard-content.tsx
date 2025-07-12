@@ -104,7 +104,7 @@ export function DashboardContent() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         {/* Search Section */}
         <Card>
           <CardHeader>
@@ -140,7 +140,7 @@ export function DashboardContent() {
                       placeholder="Enter zip code..."
                       value={zipCode}
                       onChange={(e) => setZipCode(e.target.value)}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                 ) : (
@@ -160,7 +160,7 @@ export function DashboardContent() {
                         placeholder="Enter state..."
                         value={state}
                         onChange={(e) => setState(e.target.value)}
-                        className="w-full"
+                        className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       />
                     </div>
                   </>
@@ -175,7 +175,7 @@ export function DashboardContent() {
                     placeholder="Min price"
                     value={filters.minPrice}
                     onChange={(e) => setFilters({...filters, minPrice: e.target.value})}
-                    className="w-full"
+                    className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                   />
                 </div>
                 <div>
@@ -184,13 +184,13 @@ export function DashboardContent() {
                     placeholder="Max price"
                     value={filters.maxPrice}
                     onChange={(e) => setFilters({...filters, maxPrice: e.target.value})}
-                    className="w-full"
+                    className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
                   <select 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     value={filters.propertyType}
                     onChange={(e) => setFilters({...filters, propertyType: e.target.value})}
                   >
@@ -367,7 +367,7 @@ export function DashboardContent() {
                           <span>{property.baths} baths</span>
                           <span>{property.sqft} sqft</span>
                         </div>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm">
                           <Eye className="w-4 h-4 mr-1" />
                           View Details
                         </Button>
@@ -439,7 +439,7 @@ export function DashboardContent() {
                           <span>{property.baths} baths</span>
                           <span>{property.sqft} sqft</span>
                         </div>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm">
                           <Eye className="w-4 h-4 mr-1" />
                           View Details
                         </Button>
@@ -461,19 +461,19 @@ export function DashboardContent() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-20 flex-col">
+                <Button className="h-20 flex-col">
                   <Calculator className="w-6 h-6 mb-2" />
                   <span className="text-sm">ROI Calculator</span>
                 </Button>
-                <Button variant="outline" className="h-20 flex-col">
+                <Button className="h-20 flex-col">
                   <BarChart3 className="w-6 h-6 mb-2" />
                   <span className="text-sm">Market Analysis</span>
                 </Button>
-                <Button variant="outline" className="h-20 flex-col">
+                <Button className="h-20 flex-col">
                   <Bookmark className="w-6 h-6 mb-2" />
                   <span className="text-sm">Saved Properties</span>
                 </Button>
-                <Button variant="outline" className="h-20 flex-col">
+                <Button className="h-20 flex-col">
                   <TrendingUp className="w-6 h-6 mb-2" />
                   <span className="text-sm">Portfolio</span>
                 </Button>

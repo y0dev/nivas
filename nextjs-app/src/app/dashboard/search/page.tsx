@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import PageHeader from '@/components/dashboard/page-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,8 +9,6 @@ import { Input } from '@/components/ui/input'
 import { 
   Search, 
   Filter,
-  MapPin,
-  DollarSign,
   Star,
   Eye,
   Bookmark,
@@ -113,23 +112,11 @@ export default function PropertySearchPage() {
         description="Find investment properties that match your criteria."
         actions={
           <>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter className="w-4 h-4 mr-2" />
-              Filters
-            </Button>
-            <Button size="sm">
-              <Search className="w-4 h-4 mr-2" />
-              Search
-            </Button>
           </>
         }
       />
-      
-      <div className="p-6 space-y-6">
+
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         {/* Search Bar */}
         <Card>
           <CardHeader>
@@ -145,11 +132,23 @@ export default function PropertySearchPage() {
                   placeholder="Enter zip code, city, or address..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full"
+                  className="w-full bg-white dark:bg-gray-900"
                 />
               </div>
-              <Button>
-                <Search className="w-4 h-4 mr-2" />
+              <Button
+                size="sm"
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+              >
+                <Filter className="w-4 h-4" />
+                Filters
+              </Button>
+
+              <Button
+                size="sm"
+                className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+              >
+                <Search className="w-4 h-4" />
                 Search
               </Button>
             </div>
@@ -171,11 +170,13 @@ export default function PropertySearchPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
                   <div className="flex gap-2">
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       placeholder="Min"
                       value={filters.priceMin}
                       onChange={(e) => setFilters({...filters, priceMin: e.target.value})}
                     />
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       placeholder="Max"
                       value={filters.priceMax}
                       onChange={(e) => setFilters({...filters, priceMax: e.target.value})}
@@ -185,7 +186,7 @@ export default function PropertySearchPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
                   <select 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     value={filters.propertyType}
                     onChange={(e) => setFilters({...filters, propertyType: e.target.value})}
                   >
@@ -199,7 +200,7 @@ export default function PropertySearchPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
                   <select 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     value={filters.bedrooms}
                     onChange={(e) => setFilters({...filters, bedrooms: e.target.value})}
                   >
@@ -213,6 +214,7 @@ export default function PropertySearchPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Min ROI</label>
                   <Input
+                    className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     placeholder="e.g., 8.5"
                     value={filters.roi}
                     onChange={(e) => setFilters({...filters, roi: e.target.value})}
@@ -221,6 +223,7 @@ export default function PropertySearchPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Min Cap Rate</label>
                   <Input
+                    className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     placeholder="e.g., 7.0"
                     value={filters.capRate}
                     onChange={(e) => setFilters({...filters, capRate: e.target.value})}
@@ -234,7 +237,7 @@ export default function PropertySearchPage() {
         {/* Search Results */}
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Search Results ({mockSearchResults.length})</h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 bg-white dark:bg-gray-900">
             <span className="text-sm text-gray-600">Sort by:</span>
             <select className="text-sm border border-gray-300 rounded px-2 py-1">
               <option>ROI (High to Low)</option>
@@ -248,11 +251,12 @@ export default function PropertySearchPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {mockSearchResults.map((property) => (
             <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative">
-                <img
+              <div className="relative h-48">
+                <Image
                   src={property.image}
                   alt={property.address}
-                  className="w-full h-48 object-cover"
+                  fill={true}
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute top-2 right-2 flex space-x-1">
                   <Button size="sm" variant="secondary" className="w-8 h-8 p-0">
@@ -270,7 +274,7 @@ export default function PropertySearchPage() {
                 <div className="absolute bottom-2 left-2">
                   <div className="flex items-center bg-white/90 backdrop-blur-sm rounded px-2 py-1">
                     <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                    <span className="text-sm font-medium ml-1">{property.score}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1">{property.score}</span>
                   </div>
                 </div>
               </div>
@@ -278,19 +282,19 @@ export default function PropertySearchPage() {
                 <h3 className="font-semibold text-sm mb-2 truncate">{property.address}</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Price:</span>
-                    <span className="font-medium">{formatCurrency(property.price)}</span>
+                    <span className="font-semibold">Price:</span>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">{formatCurrency(property.price)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Monthly Rent:</span>
-                    <span className="font-medium">{formatCurrency(property.monthlyRent)}</span>
+                    <span className="font-semibold">Monthly Rent:</span>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">{formatCurrency(property.monthlyRent)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">ROI:</span>
+                    <span className="font-semibold">ROI:</span>
                     <span className="font-medium text-green-600">{formatPercentage(property.roi)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Cash Flow:</span>
+                      <span className="font-semibold">Cash Flow:</span>
                     <span className="font-medium text-green-600">{formatCurrency(property.cashFlow)}/mo</span>
                   </div>
                   <div className="flex justify-between text-sm">
@@ -299,12 +303,12 @@ export default function PropertySearchPage() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                  <div className="flex space-x-4 text-xs text-gray-500">
+                  <div className="flex space-x-4 text-xs">
                     <span>{property.bedrooms} beds</span>
                     <span>{property.bathrooms} baths</span>
                     <span>{property.sqft} sqft</span>
                   </div>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm">
                     <Eye className="w-4 h-4 mr-1" />
                     View Details
                   </Button>

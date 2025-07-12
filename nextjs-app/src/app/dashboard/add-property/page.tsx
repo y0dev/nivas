@@ -7,12 +7,9 @@ import { Input } from '@/components/ui/input'
 import { 
   Home,
   DollarSign,
-  MapPin,
   Upload,
   Save,
   Calculator,
-  Eye,
-  EyeOff
 } from 'lucide-react'
 import PageHeader from '@/components/dashboard/page-header'
 
@@ -66,7 +63,7 @@ export default function AddPropertyPage() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Form */}
           <div className="lg:col-span-2 space-y-6">
@@ -100,6 +97,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Year Built</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       type="number"
                       value={propertyData.yearBuilt}
                       onChange={(e) => handleInputChange('yearBuilt', e.target.value)}
@@ -110,6 +108,7 @@ export default function AddPropertyPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Street Address</label>
                   <Input
+                    className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     value={propertyData.address}
                     onChange={(e) => handleInputChange('address', e.target.value)}
                     placeholder="123 Main Street"
@@ -119,6 +118,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       value={propertyData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
                       placeholder="Austin"
@@ -127,6 +127,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       value={propertyData.state}
                       onChange={(e) => handleInputChange('state', e.target.value)}
                       placeholder="TX"
@@ -135,6 +136,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       value={propertyData.zipCode}
                       onChange={(e) => handleInputChange('zipCode', e.target.value)}
                       placeholder="78701"
@@ -145,6 +147,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       type="number"
                       value={propertyData.bedrooms}
                       onChange={(e) => handleInputChange('bedrooms', e.target.value)}
@@ -154,6 +157,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       type="number"
                       value={propertyData.bathrooms}
                       onChange={(e) => handleInputChange('bathrooms', e.target.value)}
@@ -163,6 +167,7 @@ export default function AddPropertyPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Square Footage</label>
                     <Input
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       type="number"
                       value={propertyData.squareFootage}
                       onChange={(e) => handleInputChange('squareFootage', e.target.value)}
@@ -193,6 +198,7 @@ export default function AddPropertyPage() {
                       value={propertyData.purchasePrice}
                       onChange={(e) => handleInputChange('purchasePrice', e.target.value)}
                       placeholder="450000"
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -202,6 +208,7 @@ export default function AddPropertyPage() {
                       value={propertyData.downPayment}
                       onChange={(e) => handleInputChange('downPayment', e.target.value)}
                       placeholder="90000"
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                 </div>
@@ -213,6 +220,7 @@ export default function AddPropertyPage() {
                       value={propertyData.monthlyRent}
                       onChange={(e) => handleInputChange('monthlyRent', e.target.value)}
                       placeholder="2800"
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -222,6 +230,7 @@ export default function AddPropertyPage() {
                       value={propertyData.monthlyExpenses}
                       onChange={(e) => handleInputChange('monthlyExpenses', e.target.value)}
                       placeholder="1600"
+                      className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                 </div>
@@ -234,7 +243,6 @@ export default function AddPropertyPage() {
                 <CardTitle className="flex items-center justify-between">
                   <span>Advanced Options</span>
                   <Button
-                    variant="outline"
                     size="sm"
                     onClick={() => setShowAdvanced(!showAdvanced)}
                   >
@@ -252,6 +260,7 @@ export default function AddPropertyPage() {
                         value={propertyData.propertyTax}
                         onChange={(e) => handleInputChange('propertyTax', e.target.value)}
                         placeholder="4500"
+                        className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       />
                     </div>
                     <div>
@@ -261,6 +270,7 @@ export default function AddPropertyPage() {
                         value={propertyData.insurance}
                         onChange={(e) => handleInputChange('insurance', e.target.value)}
                         placeholder="1200"
+                        className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       />
                     </div>
                   </div>
@@ -272,6 +282,7 @@ export default function AddPropertyPage() {
                         value={propertyData.maintenance}
                         onChange={(e) => handleInputChange('maintenance', e.target.value)}
                         placeholder="2400"
+                        className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       />
                     </div>
                     <div>
@@ -281,6 +292,7 @@ export default function AddPropertyPage() {
                         value={propertyData.propertyManagement}
                         onChange={(e) => handleInputChange('propertyManagement', e.target.value)}
                         placeholder="10"
+                        className="text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                       />
                     </div>
                   </div>
@@ -364,7 +376,7 @@ export default function AddPropertyPage() {
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                   <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-sm text-gray-600">Click to upload property images</p>
-                  <Button variant="outline" size="sm" className="mt-2">
+                  <Button size="sm" className="mt-2">
                     Choose Files
                   </Button>
                 </div>
@@ -381,11 +393,11 @@ export default function AddPropertyPage() {
                   <Save className="w-4 h-4 mr-2" />
                   Save Property
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button className="w-full">
                   <Calculator className="w-4 h-4 mr-2" />
                   Calculate Full ROI
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button className="w-full">
                   Preview Property
                 </Button>
               </CardContent>

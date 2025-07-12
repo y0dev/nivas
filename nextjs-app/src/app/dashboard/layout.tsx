@@ -12,7 +12,7 @@ import {
   BarChart3,
   Home,
   Bell,
-  BookOpen,
+  // BookOpen,
   Settings,
   User,
   LogOut,
@@ -29,7 +29,7 @@ const navigation = [
   { name: 'Portfolio', href: '/dashboard/portfolio', icon: BarChart3 },
   { name: 'Add Property', href: '/dashboard/add-property', icon: Home },
   { name: 'Market Alerts', href: '/dashboard/alerts', icon: Bell },
-  { name: 'Investment Guide', href: '/dashboard/guide', icon: BookOpen },
+  // { name: 'Investment Guide', href: '/dashboard/guide', icon: BookOpen },
   { name: 'Market Analysis', href: '/dashboard/market', icon: BarChart3 },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]

@@ -9,7 +9,6 @@ import {
   Plus,
   TrendingUp,
   DollarSign,
-  Calendar,
   Edit,
   Trash2,
   CheckCircle,
@@ -112,7 +111,7 @@ export default function InvestmentGoalsPage() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         {/* Goals Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
@@ -191,10 +190,10 @@ export default function InvestmentGoalsPage() {
                     </p>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button size="sm">
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                    <Button size="sm" className="text-red-600 hover:text-red-700">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
@@ -298,8 +297,7 @@ export default function InvestmentGoalsPage() {
                   />
                 </div>
                 <div className="flex space-x-3 pt-4">
-                  <Button 
-                    variant="outline" 
+                  <Button        
                     className="flex-1"
                     onClick={() => setShowAddGoal(false)}
                   >

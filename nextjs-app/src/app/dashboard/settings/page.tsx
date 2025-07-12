@@ -71,11 +71,11 @@ export default function SettingsPage() {
         {/* Profile Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="text-gray-900 dark:text-gray-500 flex items-center">
               <User className="w-4 h-4 mr-2" />
               Profile Information
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-900 dark:text-gray-500">
               Update your personal information and contact details
             </CardDescription>
           </CardHeader>
@@ -86,7 +86,7 @@ export default function SettingsPage() {
                 <Input
                   value={settings.firstName}
                   onChange={(e) => setSettings({...settings, firstName: e.target.value})}
-                  className="w-full"
+                  className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                 />
               </div>
               <div>
@@ -94,7 +94,7 @@ export default function SettingsPage() {
                 <Input
                   value={settings.lastName}
                   onChange={(e) => setSettings({...settings, lastName: e.target.value})}
-                  className="w-full"
+                  className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                 />
               </div>
               <div>
@@ -103,7 +103,7 @@ export default function SettingsPage() {
                   type="email"
                   value={settings.email}
                   onChange={(e) => setSettings({...settings, email: e.target.value})}
-                  className="w-full"
+                  className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                 />
               </div>
               <div>
@@ -111,7 +111,7 @@ export default function SettingsPage() {
                 <Input
                   value={settings.phone}
                   onChange={(e) => setSettings({...settings, phone: e.target.value})}
-                  className="w-full"
+                  className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                 />
               </div>
             </div>
@@ -121,18 +121,18 @@ export default function SettingsPage() {
         {/* Notification Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="text-gray-900 dark:text-gray-500 flex items-center">
               <Bell className="w-4 h-4 mr-2" />
               Notification Preferences
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-900 dark:text-gray-500">
               Choose how you want to receive notifications
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center text-gray-900 dark:text-gray-500">
                   <Mail className="w-4 h-4 mr-2" />
                   <span>Email Notifications</span>
                 </div>
@@ -143,7 +143,7 @@ export default function SettingsPage() {
                   className="rounded"
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-gray-900 dark:text-gray-500">
                 <div className="flex items-center">
                   <Smartphone className="w-4 h-4 mr-2" />
                   <span>SMS Notifications</span>
@@ -155,7 +155,7 @@ export default function SettingsPage() {
                   className="rounded"
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-gray-900 dark:text-gray-500">
                 <div className="flex items-center">
                   <Bell className="w-4 h-4 mr-2" />
                   <span>Push Notifications</span>
@@ -167,7 +167,7 @@ export default function SettingsPage() {
                   className="rounded"
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-gray-900 dark:text-gray-500">
                 <div className="flex items-center">
                   <Globe className="w-4 h-4 mr-2" />
                   <span>Market Alerts</span>
@@ -179,7 +179,7 @@ export default function SettingsPage() {
                   className="rounded"
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-gray-900 dark:text-gray-500">
                 <div className="flex items-center">
                   <User className="w-4 h-4 mr-2" />
                   <span>Property Alerts</span>
@@ -191,7 +191,7 @@ export default function SettingsPage() {
                   className="rounded"
                 />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between text-gray-900 dark:text-gray-500">
                 <div className="flex items-center">
                   <Mail className="w-4 h-4 mr-2" />
                   <span>Weekly Reports</span>
@@ -210,11 +210,11 @@ export default function SettingsPage() {
         {/* Preferences */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center text-gray-900 dark:text-gray-500">
               <Globe className="w-4 h-4 mr-2" />
               Preferences
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-900 dark:text-gray-500">
               Customize your application preferences
             </CardDescription>
           </CardHeader>
@@ -223,7 +223,7 @@ export default function SettingsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Currency</label>
                 <select 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-gray-900 dark:text-gray-500 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   value={settings.preferences.currency}
                   onChange={(e) => handleSettingChange('preferences', 'currency', e.target.value)}
                 >
@@ -236,7 +236,7 @@ export default function SettingsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
                 <select 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-gray-900 dark:text-gray-500 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   value={settings.preferences.language}
                   onChange={(e) => handleSettingChange('preferences', 'language', e.target.value)}
                 >
@@ -249,7 +249,7 @@ export default function SettingsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
                 <select 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-gray-900 dark:text-gray-500 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   value={settings.preferences.timezone}
                   onChange={(e) => handleSettingChange('preferences', 'timezone', e.target.value)}
                 >
@@ -262,7 +262,7 @@ export default function SettingsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
                 <select 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-gray-900 dark:text-gray-500 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   value={settings.preferences.theme}
                   onChange={(e) => handleSettingChange('preferences', 'theme', e.target.value)}
                 >
@@ -278,11 +278,11 @@ export default function SettingsPage() {
         {/* Security Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center text-gray-900 dark:text-gray-500">
               <Shield className="w-4 h-4 mr-2" />
               Security
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-900 dark:text-gray-500">
               Manage your account security settings
             </CardDescription>
           </CardHeader>
@@ -294,7 +294,7 @@ export default function SettingsPage() {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter current password"
-                    className="w-full pr-10"
+                    className="w-full pr-10 text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                   />
                   <button
                     type="button"
@@ -310,7 +310,7 @@ export default function SettingsPage() {
                 <Input
                   type="password"
                   placeholder="Enter new password"
-                  className="w-full"
+                  className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                 />
               </div>
               <div>
@@ -318,10 +318,10 @@ export default function SettingsPage() {
                 <Input
                   type="password"
                   placeholder="Confirm new password"
-                  className="w-full"
+                  className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                 />
               </div>
-              <Button variant="outline">
+              <Button className="bg-blue-700 dark:bg-blue-400">
                 Change Password
               </Button>
             </div>
@@ -331,31 +331,31 @@ export default function SettingsPage() {
         {/* Billing Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center text-gray-900 dark:text-gray-500">
               <CreditCard className="w-4 h-4 mr-2" />
               Billing Information
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-900 dark:text-gray-500">
               Manage your subscription and billing details
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-gray-50 text-gray-900 dark:text-gray-500 rounded-lg">
                 <div>
                   <h4 className="font-medium">Premium Plan</h4>
                   <p className="text-sm text-gray-600">$29/month</p>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button className="bg-blue-700 dark:bg-blue-400" size="sm">
                   Change Plan
                 </Button>
               </div>
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-gray-50 text-gray-900 dark:text-gray-500 rounded-lg">
                 <div>
                   <h4 className="font-medium">Next Billing Date</h4>
                   <p className="text-sm text-gray-600">January 15, 2024</p>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button className="bg-blue-700 dark:bg-blue-400" size="sm">
                   View Invoice
                 </Button>
               </div>

@@ -15,6 +15,7 @@ import {
   Eye
 } from 'lucide-react'
 import { formatCurrency, formatPercentage } from '@/lib/utils'
+import PageHeader from '@/components/dashboard/page-header'
 
 const mockMarketData = {
   markets: [
@@ -93,7 +94,7 @@ export default function MarketAnalysisPage() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         {/* Market Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
@@ -163,7 +164,7 @@ export default function MarketAnalysisPage() {
                         ) : (
                           <TrendingDown className="w-4 h-4 text-red-600" />
                         )}
-                        <Button variant="outline" size="sm">
+                        <Button size="sm">
                           <Eye className="w-4 h-4" />
                         </Button>
                       </div>

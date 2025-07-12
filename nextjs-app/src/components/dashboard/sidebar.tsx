@@ -15,7 +15,7 @@ import {
   TrendingUp,
   MapPin,
   DollarSign,
-  Target,
+  // Target,
   AlertCircle,
   Plus,
   LogOut
@@ -27,7 +27,7 @@ const navigation = [
   { name: 'Market Analysis', href: '/dashboard/market', icon: BarChart3 },
   { name: 'ROI Calculator', href: '/dashboard/calculator', icon: Calculator },
   { name: 'Saved Properties', href: '/dashboard/saved', icon: Bookmark },
-  { name: 'Investment Goals', href: '/dashboard/goals', icon: Target },
+  // { name: 'Investment Goals', href: '/dashboard/goals', icon: Target },
   { name: 'Portfolio', href: '/dashboard/portfolio', icon: TrendingUp },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]

@@ -112,7 +112,7 @@ export default function InvestmentGuidePage() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         {/* Learning Progress */}
         <Card>
           <CardHeader>
@@ -160,8 +160,12 @@ export default function InvestmentGuidePage() {
           {categories.map((category) => (
             <Button
               key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              size="sm"
+              className={`
+                px-4 py-2 text-sm rounded-md transition-colors
+                ${selectedCategory === category
+                  ? 'bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
+                  : 'border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700'}
+              `}
               onClick={() => setSelectedCategory(category)}
             >
               {category}
@@ -216,7 +220,7 @@ export default function InvestmentGuidePage() {
                       }`}>
                         {guide.difficulty}
                       </span>
-                      <Button size="sm" variant="outline">
+                      <Button size="sm">
                         Start Learning
                       </Button>
                     </div>
@@ -245,7 +249,7 @@ export default function InvestmentGuidePage() {
                     </div>
                     <h3 className="font-semibold text-gray-900 mb-1">{tool.name}</h3>
                     <p className="text-sm text-gray-600 mb-3">{tool.description}</p>
-                    <Button size="sm" variant="outline" className="w-full">
+                    <Button size="sm" className="w-full">
                       Open Tool
                     </Button>
                   </CardContent>

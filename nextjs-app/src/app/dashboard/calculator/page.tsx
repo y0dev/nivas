@@ -9,8 +9,6 @@ import {
   DollarSign,
   TrendingUp,
   Home,
-  Percent,
-  Calendar,
   Save,
   Share2
 } from 'lucide-react'
@@ -80,7 +78,7 @@ export default function ROICalculatorPage() {
       <div className="p-6 space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Form */}
-          <Card>
+          <Card className="text-gray-900 dark:text-gray-500">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Calculator className="w-4 h-4 mr-2" />
@@ -101,7 +99,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.purchasePrice}
                       onChange={(e) => handleInputChange('purchasePrice', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -110,7 +108,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.downPayment}
                       onChange={(e) => handleInputChange('downPayment', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                 </div>
@@ -125,7 +123,7 @@ export default function ROICalculatorPage() {
                     type="number"
                     value={propertyData.monthlyRent}
                     onChange={(e) => handleInputChange('monthlyRent', Number(e.target.value))}
-                    className="w-full"
+                    className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                   />
                 </div>
               </div>
@@ -140,7 +138,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.monthlyExpenses}
                       onChange={(e) => handleInputChange('monthlyExpenses', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -149,7 +147,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.propertyTax}
                       onChange={(e) => handleInputChange('propertyTax', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -158,7 +156,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.insurance}
                       onChange={(e) => handleInputChange('insurance', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -167,7 +165,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.maintenance}
                       onChange={(e) => handleInputChange('maintenance', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -176,7 +174,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.propertyManagement}
                       onChange={(e) => handleInputChange('propertyManagement', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -185,7 +183,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.vacancyRate * 100}
                       onChange={(e) => handleInputChange('vacancyRate', Number(e.target.value) / 100)}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                 </div>
@@ -201,7 +199,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.appreciationRate * 100}
                       onChange={(e) => handleInputChange('appreciationRate', Number(e.target.value) / 100)}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                   <div>
@@ -210,7 +208,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.holdingPeriod}
                       onChange={(e) => handleInputChange('holdingPeriod', Number(e.target.value))}
-                      className="w-full"
+                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
                     />
                   </div>
                 </div>
@@ -221,7 +219,7 @@ export default function ROICalculatorPage() {
           {/* Results */}
           <div className="space-y-6">
             {/* Key Metrics */}
-            <Card>
+            <Card className="text-gray-900 dark:text-gray-500">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <TrendingUp className="w-4 h-4 mr-2" />
@@ -251,7 +249,7 @@ export default function ROICalculatorPage() {
             </Card>
 
             {/* Cash Flow Analysis */}
-            <Card>
+            <Card className="text-gray-900 dark:text-gray-500">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <DollarSign className="w-4 h-4 mr-2" />
@@ -287,7 +285,7 @@ export default function ROICalculatorPage() {
             </Card>
 
             {/* Investment Summary */}
-            <Card>
+            <Card className="text-gray-900 dark:text-gray-500">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Home className="w-4 h-4 mr-2" />
@@ -321,7 +319,7 @@ export default function ROICalculatorPage() {
         </div>
 
         {/* Investment Recommendations */}
-        <Card>
+        <Card className="text-gray-900 dark:text-gray-500">
           <CardHeader>
             <CardTitle>Investment Recommendations</CardTitle>
             <CardDescription>

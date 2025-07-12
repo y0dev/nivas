@@ -72,7 +72,7 @@ export default function AlertsPage() {
         }
       />
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
         {/* Alert Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
@@ -169,10 +169,10 @@ export default function AlertsPage() {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Button variant="outline" size="sm">
+                      <Button size="sm">
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                      <Button size="sm" className="text-red-600 hover:text-red-700">
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -200,7 +200,7 @@ export default function AlertsPage() {
                   <p className="text-sm text-green-800">Property in Austin, TX matches your criteria</p>
                   <p className="text-xs text-green-700 mt-1">2 hours ago</p>
                 </div>
-                <Button size="sm" variant="outline">
+                <Button size="sm">
                   View Details
                 </Button>
               </div>
@@ -211,7 +211,7 @@ export default function AlertsPage() {
                   <p className="text-sm text-blue-800">Dallas market shows 8% price increase</p>
                   <p className="text-xs text-blue-700 mt-1">1 day ago</p>
                 </div>
-                <Button size="sm" variant="outline">
+                <Button size="sm" >
                   View Details
                 </Button>
               </div>
@@ -222,7 +222,7 @@ export default function AlertsPage() {
                   <p className="text-sm text-yellow-800">High ROI property available in Houston</p>
                   <p className="text-xs text-yellow-700 mt-1">3 days ago</p>
                 </div>
-                <Button size="sm" variant="outline">
+                <Button size="sm">
                   View Details
                 </Button>
               </div>
@@ -284,7 +284,7 @@ export default function AlertsPage() {
                 </div>
                 <div className="flex space-x-3 pt-4">
                   <Button 
-                    variant="outline" 
+                    
                     className="flex-1"
                     onClick={() => setShowAddAlert(false)}
                   >
