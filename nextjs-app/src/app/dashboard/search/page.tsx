@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import PageHeader from '@/components/dashboard/page-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -93,6 +94,7 @@ const mockSearchResults = [
 ]
 
 export default function PropertySearchPage() {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState({
     priceMin: '',
@@ -103,6 +105,10 @@ export default function PropertySearchPage() {
     capRate: ''
   })
   const [showFilters, setShowFilters] = useState(false)
+
+  const handleViewDetails = (propertyId: number) => {
+    router.push(`/dashboard/property/${propertyId}`)
+  }
 
   return (
     <div className="flex-1 overflow-auto">
@@ -308,7 +314,7 @@ export default function PropertySearchPage() {
                     <span>{property.bathrooms} baths</span>
                     <span>{property.sqft} sqft</span>
                   </div>
-                  <Button size="sm">
+                  <Button size="sm" onClick={() => handleViewDetails(property.id)}>
                     <Eye className="w-4 h-4 mr-1" />
                     View Details
                   </Button>

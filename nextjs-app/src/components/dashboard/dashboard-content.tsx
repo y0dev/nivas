@@ -104,7 +104,7 @@ export function DashboardContent() {
         }
       />
 
-      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-500">
+      <div className="p-6 space-y-6 text-gray-900">
         {/* Search Section */}
         <Card>
           <CardHeader>
@@ -140,7 +140,7 @@ export function DashboardContent() {
                       placeholder="Enter zip code..."
                       value={zipCode}
                       onChange={(e) => setZipCode(e.target.value)}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                 ) : (
@@ -160,7 +160,7 @@ export function DashboardContent() {
                         placeholder="Enter state..."
                         value={state}
                         onChange={(e) => setState(e.target.value)}
-                        className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                        className="w-full text-gray-900 bg-white"
                       />
                     </div>
                   </>
@@ -171,29 +171,29 @@ export function DashboardContent() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Min Price</label>
-                  <Input
-                    placeholder="Min price"
-                    value={filters.minPrice}
-                    onChange={(e) => setFilters({...filters, minPrice: e.target.value})}
-                    className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
-                  />
+                                      <Input
+                      placeholder="Min price"
+                      value={filters.minPrice}
+                      onChange={(e) => setFilters({...filters, minPrice: e.target.value})}
+                      className="w-full text-gray-900 bg-white"
+                    />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
-                  <Input
-                    placeholder="Max price"
-                    value={filters.maxPrice}
-                    onChange={(e) => setFilters({...filters, maxPrice: e.target.value})}
-                    className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
-                  />
+                                      <Input
+                      placeholder="Max price"
+                      value={filters.maxPrice}
+                      onChange={(e) => setFilters({...filters, maxPrice: e.target.value})}
+                      className="w-full text-gray-900 bg-white"
+                    />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
-                  <select 
-                    className="w-full px-3 py-2 text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    value={filters.propertyType}
-                    onChange={(e) => setFilters({...filters, propertyType: e.target.value})}
-                  >
+                                      <select 
+                      className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      value={filters.propertyType}
+                      onChange={(e) => setFilters({...filters, propertyType: e.target.value})}
+                    >
                     <option value="">All Types</option>
                     <option value="single-family">Single Family</option>
                     <option value="townhouse">Townhouse</option>

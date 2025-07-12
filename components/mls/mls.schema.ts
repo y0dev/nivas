@@ -1,35 +1,47 @@
-const { Schema, model } = require("mongoose");
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const mlsSchema = new Schema({
+interface IMLS extends Document {
+  mlsId: string;
+  price: string;
+  address: string;
+  city: string;
+  state: string;
+  beds: number;
+  baths: number;
+  dateCreated?: Date;
+  modifiedOn?: Date;
+}
+
+const mlsSchema: Schema<IMLS> = new Schema({
   mlsId: {
     type: String,
     required: [true, "please insert mls id"],
-    min: 2,
-    max: 12,
+    minlength: 2,
+    maxlength: 12,
   },
   price: {
     type: String,
     required: [true, "please insert price"],
-    min: 2,
-    max: 12,
+    minlength: 2,
+    maxlength: 12,
   },
   address: {
     type: String,
     required: [true, "please insert address"],
-    min: 2,
-    max: 255,
+    minlength: 2,
+    maxlength: 255,
   },
   city: {
     type: String,
     required: [true, "please insert city"],
-    min: 2,
-    max: 255,
+    minlength: 2,
+    maxlength: 255,
   },
   state: {
     type: String,
     required: [true, "please insert state"],
-    min: 2,
-    max: 255,
+    minlength: 2,
+    maxlength: 255,
   },
   beds: {
     type: Number,
@@ -47,10 +59,15 @@ const mlsSchema = new Schema({
     type: Date,
     required: false,
   },
+  modifiedOn: {
+    type: Date,
+    required: false,
+  },
 });
 
-mlsSchema.pre("save", async function (next) {
-  let now = new Date();
+// Middleware to set dateCreated and modifiedOn
+mlsSchema.pre<IMLS>("save", function (next) {
+  const now = new Date();
   if (!this.dateCreated) {
     this.dateCreated = now;
   }
@@ -58,6 +75,6 @@ mlsSchema.pre("save", async function (next) {
   next();
 });
 
-const MLS = model("MLS", mlsSchema);
+const MLS: Model<IMLS> = mongoose.model<IMLS>("MLS", mlsSchema);
 
-module.exports = { MLS, mlsSchema };
+export { MLS, mlsSchema, IMLS };

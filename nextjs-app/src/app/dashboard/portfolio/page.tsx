@@ -1,13 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
   TrendingUp,
   DollarSign,
-  MapPin,
   BarChart3,
   PieChart,
   Download,
@@ -77,7 +76,11 @@ const mockPortfolio = {
 }
 
 export default function PortfolioPage() {
-  const [selectedProperty, setSelectedProperty] = useState<number | null>(null)
+  const router = useRouter()
+
+  const handleViewProperty = (propertyId: number) => {
+    router.push(`/dashboard/property/${propertyId}`)
+  }
 
   return (
     <div className="flex-1 overflow-auto">
@@ -162,10 +165,12 @@ export default function PortfolioPage() {
                 {mockPortfolio.properties.map((property) => (
                   <div key={property.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                     <div className="flex items-start space-x-4">
-                      <img
+                      <Image
                         src={property.image}
                         alt={property.address}
-                        className="w-20 h-16 object-cover rounded"
+                        width={80}
+                        height={64}
+                        className="object-cover rounded"
                       />
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900">{property.address}</h3>
@@ -189,7 +194,7 @@ export default function PortfolioPage() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Button size="sm">
+                        <Button size="sm" onClick={() => handleViewProperty(property.id)}>
                           <Eye className="w-4 h-4" />
                         </Button>
                         <Button size="sm">

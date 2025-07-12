@@ -31,28 +31,32 @@ export default function ROICalculatorPage() {
   })
 
   const [results, setResults] = useState({
-    roi: calculateROI(propertyData.purchasePrice, propertyData.monthlyRent, propertyData.monthlyExpenses),
-    cashOnCashReturn: calculateCashOnCashReturn(propertyData.purchasePrice, propertyData.downPayment, propertyData.monthlyRent, propertyData.monthlyExpenses),
-    monthlyCashFlow: propertyData.monthlyRent - propertyData.monthlyExpenses,
-    annualCashFlow: (propertyData.monthlyRent - propertyData.monthlyExpenses) * 12,
-    capRate: ((propertyData.monthlyRent * 12) - (propertyData.monthlyExpenses * 12)) / propertyData.purchasePrice,
+    roi: 0,
+    cashOnCashReturn: 0,
+    monthlyCashFlow: 0,
+    annualCashFlow: 0,
+    capRate: 0,
     totalReturn: 0
   })
+
+  const [isCalculated, setIsCalculated] = useState(false)
 
   const handleInputChange = (field: string, value: number) => {
     const newData = { ...propertyData, [field]: value }
     setPropertyData(newData)
-    
-    // Recalculate results
+  }
+
+  const handleCalculate = () => {
     const newResults = {
-      roi: calculateROI(newData.purchasePrice, newData.monthlyRent, newData.monthlyExpenses),
-      cashOnCashReturn: calculateCashOnCashReturn(newData.purchasePrice, newData.downPayment, newData.monthlyRent, newData.monthlyExpenses),
-      monthlyCashFlow: newData.monthlyRent - newData.monthlyExpenses,
-      annualCashFlow: (newData.monthlyRent - newData.monthlyExpenses) * 12,
-      capRate: ((newData.monthlyRent * 12) - (newData.monthlyExpenses * 12)) / newData.purchasePrice,
+      roi: calculateROI(propertyData.purchasePrice, propertyData.monthlyRent, propertyData.monthlyExpenses),
+      cashOnCashReturn: calculateCashOnCashReturn(propertyData.purchasePrice, propertyData.downPayment, propertyData.monthlyRent, propertyData.monthlyExpenses),
+      monthlyCashFlow: propertyData.monthlyRent - propertyData.monthlyExpenses,
+      annualCashFlow: (propertyData.monthlyRent - propertyData.monthlyExpenses) * 12,
+      capRate: ((propertyData.monthlyRent * 12) - (propertyData.monthlyExpenses * 12)) / propertyData.purchasePrice,
       totalReturn: 0
     }
     setResults(newResults)
+    setIsCalculated(true)
   }
 
   return (
@@ -63,10 +67,12 @@ export default function ROICalculatorPage() {
         description="Calculate potential returns and analyze investment properties"
         actions={
           <>
-            <Button variant="outline" size="sm">
-              <Save className="w-4 h-4 mr-2" />
-              Save Calculation
-            </Button>
+            {isCalculated && (
+              <Button variant="outline" size="sm">
+                <Save className="w-4 h-4 mr-2" />
+                Save Calculation
+              </Button>
+            )}
             <Button size="sm">
               <Share2 className="w-4 h-4 mr-2" />
               Share
@@ -78,7 +84,7 @@ export default function ROICalculatorPage() {
       <div className="p-6 space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Form */}
-          <Card className="text-gray-900 dark:text-gray-500">
+          <Card className="text-gray-900">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Calculator className="w-4 h-4 mr-2" />
@@ -99,7 +105,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.purchasePrice}
                       onChange={(e) => handleInputChange('purchasePrice', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -108,7 +114,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.downPayment}
                       onChange={(e) => handleInputChange('downPayment', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                 </div>
@@ -123,7 +129,7 @@ export default function ROICalculatorPage() {
                     type="number"
                     value={propertyData.monthlyRent}
                     onChange={(e) => handleInputChange('monthlyRent', Number(e.target.value))}
-                    className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                    className="w-full text-gray-900 bg-white"
                   />
                 </div>
               </div>
@@ -138,7 +144,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.monthlyExpenses}
                       onChange={(e) => handleInputChange('monthlyExpenses', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -147,7 +153,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.propertyTax}
                       onChange={(e) => handleInputChange('propertyTax', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -156,7 +162,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.insurance}
                       onChange={(e) => handleInputChange('insurance', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -165,7 +171,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.maintenance}
                       onChange={(e) => handleInputChange('maintenance', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -174,7 +180,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.propertyManagement}
                       onChange={(e) => handleInputChange('propertyManagement', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -183,7 +189,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.vacancyRate * 100}
                       onChange={(e) => handleInputChange('vacancyRate', Number(e.target.value) / 100)}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                 </div>
@@ -199,7 +205,7 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.appreciationRate * 100}
                       onChange={(e) => handleInputChange('appreciationRate', Number(e.target.value) / 100)}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                   <div>
@@ -208,10 +214,21 @@ export default function ROICalculatorPage() {
                       type="number"
                       value={propertyData.holdingPeriod}
                       onChange={(e) => handleInputChange('holdingPeriod', Number(e.target.value))}
-                      className="w-full text-gray-900 dark:text-gray-500 bg-white dark:bg-gray-900"
+                      className="w-full text-gray-900 bg-white"
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* Calculate Button */}
+              <div className="pt-4">
+                <Button 
+                  onClick={handleCalculate}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3"
+                >
+                  <Calculator className="w-4 h-4 mr-2" />
+                  Calculate ROI
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -219,7 +236,7 @@ export default function ROICalculatorPage() {
           {/* Results */}
           <div className="space-y-6">
             {/* Key Metrics */}
-            <Card className="text-gray-900 dark:text-gray-500">
+            <Card className="text-gray-900">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <TrendingUp className="w-4 h-4 mr-2" />
@@ -249,7 +266,7 @@ export default function ROICalculatorPage() {
             </Card>
 
             {/* Cash Flow Analysis */}
-            <Card className="text-gray-900 dark:text-gray-500">
+            <Card className="text-gray-900">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <DollarSign className="w-4 h-4 mr-2" />
@@ -285,7 +302,7 @@ export default function ROICalculatorPage() {
             </Card>
 
             {/* Investment Summary */}
-            <Card className="text-gray-900 dark:text-gray-500">
+            <Card className="text-gray-900">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Home className="w-4 h-4 mr-2" />
@@ -319,7 +336,7 @@ export default function ROICalculatorPage() {
         </div>
 
         {/* Investment Recommendations */}
-        <Card className="text-gray-900 dark:text-gray-500">
+        <Card className="text-gray-900">
           <CardHeader>
             <CardTitle>Investment Recommendations</CardTitle>
             <CardDescription>

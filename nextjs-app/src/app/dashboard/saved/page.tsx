@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -12,6 +13,7 @@ import {
   Trash2,
   Filter,
   Search,
+  Sliders
 } from 'lucide-react'
 import { formatCurrency, formatPercentage } from '@/lib/utils'
 import PageHeader from '@/components/dashboard/page-header'
@@ -92,9 +94,19 @@ const mockSavedProperties = [
 ]
 
 export default function SavedPropertiesPage() {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedProperties, setSelectedProperties] = useState<number[]>([])
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [filters, setFilters] = useState({
+    priceMin: '',
+    priceMax: '',
+    propertyType: '',
+    bedrooms: '',
+    roi: '',
+    capRate: ''
+  })
+  const [showFilters, setShowFilters] = useState(false)
 
   const handleSelectProperty = (id: number) => {
     setSelectedProperties(prev => 
@@ -108,6 +120,37 @@ export default function SavedPropertiesPage() {
     // In a real app, this would remove from saved properties
     console.log('Remove property:', id)
   }
+
+  const handleViewDetails = (property: any) => {
+    router.push(`/dashboard/property/${property.id}`)
+  }
+
+  // Filter properties based on search query and filters
+  const filteredProperties = mockSavedProperties.filter(property => {
+    // Search query filter
+    const matchesSearch = searchQuery === '' || 
+      property.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.propertyType.toLowerCase().includes(searchQuery.toLowerCase())
+
+    // Price range filter
+    const matchesPrice = (!filters.priceMin || property.price >= Number(filters.priceMin)) &&
+                        (!filters.priceMax || property.price <= Number(filters.priceMax))
+
+    // Property type filter
+    const matchesType = !filters.propertyType || 
+      property.propertyType.toLowerCase().includes(filters.propertyType.toLowerCase())
+
+    // Bedrooms filter
+    const matchesBedrooms = !filters.bedrooms || property.bedrooms >= Number(filters.bedrooms)
+
+    // ROI filter
+    const matchesROI = !filters.roi || property.roi >= Number(filters.roi) / 100
+
+    // Cap rate filter (using ROI as proxy since cap rate isn't in mock data)
+    const matchesCapRate = !filters.capRate || property.roi >= Number(filters.capRate) / 100
+
+    return matchesSearch && matchesPrice && matchesType && matchesBedrooms && matchesROI && matchesCapRate
+  })
 
   return (
     <div className="flex-1 overflow-auto">
@@ -142,9 +185,17 @@ export default function SavedPropertiesPage() {
                     placeholder="Search saved properties..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 text-gray-900 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
+                <Button
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-300 text-gray-700 hover:bg-gray-100"
+                >
+                  <Filter className="w-4 h-4" />
+                  Filters
+                </Button>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setViewMode('grid')}
@@ -171,8 +222,8 @@ export default function SavedPropertiesPage() {
               </div>
               {selectedProperties.length > 0 && (
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-900 dark:text-gray-500">{selectedProperties.length} selected</span>
-                  <Button  size="sm">
+                  <span className="text-sm text-gray-900">{selectedProperties.length} selected</span>
+                  <Button size="sm">
                     <Trash2 className="w-4 h-4 mr-2" />
                     Remove
                   </Button>
@@ -182,9 +233,111 @@ export default function SavedPropertiesPage() {
           </CardContent>
         </Card>
 
+        {/* Filters */}
+        {showFilters && (
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center mb-4">
+                <Sliders className="w-4 h-4 mr-2 text-gray-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Advanced Filters</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+                  <div className="flex gap-2">
+                    <input
+                      className="flex-1 px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Min"
+                      value={filters.priceMin}
+                      onChange={(e) => setFilters({...filters, priceMin: e.target.value})}
+                    />
+                    <input
+                      className="flex-1 px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Max"
+                      value={filters.priceMax}
+                      onChange={(e) => setFilters({...filters, priceMax: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
+                  <select 
+                    className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    value={filters.propertyType}
+                    onChange={(e) => setFilters({...filters, propertyType: e.target.value})}
+                  >
+                    <option value="">All Types</option>
+                    <option value="single-family">Single Family</option>
+                    <option value="townhouse">Townhouse</option>
+                    <option value="condo">Condo</option>
+                    <option value="multi-family">Multi-Family</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+                  <select 
+                    className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    value={filters.bedrooms}
+                    onChange={(e) => setFilters({...filters, bedrooms: e.target.value})}
+                  >
+                    <option value="">Any</option>
+                    <option value="1">1+</option>
+                    <option value="2">2+</option>
+                    <option value="3">3+</option>
+                    <option value="4">4+</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Min ROI</label>
+                  <input
+                    className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g., 8.5"
+                    value={filters.roi}
+                    onChange={(e) => setFilters({...filters, roi: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Min Cap Rate</label>
+                  <input
+                    className="w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g., 7.0"
+                    value={filters.capRate}
+                    onChange={(e) => setFilters({...filters, capRate: e.target.value})}
+                  />
+                </div>
+                <div className="flex items-end">
+                  <Button 
+                    size="sm"
+                    onClick={() => setFilters({
+                      priceMin: '',
+                      priceMax: '',
+                      propertyType: '',
+                      bedrooms: '',
+                      roi: '',
+                      capRate: ''
+                    })}
+                    className="w-full bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Properties Grid */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Saved Properties ({filteredProperties.length})</h2>
+            {filteredProperties.length === 0 && (
+              <p className="text-gray-600">No properties match your search criteria</p>
+            )}
+          </div>
+        </div>
+        
         <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
-          {mockSavedProperties.map((property) => (
+          {filteredProperties.map((property) => (
             <Card key={property.id} className={`overflow-hidden hover:shadow-lg transition-shadow ${viewMode === 'list' ? 'flex' : ''}`}>
               <div className={`relative ${viewMode === 'list' ? 'w-48 h-32' : 'h-48'}`}>
                 <Image
@@ -214,13 +367,13 @@ export default function SavedPropertiesPage() {
                 <div className="absolute bottom-2 left-2">
                   <div className="flex items-center bg-white/90 backdrop-blur-sm rounded px-2 py-1">
                     <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 ml-1">{property.score}</span>
+                    <span className="text-sm font-medium text-gray-700 ml-1">{property.score}</span>
                   </div>
                 </div>
               </div>
               <CardContent className={`p-4 ${viewMode === 'list' ? 'flex-1' : ''}`}>
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-gray-700 dark:text-gray-300 text-sm truncate flex-1">{property.address}</h3>
+                  <h3 className="font-semibold text-gray-900 text-sm truncate flex-1">{property.address}</h3>
                   <Button 
                     size="sm" 
                     variant="ghost" 
@@ -235,49 +388,49 @@ export default function SavedPropertiesPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="font-bold text-gray-900 dark:text-gray-500">Price:</span>
-                        <span className="font-medium text-gray-700 dark:text-gray-300">{formatCurrency(property.price)}</span>
+                        <span className="font-bold text-gray-900">Price:</span>
+                        <span className="font-medium text-gray-700">{formatCurrency(property.price)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="font-bold text-gray-900 dark:text-gray-500">ROI:</span>
+                        <span className="font-bold text-gray-900">ROI:</span>
                         <span className="font-medium text-green-600">{formatPercentage(property.roi)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="font-bold text-gray-900 dark:text-gray-500">Cash Flow:</span>
+                        <span className="font-bold text-gray-900">Cash Flow:</span>
                         <span className="font-medium text-green-600">{formatCurrency(property.cashFlow)}/mo</span>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="font-bold text-gray-900 dark:text-gray-500">Rent:</span>
-                        <span className="font-medium text-gray-900 dark:text-gray-500">{formatCurrency(property.monthlyRent)}</span>
+                        <span className="font-bold text-gray-900">Rent:</span>
+                        <span className="font-medium text-gray-900">{formatCurrency(property.monthlyRent)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="font-bold text-gray-900 dark:text-gray-500">Beds/Baths:</span>
-                        <span className="font-medium text-gray-900 dark:text-gray-500">{property.bedrooms}/{property.bathrooms}</span>
+                        <span className="font-bold text-gray-900">Beds/Baths:</span>
+                        <span className="font-medium text-gray-900">{property.bedrooms}/{property.bathrooms}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="font-bold text-gray-900 dark:text-gray-500">Saved:</span>
-                        <span className="font-medium text-gray-900 dark:text-gray-500">{new Date(property.savedDate).toLocaleDateString()}</span>
+                        <span className="font-bold text-gray-900">Saved:</span>
+                        <span className="font-medium text-gray-900">{new Date(property.savedDate).toLocaleDateString()}</span>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="font-semibold text-gray-900 dark:text-gray-500">Price:</span>
-                      <span className="font-medium text-gray-700 dark:text-gray-300">{formatCurrency(property.price)}</span>
+                      <span className="font-semibold text-gray-900">Price:</span>
+                      <span className="font-medium text-gray-700">{formatCurrency(property.price)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="font-semibold text-gray-900 dark:text-gray-500">Monthly Rent:</span>
-                      <span className="font-medium text-gray-700 dark:text-gray-300">{formatCurrency(property.monthlyRent)}</span>
+                      <span className="font-semibold text-gray-900">Monthly Rent:</span>
+                      <span className="font-medium text-gray-700">{formatCurrency(property.monthlyRent)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="font-semibold text-gray-900 dark:text-gray-500">ROI:</span>
+                      <span className="font-semibold text-gray-900">ROI:</span>
                       <span className="font-medium text-green-600">{formatPercentage(property.roi)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="font-semibold text-gray-900 dark:text-gray-500">Cash Flow:</span>
+                      <span className="font-semibold text-gray-900">Cash Flow:</span>
                       <span className="font-medium text-green-600">{formatCurrency(property.cashFlow)}/mo</span>
                     </div>
                   </div>
@@ -285,17 +438,17 @@ export default function SavedPropertiesPage() {
                 
                 {property.notes && (
                   <div className="mt-3 pt-3 border-t">
-                    <p className="text-xs text-gray-900 dark:text-gray-500 italic">&quot;{property.notes}&quot;</p>
+                    <p className="text-xs text-gray-900 italic">&quot;{property.notes}&quot;</p>
                   </div>
                 )}
                 
                 <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                  <div className="flex space-x-4 text-xs text-gray-900 dark:text-gray-500">
+                  <div className="flex space-x-4 text-xs text-gray-900">
                     <span>{property.bedrooms} beds</span>
                     <span>{property.bathrooms} baths</span>
                     <span>{property.sqft} sqft</span>
                   </div>
-                  <Button size="sm" >
+                  <Button size="sm" onClick={() => handleViewDetails(property)}>
                     <Eye className="w-4 h-4 mr-1" />
                     View Details
                   </Button>
