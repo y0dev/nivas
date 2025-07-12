@@ -10,7 +10,7 @@ type PageHeaderProps = {
 
 export default function PageHeader({ title, description, actions, className = '' }: PageHeaderProps) {
   return (
-    <div className={`sticky top-0 z-50 bg-white border-b border-gray-200 px-6 py-4 backdrop-blur-sm ${className}`}>
+    <div className={`bg-white border-b border-gray-200 px-6 py-4 backdrop-blur-sm ${className}`}>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
