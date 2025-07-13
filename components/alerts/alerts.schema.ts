@@ -1,113 +1,112 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import { z } from 'zod'
 
-export interface IAlert extends Document {
-  name: string;
-  type: 'Price Alert' | 'ROI Alert' | 'Market Alert' | 'Property Alert';
-  location: string;
-  condition: string;
-  status: 'active' | 'inactive';
-  lastTriggered: Date;
-  frequency: 'Daily' | 'Weekly' | 'Monthly';
-  userId: mongoose.Types.ObjectId;
-  criteria: {
-    minPrice?: number;
-    maxPrice?: number;
-    minROI?: number;
-    maxROI?: number;
-    propertyType?: string;
-    bedrooms?: number;
-    bathrooms?: number;
-    location?: string;
-  };
-  createdAt: Date;
-  updatedAt: Date;
-}
+// Alert Settings Schema
+export const AlertSettingsSchema = z.object({
+  userId: z.string(),
+  notifications: z.object({
+    email: z.object({
+      enabled: z.boolean().default(true),
+      frequency: z.enum(['immediate', 'hourly', 'daily', 'weekly']).default('immediate'),
+      digest: z.boolean().default(false)
+    }),
+    push: z.object({
+      enabled: z.boolean().default(true),
+      frequency: z.enum(['immediate', 'batched', 'hourly']).default('immediate')
+    }),
+    sms: z.object({
+      enabled: z.boolean().default(false),
+      frequency: z.enum(['immediate', 'daily', 'weekly']).default('daily')
+    })
+  }),
+  preferences: z.object({
+    quietHours: z.object({
+      enabled: z.boolean().default(true),
+      start: z.string().default('22:00'),
+      end: z.string().default('08:00')
+    }),
+    timezone: z.string().default('America/Chicago'),
+    language: z.enum(['en', 'es', 'fr', 'de']).default('en')
+  }),
+  privacy: z.object({
+    shareData: z.boolean().default(false),
+    analytics: z.boolean().default(true),
+    marketing: z.boolean().default(false)
+  }),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date())
+})
 
-const AlertSchema = new Schema<IAlert>({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  type: {
-    type: String,
-    required: true,
-    enum: ['Price Alert', 'ROI Alert', 'Market Alert', 'Property Alert']
-  },
-  location: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  condition: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: ['active', 'inactive'],
-    default: 'active'
-  },
-  lastTriggered: {
-    type: Date,
-    default: null
-  },
-  frequency: {
-    type: String,
-    required: true,
-    enum: ['Daily', 'Weekly', 'Monthly'],
-    default: 'Daily'
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  criteria: {
-    minPrice: {
-      type: Number,
-      min: 0
+export type AlertSettings = z.infer<typeof AlertSettingsSchema>
+
+// Alert Schema
+export const AlertSchema = z.object({
+  id: z.string().optional(),
+  userId: z.string(),
+  name: z.string().min(1, 'Alert name is required'),
+  type: z.enum(['price', 'roi', 'market', 'property']),
+  location: z.string().min(1, 'Location is required'),
+  condition: z.string().min(1, 'Condition is required'),
+  status: z.enum(['active', 'inactive']).default('active'),
+  frequency: z.enum(['immediate', 'daily', 'weekly', 'monthly']).default('daily'),
+  criteria: z.object({
+    minPrice: z.number().optional(),
+    maxPrice: z.number().optional(),
+    propertyType: z.string().optional(),
+    beds: z.string().optional(),
+    baths: z.string().optional(),
+    sqft: z.string().optional()
+  }).optional(),
+  lastTriggered: z.date().optional(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date())
+})
+
+export type Alert = z.infer<typeof AlertSchema>
+
+// Alert History Schema
+export const AlertHistorySchema = z.object({
+  id: z.string().optional(),
+  alertId: z.string(),
+  event: z.string(),
+  details: z.string(),
+  action: z.string().optional(),
+  timestamp: z.date().default(() => new Date())
+})
+
+export type AlertHistory = z.infer<typeof AlertHistorySchema>
+
+// Default Alert Settings
+export const defaultAlertSettings: AlertSettings = {
+  userId: '',
+  notifications: {
+    email: {
+      enabled: true,
+      frequency: 'immediate',
+      digest: false
     },
-    maxPrice: {
-      type: Number,
-      min: 0
+    push: {
+      enabled: true,
+      frequency: 'immediate'
     },
-    minROI: {
-      type: Number,
-      min: 0,
-      max: 100
-    },
-    maxROI: {
-      type: Number,
-      min: 0,
-      max: 100
-    },
-    propertyType: {
-      type: String,
-      trim: true
-    },
-    bedrooms: {
-      type: Number,
-      min: 0
-    },
-    bathrooms: {
-      type: Number,
-      min: 0
-    },
-    location: {
-      type: String,
-      trim: true
+    sms: {
+      enabled: false,
+      frequency: 'daily'
     }
-  }
-}, {
-  timestamps: true
-});
-
-// Indexes for better query performance
-AlertSchema.index({ userId: 1, status: 1 });
-AlertSchema.index({ userId: 1, type: 1 });
-AlertSchema.index({ status: 1, lastTriggered: 1 });
-
-export default mongoose.model<IAlert>('Alert', AlertSchema); 
+  },
+  preferences: {
+    quietHours: {
+      enabled: true,
+      start: '22:00',
+      end: '08:00'
+    },
+    timezone: 'America/Chicago',
+    language: 'en'
+  },
+  privacy: {
+    shareData: false,
+    analytics: true,
+    marketing: false
+  },
+  createdAt: new Date(),
+  updatedAt: new Date()
+} 

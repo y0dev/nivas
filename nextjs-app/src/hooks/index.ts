@@ -6,4 +6,5 @@ export { useSavedProperties } from './useSavedProperties';
 export { useProperty } from './useProperty';
 export { useGoals } from './useGoals';
 export { useAlerts } from './useAlerts';
-export { useSettings } from './useSettings'; 
+export { useSettings } from './useSettings';
+export { useWaitlist } from './useWaitlist'; 

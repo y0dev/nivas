@@ -14,186 +14,423 @@ interface AuthRequest extends Request {
   };
 }
 
-// Get all alerts for a user
-export const getAlerts = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const features = new APIFeatures(
-    Alert.find({ userId: req.user?._id }),
-    req.query
-  )
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
+// Mock data storage (in real app, this would be a database)
+let alertSettings: any[] = []
+let alerts: any[] = []
+let alertHistory: any[] = []
 
-  const alerts = await features.query;
-
-  // Calculate summary statistics
-  const totalAlerts = alerts.length;
-  const activeAlerts = alerts.filter(alert => alert.status === 'active').length;
-  const thisMonth = alerts.filter(alert => {
-    const lastTriggered = alert.lastTriggered;
-    if (!lastTriggered) return false;
-    const now = new Date();
-    const alertDate = new Date(lastTriggered);
-    return alertDate.getMonth() === now.getMonth() && alertDate.getFullYear() === now.getFullYear();
-  }).length;
-
-  res.status(200).json({
-    status: 'success',
-    results: alerts.length,
-    data: {
-      alerts,
-      summary: {
-        totalAlerts,
-        activeAlerts,
-        thisMonth,
-        avgResponse: '2.3h' // Mock data for now
+export class AlertsController {
+  // Get user's alert settings
+  static async getAlertSettings(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId || req.user?.id
+      
+      if (!userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User ID is required' 
+        })
       }
+
+      // Find existing settings or return defaults
+      let settings = alertSettings.find(s => s.userId === userId)
+      
+      if (!settings) {
+        // Create default settings for new user
+        settings = {
+          ...defaultAlertSettings,
+          userId,
+          id: `settings_${Date.now()}`
+        }
+        alertSettings.push(settings)
+      }
+
+      res.status(200).json({
+        success: true,
+        data: settings
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to get alert settings',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
-  });
-});
-
-// Get a single alert
-export const getAlert = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const alert = await Alert.findOne({
-    _id: req.params.id,
-    userId: req.user?._id
-  });
-
-  if (!alert) {
-    return next(new AppError('No alert found with that ID', 404));
   }
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      alert
+  // Update user's alert settings
+  static async updateAlertSettings(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId || req.user?.id
+      
+      if (!userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User ID is required' 
+        })
+      }
+
+      const updateData = req.body
+      
+      // Validate the update data
+      const validationResult = AlertSettingsSchema.safeParse({
+        userId,
+        ...updateData
+      })
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid alert settings data',
+          errors: validationResult.error.errors
+        })
+      }
+
+      // Find existing settings or create new ones
+      let settingsIndex = alertSettings.findIndex(s => s.userId === userId)
+      
+      if (settingsIndex === -1) {
+        // Create new settings
+        const newSettings = {
+          ...defaultAlertSettings,
+          ...updateData,
+          userId,
+          id: `settings_${Date.now()}`,
+          updatedAt: new Date()
+        }
+        alertSettings.push(newSettings)
+        
+        res.status(201).json({
+          success: true,
+          message: 'Alert settings created successfully',
+          data: newSettings
+        })
+      } else {
+        // Update existing settings
+        alertSettings[settingsIndex] = {
+          ...alertSettings[settingsIndex],
+          ...updateData,
+          updatedAt: new Date()
+        }
+        
+        res.status(200).json({
+          success: true,
+          message: 'Alert settings updated successfully',
+          data: alertSettings[settingsIndex]
+        })
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to update alert settings',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
-  });
-});
-
-// Create a new alert
-export const createAlert = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const alertData = {
-    ...req.body,
-    userId: req.user?._id
-  };
-
-  const alert = await Alert.create(alertData);
-
-  res.status(201).json({
-    status: 'success',
-    data: {
-      alert
-    }
-  });
-});
-
-// Update an alert
-export const updateAlert = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const alert = await Alert.findOneAndUpdate(
-    {
-      _id: req.params.id,
-      userId: req.user?._id
-    },
-    req.body,
-    {
-      new: true,
-      runValidators: true
-    }
-  );
-
-  if (!alert) {
-    return next(new AppError('No alert found with that ID', 404));
   }
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      alert
+  // Reset user's alert settings to defaults
+  static async resetAlertSettings(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId || req.user?.id
+      
+      if (!userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User ID is required' 
+        })
+      }
+
+      // Remove existing settings
+      alertSettings = alertSettings.filter(s => s.userId !== userId)
+      
+      // Create new default settings
+      const defaultSettings = {
+        ...defaultAlertSettings,
+        userId,
+        id: `settings_${Date.now()}`,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      alertSettings.push(defaultSettings)
+
+      res.status(200).json({
+        success: true,
+        message: 'Alert settings reset to defaults successfully',
+        data: defaultSettings
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to reset alert settings',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
-  });
-});
-
-// Delete an alert
-export const deleteAlert = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const alert = await Alert.findOneAndDelete({
-    _id: req.params.id,
-    userId: req.user?._id
-  });
-
-  if (!alert) {
-    return next(new AppError('No alert found with that ID', 404));
   }
 
-  res.status(204).json({
-    status: 'success',
-    data: null
-  });
-});
+  // Get user's alerts
+  static async getUserAlerts(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId || req.user?.id
+      
+      if (!userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User ID is required' 
+        })
+      }
 
-// Toggle alert status
-export const toggleAlertStatus = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const alert = await Alert.findOne({
-    _id: req.params.id,
-    userId: req.user?._id
-  });
+      const userAlerts = alerts.filter(alert => alert.userId === userId)
 
-  if (!alert) {
-    return next(new AppError('No alert found with that ID', 404));
+      res.status(200).json({
+        success: true,
+        data: userAlerts
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to get user alerts',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
+    }
   }
 
-  alert.status = alert.status === 'active' ? 'inactive' : 'active';
-  await alert.save();
+  // Create new alert
+  static async createAlert(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId || req.user?.id
+      
+      if (!userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'User ID is required' 
+        })
+      }
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      alert
+      const alertData = req.body
+      
+      // Validate the alert data
+      const validationResult = AlertSchema.safeParse({
+        userId,
+        ...alertData
+      })
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid alert data',
+          errors: validationResult.error.errors
+        })
+      }
+
+      const newAlert = {
+        ...validationResult.data,
+        id: `alert_${Date.now()}`,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      
+      alerts.push(newAlert)
+
+      res.status(201).json({
+        success: true,
+        message: 'Alert created successfully',
+        data: newAlert
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to create alert',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
-  });
-});
-
-// Get recent alerts (triggered alerts)
-export const getRecentAlerts = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const recentAlerts = await Alert.find({
-    userId: req.user?._id,
-    lastTriggered: { $exists: true, $ne: null }
-  })
-    .sort({ lastTriggered: -1 })
-    .limit(10);
-
-  res.status(200).json({
-    status: 'success',
-    results: recentAlerts.length,
-    data: {
-      alerts: recentAlerts
-    }
-  });
-});
-
-// Trigger an alert (for testing or manual triggering)
-export const triggerAlert = catchAsync(async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const alert = await Alert.findOne({
-    _id: req.params.id,
-    userId: req.user?._id
-  });
-
-  if (!alert) {
-    return next(new AppError('No alert found with that ID', 404));
   }
 
-  alert.lastTriggered = new Date();
-  await alert.save();
+  // Update alert
+  static async updateAlert(req: Request, res: Response) {
+    try {
+      const { alertId } = req.params
+      const userId = req.params.userId || req.user?.id
+      
+      if (!alertId || !userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Alert ID and User ID are required' 
+        })
+      }
 
-  // Here you would typically send a notification
-  // For now, we'll just log it
-  logger.info(`Alert triggered: ${alert.name} for user ${req.user?._id}`);
+      const alertIndex = alerts.findIndex(alert => alert.id === alertId && alert.userId === userId)
+      
+      if (alertIndex === -1) {
+        return res.status(404).json({
+          success: false,
+          message: 'Alert not found'
+        })
+      }
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      alert
+      const updateData = req.body
+      
+      // Validate the update data
+      const validationResult = AlertSchema.safeParse({
+        ...alerts[alertIndex],
+        ...updateData,
+        updatedAt: new Date()
+      })
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid alert data',
+          errors: validationResult.error.errors
+        })
+      }
+
+      alerts[alertIndex] = {
+        ...alerts[alertIndex],
+        ...updateData,
+        updatedAt: new Date()
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Alert updated successfully',
+        data: alerts[alertIndex]
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to update alert',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
     }
-  });
-}); 
+  }
+
+  // Delete alert
+  static async deleteAlert(req: Request, res: Response) {
+    try {
+      const { alertId } = req.params
+      const userId = req.params.userId || req.user?.id
+      
+      if (!alertId || !userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Alert ID and User ID are required' 
+        })
+      }
+
+      const alertIndex = alerts.findIndex(alert => alert.id === alertId && alert.userId === userId)
+      
+      if (alertIndex === -1) {
+        return res.status(404).json({
+          success: false,
+          message: 'Alert not found'
+        })
+      }
+
+      const deletedAlert = alerts.splice(alertIndex, 1)[0]
+
+      res.status(200).json({
+        success: true,
+        message: 'Alert deleted successfully',
+        data: deletedAlert
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to delete alert',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
+    }
+  }
+
+  // Get alert details with history
+  static async getAlertDetails(req: Request, res: Response) {
+    try {
+      const { alertId } = req.params
+      const userId = req.params.userId || req.user?.id
+      
+      if (!alertId || !userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Alert ID and User ID are required' 
+        })
+      }
+
+      const alert = alerts.find(a => a.id === alertId && a.userId === userId)
+      
+      if (!alert) {
+        return res.status(404).json({
+          success: false,
+          message: 'Alert not found'
+        })
+      }
+
+      // Get alert history
+      const history = alertHistory.filter(h => h.alertId === alertId)
+
+      res.status(200).json({
+        success: true,
+        data: {
+          ...alert,
+          history
+        }
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to get alert details',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
+    }
+  }
+
+  // Add alert history entry
+  static async addAlertHistory(req: Request, res: Response) {
+    try {
+      const { alertId } = req.params
+      const userId = req.params.userId || req.user?.id
+      
+      if (!alertId || !userId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Alert ID and User ID are required' 
+        })
+      }
+
+      const historyData = req.body
+      
+      // Validate the history data
+      const validationResult = AlertHistorySchema.safeParse({
+        alertId,
+        ...historyData
+      })
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid history data',
+          errors: validationResult.error.errors
+        })
+      }
+
+      const newHistoryEntry = {
+        ...validationResult.data,
+        id: `history_${Date.now()}`,
+        timestamp: new Date()
+      }
+      
+      alertHistory.push(newHistoryEntry)
+
+      res.status(201).json({
+        success: true,
+        message: 'Alert history added successfully',
+        data: newHistoryEntry
+      })
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to add alert history',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      })
+    }
+  }
+} 

@@ -1,37 +1,21 @@
-import { Router } from 'express';
-import {
-  getAlerts,
-  getAlert,
-  createAlert,
-  updateAlert,
-  deleteAlert,
-  toggleAlertStatus,
-  getRecentAlerts,
-  triggerAlert
-} from './alerts.controller';
-import { protect } from '../auth/auth.controller';
+import { Router } from 'express'
+import { AlertsController } from './alerts.controller'
 
-const router = Router();
+const router = Router()
 
-// Protect all routes after this middleware
-router.use(protect);
+// Alert Settings Routes
+router.get('/settings/:userId?', AlertsController.getAlertSettings)
+router.put('/settings/:userId?', AlertsController.updateAlertSettings)
+router.post('/settings/:userId?/reset', AlertsController.resetAlertSettings)
 
-router.route('/')
-  .get(getAlerts)
-  .post(createAlert);
+// Alert Management Routes
+router.get('/:userId?', AlertsController.getUserAlerts)
+router.post('/:userId?', AlertsController.createAlert)
+router.get('/:alertId/details/:userId?', AlertsController.getAlertDetails)
+router.put('/:alertId/:userId?', AlertsController.updateAlert)
+router.delete('/:alertId/:userId?', AlertsController.deleteAlert)
 
-router.route('/recent')
-  .get(getRecentAlerts);
+// Alert History Routes
+router.post('/:alertId/history/:userId?', AlertsController.addAlertHistory)
 
-router.route('/:id')
-  .get(getAlert)
-  .patch(updateAlert)
-  .delete(deleteAlert);
-
-router.route('/:id/toggle')
-  .patch(toggleAlertStatus);
-
-router.route('/:id/trigger')
-  .post(triggerAlert);
-
-export default router; 
+export default router 

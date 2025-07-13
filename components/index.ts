@@ -7,6 +7,7 @@ import propertyRouter from './property/property.routes';
 import goalsRouter from './goals/goals.routes';
 import alertsRouter from './alerts/alerts.routes';
 import settingsRouter from './settings/settings.routes';
+import waitlistRouter from './waitlist/waitlist.routes';
 import { errorHandler } from './auth/auth.controller';
 import {logger} from '../utils/logger';
 
@@ -20,5 +21,6 @@ export const registerApiRoutes = (app: Express, prefix: string): void => {
   app.use(`${prefix}/goals`, goalsRouter);
   app.use(`${prefix}/alerts`, alertsRouter);
   app.use(`${prefix}/settings`, settingsRouter);
+  app.use(`${prefix}/waitlist`, waitlistRouter);
   app.use(errorHandler);
 }; 

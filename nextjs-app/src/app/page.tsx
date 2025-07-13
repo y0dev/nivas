@@ -32,6 +32,9 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <Link href="/waitlist" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                Join Waitlist
+              </Link>
               <Link href="/login" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
                 Sign in
               </Link>
