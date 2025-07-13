@@ -42,26 +42,26 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <div className="flex flex-col w-64 bg-white border-r border-gray-200">
+    <div className="flex flex-col w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
       {/* Logo */}
-      <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+      <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
         <Link href="/dashboard" className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <MapPin className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-gray-900">UrbanInsight</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white">UrbanInsight</span>
         </Link>
       </div>
 
       {/* User Profile */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+            <User className="w-5 h-5 text-blue-600 dark:text-blue-400" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900">John Investor</p>
-            <p className="text-xs text-gray-500">Premium Member</p>
+            <p className="text-sm font-medium text-gray-900 dark:text-white">John Investor</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Premium Member</p>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-2">
         <div className="mb-6">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             Main Navigation
           </h3>
           <div className="space-y-1">
@@ -82,8 +82,8 @@ export function Sidebar() {
                   className={cn(
                     'flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
                     isActive
-                      ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                      : 'text-gray-900 hover:bg-gray-50 hover:text-gray-900'
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-r-2 border-blue-700 dark:border-blue-400'
+                      : 'text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
                   )}
                 >
                   <item.icon className="mr-3 h-5 w-5" />
@@ -96,7 +96,7 @@ export function Sidebar() {
 
         {/* Quick Actions */}
         <div className="mb-6">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             Quick Actions
           </h3>
           <div className="space-y-1">
@@ -104,7 +104,7 @@ export function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="flex items-center px-3 py-2 text-sm font-medium text-gray-900 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                className="flex items-center px-3 py-2 text-sm font-medium text-gray-900 dark:text-gray-200 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
               >
                 <item.icon className="mr-3 h-5 w-5" />
                 {item.name}
@@ -114,31 +114,31 @@ export function Sidebar() {
         </div>
 
         {/* Investment Stats */}
-        <div className="bg-blue-50 rounded-lg p-4">
-          <h3 className="text-xs font-semibold text-blue-700 uppercase tracking-wider mb-3">
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+          <h3 className="text-xs font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-wider mb-3">
             Investment Summary
           </h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <DollarSign className="w-4 h-4 text-green-600 mr-2" />
-                <span className="text-sm text-gray-600">Total Portfolio</span>
+                <DollarSign className="w-4 h-4 text-green-600 dark:text-green-400 mr-2" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Total Portfolio</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$2.4M</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">$2.4M</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <TrendingUp className="w-4 h-4 text-blue-600 mr-2" />
-                <span className="text-sm text-gray-600">Avg ROI</span>
+                <TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Avg ROI</span>
               </div>
-              <span className="text-sm font-medium text-green-600">12.5%</span>
+              <span className="text-sm font-medium text-green-600 dark:text-green-400">12.5%</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <MapPin className="w-4 h-4 text-purple-600 mr-2" />
-                <span className="text-sm text-gray-600">Properties</span>
+                <MapPin className="w-4 h-4 text-purple-600 dark:text-purple-400 mr-2" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Properties</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">8</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">8</span>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ export function Sidebar() {
 
       {/* Bottom Actions */}
       <div className="p-4 border-t border-gray-200">
-        <Button variant="outline" size="sm" className="w-full justify-start text-gray-900 border-gray-300 hover:bg-gray-50">
+        <Button variant="outline" size="sm" className="w-full justify-start text-gray-900 border-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700">
           <LogOut className="mr-2 h-4 w-4" />
           Sign Out
         </Button>

@@ -96,7 +96,7 @@ export function DashboardContent() {
               <Filter className="w-4 h-4 mr-2" />
               Filters
             </Button>
-            <Button size="sm">
+            <Button variant="gradient" size="sm">
               <Plus className="w-4 h-4 mr-2" />
               Add Property
             </Button>
@@ -104,7 +104,7 @@ export function DashboardContent() {
         }
       />
 
-      <div className="p-6 space-y-6 text-gray-900">
+      <div className="p-6 space-y-6 text-gray-900 dark:text-gray-100">
         {/* Search Section */}
         <Card>
           <CardHeader>
@@ -118,13 +118,13 @@ export function DashboardContent() {
               {/* Search Type Toggle */}
               <div className="flex space-x-4">
                 <Button
-                  variant={searchType === 'zip' ? 'default' : 'outline'}
+                  variant={searchType === 'zip' ? 'gradient' : 'outline'}
                   onClick={() => setSearchType('zip')}
                 >
                   Search by Zip Code
                 </Button>
                 <Button
-                  variant={searchType === 'city' ? 'default' : 'outline'}
+                  variant={searchType === 'city' ? 'gradient' : 'outline'}
                   onClick={() => setSearchType('city')}
                 >
                   Search by City & State
@@ -207,6 +207,7 @@ export function DashboardContent() {
                 onClick={handleSearch} 
                 disabled={isLoading}
                 className="w-full md:w-auto"
+                variant="gradient"
               >
                 <Search className="w-4 h-4 mr-2" />
                 {isLoading ? 'Searching...' : 'Search Properties'}
@@ -314,12 +315,12 @@ export function DashboardContent() {
                         <Button 
                           size="sm" 
                           variant="secondary" 
-                          className="w-8 h-8 p-0"
+                          className="w-8 h-8 p-0 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                           onClick={() => handleSaveProperty(property)}
                         >
                           <Bookmark className={`w-4 h-4 ${isPropertySaved(property.zpid) ? 'fill-current text-blue-600' : ''}`} />
                         </Button>
-                        <Button size="sm" variant="secondary" className="w-8 h-8 p-0">
+                        <Button size="sm" variant="secondary" className="w-8 h-8 p-0 hover:bg-gray-50 dark:hover:bg-gray-700">
                           <Share2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -338,36 +339,36 @@ export function DashboardContent() {
                       </div>
                     </div>
                     <CardContent className="p-4">
-                      <h3 className="font-semibold text-sm mb-2 truncate">{property.address}</h3>
+                      <h3 className="font-semibold text-sm mb-2 truncate text-gray-900 dark:text-white">{property.address}</h3>
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Price:</span>
-                          <span className="font-medium">{formatCurrency(property.price)}</span>
+                          <span className="text-gray-600 dark:text-gray-400">Price:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(property.price)}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Monthly Rent:</span>
-                          <span className="font-medium">{formatCurrency(property.rentalEstimate || 0)}</span>
+                          <span className="text-gray-600 dark:text-gray-400">Monthly Rent:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(property.rentalEstimate || 0)}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">ROI:</span>
-                          <span className="font-medium text-green-600">
+                          <span className="text-gray-600 dark:text-gray-400">ROI:</span>
+                          <span className="font-medium text-green-600 dark:text-green-400">
                             {property.roi ? formatPercentage(property.roi) : 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Cash Flow:</span>
-                          <span className="font-medium text-green-600">
+                          <span className="text-gray-600 dark:text-gray-400">Cash Flow:</span>
+                          <span className="font-medium text-green-600 dark:text-green-400">
                             {formatCurrency(property.monthlyCashFlow || 0)}/mo
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                        <div className="flex space-x-4 text-xs text-gray-500">
+                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="flex space-x-4 text-xs text-gray-500 dark:text-gray-400">
                           <span>{property.beds} beds</span>
                           <span>{property.baths} baths</span>
                           <span>{property.sqft} sqft</span>
                         </div>
-                        <Button size="sm">
+                        <Button size="sm" variant="outline">
                           <Eye className="w-4 h-4 mr-1" />
                           View Details
                         </Button>
@@ -414,32 +415,32 @@ export function DashboardContent() {
                       </div>
                     </div>
                     <CardContent className="p-4">
-                      <h3 className="font-semibold text-sm mb-2 truncate">{property.address}</h3>
+                      <h3 className="font-semibold text-sm mb-2 truncate text-gray-900 dark:text-white">{property.address}</h3>
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Price:</span>
-                          <span className="font-medium">{formatCurrency(property.price)}</span>
+                          <span className="text-gray-600 dark:text-gray-400">Price:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(property.price)}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">ROI:</span>
-                          <span className="font-medium text-green-600">
+                          <span className="text-gray-600 dark:text-gray-400">ROI:</span>
+                          <span className="font-medium text-green-600 dark:text-green-400">
                             {property.roi ? formatPercentage(property.roi) : 'N/A'}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Cash Flow:</span>
-                          <span className="font-medium text-green-600">
+                          <span className="text-gray-600 dark:text-gray-400">Cash Flow:</span>
+                          <span className="font-medium text-green-600 dark:text-green-400">
                             {formatCurrency(property.monthlyCashFlow || 0)}/mo
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                        <div className="flex space-x-4 text-xs text-gray-500">
+                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="flex space-x-4 text-xs text-gray-500 dark:text-gray-400">
                           <span>{property.beds} beds</span>
                           <span>{property.baths} baths</span>
                           <span>{property.sqft} sqft</span>
                         </div>
-                        <Button size="sm">
+                        <Button size="sm" variant="outline">
                           <Eye className="w-4 h-4 mr-1" />
                           View Details
                         </Button>
@@ -461,19 +462,19 @@ export function DashboardContent() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <Button className="h-20 flex-col">
+                <Button className="h-20 flex-col" variant="gradient">
                   <Calculator className="w-6 h-6 mb-2" />
                   <span className="text-sm">ROI Calculator</span>
                 </Button>
-                <Button className="h-20 flex-col">
+                <Button className="h-20 flex-col" variant="outline">
                   <BarChart3 className="w-6 h-6 mb-2" />
                   <span className="text-sm">Market Analysis</span>
                 </Button>
-                <Button className="h-20 flex-col">
+                <Button className="h-20 flex-col" variant="outline">
                   <Bookmark className="w-6 h-6 mb-2" />
                   <span className="text-sm">Saved Properties</span>
                 </Button>
-                <Button className="h-20 flex-col">
+                <Button className="h-20 flex-col" variant="gradient">
                   <TrendingUp className="w-6 h-6 mb-2" />
                   <span className="text-sm">Portfolio</span>
                 </Button>
